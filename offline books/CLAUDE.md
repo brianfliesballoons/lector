@@ -14,7 +14,7 @@ Ebooks Brian has bought, kept here so he can add them to Lector on his phone (Fi
 
 | File | Status | What it is |
 |---|---|---|
-| `Rebelión en la granja.epub` | purchased | *Animal Farm*, tr. Guillermo Tirelli, Rosetta Edu 2nd ed. 2026, DRM-free, order #1123 |
+| `Rebelión en la granja.epub` | purchased | *Animal Farm*, tr. Guillermo Tirelli, Rosetta Edu 2nd ed. 2026, DRM-free, order #1123. **Now carries `lector/translations.json`** (1,653 English sentences, 2026-10-12). Original backup: `~/lector-build/granja-original-backup.epub` |
 
 ## Conventions specific to this project
 
