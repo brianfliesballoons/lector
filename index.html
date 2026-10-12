@@ -119,6 +119,7 @@ footer{margin-top:36px;text-align:center}
 .tools{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:16px}
 .tools button{display:flex;align-items:center;justify-content:center;gap:6px;font-size:14px;padding:11px 8px;border-radius:14px}
 .tools button.on{color:var(--accent);border-color:var(--accent)}
+.sent.en{margin-top:8px;font-style:normal;color:var(--ink);border-left-color:var(--accent)}
 .sent{margin-top:14px;font-family:var(--serif);font-style:italic;color:var(--mute);font-size:15px;line-height:1.5;border-left:3px solid var(--line);padding-left:12px}
 /* settings */
 .preview{margin:8px 0 6px;padding:14px 16px;border-radius:14px;background:var(--bg);border:1px solid var(--line);font-family:var(--font);font-size:var(--fs);line-height:var(--lh);text-align:var(--align)}
@@ -288,7 +289,9 @@ async function parseEpub(buf){
   }
   const chs = chapters.filter(c => c.paras.length);
   chs.forEach((c, i) => { if (!c.title) c.title = c.paras[0].slice(0, 40) + (c.paras[0].length > 40 ? '…' : '') });
-  return { title: meta('title') || 'Sin título', author: meta('creator'), chapters: chs };
+  let tr = null; const tf = zip.file('lector/translations.json');
+  if (tf){ try { tr = JSON.parse(await tf.async('text')).map || null } catch(e){} }
+  return { title: meta('title') || 'Sin título', author: meta('creator'), chapters: chs, tr };
 }
 
 /* ---------- dictionary ---------- */
@@ -389,7 +392,9 @@ $('#file').onchange = async e => {
   try {
     const book = await parseEpub(await f.arrayBuffer());
     if (!book.chapters.length) throw new Error('No readable text found');
-    book.id = 'u' + Date.now(); await DB.put(book); await renderLibrary(); openBook(book.id);
+    const same = (await DB.all()).find(b => !b.bundled && b.title === book.title && b.author === book.author);
+    book.id = same ? same.id : 'u' + Date.now(); await DB.put(book); await renderLibrary(); openBook(book.id);
+    if (same) toast(book.tr ? 'Updated — now with English sentences' : 'Updated');
   } catch(err){ toast('Could not open that file: ' + err.message) }
 };
 $('#offBtn').onclick = async () => {
@@ -477,13 +482,24 @@ $('#prev').onclick = () => showChapter(chap - 1);
 $('#next').onclick = () => showChapter(chap + 1);
 $('#back').onclick = () => { closeSheet(); 'speechSynthesis' in window && speechSynthesis.cancel(); $('#reader').classList.add('hide'); $('#library').classList.remove('hide'); renderLibrary(); window.scrollTo(0,0) };
 
+// One sentence splitter for everything: the reader, the word card, and the Mac-side
+// translation tool (tools/dump_sentences.html runs this same function), so a sentence
+// tapped here is byte-for-byte the key its translation was stored under.
+function splitSentences(text){
+  const out = [], re = /[.!?…]+[»”"’')\]]*(?=\s|$)/g; let start = 0, m;
+  while ((m = re.exec(text))){
+    const end = m.index + m[0].length, s = text.slice(start, end).trim();
+    if (s) out.push({s, a:start, b:end}); start = end;
+  }
+  const tail = text.slice(start).trim(); if (tail) out.push({s:tail, a:start, b:text.length});
+  return out;
+}
+const sentKey = s => s.replace(/\s+/g, ' ').trim();
 function sentenceAround(span){
   const p = span.parentElement, full = p.textContent;
   let off = 0; for (const n of p.childNodes){ if (n === span) break; off += n.textContent.length }
-  const before = full.slice(0, off), after = full.slice(off);
-  const start = Math.max(...['. ','! ','? ','… ','.» ','—'].map(d => { const k = before.lastIndexOf(d); return k < 0 ? 0 : k + d.length }));
-  const m = after.search(/[.!?…](?=\s|»|$)/);
-  return full.slice(start, m < 0 ? full.length : off + m + 1).trim();
+  const hit = splitSentences(full).find(x => off >= x.a && off < x.b);
+  return hit ? hit.s : full.trim();
 }
 
 /* ---------- sheet ---------- */
@@ -502,6 +518,23 @@ const closeBtn = `<button class="ib" data-close aria-label="Close">${icon('x')}<
   sh.addEventListener('touchend', e => { if (y0 != null){ const d = e.changedTouches[0].clientY - y0; sh.style.transform = ''; if (d > 90) closeSheet() } y0 = null });
 })();
 
+/* ---------- English for a sentence ---------- */
+// Pre-translated sentences ship inside the book. Anything missing is asked of the Mac's own
+// model through the tailnet (works only while the Mac is on), then kept with the book.
+const LIVE = 'https://brians-macbook-pro.tail72e310.ts.net/lector/translate';
+async function englishFor(sentence){
+  const k = sentKey(sentence);
+  if (book.tr && book.tr[k]) return book.tr[k];
+  try {
+    const ctl = new AbortController(), t = setTimeout(() => ctl.abort(), 25000);
+    const r = await fetch(LIVE, {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({text:k}), signal:ctl.signal});
+    clearTimeout(t); if (!r.ok) return null;
+    const en = (await r.json()).en; if (!en) return null;
+    book.tr = book.tr || {}; book.tr[k] = en; DB.put(book);
+    return en;
+  } catch(e){ return null }
+}
+
 /* ---------- word sheet ---------- */
 let current = null;
 $('#text').addEventListener('click', e => {
@@ -519,7 +552,9 @@ async function showWord(raw, sentence, span){
   openSheet(`<div class="sh-head"><div class="word">${esc(raw)}</div><button class="say" id="sayW" aria-label="Say the word">${icon('sound')}</button>${closeBtn}</div>
     <div class="defs" id="defs"><p class="note">…</p></div>
     <div class="tools"><button id="sayS">${icon('sound')} Sentence</button><button id="slowS">${icon('slow')} Slowly</button><button id="saveW">${icon('star')} <span>Save</span></button></div>
-    <div class="sent">${esc(sentence)}</div>`);
+    <div class="sent">${esc(sentence)}</div><div class="sent en" id="sentEn"><span class="note">…</span></div>`);
+  const seq = current.seq = (showWord.seq = (showWord.seq || 0) + 1);  // a slow answer for an earlier tap must not overwrite this one
+  englishFor(sentence).then(en => { if (current && current.seq === seq && $('#sentEn')) $('#sentEn').innerHTML = en ? esc(en) : '<span class="note">No English for this sentence yet.</span>' });
   $('#sayW').onclick = () => speak(raw, false);
   $('#sayS').onclick = () => speak(sentence, false);
   $('#slowS').onclick = () => speak(sentence, true);
