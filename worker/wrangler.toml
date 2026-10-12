@@ -1,0 +1,4 @@
+name = "lector-books"
+main = "worker.js"
+compatibility_date = "2026-09-01"
+account_id = "3053d192fbbbc176b3016b015244d07b"  # Brian's own account; this login also sees a client's account
