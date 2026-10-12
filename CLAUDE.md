@@ -13,7 +13,7 @@
    - **Pre-translated (works offline, Mac off):** `translate_book.py <epub>` runs the app's own parser and `splitSentences()` in headless Chrome, translates paragraph by paragraph on the local `qwen3.8:27b-mlx` (~30 tok/s), and writes `lector/translations.json` **inside the EPUB**. Brian re-adds the file, and the app replaces the same title in place, keeping his place. Quality check on chapter I came out almost word for word Orwell's own English. Cache: `~/lector-build/cache/`. Log: `~/lector-build/translate-*.log`. Pre-run backup: `~/lector-build/granja-original-backup.epub`.
    - **Live fallback (Mac on):** `POST /lector/translate` on local-chat (model pinned, one at a time, CORS only for `brianfliesballoons.github.io`). It works on the Mac, but **the phone can't reach it yet**: the app is HTTPS, so it needs `https://…ts.net/lector`, and Tailscale says *"your Tailscale account does not support getting TLS certs"*. ▶ **Brian, one click:** Tailscale admin → DNS → **Enable HTTPS**. Then run `tailscale serve --bg --https=443 --set-path=/lector http://127.0.0.1:8765/lector`. Note: enabling HTTPS puts the machine's tailnet name in public certificate-transparency logs.
    - ▶ Next: translate the 10 free classics the same way (Quijote is ~380K words, so many hours; do the short ones first).
-5. Later, if wanted: flashcard review of saved words, and whole-sentence translation through the local model (`local-chat`).
+5. Later, if wanted: flashcard review of saved words.
 
 ## What this is
 
