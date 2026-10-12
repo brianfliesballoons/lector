@@ -4,83 +4,195 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="theme-color" content="#f6f1e7">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="theme-color" content="#faf7f2">
 <title>Lector</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;1,7..72,400&family=Lora:ital,wght@0,400;0,600;1,400&family=EB+Garamond:ital,wght@0,400;0,600;1,400&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap">
 <script src="jszip.min.js"></script>
 <style>
-:root{--bg:#f6f1e7;--ink:#26221c;--mute:#7a7164;--line:#ddd3c2;--card:#fffdf8;--accent:#9a4b1c;--hl:#f3dcae;--fs:20px}
-:root[data-theme=dark]{--bg:#16140f;--ink:#e9e2d4;--mute:#9b9282;--line:#3a352c;--card:#211e17;--accent:#e39a5c;--hl:#5a4520}
-@media (prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#16140f;--ink:#e9e2d4;--mute:#9b9282;--line:#3a352c;--card:#211e17;--accent:#e39a5c;--hl:#5a4520}}
+:root{
+  --bg:#faf7f2;--ink:#1f1c17;--mute:#7b7366;--line:#e7e0d4;--card:#ffffff;--accent:#b4532a;--accent-ink:#fff;--hl:#f7e1b5;--shadow:rgba(60,40,20,.14);
+  --fs:20px;--lh:1.7;--mw:36em;--font:'Literata',Georgia,serif;--align:left;
+  --ui:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;--serif:'Literata',Georgia,serif;
+}
+:root[data-theme=sepia]{--bg:#f3e7d0;--ink:#3b2f22;--mute:#86745d;--line:#e0cfae;--card:#f9efdc;--accent:#a5512a;--hl:#ecd08f;--shadow:rgba(80,50,20,.18)}
+:root[data-theme=dark]{--bg:#1a1917;--ink:#e8e2d6;--mute:#9a9284;--line:#34312b;--card:#24221f;--accent:#e8955f;--accent-ink:#1a1917;--hl:#5b4524;--shadow:rgba(0,0,0,.5)}
+:root[data-theme=black]{--bg:#000;--ink:#d8d2c6;--mute:#8a8378;--line:#222;--card:#111;--accent:#e8955f;--accent-ink:#000;--hl:#4a3a1f;--shadow:rgba(0,0,0,.7)}
+@media (prefers-color-scheme:dark){:root:not([data-theme]){--bg:#1a1917;--ink:#e8e2d6;--mute:#9a9284;--line:#34312b;--card:#24221f;--accent:#e8955f;--accent-ink:#1a1917;--hl:#5b4524;--shadow:rgba(0,0,0,.5)}}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html,body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,system-ui,sans-serif}
-button{font:inherit;color:inherit;background:none;border:1px solid var(--line);border-radius:10px;padding:10px 14px;cursor:pointer}
-button.primary{background:var(--accent);color:#fff;border-color:var(--accent)}
+html,body{margin:0;overflow-x:clip;background:var(--bg);color:var(--ink);font-family:var(--ui);-webkit-font-smoothing:antialiased}
+body{transition:background .25s,color .25s}
+a{color:var(--accent)}
+button{font:inherit;color:inherit;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 14px;cursor:pointer}
+button:disabled{opacity:.4}
+button.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent);font-weight:600}
 .hide{display:none!important}
-header{position:sticky;top:0;z-index:5;display:flex;align-items:center;gap:8px;padding:calc(env(safe-area-inset-top) + 8px) 12px 8px;background:var(--bg);border-bottom:1px solid var(--line)}
-header h1{font-size:17px;margin:0;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-header button{border:none;padding:8px 10px;font-size:18px}
-/* library */
-#library main{max-width:640px;margin:0 auto;padding:16px}
-.shelf h2{font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--mute);margin:24px 0 8px}
-.book{display:flex;align-items:center;gap:12px;padding:14px;border:1px solid var(--line);border-radius:12px;background:var(--card);margin-bottom:10px;cursor:pointer}
-.book .t{font-family:Georgia,serif;font-size:18px}
-.book .a{color:var(--mute);font-size:14px;margin-top:2px}
-.book .p{margin-left:auto;color:var(--mute);font-size:13px;white-space:nowrap}
-.book .x{border:none;padding:4px 8px;color:var(--mute)}
+.icon{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;display:block}
+.ib{border:none;background:none;padding:8px;border-radius:50%;color:var(--ink)}
 .note{color:var(--mute);font-size:14px;line-height:1.5}
-/* reader */
-#text{max-width:680px;margin:0 auto;padding:18px 20px 140px;font-family:Georgia,"Iowan Old Style",serif;font-size:var(--fs);line-height:1.65}
-#text p{margin:0 0 .9em}
-#text h3{font-size:1.15em;margin:1.2em 0 .8em;text-align:center}
-.w{cursor:pointer;border-radius:3px}
-.w.on{background:var(--hl)}
-.w.saved{text-decoration:underline dotted var(--accent);text-underline-offset:4px}
-#chapnav{display:flex;gap:10px;justify-content:space-between;max-width:680px;margin:0 auto;padding:0 20px 40px}
-/* sheet */
-.sheet{position:fixed;left:0;right:0;bottom:0;z-index:20;background:var(--card);border-top:1px solid var(--line);border-radius:16px 16px 0 0;box-shadow:0 -6px 24px rgba(0,0,0,.15);padding:14px 18px calc(env(safe-area-inset-bottom) + 16px);max-height:62vh;overflow:auto}
-.sheet .row{display:flex;align-items:center;gap:8px}
-.sheet .word{font-family:Georgia,serif;font-size:26px;flex:1}
-.sheet .pos{color:var(--mute);font-size:13px;font-style:italic;margin:10px 0 2px}
-.sheet ol{margin:4px 0 0;padding-left:22px;line-height:1.45}
-.sheet .from{margin-top:8px;font-size:15px}
-.sheet .from b{font-family:Georgia,serif}
-.sheet .tools{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
-.sheet .tools button{flex:1;min-width:90px}
-.sheet .close{border:none;font-size:22px;padding:4px 8px;color:var(--mute)}
-.set label{display:block;margin:14px 0 6px;font-size:14px;color:var(--mute)}
-.seg{display:flex;gap:6px}.seg button{flex:1}.seg button.sel{background:var(--accent);color:#fff;border-color:var(--accent)}
-#words li{padding:8px 0;border-bottom:1px solid var(--line);list-style:none}
-#words ul{padding:0}
-#words .s{color:var(--mute);font-size:14px;font-style:italic}
-#toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:20px;font-size:14px;z-index:40}
+
+/* ---------- library ---------- */
+#library main{max-width:720px;margin:0 auto;padding:calc(env(safe-area-inset-top) + 12px) 18px 60px}
+.top{display:flex;align-items:center;gap:4px}
+.brand{flex:1}
+.brand h1{font-family:var(--serif);font-weight:600;font-size:34px;margin:6px 0 0;letter-spacing:-.01em}
+.brand h1 span{color:var(--accent)}
+.brand p{margin:2px 0 0;color:var(--mute);font-family:var(--serif);font-style:italic}
+.sec{margin-top:30px}
+.sec h2{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--mute);margin:0 0 12px;font-weight:600}
+.cont{display:flex;gap:16px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:14px;box-shadow:0 6px 24px var(--shadow);cursor:pointer;margin-top:22px}
+.cont .cover{width:74px;flex:none}
+.cont .cover{justify-content:center;padding:0}.cont .cover .ct,.cont .cover .ca{display:none}.cont .cover .co{font-size:22px;opacity:.75}
+.cont .k{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);font-weight:600}
+.cont .t{font-family:var(--serif);font-size:20px;margin:4px 0 2px;line-height:1.2}
+.cont .c{color:var(--mute);font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cont .info{min-width:0;flex:1}
+.bar{height:4px;border-radius:2px;background:var(--line);overflow:hidden;margin-top:10px}
+.bar i{display:block;height:100%;background:var(--accent);border-radius:2px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(102px,1fr));gap:18px 14px}
+.tile{cursor:pointer;position:relative}
+.tile .meta{margin-top:8px}
+.tile .t{font-family:var(--serif);font-size:14px;line-height:1.25}
+.tile .a{font-size:12px;color:var(--mute);margin-top:2px;line-height:1.3}
+.tile .bar{margin-top:6px;height:3px}
+.tile .x{position:absolute;top:-8px;right:-8px;width:28px;height:28px;padding:0;border-radius:50%;font-size:14px;line-height:1;background:var(--card);box-shadow:0 2px 6px var(--shadow)}
+.cover{aspect-ratio:2/3;border-radius:4px 8px 8px 4px;position:relative;overflow:hidden;box-shadow:0 1px 2px var(--shadow),0 8px 18px var(--shadow);
+  color:#fff;display:flex;flex-direction:column;justify-content:space-between;padding:12% 10% 10% 16%;font-family:var(--serif)}
+.cover::before{content:"";position:absolute;left:5%;top:0;bottom:0;width:2px;background:rgba(255,255,255,.18)}
+.cover::after{content:"";position:absolute;inset:0;background:linear-gradient(120deg,rgba(255,255,255,.16),transparent 40%,rgba(0,0,0,.18))}
+.cover{container-type:inline-size}
+.cover .ct{font-size:13cqw;font-weight:600;line-height:1.15;text-wrap:balance}
+.cover .ca{font-size:8.5cqw;opacity:.85;font-style:italic}
+.cover .co{font-size:11cqw;opacity:.6;text-align:center}
+.add{aspect-ratio:2/3;border:2px dashed var(--line);border-radius:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;color:var(--mute);font-size:13px;text-align:center;padding:8px;background:none;width:100%}
+.add b{font-size:28px;font-weight:300;color:var(--accent)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px}
+.card button{margin-top:10px;width:100%}
+footer{margin-top:36px;text-align:center}
+
+/* ---------- reader ---------- */
+#rhead{position:fixed;top:0;left:0;right:0;z-index:10;display:flex;align-items:center;gap:2px;padding:calc(env(safe-area-inset-top) + 4px) 8px 4px;
+  background:color-mix(in srgb,var(--bg) 88%,transparent);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border-bottom:1px solid var(--line);transition:transform .25s ease}
+#rhead.up{transform:translateY(-100%)}
+#rhead .ttl{flex:1;min-width:0;text-align:center}
+#rhead .bk{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--mute);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#rhead .ch{font-family:var(--serif);font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#prog{position:fixed;left:0;top:0;height:3px;background:var(--accent);z-index:11;width:0;transition:width .15s}
+#text{max-width:var(--mw);margin:0 auto;padding:calc(env(safe-area-inset-top) + 76px) 22px 40px;font-family:var(--font);font-size:var(--fs);line-height:var(--lh);text-align:var(--align);overflow-wrap:break-word;hyphens:var(--hy,manual);-webkit-hyphens:var(--hy,manual)}
+#text p{margin:0 0 .85em}
+#text p.first::first-letter{float:left;font-size:3.3em;line-height:.85;padding:.06em .08em 0 0;color:var(--accent);font-weight:600}
+#text h3{font-size:1.05em;font-weight:600;margin:1.6em 0 .8em;text-align:center;letter-spacing:.02em}
+.opener{text-align:center;margin:10px 0 34px}
+.opener .k{font-family:var(--ui);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}
+.opener h2{font-family:var(--font);font-weight:600;font-size:1.45em;line-height:1.25;margin:.4em 0 .3em;text-wrap:balance}
+.opener .orn{color:var(--accent);font-size:1.2em}
+.w{cursor:pointer;border-radius:4px;transition:background .15s}
+.w.on{background:var(--hl);box-shadow:0 0 0 2px var(--hl)}
+.w.saved{text-decoration:underline 1.5px dotted var(--accent);text-underline-offset:5px}
+#chapnav{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px;max-width:var(--mw);margin:0 auto;padding:10px 22px calc(env(safe-area-inset-bottom) + 120px)}
+#chapnav button{text-align:left;padding:12px 14px;border-radius:14px}
+#chapnav button small{display:block;color:var(--mute);font-size:11px;letter-spacing:.1em;text-transform:uppercase;margin-bottom:3px}
+#chapnav button span{display:block;font-family:var(--serif);font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#chapnav #next{text-align:right;grid-column:2}
+#chapnav button{min-width:0}
+
+/* ---------- sheet ---------- */
+.sheet{position:fixed;left:0;right:0;bottom:0;z-index:20;max-width:720px;margin:0 auto;background:var(--card);border:1px solid var(--line);border-bottom:none;border-radius:22px 22px 0 0;
+  box-shadow:0 -10px 40px var(--shadow);padding:8px 20px calc(env(safe-area-inset-bottom) + 18px);max-height:70vh;overflow:auto;overscroll-behavior:contain;
+  transform:translateY(105%);visibility:hidden;transition:transform .26s cubic-bezier(.2,.8,.2,1),visibility 0s .26s}
+.sheet.open{transform:none;visibility:visible;transition:transform .26s cubic-bezier(.2,.8,.2,1)}
+.grab{width:40px;height:5px;border-radius:3px;background:var(--line);margin:0 auto 10px}
+.sh-head{display:flex;align-items:center;gap:10px}
+.sh-head .word{font-family:var(--serif);font-size:30px;flex:1;line-height:1.1;word-break:break-word}
+.sh-head h3{flex:1;margin:0;font-family:var(--serif);font-size:22px;font-weight:600}
+.say{width:44px;height:44px;border-radius:50%;padding:0;display:grid;place-items:center;background:var(--accent);color:var(--accent-ink);border:none}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0 2px}
+.chip{font-size:12px;padding:3px 9px;border-radius:20px;background:var(--bg);border:1px solid var(--line);color:var(--mute)}
+.chip.k{color:var(--accent);border-color:color-mix(in srgb,var(--accent) 40%,var(--line))}
+.defs ol{margin:6px 0 4px;padding-left:22px;line-height:1.5;font-size:16px}
+.defs li{margin:2px 0}
+.defs li::marker{color:var(--mute)}
+.from{margin-top:14px;padding:10px 12px;border-radius:12px;background:var(--bg);font-size:14px;color:var(--mute)}
+.from b{font-family:var(--serif);font-size:17px;color:var(--ink);font-weight:600}
+.tools{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:16px}
+.tools button{display:flex;align-items:center;justify-content:center;gap:6px;font-size:14px;padding:11px 8px;border-radius:14px}
+.tools button.on{color:var(--accent);border-color:var(--accent)}
+.sent{margin-top:14px;font-family:var(--serif);font-style:italic;color:var(--mute);font-size:15px;line-height:1.5;border-left:3px solid var(--line);padding-left:12px}
+/* settings */
+.preview{margin:8px 0 6px;padding:14px 16px;border-radius:14px;background:var(--bg);border:1px solid var(--line);font-family:var(--font);font-size:var(--fs);line-height:var(--lh);text-align:var(--align)}
+.set label{display:block;margin:18px 0 8px;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--mute);font-weight:600}
+.seg{display:flex;gap:6px}.seg button{flex:1;padding:9px 6px;font-size:14px}
+.sel{background:var(--accent)!important;color:var(--accent-ink)!important;border-color:var(--accent)!important}
+.size{display:flex;align-items:center;gap:12px}
+.size span{font-family:var(--serif);color:var(--mute)}
+.size input{flex:1;accent-color:var(--accent)}
+.fonts{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.fonts button{font-size:17px;padding:10px}
+.themes{display:flex;gap:12px}
+.themes button{width:46px;height:46px;border-radius:50%;padding:0;font-size:11px;font-weight:600;position:relative}
+.themes button.sel{outline:3px solid var(--accent);outline-offset:3px;background:inherit!important}
+/* lists */
+.list button{display:flex;width:100%;text-align:left;align-items:baseline;gap:12px;margin-top:6px;border-radius:12px;font-family:var(--serif)}
+.list button em{font-family:var(--ui);font-style:normal;color:var(--mute);font-size:12px;min-width:22px}
+.list button.cur{border-color:var(--accent);color:var(--accent)}
+.wl{list-style:none;padding:0;margin:8px 0 0}
+.wl li{padding:12px 0;border-bottom:1px solid var(--line)}
+.wl b{font-family:var(--serif);font-size:18px}
+.wl .g{color:var(--ink)}
+.wl .s{color:var(--mute);font-size:14px;font-style:italic;font-family:var(--serif);margin-top:3px}
+#toast{position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom) + 24px);transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 18px;border-radius:22px;font-size:14px;z-index:40;box-shadow:0 6px 20px var(--shadow);max-width:90vw}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 </head>
 <body>
 
+<svg width="0" height="0" style="position:absolute">
+  <symbol id="i-back" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></symbol>
+  <symbol id="i-list" viewBox="0 0 24 24"><path d="M8 6h12M8 12h12M8 18h12M4 6h.01M4 12h.01M4 18h.01"/></symbol>
+  <symbol id="i-aa" viewBox="0 0 24 24"><path d="M3 18l4.5-12L12 18M4.6 14h5.8M14 18l3-8 3 8M15 15.5h4"/></symbol>
+  <symbol id="i-star" viewBox="0 0 24 24"><path d="M12 3.5l2.6 5.3 5.9.9-4.25 4.1 1 5.8L12 16.9l-5.25 2.7 1-5.8L3.5 9.7l5.9-.9z"/></symbol>
+  <symbol id="i-sound" viewBox="0 0 24 24"><path d="M4 9.5v5h3.5L12 18.5v-13L7.5 9.5zM15.5 9a4 4 0 010 6M18 6.5a7.5 7.5 0 010 11"/></symbol>
+  <symbol id="i-slow" viewBox="0 0 24 24"><path d="M4 9.5v5h3.5L12 18.5v-13L7.5 9.5zM16 12h5"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
+</svg>
+
 <section id="library">
-  <header><h1>Lector</h1><button id="openWords" title="My words">★</button><button id="openSet" title="Settings">Aa</button></header>
   <main>
-    <div class="shelf"><h2>Your books</h2><div id="mine"></div>
-      <button class="primary" id="loadBtn">Load an EPUB from this phone</button>
+    <div class="top">
+      <div class="brand"><h1>Lector<span>.</span></h1><p>Lee lo que ya conoces.</p></div>
+      <button class="ib" id="openWords" aria-label="My words"><svg class="icon"><use href="#i-star"/></svg></button>
+      <button class="ib" id="openSet" aria-label="Settings"><svg class="icon"><use href="#i-aa"/></svg></button>
+    </div>
+    <div id="continue"></div>
+    <div class="sec"><h2>Your books</h2>
+      <div class="grid" id="mine"></div>
       <input type="file" id="file" accept=".epub,application/epub+zip" class="hide">
-      <p class="note">Your own books stay on this phone. Nothing is uploaded anywhere.</p>
+      <p class="note">Books you add stay on this phone. Nothing is uploaded.</p>
     </div>
-    <div class="shelf"><h2>Free classics (public domain)</h2><div id="shelf"></div></div>
-    <div class="shelf"><h2>Offline</h2>
-      <p class="note" id="offNote">The dictionary downloads as you read. To use it with no signal, save all of it now (about 7 MB).</p>
-      <button id="offBtn">Save the dictionary for offline</button>
+    <div class="sec"><h2>Free classics</h2><div class="grid" id="shelf"></div></div>
+    <div class="sec"><h2>Offline</h2>
+      <div class="card"><div class="note" id="offNote">The dictionary downloads as you read. Before a flight, save all of it (about 7 MB).</div>
+      <button id="offBtn">Save the dictionary for offline</button></div>
     </div>
-    <p class="note" style="margin-top:32px">Definitions come from <a href="https://en.wiktionary.org" style="color:var(--accent)">Wiktionary</a> (CC BY-SA), via kaikki.org. Pronunciation uses your phone's own Spanish voice.</p>
+    <footer class="note">Definitions from <a href="https://en.wiktionary.org">Wiktionary</a> (CC BY-SA) via kaikki.org.<br>Pronunciation is your phone's own Spanish voice.</footer>
   </main>
 </section>
 
 <section id="reader" class="hide">
-  <header><button id="back">‹</button><h1 id="chapTitle"></h1><button id="openToc">☰</button><button id="openSet2">Aa</button></header>
-  <article id="text"></article>
-  <nav id="chapnav"><button id="prev">‹ Anterior</button><button id="next">Siguiente ›</button></nav>
+  <div id="prog"></div>
+  <div id="rhead">
+    <button class="ib" id="back" aria-label="Library"><svg class="icon"><use href="#i-back"/></svg></button>
+    <div class="ttl"><div class="bk" id="bookTitle"></div><div class="ch" id="chapTitle"></div></div>
+    <button class="ib" id="openToc" aria-label="Contents"><svg class="icon"><use href="#i-list"/></svg></button>
+    <button class="ib" id="openSet2" aria-label="Text settings"><svg class="icon"><use href="#i-aa"/></svg></button>
+  </div>
+  <article id="text" lang="es"></article>
+  <nav id="chapnav"><button id="prev"><small>Anterior</small><span></span></button><button id="next"><small>Siguiente</small><span></span></button></nav>
 </section>
 
-<div id="sheet" class="sheet hide"></div>
+<div id="sheet" class="sheet" role="dialog"></div>
 <div id="toast" class="hide"></div>
 
 <script>
@@ -90,15 +202,32 @@ const LS = {
   get(k, d){ try{ const v = localStorage.getItem('lector.'+k); return v==null ? d : JSON.parse(v) }catch(e){ return d } },
   set(k, v){ try{ localStorage.setItem('lector.'+k, JSON.stringify(v)) }catch(e){} }
 };
-const settings = Object.assign({fs:20, theme:'auto', voice:'auto', rate:0.9}, LS.get('settings', {}));
+const esc = t => String(t).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const icon = id => `<svg class="icon"><use href="#i-${id}"/></svg>`;
+
+/* ---------- settings ---------- */
+const FONTS = {
+  literata:["Literata","'Literata',Georgia,serif"], lora:["Lora","'Lora',Georgia,serif"],
+  garamond:["Garamond","'EB Garamond',Garamond,serif"], georgia:["Georgia","Georgia,'Times New Roman',serif"],
+  newyork:["New York","ui-serif,'New York','Iowan Old Style',serif"], atkinson:["Atkinson","'Atkinson Hyperlegible',system-ui,sans-serif"]
+};
+const THEMES = {auto:['Auto','linear-gradient(135deg,#faf7f2 50%,#1a1917 50%)','#888'], light:['','#faf7f2','#1f1c17'], sepia:['','#f3e7d0','#3b2f22'], dark:['','#1a1917','#e8e2d6'], black:['','#000','#d8d2c6']};
+const settings = Object.assign({fs:20, font:'literata', lh:1.7, mw:36, align:'left', theme:'auto', voice:'auto', rate:0.9}, LS.get('settings', {}));
 function applySettings(){
-  document.documentElement.style.setProperty('--fs', settings.fs+'px');
-  if (settings.theme==='auto') document.documentElement.removeAttribute('data-theme');
+  const r = document.documentElement.style;
+  r.setProperty('--fs', settings.fs + 'px');
+  r.setProperty('--lh', settings.lh);
+  r.setProperty('--mw', settings.mw + 'em');
+  r.setProperty('--font', (FONTS[settings.font] || FONTS.literata)[1]);
+  r.setProperty('--align', settings.align);
+  r.setProperty('--hy', settings.align === 'justify' ? 'auto' : 'manual');
+  if (settings.theme === 'auto') document.documentElement.removeAttribute('data-theme');
   else document.documentElement.dataset.theme = settings.theme;
+  requestAnimationFrame(() => $('meta[name=theme-color]').content = getComputedStyle(document.body).backgroundColor);
   LS.set('settings', settings);
 }
 applySettings();
-function toast(msg){ const t=$('#toast'); t.textContent=msg; t.classList.remove('hide'); clearTimeout(toast.h); toast.h=setTimeout(()=>t.classList.add('hide'),2200) }
+function toast(msg){ const t=$('#toast'); t.textContent=msg; t.classList.remove('hide'); clearTimeout(toast.h); toast.h=setTimeout(()=>t.classList.add('hide'),2400) }
 
 /* ---------- storage (IndexedDB for book texts) ---------- */
 const DB = (() => {
@@ -208,28 +337,45 @@ function speak(text, slow){
   speechSynthesis.speak(u);
 }
 
+/* ---------- covers: a generated jacket per book, same colours every time ---------- */
+const PALETTES = [['#7a2e1f','#b4532a'],['#1f3a4a','#2f6b7c'],['#3b2a4f','#6b4a8a'],['#22432f','#3f7a52'],['#4a3418','#8a6430'],['#5a1f33','#9a3a5a'],['#1e2a44','#3e5688'],['#3d3d2a','#76764a']];
+const ORN = ['❦','✦','❧','✣','✧','❖'];
+function hash(s){ let h = 0; for (const c of s) h = (h * 31 + c.codePointAt(0)) >>> 0; return h }
+function coverHtml(title, author){
+  const h = hash(title), [a, b] = PALETTES[h % PALETTES.length];
+  return `<div class="cover" style="background:linear-gradient(160deg,${b},${a})"><div class="ct">${esc(title)}</div><div class="co">${ORN[(h >>> 4) % ORN.length]}</div><div class="ca">${esc(author || '')}</div></div>`;
+}
+function pctOf(id){
+  const p = LS.get('progress', {})[id];
+  return p && p.n ? Math.min(100, Math.round(100 * (p.c + (p.L ? p.p / p.L : 0)) / p.n)) : 0;
+}
+
 /* ---------- library ---------- */
 let bundled = [];
 async function renderLibrary(){
-  const prog = LS.get('progress', {});
-  const pct = id => { const p = prog[id]; return p && p.n ? Math.round(100 * (p.c + 1) / p.n) + '%' : '' };
-  const mine = (await DB.all()).filter(b => !b.bundled);
-  $('#mine').innerHTML = mine.length ? '' : '<p class="note">None yet.</p>';
-  for (const b of mine){
-    const d = document.createElement('div'); d.className = 'book';
-    d.innerHTML = `<div><div class="t"></div><div class="a"></div></div><div class="p">${pct(b.id)}</div><button class="x" title="Remove">✕</button>`;
-    d.querySelector('.t').textContent = b.title; d.querySelector('.a').textContent = b.author;
-    d.onclick = e => { if (e.target.classList.contains('x')){ e.stopPropagation(); if (confirmRemove(b)) DB.del(b.id).then(renderLibrary) } else openBook(b.id) };
-    $('#mine').append(d);
-  }
+  const all = await DB.all(), mine = all.filter(b => !b.bundled);
   try { bundled = await (await fetch('books/manifest.json')).json() } catch(e){ bundled = [] }
-  $('#shelf').innerHTML = bundled.length ? '' : '<p class="note">None yet.</p>';
-  for (const b of bundled){
-    const d = document.createElement('div'); d.className = 'book';
-    d.innerHTML = `<div><div class="t"></div><div class="a"></div></div><div class="p">${pct(b.id)}</div>`;
-    d.querySelector('.t').textContent = b.title; d.querySelector('.a').textContent = b.author + (b.note ? ' · ' + b.note : '');
-    d.onclick = () => openBook(b.id);
-    $('#shelf').append(d);
+  const tile = (b, extra = '') => {
+    const d = document.createElement('div'); d.className = 'tile'; const pc = pctOf(b.id);
+    d.innerHTML = coverHtml(b.title, b.author) + `<div class="meta"><div class="t">${esc(b.title)}</div><div class="a">${esc(b.note || b.author || '')}</div>${pc ? `<div class="bar"><i style="width:${pc}%"></i></div>` : ''}</div>` + extra;
+    return d;
+  };
+  const m = $('#mine'); m.innerHTML = '';
+  for (const b of mine){
+    const d = tile(b, `<button class="x" aria-label="Remove">${'✕'}</button>`);
+    d.onclick = e => { if (e.target.closest('.x')){ e.stopPropagation(); if (confirmRemove(b)) DB.del(b.id).then(renderLibrary) } else openBook(b.id) };
+    m.append(d);
+  }
+  const add = document.createElement('button'); add.className = 'add'; add.innerHTML = '<b>+</b>Add an EPUB'; add.onclick = () => $('#file').click(); m.append(add);
+  const s = $('#shelf'); s.innerHTML = '';
+  for (const b of bundled){ const d = tile(b); d.onclick = () => openBook(b.id); s.append(d) }
+  // continue reading
+  const last = LS.get('last'), c = $('#continue'); c.innerHTML = '';
+  const lb = last && (all.find(b => b.id === last) || null);
+  if (lb){
+    const p = LS.get('progress', {})[last] || {c:0}, ch = lb.chapters[p.c] || lb.chapters[0], pc = pctOf(last);
+    c.innerHTML = `<div class="cont">${coverHtml(lb.title, lb.author)}<div class="info"><div class="k">Seguir leyendo</div><div class="t">${esc(lb.title)}</div><div class="c">${esc(ch.title)}</div><div class="bar"><i style="width:${pc}%"></i></div></div></div>`;
+    c.firstChild.onclick = () => openBook(last);
   }
 }
 function confirmRemove(b){
@@ -237,7 +383,6 @@ function confirmRemove(b){
   if (confirmRemove.id === b.id && Date.now() - confirmRemove.t < 3000) return true;
   confirmRemove.id = b.id; confirmRemove.t = Date.now(); toast('Tap ✕ again to remove "' + b.title + '"'); return false;
 }
-$('#loadBtn').onclick = () => $('#file').click();
 $('#file').onchange = async e => {
   const f = e.target.files[0]; if (!f) return; e.target.value = '';
   toast('Opening ' + f.name + '…');
@@ -250,12 +395,12 @@ $('#file').onchange = async e => {
 $('#offBtn').onclick = async () => {
   const btn = $('#offBtn'); btn.disabled = true;
   try {
-    const keys = await (await fetch('dict/_index.json')).json(); let n = 0;
+    const keys = await (await fetch('dict/_index.json')).json();
     for (let i = 0; i < keys.length; i += 8){
-      await Promise.all(keys.slice(i, i+8).map(k => fetch('dict/'+k+'.json').then(r => r.ok && n++)));
-      btn.textContent = `Saving… ${Math.round(100*(i+8)/keys.length)}%`;
+      await Promise.all(keys.slice(i, i+8).map(k => fetch('dict/'+k+'.json')));
+      btn.textContent = `Saving… ${Math.min(100, Math.round(100*(i+8)/keys.length))}%`;
     }
-    LS.set('offline', Date.now()); btn.textContent = 'Saved for offline ✓';
+    LS.set('offline', Date.now()); btn.textContent = 'Saved for offline ✓'; btn.disabled = false;
   } catch(e){ btn.textContent = 'Failed. Tap to retry'; btn.disabled = false }
 };
 if (LS.get('offline')) $('#offBtn').textContent = 'Saved for offline ✓ (tap to refresh)';
@@ -269,22 +414,30 @@ async function openBook(id){
     toast('Opening ' + m.title + '…');
     try {
       book = await parseEpub(await (await fetch(m.file)).arrayBuffer());
-      Object.assign(book, {id, bundled:true, title:m.title, author:m.author}); await DB.put(book);
+      Object.assign(book, {id, bundled:true, title:m.title, author:m.author, note:m.note}); await DB.put(book);
     } catch(e){ return toast('Could not open that book: ' + e.message) }
   }
+  LS.set('last', id);
   const p = LS.get('progress', {})[id] || {c:0, p:0};
   $('#library').classList.add('hide'); $('#reader').classList.remove('hide');
+  $('#bookTitle').textContent = book.title;
   showChapter(Math.min(p.c, book.chapters.length - 1), p.p);
 }
 const WORD = /(\p{L}+(?:[-’']\p{L}+)*)/u;
 function showChapter(i, para){
   chap = i; closeSheet();
-  const c = book.chapters[i], saved = new Set(LS.get('words', []).map(x => x.w));
+  const c = book.chapters[i], n = book.chapters.length, saved = new Set(LS.get('words', []).map(x => x.w));
   $('#chapTitle').textContent = c.title;
   const out = document.createDocumentFragment();
-  const h = document.createElement('h3'); h.textContent = c.title; out.append(h);
+  const op = document.createElement('div'); op.className = 'opener';
+  op.innerHTML = `<div class="k">${i + 1} / ${n}</div><h2>${esc(c.title)}</h2><div class="orn">❦</div>`; out.append(op);
+  let first = true;
+  const same = t => t.replace(/^\u0001/, '').replace(/\W+/gu, '').toLowerCase();
+  let skip = 0; while (skip < c.paras.length - 1 && skip < 3 && same(c.paras[skip]) === same(c.title)) skip++;  // title repeated as body text
   c.paras.forEach((t, pi) => {
-    const el = document.createElement(t[0] === '\u0001' ? 'h3' : 'p'); el.dataset.p = pi;
+    if (pi < skip) return;
+    const head = t[0] === '\u0001', el = document.createElement(head ? 'h3' : 'p'); el.dataset.p = pi;
+    if (!head && first && /^\p{L}/u.test(t) && t.length > 120){ el.className = 'first'; first = false }
     for (const part of t.replace(/^\u0001/, '').split(WORD)){
       if (!part) continue;
       if (WORD.test(part) && part.match(WORD)[0] === part){
@@ -294,27 +447,35 @@ function showChapter(i, para){
     out.append(el);
   });
   const tx = $('#text'); tx.replaceChildren(out);
-  $('#prev').disabled = i === 0; $('#next').disabled = i === book.chapters.length - 1;
+  const nav = (b, j) => { b.classList.toggle('hide', j < 0 || j >= n); if (j >= 0 && j < n) b.querySelector('span').textContent = book.chapters[j].title };
+  nav($('#prev'), i - 1); nav($('#next'), i + 1);
+  $('#rhead').classList.remove('up');
   const target = para ? tx.querySelector(`[data-p="${para}"]`) : null;
-  requestAnimationFrame(() => target ? target.scrollIntoView() : window.scrollTo(0, 0));
+  requestAnimationFrame(() => { target ? window.scrollTo(0, target.getBoundingClientRect().top + scrollY - 80) : window.scrollTo(0, 0); onScroll() });
   saveProgress(para || 0);
 }
 function saveProgress(p){
   if (!book) return;
-  const all = LS.get('progress', {}); all[book.id] = {c:chap, p, n:book.chapters.length}; LS.set('progress', all);
+  const all = LS.get('progress', {}); all[book.id] = {c:chap, p, n:book.chapters.length, L:book.chapters[chap].paras.length}; LS.set('progress', all);
 }
-let scrollT;
-addEventListener('scroll', () => {
+let scrollT, lastY = 0;
+function onScroll(){
   if ($('#reader').classList.contains('hide')) return;
+  const y = scrollY, max = document.documentElement.scrollHeight - innerHeight;
+  $('#prog').style.width = (max > 0 ? Math.min(100, 100 * y / max) : 100) + '%';
+  if (!$('#sheet').classList.contains('open')) $('#rhead').classList.toggle('up', y > lastY + 4 && y > 120);
+  if (y < lastY - 4) $('#rhead').classList.remove('up');
+  lastY = y;
   clearTimeout(scrollT); scrollT = setTimeout(() => {
     for (const el of $('#text').querySelectorAll('[data-p]')){
-      if (el.getBoundingClientRect().bottom > 70){ saveProgress(+el.dataset.p); break }
+      if (el.getBoundingClientRect().bottom > 80){ saveProgress(+el.dataset.p); break }
     }
   }, 400);
-}, {passive:true});
+}
+addEventListener('scroll', onScroll, {passive:true});
 $('#prev').onclick = () => showChapter(chap - 1);
 $('#next').onclick = () => showChapter(chap + 1);
-$('#back').onclick = () => { closeSheet(); speechSynthesis && speechSynthesis.cancel(); $('#reader').classList.add('hide'); $('#library').classList.remove('hide'); renderLibrary(); window.scrollTo(0,0) };
+$('#back').onclick = () => { closeSheet(); 'speechSynthesis' in window && speechSynthesis.cancel(); $('#reader').classList.add('hide'); $('#library').classList.remove('hide'); renderLibrary(); window.scrollTo(0,0) };
 
 function sentenceAround(span){
   const p = span.parentElement, full = p.textContent;
@@ -325,6 +486,22 @@ function sentenceAround(span){
   return full.slice(start, m < 0 ? full.length : off + m + 1).trim();
 }
 
+/* ---------- sheet ---------- */
+function openSheet(html){
+  const sh = $('#sheet'); sh.innerHTML = '<div class="grab"></div>' + html; sh.scrollTop = 0; sh.classList.add('open');
+  sh.querySelectorAll('[data-close]').forEach(b => b.onclick = closeSheet);
+  return sh;
+}
+function closeSheet(){ $('#sheet').classList.remove('open'); document.querySelectorAll('.w.on').forEach(x => x.classList.remove('on')) }
+const closeBtn = `<button class="ib" data-close aria-label="Close">${icon('x')}</button>`;
+// drag the sheet down to dismiss
+(() => {
+  let y0 = null; const sh = $('#sheet');
+  sh.addEventListener('touchstart', e => { y0 = sh.scrollTop <= 0 ? e.touches[0].clientY : null }, {passive:true});
+  sh.addEventListener('touchmove', e => { if (y0 != null){ const d = e.touches[0].clientY - y0; if (d > 0) sh.style.transform = `translateY(${d}px)` } }, {passive:true});
+  sh.addEventListener('touchend', e => { if (y0 != null){ const d = e.changedTouches[0].clientY - y0; sh.style.transform = ''; if (d > 90) closeSheet() } y0 = null });
+})();
+
 /* ---------- word sheet ---------- */
 let current = null;
 $('#text').addEventListener('click', e => {
@@ -332,24 +509,22 @@ $('#text').addEventListener('click', e => {
   document.querySelectorAll('.w.on').forEach(x => x.classList.remove('on')); s.classList.add('on');
   showWord(s.textContent, sentenceAround(s), s);
 });
-function closeSheet(){ $('#sheet').classList.add('hide'); document.querySelectorAll('.w.on').forEach(x => x.classList.remove('on')) }
-const esc = t => t.replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const POS = {noun:'noun', verb:'verb', adj:'adjective', adv:'adverb', prep:'preposition', pron:'pronoun', conj:'conjunction', det:'determiner', article:'article', intj:'interjection', num:'number', name:'name', phrase:'phrase', contraction:'contraction', particle:'particle', prefix:'prefix', suffix:'suffix'};
-const GEN = {m:'masculine', f:'feminine', mf:'masc. or fem.'};
-function defsHtml(d){
-  return d.map(([pos, g, gl]) => `<div class="pos">${esc(POS[pos] || pos)}${g ? ' · ' + GEN[g] : ''}</div><ol>${gl.map(x => `<li>${esc(x)}</li>`).join('')}</ol>`).join('');
+const ART = {m:'el', f:'la', mf:'el / la'};
+function defsHtml(d, word){
+  return d.map(([pos, g, gl]) => `<div class="chips"><span class="chip k">${esc(POS[pos] || pos)}</span>${g && ART[g] ? `<span class="chip">${ART[g]} ${esc(word)}</span>` : ''}</div><ol>${gl.map(x => `<li>${esc(x)}</li>`).join('')}</ol>`).join('');
 }
 async function showWord(raw, sentence, span){
-  const sh = $('#sheet'); current = {w: raw.toLowerCase(), sentence, span, gloss:''};
-  sh.innerHTML = `<div class="row"><div class="word">${esc(raw)}</div><button class="close">✕</button></div><div id="defs" class="note">…</div>
-    <div class="tools"><button id="sayW">🔊 Word</button><button id="sayS">🔊 Sentence</button><button id="slowS">🐢 Slowly</button><button id="saveW">☆ Save</button></div>`;
-  sh.classList.remove('hide');
-  sh.querySelector('.close').onclick = closeSheet;
+  current = {w: raw.toLowerCase(), sentence, span, gloss:''};
+  openSheet(`<div class="sh-head"><div class="word">${esc(raw)}</div><button class="say" id="sayW" aria-label="Say the word">${icon('sound')}</button>${closeBtn}</div>
+    <div class="defs" id="defs"><p class="note">…</p></div>
+    <div class="tools"><button id="sayS">${icon('sound')} Sentence</button><button id="slowS">${icon('slow')} Slowly</button><button id="saveW">${icon('star')} <span>Save</span></button></div>
+    <div class="sent">${esc(sentence)}</div>`);
   $('#sayW').onclick = () => speak(raw, false);
   $('#sayS').onclick = () => speak(sentence, false);
   $('#slowS').onclick = () => speak(sentence, true);
   const isSaved = () => LS.get('words', []).some(x => x.w === current.w);
-  const paint = () => $('#saveW').textContent = isSaved() ? '★ Saved' : '☆ Save';
+  const paint = () => { const b = $('#saveW'); b.classList.toggle('on', isSaved()); b.querySelector('span').textContent = isSaved() ? 'Saved' : 'Save' };
   paint();
   $('#saveW').onclick = () => {
     let ws = LS.get('words', []);
@@ -363,42 +538,47 @@ async function showWord(raw, sentence, span){
   let html = '';
   if (rec && rec.clitic){
     const {stem, peeled, rec: inner} = rec.clitic;
-    html += `<div class="from"><b>${esc(stem)}</b> + ${esc(peeled.join(' + '))} <span class="note">(pronoun attached to the end)</span></div>`;
+    html += `<div class="from"><b>${esc(stem)}</b> + ${esc(peeled.join(' + '))} · a pronoun joined to the end</div>`;
     rec = inner;
   }
-  if (rec && rec.offline) html = '<p class="note">No connection and this part of the dictionary isn\'t saved yet. Save it for offline from the library.</p>';
+  if (rec && rec.offline) html = '<p class="note">No connection, and this part of the dictionary isn\'t saved yet. Save it for offline from the library.</p>';
   if (rec && !rec.offline){
-    if (rec.d){ html += defsHtml(rec.d); current.gloss = rec.d[0][2][0] }
+    if (rec.d){ html += defsHtml(rec.d, current.w); current.gloss = rec.d[0][2][0] }
     for (const [lemma, label] of rec.f || []){
       const lr = await lookup(lemma);
       current.lemma = current.lemma || lemma;
-      html += `<div class="from">${esc(label)} of <b>${esc(lemma)}</b></div>` + (lr && lr.d ? defsHtml(lr.d) : '');
+      html += `<div class="from">${esc(label)} of <b>${esc(lemma)}</b>${lr && lr.d ? defsHtml(lr.d, lemma) : ''}</div>`;
       if (!current.gloss && lr && lr.d) current.gloss = lr.d[0][2][0];
       if ((rec.f || []).length > 1 && rec.f[1][0] === lemma) break; // same lemma twice (e.g. tú/vos forms): show once
     }
   }
-  if (!html) html = `<p class="note">Not in the dictionary${/^\p{Lu}/u.test(raw) ? ' (it may be a name)' : ''}. <a style="color:var(--accent)" target="_blank" rel="noopener" href="https://www.spanishdict.com/translate/${encodeURIComponent(raw.toLowerCase())}">Look it up on SpanishDict ›</a></p>`;
-  if (current.w === raw.toLowerCase()) $('#defs').outerHTML = '<div id="defs">' + html + '</div>';
+  if (!html) html = `<p class="note">Not in the dictionary${/^\p{Lu}/u.test(raw) ? ' (it may be a name)' : ''}. <a target="_blank" rel="noopener" href="https://www.spanishdict.com/translate/${encodeURIComponent(raw.toLowerCase())}">Look it up on SpanishDict ›</a></p>`;
+  if (current.w === raw.toLowerCase() && $('#defs')) $('#defs').innerHTML = html;
 }
 
-/* ---------- table of contents, settings, saved words ---------- */
+/* ---------- contents, settings, saved words ---------- */
 $('#openToc').onclick = () => {
-  const sh = $('#sheet');
-  sh.innerHTML = `<div class="row"><div class="word">Contents</div><button class="close">✕</button></div>` +
-    book.chapters.map((c, i) => `<button data-c="${i}" style="display:block;width:100%;text-align:left;margin-top:6px;${i===chap?'border-color:var(--accent)':''}">${esc(c.title)}</button>`).join('');
-  sh.classList.remove('hide'); sh.querySelector('.close').onclick = closeSheet;
+  const sh = openSheet(`<div class="sh-head"><h3>Contenido</h3>${closeBtn}</div><div class="list">` +
+    book.chapters.map((c, i) => `<button data-c="${i}" class="${i === chap ? 'cur' : ''}"><em>${i + 1}</em>${esc(c.title)}</button>`).join('') + '</div>');
   sh.querySelectorAll('[data-c]').forEach(b => b.onclick = () => showChapter(+b.dataset.c));
+  const cur = sh.querySelector('.cur'); if (cur) cur.scrollIntoView({block:'center'});
 };
 function openSettings(){
-  const sh = $('#sheet');
+  const keep = $('#sheet').classList.contains('open') ? $('#sheet').scrollTop : 0;
   const seg = (key, opts) => `<div class="seg">${opts.map(([v,l]) => `<button data-k="${key}" data-v="${v}" class="${String(settings[key])===String(v)?'sel':''}">${l}</button>`).join('')}</div>`;
-  sh.innerHTML = `<div class="row"><div class="word">Settings</div><button class="close">✕</button></div><div class="set">
-    <label>Text size</label>${seg('fs', [[17,'A'],[20,'A+'],[23,'A++'],[27,'A+++']])}
-    <label>Theme</label>${seg('theme', [['auto','Auto'],['light','Light'],['dark','Dark']])}
-    <label>Accent of the voice</label>${seg('voice', [['auto','Any'],['es-ES','Spain'],['es-MX','Mexico'],['es-US','US']])}
-    <label>Speaking speed</label>${seg('rate', [[0.75,'Slower'],[0.9,'Normal'],[1,'Fast']])}
-    <p class="note">${voices.length ? voices.length + ' Spanish voice(s) on this device.' : 'No Spanish voice found yet. On iPhone: Settings › Accessibility › Spoken Content › Voices › Spanish.'}</p></div>`;
-  sh.classList.remove('hide'); sh.querySelector('.close').onclick = closeSheet;
+  const sh = openSheet(`<div class="sh-head"><h3>Lectura</h3>${closeBtn}</div><div class="set">
+    <div class="preview">En un lugar de la Mancha, de cuyo nombre no quiero acordarme, no ha mucho tiempo que vivía un hidalgo.</div>
+    <label>Text size · ${settings.fs}</label><div class="size"><span style="font-size:14px">A</span><input type="range" id="fsR" min="14" max="34" step="1" value="${settings.fs}"><span style="font-size:24px">A</span></div>
+    <label>Typeface</label><div class="fonts">${Object.entries(FONTS).map(([k,[n,f]]) => `<button data-k="font" data-v="${k}" class="${settings.font===k?'sel':''}" style="font-family:${f.replace(/"/g,"'")}">${n}</button>`).join('')}</div>
+    <label>Line spacing</label>${seg('lh', [[1.45,'Tight'],[1.7,'Normal'],[1.95,'Airy']])}
+    <label>Margins</label>${seg('mw', [[44,'Narrow'],[36,'Normal'],[30,'Wide']])}
+    <label>Alignment</label>${seg('align', [['left','Ragged'],['justify','Justified']])}
+    <label>Theme</label><div class="themes">${Object.entries(THEMES).map(([k,[l,bg,ink]]) => `<button data-k="theme" data-v="${k}" aria-label="${k}" class="${settings.theme===k?'sel':''}" style="background:${bg};color:${ink};border-color:var(--line)">${l || 'Aa'}</button>`).join('')}</div>
+    <label>Voice accent</label>${seg('voice', [['auto','Any'],['es-ES','Spain'],['es-MX','Mexico'],['es-US','US']])}
+    <label>Speaking speed</label>${seg('rate', [[0.75,'Slower'],[0.9,'Normal'],[1,'Faster']])}
+    <p class="note">${voices.length ? voices.length + ' Spanish voice(s) on this phone.' : 'No Spanish voice found yet. On iPhone: Settings › Accessibility › Spoken Content › Voices › Spanish.'}</p></div>`);
+  sh.scrollTop = keep;
+  $('#fsR').oninput = e => { settings.fs = +e.target.value; applySettings(); sh.querySelector('.set label').textContent = 'Text size · ' + settings.fs };
   sh.querySelectorAll('[data-k]').forEach(b => b.onclick = () => {
     const k = b.dataset.k; settings[k] = isNaN(+b.dataset.v) ? b.dataset.v : +b.dataset.v; applySettings(); openSettings();
     if (k === 'voice' || k === 'rate') speak('Hola, ¿qué tal?', false);
@@ -406,11 +586,10 @@ function openSettings(){
 }
 $('#openSet').onclick = openSettings; $('#openSet2').onclick = openSettings;
 $('#openWords').onclick = () => {
-  const ws = LS.get('words', []), sh = $('#sheet');
-  sh.innerHTML = `<div class="row"><div class="word">My words (${ws.length})</div><button class="close">✕</button></div>
-    <div id="words"><ul>${ws.map(x => `<li><b>${esc(x.w)}</b>${x.lemma ? ' ← ' + esc(x.lemma) : ''} — ${esc(x.gloss || '')}<div class="s">${esc(x.sentence)}</div></li>`).join('') || '<p class="note">Tap ☆ Save on any word while reading.</p>'}</ul></div>
-    ${ws.length ? '<div class="tools"><button id="csv">Download as a spreadsheet (CSV)</button></div>' : ''}`;
-  sh.classList.remove('hide'); sh.querySelector('.close').onclick = closeSheet;
+  const ws = LS.get('words', []);
+  openSheet(`<div class="sh-head"><h3>Mis palabras · ${ws.length}</h3>${closeBtn}</div>
+    ${ws.length ? `<ul class="wl">${ws.map(x => `<li><b>${esc(x.w)}</b>${x.lemma ? ` <span class="note">← ${esc(x.lemma)}</span>` : ''}<div class="g">${esc(x.gloss || '')}</div><div class="s">${esc(x.sentence)}</div></li>`).join('')}</ul>
+    <div class="tools" style="grid-template-columns:1fr"><button id="csv">Download as a spreadsheet (CSV)</button></div>` : '<p class="note">While reading, tap a word, then tap ☆ Save. Your words collect here with the sentence you found them in.</p>'}`);
   const c = $('#csv'); if (c) c.onclick = () => {
     const q = s => '"' + String(s || '').replace(/"/g, '""') + '"';
     const csv = 'word,lemma,meaning,sentence,book\n' + ws.map(x => [x.w, x.lemma, x.gloss, x.sentence, x.book].map(q).join(',')).join('\n');
