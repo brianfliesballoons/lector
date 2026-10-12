@@ -6,12 +6,20 @@
 
 *Live state, not a log (workspace convention — root CLAUDE.md, "status report" protocol): add items as work opens them, **delete** them when done, update after every meaningful unit of work. **Numbered, in priority order** — Brian references items by number. A "status report" scoped to this project reads exactly this list.*
 
-1. **Redesign + Find a free book: SHIPPED 2026-10-12** (Brian: *"Let's incorporate all of it!"*). It's the first project through design-first (root convention 26): research, then the [design board](https://claude.ai/artifact/KGBVDy2sdNYogT1f9b4E9D), then the build. Built by a `make` agent and reviewed against the board screenshots. 66/66 headless checks passed, including a REAL Gutenberg download through the relay. The app's labels are English and speak-on-tap defaults to on (recommendations Brian didn't overrule). ▶ Brian tries it on his iPhone; also run his *Animal Farm* through the new start-of-story rule. Known loose ends:
-   - Some meanings are still loose: *partida* → "departure" not "certificate"; conjugated verbs show the infinitive (*estaba* → "to be").
-   - About 20 function words (a, al, del, se, su…) have hand-written meanings because Wiktionary's first sense is a letter name.
-   - The dictionary auto-downloads (~7 MB) on first load, even on cellular, because iOS doesn't report it.
-   - *Tierras vírgenes* shows page-marker chapters ("p13ilo") in its Contents.
-   - An old saved place in front matter jumps to the story.
+1. **Redesign + Find a free book: SHIPPED 2026-10-12** (Brian: *"Let's incorporate all of it!"*). It's the first project through design-first (root convention 26): research, then the [design board](https://claude.ai/artifact/KGBVDy2sdNYogT1f9b4E9D), then the build. Built by a `make` agent and reviewed against the board screenshots. 66/66 headless checks passed, including a REAL Gutenberg download through the relay. The app's labels are English and speak-on-tap defaults to on (recommendations Brian didn't overrule). ▶ Brian tries it on his iPhone; also run his *Animal Farm* through the new start-of-story rule. **Rough-edge fixes SHIPPED the same day:**
+   - A word's own entry leads (*partida* → noun, no false "from partir").
+   - Phrases light up: 21,570 multi-word entries, with only meaning-stable types shown (*pompas fúnebres* → funeral).
+   - Verbs read as English (*estaba* → "was · from estar, to be").
+   - The parser reads each book's own table of contents, so there are no junk chapters (*selva* 99 → 34 chapters).
+   - The manifest finds story starts by their opening words.
+   - *Animal Farm* opens at CAPÍTULO I (tested locally, never uploaded).
+
+   Still loose:
+   - a few adverb phrases ("a cada paso" → "all day long")
+   - subjunctives all read "might…"
+   - *Animal Farm* footer says "of 12" (back matter counted)
+   - books already downloaded or imported keep their old chapter split until added again
+   - not yet tried on a real iPhone
 2. **v1 LIVE 2026-10-12 at [brianfliesballoons.github.io/lector](https://brianfliesballoons.github.io/lector/)** (repo `brianfliesballoons/lector`, public, Pages from `main`). Verified in headless Chrome against a real Gutenberg EPUB (*Don Quijote*, 139 chapters): parse, Gutenberg license stripped, tap → definitions, inflected forms → lemma, attached pronouns (*levantóse* → *levantó* + *se* → *levantar*), progress save, and 98.9% dictionary coverage on 9,705 running words (misses are names and 1605 spellings). ▶ **Brian opens it on his iPhone**: tap test, voice check (Settings › Accessibility › Spoken Content › Voices › Spanish if none), "Save the dictionary for offline" before a flight. ✅ Brian is using it on his phone (2026-10-12: *"literally exactly what I wanted"*).
 3. **Animal Farm: BOUGHT 2026-10-12 (Rosetta Edu order #1123, to briancamplynch@gmail.com) and verified DRM-free**: no `encryption.xml`. Guillermo Tirelli translation, 2nd ed. Jan 2026, ISBN 978-1-915088-51-2. Parsed in headless Chrome: 10 chapters plus front and back matter, 30K words, 99.5% dictionary coverage (7,309/7,347). ▶ Brian adds it on his phone: open the email's download link in Safari, Download, save to Files, then **+ Add an EPUB** in Lector. ⚠ The email's link is a page with a Download button (`…/download`), not the file itself; Shopify may cap download counts, and one download was used to verify. The file is in `offline books/` (git-ignored). **Never commit the file.**
 4. **Starter shelf: DONE 2026-10-12**, 10 books in `books/` (see `books/CLAUDE.md`). Each translation's date was checked against its own title page.

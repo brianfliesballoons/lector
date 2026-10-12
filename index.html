@@ -194,6 +194,11 @@ button:disabled{opacity:.5;cursor:default}
 .say{width:48px;height:48px;border-radius:24px;border:none;background:var(--soft);color:var(--accent);display:grid;place-items:center;padding:0;flex:none}
 .best{font-family:var(--serif);font-size:30px;line-height:1.2;overflow-wrap:anywhere}
 .best.wait{color:var(--mute)}
+.phr{display:flex;flex-direction:column;gap:2px}
+.phr small{font-size:12px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:var(--accent)}
+.phr b{font-family:var(--serif);font-size:20px;font-weight:600}
+.alone{font-size:17px;line-height:1.45}
+.alone b{font-family:var(--serif);font-weight:600}
 .gram{font-size:17px;line-height:1.45;color:var(--ink2)}
 .gram b{font-weight:700}
 .gram .det{display:block;font-size:15px;color:var(--mute);margin-top:2px}
@@ -376,28 +381,63 @@ const BLOCK = 'p,h1,h2,h3,h4,h5,h6,li,div,blockquote,pre,dd,dt,td';
 // Files that are never story text. Matched on the file name only: Gutenberg's "pg-header"
 // item also holds the opening chapters, so its header is removed element by element below.
 const SKIP_FILE = /wrap0000|cover|(^|\/)toc\.|(^|\/)nav\.|(^|\/)(about|title)\.x?html/i;
-const JUNK = 'script,style,sup.noteref,a.pginternal sup,#pg-header,#pg-footer,.pg-boilerplate,section[id^="pg-"],' +
-  'a[rel~="mw:WikiLink/Interwiki"],.pagenum,.mw-cite-backlink,.cite-bracket,sup.reference,.reference,.reflist,.mw-editsection,' +
+const JUNK = 'script,style,img,sup.noteref,a.pginternal sup,#pg-header,#pg-footer,.pg-boilerplate,section[id^="pg-"],' +
+  'a[rel~="mw:WikiLink/Interwiki"],.pagenum,.x-ebookmaker-pageno,span[id^="img_"],.mw-cite-backlink,.cite-bracket,sup.reference,.reference,.reflist,.mw-editsection,' +
   '[style*="display:none"],[style*="display: none"],figure';
 const HEAD = 'h1,h2,h3,h4,h5,h6';
+// Bump when the parser changes how a book splits into chapters: bundled books stored on the
+// phone are then parsed again (their reading place is carried across by its text).
+const PARSER = 2;
+const normPath = p => { const out = []; for (const s of p.split('/')){ if (s === '..') out.pop(); else if (s && s !== '.') out.push(s) } return out.join('/') };
+const dirOf = p => p.includes('/') ? p.slice(0, p.lastIndexOf('/') + 1) : '';
+// The book's own table of contents, as {file path: [{label, frag}]}. EPUB 3 nav first, then EPUB 2 NCX.
+async function tocLabels(zip, opf, base){
+  const map = {}, add = (from, href, label) => {
+    if (!href || /^[a-z]+:/i.test(href)) return;
+    const [file, frag] = href.split('#'), k = normPath(dirOf(from) + decodeURIComponent(file)); label = (label || '').replace(/\s+/g, ' ').trim();
+    if (!k || !label) return;
+    (map[k] = map[k] || []).push({label, frag: frag ? decodeURIComponent(frag) : ''});
+  };
+  try {
+    const nav = opf.querySelector('manifest > item[properties~="nav"]');
+    if (nav){
+      const p = normPath(base + decodeURIComponent(nav.getAttribute('href'))), f = zip.file(p);
+      if (f){ const d = new DOMParser().parseFromString(await f.async('text'), 'text/html');
+        const n = [...d.querySelectorAll('nav')].find(x => /toc/.test(x.getAttribute('epub:type') || x.getAttribute('role') || '')) || d.querySelector('nav');
+        if (n) for (const a of n.querySelectorAll('a[href]')) add(p, a.getAttribute('href'), a.textContent) }
+    }
+    if (!Object.keys(map).length){
+      const tid = opf.querySelector('spine') && opf.querySelector('spine').getAttribute('toc');
+      const nx = (tid && [...opf.querySelectorAll('manifest > item')].find(x => x.getAttribute('id') === tid)) || opf.querySelector('manifest > item[media-type="application/x-dtbncx+xml"]');
+      if (nx){ const p = normPath(base + decodeURIComponent(nx.getAttribute('href'))), f = zip.file(p);
+        if (f){ const d = new DOMParser().parseFromString(await f.async('text'), 'application/xml');
+          for (const np of d.getElementsByTagNameNS('*', 'navPoint')){
+            const c = np.getElementsByTagNameNS('*', 'content')[0], t = np.getElementsByTagNameNS('*', 'text')[0];
+            if (c && t) add(p, c.getAttribute('src'), t.textContent) } } }
+    }
+  } catch(e){}
+  return map;
+}
 async function parseEpub(buf){
   const zip = await JSZip.loadAsync(buf);
   const xml = async p => new DOMParser().parseFromString(await zip.file(p).async('text'), 'application/xml');
   const cont = await xml('META-INF/container.xml');
   const opfPath = cont.querySelector('rootfile').getAttribute('full-path');
-  const base = opfPath.includes('/') ? opfPath.slice(0, opfPath.lastIndexOf('/')+1) : '';
+  const base = dirOf(opfPath);
   const opf = await xml(opfPath);
   const meta = n => { const e = opf.getElementsByTagNameNS('*', n)[0]; return e ? e.textContent.trim() : '' };
   const items = {}; for (const it of opf.querySelectorAll('manifest > item')) items[it.getAttribute('id')] = it.getAttribute('href');
-  const chapters = []; let done = false;
+  const toc = await tocLabels(zip, opf, base);
+  const chapters = []; let done = false, cur = null;
+  const open = title => { cur = {title, paras: []}; chapters.push(cur) };
   for (const ref of opf.querySelectorAll('spine > itemref')){
+    if (done) break;
     const id = ref.getAttribute('idref'), href = items[id];
     if (!href || SKIP_FILE.test(href)) continue;
-    const f = zip.file(base + decodeURIComponent(href.split('#')[0])); if (!f) continue;
+    const path = normPath(base + decodeURIComponent(href.split('#')[0])), f = zip.file(path); if (!f) continue;
     const doc = new DOMParser().parseFromString(await f.async('text'), 'text/html');
     doc.querySelectorAll(JUNK).forEach(e => e.remove());
-    let cur = null;
-    if (done) break;
+    let fresh = true;
     for (const el of doc.body.querySelectorAll(BLOCK)){
       const inHead = el.closest(HEAD);
       if (inHead && inHead !== el) continue;              // a box inside a heading: the heading speaks for it
@@ -405,33 +445,49 @@ async function parseEpub(buf){
       const text = el.textContent.replace(/\s+/g, ' ').trim(); if (!text) continue;
       if (/\*\*\*\s*END OF (THE|THIS) PROJECT GUTENBERG/i.test(text)){ done = true; break }
       if (/project gutenberg/i.test(text)) continue;
-      if (/^H[1-3]$/.test(el.tagName) || !cur){
-        cur = {title: /^H[1-6]$/.test(el.tagName) ? text : '', paras: []}; chapters.push(cur);
-        if (/^H[1-6]$/.test(el.tagName)) continue;
+      const big = /^H[1-3]$/.test(el.tagName), small = /^H[4-6]$/.test(el.tagName);
+      if (big){ open(text); fresh = false; continue }
+      if (fresh){
+        fresh = false;
+        // A file that starts without a heading is a new chapter if the book's contents list it
+        // (Wikisource exports name chapters only there), and otherwise the next page of the
+        // chapter before it (Gutenberg splits long chapters across files).
+        // Only an entry whose anchor sits before this first text names it (a mid-file anchor belongs to a later heading).
+        const hit = (toc[path] || []).find(t => { if (!t.frag) return true; const a = doc.getElementById(t.frag); return a && (a === el || a.contains(el) || !!(a.compareDocumentPosition(el) & Node.DOCUMENT_POSITION_FOLLOWING)) });
+        if (hit) open(hit.label);
+        else if (!cur){ if (small){ open(text); continue } open('') }
       }
-      cur.paras.push(/^H[4-6]$/.test(el.tagName) ? '\u0001'+text : text);
+      cur.paras.push(small ? '\u0001' + text : text);
     }
   }
-  const chs = chapters.filter(c => c.paras.length);
-  chs.forEach((c, i) => { if (!c.title) c.title = c.paras[0].slice(0, 40) + (c.paras[0].length > 40 ? '…' : '') });
+  const chs = chapters.filter(c => c.paras.some(t => /\p{L}/u.test(t)));   // drops empty items and "————" divider pages
+  chs.forEach(c => { if (!c.title) c.title = c.paras[0].replace(/^\u0001/, '').slice(0, 40) + (c.paras[0].length > 40 ? '…' : '') });
   let tr = null; const tf = zip.file('lector/translations.json');
   if (tf){ try { tr = JSON.parse(await tf.async('text')).map || null } catch(e){} }
-  const book = { title: meta('title') || 'Sin título', author: meta('creator'), chapters: chs, tr };
+  const book = { title: meta('title') || 'Sin título', author: meta('creator'), chapters: chs, tr, pv: PARSER };
   book.start = storyStart(chs);
   return book;
 }
 // Where the story begins in a book we know nothing about: skip leading front matter, i.e.
-// chapters with no real paragraph (nothing over ~120 characters) or an obvious front-matter
-// title. Never skips past the first half of the book.
-const FRONT = /^(índice|indice|sumario|contenidos?|tabla de materias|notas? del transcriptor|transcriber|copyright|derechos|es propiedad|dedicatoria|portada|créditos|creditos|obras del|del mismo autor|erratas|title page|contents|pr[óo]logo|prefacio|introducci[óo]n|advertencia|al lector|biograf[íi]a|estudio preliminar|nota preliminar|juicio cr[íi]tico|preface|introduction)\b/i;
+// chapters without real prose (two paragraphs of mostly lower-case text over ~120 characters,
+// so an all-caps title page or a one-line list does not count) or with a front-matter title.
+// Never skips past the first half of the book.
+const FRONT = /^(índice|indice|sumario|contenidos?|tabla de materias|notas? del transcriptor|notas? de transcripci[óo]n|transcriber|copyright|derechos|es propiedad|dedicatoria|portada|créditos|creditos|obras del|del mismo autor|erratas|title page|contents|pr[óo]logo|prefacio|introducci[óo]n|advertencia|al lector|biograf[íi]a|estudio preliminar|nota preliminar|juicio cr[íi]tico|preface|introduction)\b/i;
+const prose = t => { t = t.replace(/^\u0001/, ''); if (t.length <= 120) return false; const lo = (t.match(/\p{Ll}/gu) || []).length, up = (t.match(/\p{Lu}/gu) || []).length; return lo > 3 * up };
 function storyStart(chs){
   let i = 0;
   while (i < chs.length - 1 && i < chs.length / 2){
-    const c = chs[i], long = c.paras.some(p => p.replace(/^\u0001/, '').length > 120);
-    if (long && !FRONT.test(c.title.trim())) break;
+    const c = chs[i], real = c.paras.filter(prose);
+    if ((real.length >= 2 || real.join('').length > 1500) && !FRONT.test(c.title.trim())) break;
     i++;
   }
   return i < chs.length / 2 ? i : 0;
+}
+// The bundled shelf names its story start by the opening words, so it survives parser changes.
+function chapterAt(chs, text){
+  if (!text) return -1;
+  const k = text.slice(0, 40);
+  return chs.findIndex(c => c.paras.slice(0, 8).some(p => p.replace(/^\u0001/, '').startsWith(k)));
 }
 
 /* ---------- dictionary ---------- */
@@ -466,7 +522,7 @@ async function lookup(w){
 
 /* ---------- one best meaning, in plain English ---------- */
 // Glosses that describe rather than translate. They stay in "More meanings" but never lead.
-const WEAK = /^(synonym of|alternative (form|spelling|letter-case form)|obsolete|archaic|dated|rare|misspelling|eye dialect|nonstandard|(the )?name of the|abbreviation of|initialism of|acronym of|makes |forms |used (to|in|as|with|after|before|for|when)|indicates|denotes|apocopic|contraction of|clipping of|plural of|feminine of|masculine of|pronunciation spelling|a (male|female) given name|a surname)/i;
+const WEAK = /^(see |synonym of|alternative (form|spelling|letter-case form)|obsolete|archaic|dated|rare|misspelling|eye dialect|nonstandard|(the )?name of the|abbreviation of|initialism of|acronym of|makes |forms |used (to|in|as|with|after|before|for|when)|indicates|denotes|apocopic|contraction of|clipping of|plural of|feminine of|masculine of|pronunciation spelling|a (male|female) given name|a surname)/i;
 function clean(g){
   let s = g, prev;
   do { prev = s; s = s.replace(/\s*\([^()]*\)/g, '') } while (s !== prev);
@@ -497,7 +553,7 @@ const CORE = {
   mi:['my','Possessive, before a noun.'], mis:['my','Possessive, before a plural noun.'], tu:['your','Possessive, before a noun.'], tus:['your','Possessive, before a plural noun.'],
   me:['me, myself','Pronoun.'], te:['you, yourself','Pronoun.'], nos:['us, ourselves','Pronoun.'], os:['you all, yourselves','Pronoun, used in Spain.'],
   lo:['it, him','Pronoun. Before an adjective it means "the … thing": lo bueno, the good thing.'], le:['to him, to her','Pronoun.'], les:['to them','Pronoun.'],
-  ni:['nor, not even','Conjunction.'], un:['a, an','Article, masculine.'], una:['a, an','Article, feminine.'], e:['and','Conjunction, used for y before an "i" sound.'], u:['or','Conjunction, used for o before an "o" sound.']
+  ni:['nor, not even','Conjunction.'], 'sé':['I know','From saber, to know. Also “be!”, a command from ser.'], un:['a, an','Article, masculine.'], una:['a, an','Article, feminine.'], e:['and','Conjunction, used for y before an "i" sound.'], u:['or','Conjunction, used for o before an "o" sound.']
 };
 // Inflection labels that keep the word in the same family (firmada -> firmado -> firmar).
 // A finite verb label on a noun (casa -> casar, "3rd sing.") is a homograph, not its root.
@@ -515,6 +571,51 @@ function plain(label){
 }
 const POS = {noun:'noun', verb:'verb', adj:'adjective', adv:'adverb', prep:'preposition', pron:'pronoun', conj:'conjunction', det:'determiner', article:'article', intj:'interjection', num:'number', name:'name', phrase:'phrase', contraction:'contraction', particle:'particle', prefix:'prefix', suffix:'suffix'};
 const ART = {m:'el', f:'la', mf:'el / la'};
+/* English for a conjugated verb: "estaba" -> "was", "dijo" -> "said", "firmaron" -> "signed" */
+const IRR = {be:'was,been',have:'had,had',do:'did,done',say:'said,said',go:'went,gone',get:'got,gotten',make:'made,made',know:'knew,known',think:'thought,thought',
+  take:'took,taken',see:'saw,seen',come:'came,come',give:'gave,given',find:'found,found',tell:'told,told',become:'became,become',leave:'left,left',feel:'felt,felt',
+  put:'put,put',bring:'brought,brought',begin:'began,begun',keep:'kept,kept',hold:'held,held',write:'wrote,written',stand:'stood,stood',hear:'heard,heard',
+  let:'let,let',mean:'meant,meant',set:'set,set',meet:'met,met',run:'ran,run',pay:'paid,paid',sit:'sat,sat',speak:'spoke,spoken',lie:'lay,lain',lead:'led,led',
+  read:'read,read',grow:'grew,grown',lose:'lost,lost',fall:'fell,fallen',send:'sent,sent',build:'built,built',understand:'understood,understood',draw:'drew,drawn',
+  break:'broke,broken',spend:'spent,spent',cut:'cut,cut',rise:'rose,risen',drive:'drove,driven',buy:'bought,bought',wear:'wore,worn',choose:'chose,chosen',
+  seek:'sought,sought',throw:'threw,thrown',catch:'caught,caught',win:'won,won',forget:'forgot,forgotten',sell:'sold,sold',fight:'fought,fought',
+  teach:'taught,taught',eat:'ate,eaten',drink:'drank,drunk',sing:'sang,sung',sleep:'slept,slept',fly:'flew,flown',hide:'hid,hidden',shake:'shook,shaken',
+  wake:'woke,woken',ride:'rode,ridden',bear:'bore,borne',beat:'beat,beaten',bite:'bit,bitten',blow:'blew,blown',dig:'dug,dug',feed:'fed,fed',
+  forgive:'forgave,forgiven',freeze:'froze,frozen',hang:'hung,hung',hurt:'hurt,hurt',lay:'laid,laid',lend:'lent,lent',light:'lit,lit',ring:'rang,rung',
+  shine:'shone,shone',shoot:'shot,shot',shut:'shut,shut',sink:'sank,sunk',steal:'stole,stolen',strike:'struck,struck',swear:'swore,sworn',swim:'swam,swum',
+  tear:'tore,torn',weep:'wept,wept',bend:'bent,bent',bind:'bound,bound',creep:'crept,crept',flee:'fled,fled',forbid:'forbade,forbidden',kneel:'knelt,knelt',
+  slide:'slid,slid',spin:'spun,spun',spread:'spread,spread',spring:'sprang,sprung',swing:'swung,swung',withdraw:'withdrew,withdrawn',arise:'arose,arisen',
+  awake:'awoke,awoken',cling:'clung,clung',stick:'stuck,stuck',sweep:'swept,swept',bet:'bet,bet',quit:'quit,quit',shed:'shed,shed',split:'split,split'};
+const STATIVE = new Set('be have know want desire need seem like love hate believe own belong mean understand remember prefer wish contain exist matter owe possess deserve cost weigh consist depend resemble'.split(' '));
+const dbl = v => (v.match(/[aeiouy]+/g) || []).length === 1 && /[^aeiou][aeiou][bdgklmnprt]$/.test(v);
+const edOf = v => /e$/.test(v) ? v + 'd' : /[^aeiou]y$/.test(v) ? v.slice(0, -1) + 'ied' : dbl(v) ? v + v.slice(-1) + 'ed' : v + 'ed';
+const ingOf = v => /ie$/.test(v) ? v.slice(0, -2) + 'ying' : /[^eoy]e$/.test(v) && v !== 'be' ? v.slice(0, -1) + 'ing' : dbl(v) ? v + v.slice(-1) + 'ing' : v + 'ing';
+const sOf = v => ({be:'is', have:'has', do:'does', go:'goes'})[v] || (/(s|x|z|ch|sh|o)$/.test(v) ? v + 'es' : /[^aeiou]y$/.test(v) ? v.slice(0, -1) + 'ies' : v + 's');
+const pastOf = v => IRR[v] ? IRR[v].split(',')[0] : edOf(v);
+const ppOf = v => IRR[v] ? IRR[v].split(',')[1] : edOf(v);
+function verbEnglish(gloss, label){
+  const m = /^to ([a-z]+)((?: [a-z'-]+){0,3})$/i.exec(gloss.split(',')[0].trim()); if (!m) return null;
+  const v = m[1].toLowerCase(), rest = m[2] || '';
+  const one = /(first\/3rd|1st|3rd) sing\./.test(label) && !/3rd sing\.\/pl/.test(label), first = /^1st sing\./.test(label);
+  let out = null;
+  if (/past participle/.test(label)) out = ppOf(v);
+  else if (/gerund/.test(label)) out = ingOf(v);
+  else if (/infinitive/.test(label)) out = 'to ' + v;
+  else if (/imper\./.test(label)) out = v + '!';
+  else if (/subj\./.test(label)) out = 'might ' + v;
+  else if (/cond\./.test(label)) out = 'would ' + v;
+  else if (/future ind\./.test(label)) out = 'will ' + v;
+  else if (/preterite ind\./.test(label) && !/present\/preterite/.test(label)) out = v === 'be' ? (one ? 'was' : 'were') : pastOf(v);
+  else if (/imperfect ind\./.test(label)) out = v === 'be' ? (one ? 'was' : 'were') : STATIVE.has(v) ? pastOf(v) : (one ? 'was ' : 'were ') + ingOf(v);
+  else if (/present/.test(label)) out = v === 'be' ? (first ? 'am' : /(first\/3rd|3rd) sing\./.test(label) ? 'is' : 'are') : /(3rd sing\.|first\/3rd)/.test(label) && !first ? sOf(v) : v;
+  return out ? out + rest : null;
+}
+// Forms that in a story are nearly always the verb, though the dictionary lists a noun first.
+const VERB_FIRST = new Set(['era','eras','eran','vino','diga','haya','sea','sean','ve','fui','fuiste']);
+// When a form belongs to two verbs (fue: ser or ir), lead with the commoner one.
+const PREFER = ['ser','estar','haber','tener','hacer'];
+// Where Wiktionary's first sense is not the everyday one.
+const VERB_GLOSS = {querer:'to want', deber:'to have to', quedar:'to stay'};
 async function analyze(raw){
   const lw0 = raw.toLowerCase(), core = CORE[lw0];
   const r = await lookup(raw);
@@ -525,13 +626,15 @@ async function analyze(raw){
   if (r.clitic){ clitic = r.clitic; w = r.clitic.stem; rec = r.clitic.rec }
   const chain = [{w, rec}], seen = new Set([w]);
   // 1. the word's own first real entry
-  const own = (rec.d || []).filter(e => !SKIP_POS.test(e[0]));
+  const verbFirst = VERB_FIRST.has(w) && rec.f && rec.f.length;
+  const own = verbFirst ? [] : (rec.d || []).filter(e => !SKIP_POS.test(e[0]));
   let best = own[0] ? goodOf(own[0]) : null, bestEntry = best ? own[0] : null, from = best ? 0 : -1;
   const family = rec.f && rec.f.length && FAMILY.test(rec.f[0][1]);
   if (!best || family){
     while (chain.length < 4){
       const node = chain[chain.length - 1]; let next = null;
-      for (const [lemma, label] of node.rec.f || []){
+      const fs = [...(node.rec.f || [])].sort((x, y) => (PREFER.indexOf(x[0]) + 1 || 99) - (PREFER.indexOf(y[0]) + 1 || 99));
+      for (const [lemma, label] of fs){
         const lw = lemma.toLowerCase(); if (seen.has(lw)) continue;
         const lr = await exact(lw); if (!lr || lr.offline) continue;
         next = {w:lw, rec:lr}; node.label = label; break;
@@ -546,19 +649,42 @@ async function analyze(raw){
   // 3. the word's other entries, then 4. the root's
   if (!best){ for (const e of own.slice(1)){ const g = goodOf(e); if (g){ best = g; bestEntry = e; from = 0; break } } }
   if (!best) fromChain();
+  if (!best && verbFirst) for (const e of (rec.d || [])){ const g = goodOf(e); if (g){ best = g; bestEntry = e; from = 0; break } }
   if (!best) for (const n of chain){ if (n.rec.d){ best = trimAlt(clean(n.rec.d[0][2][0])); bestEntry = n.rec.d[0]; from = chain.indexOf(n); break } }
   // the grammar line
-  // "mas" (but) is also the plural of "ma" (mum): a root only counts if the meaning shown belongs to that family
-  if (from === 0 && bestEntry && !/^(adj|noun|verb|adv)$/.test(bestEntry[0])) chain.length = 1;
-  const root = chain[chain.length - 1], rootG = root.rec.d ? anyGood(root.rec) : null;
-  let gram = '', det = '';
-  if (chain.length > 1){
+  // A word with its own entry is that word ("partida" is a noun, not "a form of partir"). Its root
+  // is mentioned only when the meaning shown is genuinely that form: an adjective that is a
+  // participle or inflection of a verb or adjective ("muerto", dead, from "morir").
+  const ownWithRoot = from === 0 && bestEntry && /^(adj|verb)$/.test(bestEntry[0]) && family && chain.length > 1;
+  if (from === 0 && !ownWithRoot) chain.length = 1;
+  const root = chain[chain.length - 1], rootG = VERB_GLOSS[root.w] || (root.rec.d ? anyGood(root.rec) : null);
+  let gram = '', det = '', altVerb = '';
+  // a conjugated verb reads as English: "estaba" -> "was", from estar, to be
+  if (from === chain.length - 1 && chain.length > 1 && bestEntry && bestEntry[0] === 'verb'){
+    if (VERB_GLOSS[root.w]) best = VERB_GLOSS[root.w];
+    const en = verbEnglish(best, chain[chain.length - 2].label);
+    if (en) best = en;
+    // the other verb this form can belong to (fue: was, from ser; or went, from ir)
+    for (const [lemma, label] of rec.f || []){
+      const lw = lemma.toLowerCase(); if (lw === root.w || chain.some(n => n.w === lw)) continue;
+      const lr = await exact(lw), e = lr && !lr.offline && (lr.d || []).find(x => x[0] === 'verb'), g = e && goodOf(e);
+      const alt = g && verbEnglish(g, label);
+      if (alt && alt !== best){ altVerb = `Or “${alt}”, from <b lang="es">${esc(lw)}</b>.`; break }
+    }
+  }
+  // a verb-first word still has its noun: say so
+  if (verbFirst && rec.d){ const e = rec.d.find(x => !SKIP_POS.test(x[0]) && x[0] !== 'verb'), g = e && goodOf(e); if (g){ const k = POS[e[0]] || e[0]; altVerb = `Also ${/^[aeiou]/.test(k) ? 'an' : 'a'} ${k}: ${esc(g)}.` } }
+  if (ownWithRoot){
+    gram = `${cap(POS[bestEntry[0]] || bestEntry[0])}, from <b lang="es">${esc(root.w)}</b>${rootG ? ', ' + esc(rootG) : ''}.`;
+    det = cap(chain.slice(0, -1).map(n => plain(n.label)).filter(Boolean).join(' · '));
+  } else if (chain.length > 1){
     gram = rootG && rootG !== best ? `From <b lang="es">${esc(root.w)}</b>, ${esc(rootG)}.` : `A form of <b lang="es">${esc(root.w)}</b>.`;
     det = cap(chain.slice(0, -1).map(n => plain(n.label)).filter(Boolean).join(' · '));
   } else if (bestEntry){
     const [pos, g] = bestEntry, name = POS[pos] || pos;
     gram = pos === 'noun' && ART[g] ? `Noun, ${g === 'f' ? 'feminine' : g === 'm' ? 'masculine' : 'either gender'}: <span lang="es">${ART[g]} ${esc(w)}</span>.` : cap(name) + '.';
   }
+  if (altVerb) gram += ' ' + altVerb;
   if (clitic) gram = `<b lang="es">${esc(clitic.stem)}</b> + ${esc(clitic.peeled.join(' + '))}: a pronoun joined to the end. ` + gram;
   return {status:'ok', best: best || (chain.length > 1 ? 'a form of ' + root.w : raw), gram, det, chain, lemma: chain.length > 1 ? root.w : '', from};
 }
@@ -569,7 +695,7 @@ function moreHtml(a){
   let h = '';
   a.chain.forEach((n, i) => {
     if (n.rec.d) h += `<h4 lang="es">${esc(n.w)}</h4>` + defsHtml(n.rec.d, n.w);
-    if (n.label) h += `<p class="also">${esc(cap(plain(n.label)))} of <b lang="es">${esc(a.chain[i+1].w)}</b></p>`;
+    if (n.label && a.chain[i + 1]) h += `<p class="also">${esc(cap(plain(n.label)))} of <b lang="es">${esc(a.chain[i+1].w)}</b></p>`;
   });
   const first = a.chain[0];
   for (const [lemma, label] of first.rec.f || []){
@@ -804,17 +930,22 @@ async function openBook(id, target){
   await loadManifest();
   const m = bundled.find(b => b.id === id);
   book = await DB.get(id);
-  if (!book){
-    if (!m) return toast('That book isn\'t on this phone any more');
-    toast('Opening ' + m.title + '…');
+  if (m && (!book || book.pv !== PARSER)){
+    // first open, or a copy split by an older parser: (re)read the bundled file
+    const old = book;
+    if (!old) toast('Opening ' + m.title + '…');
     try {
       book = await parseEpub(await (await fetch(m.file)).arrayBuffer());
-      Object.assign(book, {id, bundled:true, title:m.title, author:m.author, note:m.note}); await DB.put(book);
-    } catch(e){ return toast('Could not open that book: ' + e.message) }
+      Object.assign(book, {id, bundled:true, title:m.title, author:m.author, note:m.note});
+      if (old){ book.tr = Object.assign({}, book.tr || {}, old.tr || {}); carryPlace(id, old, book) }
+      await DB.put(book);
+    } catch(e){ if (!old) return toast('Could not open that book: ' + e.message); book = old }
   }
+  if (!book) return toast('That book isn\'t on this phone any more');
   if (m){
-    book.start = Math.min(m.start || 0, book.chapters.length - 1); book.end = m.bonus || 0;
-    for (const [i, t] of Object.entries(m.titles || {})) if (book.chapters[i]) book.chapters[i].title = t;
+    const sa = chapterAt(book.chapters, m.startAt), ba = chapterAt(book.chapters, m.bonusAt);
+    book.start = sa >= 0 ? sa : Math.min(m.start || 0, book.chapters.length - 1);
+    book.end = ba > book.start ? ba : 0;
   }
   if (book.start == null){ book.start = storyStart(book.chapters); DB.put(book) }
   LS.set('last', id);
@@ -824,6 +955,15 @@ async function openBook(id, target){
   // Never left the front matter (the old app opened every book there)? Start at the story.
   if (!p || (p.c < book.start && !p.p)) showChapter(book.start, 0);
   else showChapter(Math.min(p.c, book.chapters.length - 1), p.p);
+}
+// After a re-parse, find the paragraph the reader was on by its text.
+function carryPlace(id, old, nb){
+  const all = LS.get('progress', {}), p = all[id]; if (!p) return;
+  const t = old.chapters[p.c] && old.chapters[p.c].paras[p.p]; if (t == null) return;
+  for (let ci = 0; ci < nb.chapters.length; ci++){
+    const pi = nb.chapters[ci].paras.indexOf(t);
+    if (pi >= 0){ all[id] = Object.assign(p, {c:ci, p:pi, n:nb.chapters.length, L:nb.chapters[ci].paras.length}); LS.set('progress', all); return }
+  }
 }
 const WORD = /(\p{L}+(?:[-’']\p{L}+)*)/u;
 const storyEnd = () => book.end && book.end > book.start ? book.end : book.chapters.length;
@@ -990,6 +1130,50 @@ async function englishFor(sentence, ctx){
   } catch(e){ return null }
 }
 
+/* ---------- phrases: the tapped word with its neighbours ---------- */
+// The dictionary holds ~21,500 multi-word entries ("sin embargo", "pompas fúnebres", "por fin").
+// Try every 2-4 word window that contains the tapped word, longest first, words joined only by
+// spaces (never across punctuation). A window of nothing but little words ("de la") is skipped.
+const LITTLE = new Set('de la el los las lo que a en y o u e un una unos unas por con se su sus del al no es le les me te nos os mi tu ni más mas como pero sin para ya si sí este esta ese esa'.split(' '));
+// Only kinds of phrase that mean the same wherever they appear. Adjective, interjection and
+// pronoun entries ("de hierro" = strong, "mi alma" = friend) are too often literal in a story.
+const AUX = new Set('es era eras éramos eran son fue fueron sea sean está están estaba estaban ha han había habían hay será sería'.split(' '));
+const ARTICLE = /^(el|la|los|las|un|una|unos|unas|mi|tu|su|mis|tus|sus|lo|como)$/;
+async function phraseOk(words, pos){
+  const [first] = words, last = words[words.length - 1];
+  if (/^(conj|prep_phrase)$/.test(pos)) return true;
+  if (pos === 'verb') return !LITTLE.has(last);
+  if (pos === 'adv') return !ARTICLE.test(first);
+  if (pos === 'prep'){
+    if (words.length > 2) return true;
+    const r = await exact(first);   // "encima de" yes; "cosa de", "favor de" no
+    return !!(r && r.d && r.d.some(e => /^(adv|prep)$/.test(e[0])));
+  }
+  if (pos === 'noun') return !AUX.has(first) && words.every((w, i) => !LITTLE.has(w) || (w === 'de' && i > 0 && i < words.length - 1));
+  return false;
+}
+async function phraseAround(span){
+  if (!span || !span.parentElement) return null;
+  const ws = []; let sep = null;
+  for (const n of span.parentElement.childNodes){
+    if (n.nodeType === 1 && n.classList.contains('w')){ ws.push({el:n, t:n.textContent.toLowerCase(), ok: sep != null && /^ +$/.test(sep.replace(/\s/g, ' '))}); sep = '' }
+    else sep = (sep == null ? '' : sep) + n.textContent;
+  }
+  const i = ws.findIndex(x => x.el === span); if (i < 0) return null;
+  for (let L = 4; L >= 2; L--){
+    for (let s0 = Math.max(0, i - L + 1); s0 <= i && s0 + L <= ws.length; s0++){
+      const win = ws.slice(s0, s0 + L);
+      if (win.slice(1).some(x => !x.ok) || win.every(x => LITTLE.has(x.t))) continue;
+      const phrase = win.map(x => x.t).join(' ');
+      const rec = await exact(phrase);
+      if (!rec || rec.offline || !rec.d) continue;
+      const g = goodEntry(rec); if (!g || !(await phraseOk(win.map(x => x.t), g[1][0]))) continue;
+      return {phrase, best:g[0], rec, spans:win.map(x => x.el)};
+    }
+  }
+  return null;
+}
+
 /* ---------- the word card ---------- */
 let current = null;
 const isSaved = w => LS.get('words', []).some(x => x.w === w);
@@ -1012,34 +1196,43 @@ async function showWord(raw, sentence, span, ctx){
     if (!en || current.seq !== seq || !$('#sentEn')) return;
     $('#sentEn').innerHTML = `<small>Sentence in English</small>${esc(en)}`; $('#sentEn').classList.remove('hide'); reveal();
   });
-  const a = await analyze(raw);
+  const [a, ph] = await Promise.all([analyze(raw), phraseAround(span)]);
   if (current.seq !== seq || !$('#wbody')) return;
   const sd = `https://www.spanishdict.com/translate/${encodeURIComponent(w)}`;
-  if (a.status === 'notfound'){
+  if (ph) ph.spans.forEach(x => x.classList.add('on'));
+  if (a.status !== 'ok' && ph) a.best = '';
+  if (a.status === 'notfound' && !ph){
     $('#wbody').innerHTML = `<p class="calm">This word isn't in the dictionary${/^\p{Lu}/u.test(raw) ? '. It may be a name' : ''}. <a target="_blank" rel="noopener" href="${sd}">Look it up on SpanishDict ›</a></p>`;
     if (ctx.peek) peek(raw, '', 'not in the dictionary');
     return reveal();
   }
-  if (a.status === 'offline'){
+  if (a.status === 'offline' && !ph){
     $('#wbody').innerHTML = `<p class="calm">This part of the dictionary isn't on your phone yet. Connect to the internet, or save the dictionary in Settings for reading offline.</p>`;
     return reveal();
   }
-  current.gloss = a.best; current.lemma = a.lemma;
-  $('#wbody').innerHTML = `<div class="best" lang="en">${esc(a.best)}</div>
+  const gloss = ph ? `${ph.best} (${ph.phrase})` : a.best;
+  current.gloss = gloss; current.lemma = a.lemma || '';
+  // A phrase the dictionary knows ("pompas fúnebres") leads; the single word follows beneath it.
+  $('#wbody').innerHTML = ph
+    ? `<div class="phr"><small>Here, as a phrase</small><b lang="es">${esc(ph.phrase)}</b></div><div class="best" lang="en">${esc(ph.best)}</div>
+       <div class="alone">On its own, <b lang="es">${esc(raw)}</b>${a.best ? ': ' + esc(a.best) : ' is not in the dictionary'}</div>
+       ${a.gram ? `<div class="gram">${a.gram}${a.det ? `<span class="det">${esc(a.det)}</span>` : ''}</div>` : ''}
+       <button class="primary" id="saveW" style="margin-top:14px"></button>`
+    : `<div class="best" lang="en">${esc(a.best)}</div>
     ${a.gram ? `<div class="gram">${a.gram}${a.det ? `<span class="det">${esc(a.det)}</span>` : ''}</div>` : ''}
     <button class="primary" id="saveW" style="margin-top:14px"></button>`;
-  $('#wmore').innerHTML = `<button class="more" id="moreB" aria-expanded="false">More meanings${icon('next','sm')}</button><div class="defs hide" id="moreD">${moreHtml(a)}</div>`;
+  $('#wmore').innerHTML = `<button class="more" id="moreB" aria-expanded="false">More meanings${icon('next','sm')}</button><div class="defs hide" id="moreD">${ph ? `<h4 lang="es">${esc(ph.phrase)}</h4>` + defsHtml(ph.rec.d, ph.phrase) : ''}${a.chain ? moreHtml(a) : ''}</div>`;
   $('#moreB').onclick = () => { const open = $('#moreD').classList.toggle('hide') === false; $('#moreB').setAttribute('aria-expanded', open); $('#sheet').classList.toggle('expanded', open); requestAnimationFrame(() => { reveal(); if (open){ const sh = $('#sheet'); sh.scrollTop = $('#moreB').offsetTop - sh.querySelector('.sh-head').offsetHeight - 8 } }) };
   const paint = () => { const b = $('#saveW'), on = isSaved(w); b.className = on ? 'primary saved-on' : 'primary'; b.innerHTML = on ? `${icon('check','sm')}Saved · tap to remove` : `${icon('mark','sm')}Save word` };
   paint();
   $('#saveW').onclick = () => {
     let ws = LS.get('words', []);
     if (isSaved(w)) ws = ws.filter(x => x.w !== w);
-    else ws.unshift({w, lemma:a.lemma, gloss:a.best, sentence, book:ctx.title, bookId:ctx.bookId, c:ctx.c, p:ctx.p, ct:ctx.ct, t:Date.now()});
+    else ws.unshift({w, lemma:a.lemma || '', gloss, sentence, book:ctx.title, bookId:ctx.bookId, c:ctx.c, p:ctx.p, ct:ctx.ct, t:Date.now()});
     LS.set('words', ws); paint();
     document.querySelectorAll('#text .w').forEach(x => { if (x.textContent.toLowerCase() === w) x.classList.toggle('saved', isSaved(w)) });
   };
-  if (ctx.peek) peek(raw, a.best, a.lemma && a.chain.length > 1 ? `from ${a.lemma}` : '');
+  if (ctx.peek) peek(ph ? ph.phrase : raw, ph ? ph.best : a.best, !ph && a.lemma && a.chain.length > 1 ? `from ${a.lemma}` : '');
   requestAnimationFrame(reveal);
 }
 function peek(word, mean, from){
