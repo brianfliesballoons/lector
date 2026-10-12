@@ -6,9 +6,10 @@
 
 *Live state, not a log (workspace convention — root CLAUDE.md, "status report" protocol): add items as work opens them, **delete** them when done, update after every meaningful unit of work. **Numbered, in priority order** — Brian references items by number. A "status report" scoped to this project reads exactly this list.*
 
-1. **Build v1** (opened 2026-10-12, Brian: *"let's make it happen"*). Reader + offline Spanish→English tap dictionary + phone speech + load-your-own EPUB + bundled public-domain books.
-2. **Pick the Spanish *Animal Farm* edition to buy** — research in progress (needs a DRM-free EPUB, or one whose text can be loaded into the app).
-3. **Pick the public-domain starter shelf** — Spanish texts of books Brian has likely already read in English; research in progress.
+1. **v1 LIVE 2026-10-12 at [brianfliesballoons.github.io/lector](https://brianfliesballoons.github.io/lector/)** (repo `brianfliesballoons/lector`, public, Pages from `main`). Verified in headless Chrome against a real Gutenberg EPUB (*Don Quijote*, 139 chapters): parse, Gutenberg license stripped, tap → definitions, inflected forms → lemma, attached pronouns (*levantóse* → *levantó* + *se* → *levantar*), progress save, and 98.9% dictionary coverage on 9,705 running words (misses are names and 1605 spellings). ▶ **Brian opens it on his iPhone**: tap test, voice check (Settings › Accessibility › Spoken Content › Voices › Spanish if none), "Save the dictionary for offline" before a flight. Not yet tested on a real iPhone.
+2. **Pick the Spanish *Animal Farm* edition to buy**: research in progress. It needs a DRM-free (or watermark-only) EPUB that loads into the app.
+3. **Fill the public-domain starter shelf** (`books/`): research in progress.
+4. Later, if wanted: flashcard review of saved words, and whole-sentence translation through the local model (`local-chat`).
 
 ## What this is
 
@@ -27,12 +28,21 @@ Brian wants to get from "getting by" to fluent in Spanish by reading books he ha
 - **Pronunciation:** the phone's built-in Spanish voice (`speechSynthesis`) — free, offline, can slow down.
 - **Books:** public-domain texts are bundled in the repo. **Copyrighted books are never committed or hosted** — Brian loads his own purchased EPUB from his phone, and it stays in that phone's storage (IndexedDB). *Animal Farm* is under US copyright until Jan 1, 2041, and every Spanish translation is separately the translator's.
 - Build scratch (raw dictionary download, ~95 MB) lives in `~/lector-build/`, never in iCloud.
+- **Lookup order:** exact word → its form-of pointers (shown with the lemma's own definitions) → strip up to two attached pronouns (me/te/se/nos/os/le/les/lo/la/los/las), retrying with and without the written accent → "not found" with a SpanishDict link.
+- **Testing:** the headless-Chrome POST-callback harness (recipe in `../Balloon weather widget/CLAUDE.md`, *Verifying without the Chrome extension*), with `dict/` symlinked into a scratch copy.
 
 ## The files
 
 | File | Status | What it is |
 |---|---|---|
 | `CLAUDE.md` | primary copy | This file |
+| `index.html` | primary copy | The whole app: library, EPUB parser (JSZip), reader, tap sheet, speech, saved words + CSV export, settings |
+| `sw.js` | primary copy | Service worker: page network-first; dictionary, books and JSZip cache-first for offline reading |
+| `jszip.min.js` | vendored | JSZip 3.10.1 (MIT), vendored so EPUBs open offline |
+| `build_dict.py` | primary copy | Builds `dict/` from the kaikki.org Spanish extract |
+| `dict/` 📘 | generated | 516 dictionary shards, about 770K words, ~7 MB gzipped |
+| `books/` 📘 | primary copy | Bundled public-domain EPUBs + `manifest.json` |
+| `.nojekyll` | required | Without it, Pages drops `dict/_index.json` (leading underscore) |
 
 ## Conventions specific to this project
 
