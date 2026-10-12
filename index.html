@@ -118,7 +118,13 @@ const DB = (() => {
 
 /* ---------- EPUB -> {title, author, chapters:[{title, paras}]} ---------- */
 const BLOCK = 'p,h1,h2,h3,h4,h5,h6,li,div,blockquote,pre,dd,dt,td';
-const SKIP_FILE = /pg-(header|footer)|license|wrap0000|cover|toc|nav\b/i;
+// Files that are never story text. Matched on the file name only: Gutenberg's "pg-header"
+// item also holds the opening chapters, so its header is removed element by element below.
+const SKIP_FILE = /wrap0000|cover|(^|\/)toc\.|(^|\/)nav\.|(^|\/)(about|title)\.x?html/i;
+const JUNK = 'script,style,sup.noteref,a.pginternal sup,#pg-header,#pg-footer,.pg-boilerplate,section[id^="pg-"],' +
+  'a[rel~="mw:WikiLink/Interwiki"],.pagenum,.mw-cite-backlink,.cite-bracket,sup.reference,.reference,.reflist,.mw-editsection,' +
+  '[style*="display:none"],[style*="display: none"],figure';
+const HEAD = 'h1,h2,h3,h4,h5,h6';
 async function parseEpub(buf){
   const zip = await JSZip.loadAsync(buf);
   const xml = async p => new DOMParser().parseFromString(await zip.file(p).async('text'), 'application/xml');
@@ -131,14 +137,16 @@ async function parseEpub(buf){
   const chapters = []; let done = false;
   for (const ref of opf.querySelectorAll('spine > itemref')){
     const id = ref.getAttribute('idref'), href = items[id];
-    if (!href || SKIP_FILE.test(id) || SKIP_FILE.test(href)) continue;
+    if (!href || SKIP_FILE.test(href)) continue;
     const f = zip.file(base + decodeURIComponent(href.split('#')[0])); if (!f) continue;
     const doc = new DOMParser().parseFromString(await f.async('text'), 'text/html');
-    doc.querySelectorAll('script,style,sup.noteref,a.pginternal sup,#pg-header,#pg-footer,.pg-boilerplate,section[id^="pg-"]').forEach(e => e.remove());
+    doc.querySelectorAll(JUNK).forEach(e => e.remove());
     let cur = null;
     if (done) break;
     for (const el of doc.body.querySelectorAll(BLOCK)){
-      if (el.querySelector(BLOCK)) continue;
+      const inHead = el.closest(HEAD);
+      if (inHead && inHead !== el) continue;              // a box inside a heading: the heading speaks for it
+      if (!inHead && el.querySelector(BLOCK)) continue;   // only the innermost blocks hold the text
       const text = el.textContent.replace(/\s+/g, ' ').trim(); if (!text) continue;
       if (/\*\*\*\s*END OF (THE|THIS) PROJECT GUTENBERG/i.test(text)){ done = true; break }
       if (/project gutenberg/i.test(text)) continue;

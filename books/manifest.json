@@ -1,1 +1,12 @@
-[]
+[
+ {"id":"carol","title":"El cántico de Navidad","author":"Charles Dickens","note":"A Christmas Carol · easiest start","file":"books/carol.epub"},
+ {"id":"holmes","title":"Aventuras de Sherlock Holmes I","author":"Arthur Conan Doyle","note":"six short stories","file":"books/holmes.epub"},
+ {"id":"jekyll","title":"El caso extraño del Doctor Jekyll","author":"R. L. Stevenson","note":"Jekyll and Hyde · short","file":"books/pg62627.epub"},
+ {"id":"vuelta","title":"La vuelta al mundo en ochenta días","author":"Julio Verne","note":"Around the World in 80 Days","file":"books/vuelta.epub"},
+ {"id":"poe","title":"Cuentos clásicos del Norte","author":"Edgar Allan Poe","note":"Usher, Amontillado, Gold-Bug…","file":"books/pg46196.epub"},
+ {"id":"isla","title":"La isla del tesoro","author":"R. L. Stevenson","note":"Treasure Island · sailing words","file":"books/pg45438.epub"},
+ {"id":"selva","title":"El libro de las tierras vírgenes","author":"Rudyard Kipling","note":"The Jungle Book","file":"books/pg69552.epub"},
+ {"id":"letra","title":"La letra escarlata","author":"Nathaniel Hawthorne","note":"The Scarlet Letter · harder","file":"books/pg36990.epub"},
+ {"id":"lazarillo","title":"Lazarillo de Tormes","author":"Anónimo","note":"1554 Spanish · archaic","file":"books/pg320.epub"},
+ {"id":"quijote","title":"Don Quijote de la Mancha","author":"Miguel de Cervantes","note":"1605 Spanish · the long goal","file":"books/pg2000.epub"}
+]

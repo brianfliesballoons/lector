@@ -7,8 +7,8 @@
 *Live state, not a log (workspace convention — root CLAUDE.md, "status report" protocol): add items as work opens them, **delete** them when done, update after every meaningful unit of work. **Numbered, in priority order** — Brian references items by number. A "status report" scoped to this project reads exactly this list.*
 
 1. **v1 LIVE 2026-10-12 at [brianfliesballoons.github.io/lector](https://brianfliesballoons.github.io/lector/)** (repo `brianfliesballoons/lector`, public, Pages from `main`). Verified in headless Chrome against a real Gutenberg EPUB (*Don Quijote*, 139 chapters): parse, Gutenberg license stripped, tap → definitions, inflected forms → lemma, attached pronouns (*levantóse* → *levantó* + *se* → *levantar*), progress save, and 98.9% dictionary coverage on 9,705 running words (misses are names and 1605 spellings). ▶ **Brian opens it on his iPhone**: tap test, voice check (Settings › Accessibility › Spoken Content › Voices › Spanish if none), "Save the dictionary for offline" before a flight. Not yet tested on a real iPhone.
-2. **Pick the Spanish *Animal Farm* edition to buy**: research in progress. It needs a DRM-free (or watermark-only) EPUB that loads into the app.
-3. **Fill the public-domain starter shelf** (`books/`): research in progress.
+2. **Animal Farm, which edition (Brian's call).** Every well-known Spanish edition is DRM-locked: Debolsillo (Marcial Souto, 2013), Minotauro/Austral and Kobo's listings are all "EPUB con DRM" / Adobe DRM, and Kindle and Apple Books lock theirs too. So none of them loads into Lector, and we do not strip DRM. The only plausible file is **Rosetta Edu's $4 ePub** (Guillermo Tirelli translation; a $7 Spanish/English bilingual version also exists). It is emailed as a file, but DRM-free is inferred, not stated, and its **US rights are unverified**: the book is PD in the UK since 2021 and under US copyright until 2041. Alternative: buy the Debolsillo edition and read it in Apple Books, using its built-in Spanish–English Look Up. Sources are in the research report summarised to Brian 2026-10-12: [Rosetta](https://rosettaedu.com/products/rebelion-en-la-granja-ebook) · [Debolsillo/Casa del Libro](https://www.casadellibro.com/ebook-rebelion-en-la-granja-edicion-definitiva-avalada-por-the-orwell-estate-ebook/9788490325087/2086336).
+3. **Starter shelf: DONE 2026-10-12**, 10 books in `books/` (see `books/CLAUDE.md`). Each translation's date was checked against its own title page.
 4. Later, if wanted: flashcard review of saved words, and whole-sentence translation through the local model (`local-chat`).
 
 ## What this is
@@ -41,7 +41,7 @@ Brian wants to get from "getting by" to fluent in Spanish by reading books he ha
 | `jszip.min.js` | vendored | JSZip 3.10.1 (MIT), vendored so EPUBs open offline |
 | `build_dict.py` | primary copy | Builds `dict/` from the kaikki.org Spanish extract |
 | `dict/` 📘 | generated | 516 dictionary shards, about 770K words, ~7 MB gzipped |
-| `books/` 📘 | primary copy | Bundled public-domain EPUBs + `manifest.json` |
+| `books/` 📘 | primary copy | 10 bundled public-domain EPUBs + `manifest.json` |
 | `.nojekyll` | required | Without it, Pages drops `dict/_index.json` (leading underscore) |
 
 ## Conventions specific to this project
