@@ -1,0 +1,417 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#f6f1e7">
+<title>Lector</title>
+<script src="jszip.min.js"></script>
+<style>
+:root{--bg:#f6f1e7;--ink:#26221c;--mute:#7a7164;--line:#ddd3c2;--card:#fffdf8;--accent:#9a4b1c;--hl:#f3dcae;--fs:20px}
+:root[data-theme=dark]{--bg:#16140f;--ink:#e9e2d4;--mute:#9b9282;--line:#3a352c;--card:#211e17;--accent:#e39a5c;--hl:#5a4520}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#16140f;--ink:#e9e2d4;--mute:#9b9282;--line:#3a352c;--card:#211e17;--accent:#e39a5c;--hl:#5a4520}}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,system-ui,sans-serif}
+button{font:inherit;color:inherit;background:none;border:1px solid var(--line);border-radius:10px;padding:10px 14px;cursor:pointer}
+button.primary{background:var(--accent);color:#fff;border-color:var(--accent)}
+.hide{display:none!important}
+header{position:sticky;top:0;z-index:5;display:flex;align-items:center;gap:8px;padding:calc(env(safe-area-inset-top) + 8px) 12px 8px;background:var(--bg);border-bottom:1px solid var(--line)}
+header h1{font-size:17px;margin:0;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+header button{border:none;padding:8px 10px;font-size:18px}
+/* library */
+#library main{max-width:640px;margin:0 auto;padding:16px}
+.shelf h2{font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--mute);margin:24px 0 8px}
+.book{display:flex;align-items:center;gap:12px;padding:14px;border:1px solid var(--line);border-radius:12px;background:var(--card);margin-bottom:10px;cursor:pointer}
+.book .t{font-family:Georgia,serif;font-size:18px}
+.book .a{color:var(--mute);font-size:14px;margin-top:2px}
+.book .p{margin-left:auto;color:var(--mute);font-size:13px;white-space:nowrap}
+.book .x{border:none;padding:4px 8px;color:var(--mute)}
+.note{color:var(--mute);font-size:14px;line-height:1.5}
+/* reader */
+#text{max-width:680px;margin:0 auto;padding:18px 20px 140px;font-family:Georgia,"Iowan Old Style",serif;font-size:var(--fs);line-height:1.65}
+#text p{margin:0 0 .9em}
+#text h3{font-size:1.15em;margin:1.2em 0 .8em;text-align:center}
+.w{cursor:pointer;border-radius:3px}
+.w.on{background:var(--hl)}
+.w.saved{text-decoration:underline dotted var(--accent);text-underline-offset:4px}
+#chapnav{display:flex;gap:10px;justify-content:space-between;max-width:680px;margin:0 auto;padding:0 20px 40px}
+/* sheet */
+.sheet{position:fixed;left:0;right:0;bottom:0;z-index:20;background:var(--card);border-top:1px solid var(--line);border-radius:16px 16px 0 0;box-shadow:0 -6px 24px rgba(0,0,0,.15);padding:14px 18px calc(env(safe-area-inset-bottom) + 16px);max-height:62vh;overflow:auto}
+.sheet .row{display:flex;align-items:center;gap:8px}
+.sheet .word{font-family:Georgia,serif;font-size:26px;flex:1}
+.sheet .pos{color:var(--mute);font-size:13px;font-style:italic;margin:10px 0 2px}
+.sheet ol{margin:4px 0 0;padding-left:22px;line-height:1.45}
+.sheet .from{margin-top:8px;font-size:15px}
+.sheet .from b{font-family:Georgia,serif}
+.sheet .tools{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
+.sheet .tools button{flex:1;min-width:90px}
+.sheet .close{border:none;font-size:22px;padding:4px 8px;color:var(--mute)}
+.set label{display:block;margin:14px 0 6px;font-size:14px;color:var(--mute)}
+.seg{display:flex;gap:6px}.seg button{flex:1}.seg button.sel{background:var(--accent);color:#fff;border-color:var(--accent)}
+#words li{padding:8px 0;border-bottom:1px solid var(--line);list-style:none}
+#words ul{padding:0}
+#words .s{color:var(--mute);font-size:14px;font-style:italic}
+#toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:20px;font-size:14px;z-index:40}
+</style>
+</head>
+<body>
+
+<section id="library">
+  <header><h1>Lector</h1><button id="openWords" title="My words">★</button><button id="openSet" title="Settings">Aa</button></header>
+  <main>
+    <div class="shelf"><h2>Your books</h2><div id="mine"></div>
+      <button class="primary" id="loadBtn">Load an EPUB from this phone</button>
+      <input type="file" id="file" accept=".epub,application/epub+zip" class="hide">
+      <p class="note">Your own books stay on this phone. Nothing is uploaded anywhere.</p>
+    </div>
+    <div class="shelf"><h2>Free classics (public domain)</h2><div id="shelf"></div></div>
+    <div class="shelf"><h2>Offline</h2>
+      <p class="note" id="offNote">The dictionary downloads as you read. To use it with no signal, save all of it now (about 7 MB).</p>
+      <button id="offBtn">Save the dictionary for offline</button>
+    </div>
+    <p class="note" style="margin-top:32px">Definitions come from <a href="https://en.wiktionary.org" style="color:var(--accent)">Wiktionary</a> (CC BY-SA), via kaikki.org. Pronunciation uses your phone's own Spanish voice.</p>
+  </main>
+</section>
+
+<section id="reader" class="hide">
+  <header><button id="back">‹</button><h1 id="chapTitle"></h1><button id="openToc">☰</button><button id="openSet2">Aa</button></header>
+  <article id="text"></article>
+  <nav id="chapnav"><button id="prev">‹ Anterior</button><button id="next">Siguiente ›</button></nav>
+</section>
+
+<div id="sheet" class="sheet hide"></div>
+<div id="toast" class="hide"></div>
+
+<script>
+'use strict';
+const $ = s => document.querySelector(s);
+const LS = {
+  get(k, d){ try{ const v = localStorage.getItem('lector.'+k); return v==null ? d : JSON.parse(v) }catch(e){ return d } },
+  set(k, v){ try{ localStorage.setItem('lector.'+k, JSON.stringify(v)) }catch(e){} }
+};
+const settings = Object.assign({fs:20, theme:'auto', voice:'auto', rate:0.9}, LS.get('settings', {}));
+function applySettings(){
+  document.documentElement.style.setProperty('--fs', settings.fs+'px');
+  if (settings.theme==='auto') document.documentElement.removeAttribute('data-theme');
+  else document.documentElement.dataset.theme = settings.theme;
+  LS.set('settings', settings);
+}
+applySettings();
+function toast(msg){ const t=$('#toast'); t.textContent=msg; t.classList.remove('hide'); clearTimeout(toast.h); toast.h=setTimeout(()=>t.classList.add('hide'),2200) }
+
+/* ---------- storage (IndexedDB for book texts) ---------- */
+const DB = (() => {
+  let p;
+  const open = () => p || (p = new Promise((res, rej) => {
+    const r = indexedDB.open('lector', 1);
+    r.onupgradeneeded = () => r.result.createObjectStore('books', {keyPath:'id'});
+    r.onsuccess = () => res(r.result); r.onerror = () => rej(r.error);
+  }));
+  const tx = async (mode, fn) => { const db = await open(); return new Promise((res, rej) => {
+    const t = db.transaction('books', mode), s = t.objectStore('books'), q = fn(s);
+    t.oncomplete = () => res(q && q.result); t.onerror = () => rej(t.error);
+  })};
+  return { get:id => tx('readonly', s => s.get(id)), put:b => tx('readwrite', s => s.put(b)),
+           del:id => tx('readwrite', s => s.delete(id)), all:() => tx('readonly', s => s.getAll()) };
+})();
+
+/* ---------- EPUB -> {title, author, chapters:[{title, paras}]} ---------- */
+const BLOCK = 'p,h1,h2,h3,h4,h5,h6,li,div,blockquote,pre,dd,dt,td';
+const SKIP_FILE = /pg-(header|footer)|license|wrap0000|cover|toc|nav\b/i;
+async function parseEpub(buf){
+  const zip = await JSZip.loadAsync(buf);
+  const xml = async p => new DOMParser().parseFromString(await zip.file(p).async('text'), 'application/xml');
+  const cont = await xml('META-INF/container.xml');
+  const opfPath = cont.querySelector('rootfile').getAttribute('full-path');
+  const base = opfPath.includes('/') ? opfPath.slice(0, opfPath.lastIndexOf('/')+1) : '';
+  const opf = await xml(opfPath);
+  const meta = n => { const e = opf.getElementsByTagNameNS('*', n)[0]; return e ? e.textContent.trim() : '' };
+  const items = {}; for (const it of opf.querySelectorAll('manifest > item')) items[it.getAttribute('id')] = it.getAttribute('href');
+  const chapters = []; let done = false;
+  for (const ref of opf.querySelectorAll('spine > itemref')){
+    const id = ref.getAttribute('idref'), href = items[id];
+    if (!href || SKIP_FILE.test(id) || SKIP_FILE.test(href)) continue;
+    const f = zip.file(base + decodeURIComponent(href.split('#')[0])); if (!f) continue;
+    const doc = new DOMParser().parseFromString(await f.async('text'), 'text/html');
+    doc.querySelectorAll('script,style,sup.noteref,a.pginternal sup,#pg-header,#pg-footer,.pg-boilerplate,section[id^="pg-"]').forEach(e => e.remove());
+    let cur = null;
+    if (done) break;
+    for (const el of doc.body.querySelectorAll(BLOCK)){
+      if (el.querySelector(BLOCK)) continue;
+      const text = el.textContent.replace(/\s+/g, ' ').trim(); if (!text) continue;
+      if (/\*\*\*\s*END OF (THE|THIS) PROJECT GUTENBERG/i.test(text)){ done = true; break }
+      if (/project gutenberg/i.test(text)) continue;
+      if (/^H[1-3]$/.test(el.tagName) || !cur){
+        cur = {title: /^H[1-6]$/.test(el.tagName) ? text : '', paras: []}; chapters.push(cur);
+        if (/^H[1-6]$/.test(el.tagName)) continue;
+      }
+      cur.paras.push(/^H[4-6]$/.test(el.tagName) ? '\u0001'+text : text);
+    }
+  }
+  const chs = chapters.filter(c => c.paras.length);
+  chs.forEach((c, i) => { if (!c.title) c.title = c.paras[0].slice(0, 40) + (c.paras[0].length > 40 ? '…' : '') });
+  return { title: meta('title') || 'Sin título', author: meta('creator'), chapters: chs };
+}
+
+/* ---------- dictionary ---------- */
+const fold = w => w.toLowerCase().normalize('NFD').replace(/\p{M}/gu, '').replace(/[^a-z]/g, '');
+const shardOf = w => { const f = fold(w); return f.length >= 2 ? f.slice(0,2) : (f+'_').slice(0,2) || '__' };
+const shards = new Map();
+function loadShard(k){
+  if (!shards.has(k)) shards.set(k, fetch('dict/'+k+'.json').then(r => r.ok ? r.json() : {}).catch(() => { shards.delete(k); return null }));
+  return shards.get(k);
+}
+async function exact(w){
+  const s = await loadShard(shardOf(w));
+  return s === null ? {offline:true} : (s[w] || null);
+}
+// Pronouns can be glued onto a verb (levantóse, dejáronle, dígolo), and the verb
+// then gains an accent it would not otherwise carry. Peel them off and retry.
+const CLITIC = /(me|te|se|nos|os|le|les|lo|la|los|las)$/;
+const unaccent = w => w.replace(/[áéíóú]/g, c => 'aeiou'['áéíóú'.indexOf(c)]);
+async function lookup(w){
+  w = w.toLowerCase();
+  const r = await exact(w); if (r) return r;
+  let stem = w, peeled = [];
+  for (let i = 0; i < 2 && stem.length > 4; i++){
+    const m = stem.match(CLITIC); if (!m) break;
+    stem = stem.slice(0, -m[1].length); peeled.unshift(m[1]);
+    for (const c of new Set([stem, unaccent(stem)])){
+      const hit = await exact(c);
+      if (hit && !hit.offline) return {clitic:{stem:c, peeled, rec:hit}};
+    }
+  }
+  return null;
+}
+
+/* ---------- speech ---------- */
+let voices = [];
+const loadVoices = () => { voices = speechSynthesis.getVoices().filter(v => /^es/i.test(v.lang)) };
+if ('speechSynthesis' in window){ loadVoices(); speechSynthesis.onvoiceschanged = loadVoices }
+function speak(text, slow){
+  if (!('speechSynthesis' in window)) return toast('This browser has no speech voice');
+  speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(text);
+  const want = settings.voice === 'auto' ? null : settings.voice;
+  const v = (want && voices.find(v => v.lang.replace('_','-').startsWith(want))) || voices.find(v => /es[-_](ES|MX|US)/i.test(v.lang)) || voices[0];
+  if (v){ u.voice = v; u.lang = v.lang } else u.lang = want || 'es-ES';
+  u.rate = slow ? 0.6 : settings.rate;
+  speechSynthesis.speak(u);
+}
+
+/* ---------- library ---------- */
+let bundled = [];
+async function renderLibrary(){
+  const prog = LS.get('progress', {});
+  const pct = id => { const p = prog[id]; return p && p.n ? Math.round(100 * (p.c + 1) / p.n) + '%' : '' };
+  const mine = (await DB.all()).filter(b => !b.bundled);
+  $('#mine').innerHTML = mine.length ? '' : '<p class="note">None yet.</p>';
+  for (const b of mine){
+    const d = document.createElement('div'); d.className = 'book';
+    d.innerHTML = `<div><div class="t"></div><div class="a"></div></div><div class="p">${pct(b.id)}</div><button class="x" title="Remove">✕</button>`;
+    d.querySelector('.t').textContent = b.title; d.querySelector('.a').textContent = b.author;
+    d.onclick = e => { if (e.target.classList.contains('x')){ e.stopPropagation(); if (confirmRemove(b)) DB.del(b.id).then(renderLibrary) } else openBook(b.id) };
+    $('#mine').append(d);
+  }
+  try { bundled = await (await fetch('books/manifest.json')).json() } catch(e){ bundled = [] }
+  $('#shelf').innerHTML = bundled.length ? '' : '<p class="note">None yet.</p>';
+  for (const b of bundled){
+    const d = document.createElement('div'); d.className = 'book';
+    d.innerHTML = `<div><div class="t"></div><div class="a"></div></div><div class="p">${pct(b.id)}</div>`;
+    d.querySelector('.t').textContent = b.title; d.querySelector('.a').textContent = b.author + (b.note ? ' · ' + b.note : '');
+    d.onclick = () => openBook(b.id);
+    $('#shelf').append(d);
+  }
+}
+function confirmRemove(b){
+  // no browser dialogs: a second tap within 3 s confirms
+  if (confirmRemove.id === b.id && Date.now() - confirmRemove.t < 3000) return true;
+  confirmRemove.id = b.id; confirmRemove.t = Date.now(); toast('Tap ✕ again to remove "' + b.title + '"'); return false;
+}
+$('#loadBtn').onclick = () => $('#file').click();
+$('#file').onchange = async e => {
+  const f = e.target.files[0]; if (!f) return; e.target.value = '';
+  toast('Opening ' + f.name + '…');
+  try {
+    const book = await parseEpub(await f.arrayBuffer());
+    if (!book.chapters.length) throw new Error('No readable text found');
+    book.id = 'u' + Date.now(); await DB.put(book); await renderLibrary(); openBook(book.id);
+  } catch(err){ toast('Could not open that file: ' + err.message) }
+};
+$('#offBtn').onclick = async () => {
+  const btn = $('#offBtn'); btn.disabled = true;
+  try {
+    const keys = await (await fetch('dict/_index.json')).json(); let n = 0;
+    for (let i = 0; i < keys.length; i += 8){
+      await Promise.all(keys.slice(i, i+8).map(k => fetch('dict/'+k+'.json').then(r => r.ok && n++)));
+      btn.textContent = `Saving… ${Math.round(100*(i+8)/keys.length)}%`;
+    }
+    LS.set('offline', Date.now()); btn.textContent = 'Saved for offline ✓';
+  } catch(e){ btn.textContent = 'Failed. Tap to retry'; btn.disabled = false }
+};
+if (LS.get('offline')) $('#offBtn').textContent = 'Saved for offline ✓ (tap to refresh)';
+
+/* ---------- reader ---------- */
+let book = null, chap = 0;
+async function openBook(id){
+  book = await DB.get(id);
+  if (!book){
+    const m = bundled.find(b => b.id === id); if (!m) return;
+    toast('Opening ' + m.title + '…');
+    try {
+      book = await parseEpub(await (await fetch(m.file)).arrayBuffer());
+      Object.assign(book, {id, bundled:true, title:m.title, author:m.author}); await DB.put(book);
+    } catch(e){ return toast('Could not open that book: ' + e.message) }
+  }
+  const p = LS.get('progress', {})[id] || {c:0, p:0};
+  $('#library').classList.add('hide'); $('#reader').classList.remove('hide');
+  showChapter(Math.min(p.c, book.chapters.length - 1), p.p);
+}
+const WORD = /(\p{L}+(?:[-’']\p{L}+)*)/u;
+function showChapter(i, para){
+  chap = i; closeSheet();
+  const c = book.chapters[i], saved = new Set(LS.get('words', []).map(x => x.w));
+  $('#chapTitle').textContent = c.title;
+  const out = document.createDocumentFragment();
+  const h = document.createElement('h3'); h.textContent = c.title; out.append(h);
+  c.paras.forEach((t, pi) => {
+    const el = document.createElement(t[0] === '\u0001' ? 'h3' : 'p'); el.dataset.p = pi;
+    for (const part of t.replace(/^\u0001/, '').split(WORD)){
+      if (!part) continue;
+      if (WORD.test(part) && part.match(WORD)[0] === part){
+        const s = document.createElement('span'); s.className = 'w' + (saved.has(part.toLowerCase()) ? ' saved' : ''); s.textContent = part; el.append(s);
+      } else el.append(part);
+    }
+    out.append(el);
+  });
+  const tx = $('#text'); tx.replaceChildren(out);
+  $('#prev').disabled = i === 0; $('#next').disabled = i === book.chapters.length - 1;
+  const target = para ? tx.querySelector(`[data-p="${para}"]`) : null;
+  requestAnimationFrame(() => target ? target.scrollIntoView() : window.scrollTo(0, 0));
+  saveProgress(para || 0);
+}
+function saveProgress(p){
+  if (!book) return;
+  const all = LS.get('progress', {}); all[book.id] = {c:chap, p, n:book.chapters.length}; LS.set('progress', all);
+}
+let scrollT;
+addEventListener('scroll', () => {
+  if ($('#reader').classList.contains('hide')) return;
+  clearTimeout(scrollT); scrollT = setTimeout(() => {
+    for (const el of $('#text').querySelectorAll('[data-p]')){
+      if (el.getBoundingClientRect().bottom > 70){ saveProgress(+el.dataset.p); break }
+    }
+  }, 400);
+}, {passive:true});
+$('#prev').onclick = () => showChapter(chap - 1);
+$('#next').onclick = () => showChapter(chap + 1);
+$('#back').onclick = () => { closeSheet(); speechSynthesis && speechSynthesis.cancel(); $('#reader').classList.add('hide'); $('#library').classList.remove('hide'); renderLibrary(); window.scrollTo(0,0) };
+
+function sentenceAround(span){
+  const p = span.parentElement, full = p.textContent;
+  let off = 0; for (const n of p.childNodes){ if (n === span) break; off += n.textContent.length }
+  const before = full.slice(0, off), after = full.slice(off);
+  const start = Math.max(...['. ','! ','? ','… ','.» ','—'].map(d => { const k = before.lastIndexOf(d); return k < 0 ? 0 : k + d.length }));
+  const m = after.search(/[.!?…](?=\s|»|$)/);
+  return full.slice(start, m < 0 ? full.length : off + m + 1).trim();
+}
+
+/* ---------- word sheet ---------- */
+let current = null;
+$('#text').addEventListener('click', e => {
+  const s = e.target.closest('.w'); if (!s) return closeSheet();
+  document.querySelectorAll('.w.on').forEach(x => x.classList.remove('on')); s.classList.add('on');
+  showWord(s.textContent, sentenceAround(s), s);
+});
+function closeSheet(){ $('#sheet').classList.add('hide'); document.querySelectorAll('.w.on').forEach(x => x.classList.remove('on')) }
+const esc = t => t.replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const POS = {noun:'noun', verb:'verb', adj:'adjective', adv:'adverb', prep:'preposition', pron:'pronoun', conj:'conjunction', det:'determiner', article:'article', intj:'interjection', num:'number', name:'name', phrase:'phrase', contraction:'contraction', particle:'particle', prefix:'prefix', suffix:'suffix'};
+const GEN = {m:'masculine', f:'feminine', mf:'masc. or fem.'};
+function defsHtml(d){
+  return d.map(([pos, g, gl]) => `<div class="pos">${esc(POS[pos] || pos)}${g ? ' · ' + GEN[g] : ''}</div><ol>${gl.map(x => `<li>${esc(x)}</li>`).join('')}</ol>`).join('');
+}
+async function showWord(raw, sentence, span){
+  const sh = $('#sheet'); current = {w: raw.toLowerCase(), sentence, span, gloss:''};
+  sh.innerHTML = `<div class="row"><div class="word">${esc(raw)}</div><button class="close">✕</button></div><div id="defs" class="note">…</div>
+    <div class="tools"><button id="sayW">🔊 Word</button><button id="sayS">🔊 Sentence</button><button id="slowS">🐢 Slowly</button><button id="saveW">☆ Save</button></div>`;
+  sh.classList.remove('hide');
+  sh.querySelector('.close').onclick = closeSheet;
+  $('#sayW').onclick = () => speak(raw, false);
+  $('#sayS').onclick = () => speak(sentence, false);
+  $('#slowS').onclick = () => speak(sentence, true);
+  const isSaved = () => LS.get('words', []).some(x => x.w === current.w);
+  const paint = () => $('#saveW').textContent = isSaved() ? '★ Saved' : '☆ Save';
+  paint();
+  $('#saveW').onclick = () => {
+    let ws = LS.get('words', []);
+    if (isSaved()) ws = ws.filter(x => x.w !== current.w);
+    else ws.unshift({w:current.w, lemma:current.lemma || '', gloss:current.gloss, sentence, book:book.title, t:Date.now()});
+    LS.set('words', ws); paint();
+    document.querySelectorAll('.w').forEach(x => { if (x.textContent.toLowerCase() === current.w) x.classList.toggle('saved', isSaved()) });
+  };
+  speak(raw, false);
+  let rec = await lookup(raw);
+  let html = '';
+  if (rec && rec.clitic){
+    const {stem, peeled, rec: inner} = rec.clitic;
+    html += `<div class="from"><b>${esc(stem)}</b> + ${esc(peeled.join(' + '))} <span class="note">(pronoun attached to the end)</span></div>`;
+    rec = inner;
+  }
+  if (rec && rec.offline) html = '<p class="note">No connection and this part of the dictionary isn\'t saved yet. Save it for offline from the library.</p>';
+  if (rec && !rec.offline){
+    if (rec.d){ html += defsHtml(rec.d); current.gloss = rec.d[0][2][0] }
+    for (const [lemma, label] of rec.f || []){
+      const lr = await lookup(lemma);
+      current.lemma = current.lemma || lemma;
+      html += `<div class="from">${esc(label)} of <b>${esc(lemma)}</b></div>` + (lr && lr.d ? defsHtml(lr.d) : '');
+      if (!current.gloss && lr && lr.d) current.gloss = lr.d[0][2][0];
+      if ((rec.f || []).length > 1 && rec.f[1][0] === lemma) break; // same lemma twice (e.g. tú/vos forms): show once
+    }
+  }
+  if (!html) html = `<p class="note">Not in the dictionary${/^\p{Lu}/u.test(raw) ? ' (it may be a name)' : ''}. <a style="color:var(--accent)" target="_blank" rel="noopener" href="https://www.spanishdict.com/translate/${encodeURIComponent(raw.toLowerCase())}">Look it up on SpanishDict ›</a></p>`;
+  if (current.w === raw.toLowerCase()) $('#defs').outerHTML = '<div id="defs">' + html + '</div>';
+}
+
+/* ---------- table of contents, settings, saved words ---------- */
+$('#openToc').onclick = () => {
+  const sh = $('#sheet');
+  sh.innerHTML = `<div class="row"><div class="word">Contents</div><button class="close">✕</button></div>` +
+    book.chapters.map((c, i) => `<button data-c="${i}" style="display:block;width:100%;text-align:left;margin-top:6px;${i===chap?'border-color:var(--accent)':''}">${esc(c.title)}</button>`).join('');
+  sh.classList.remove('hide'); sh.querySelector('.close').onclick = closeSheet;
+  sh.querySelectorAll('[data-c]').forEach(b => b.onclick = () => showChapter(+b.dataset.c));
+};
+function openSettings(){
+  const sh = $('#sheet');
+  const seg = (key, opts) => `<div class="seg">${opts.map(([v,l]) => `<button data-k="${key}" data-v="${v}" class="${String(settings[key])===String(v)?'sel':''}">${l}</button>`).join('')}</div>`;
+  sh.innerHTML = `<div class="row"><div class="word">Settings</div><button class="close">✕</button></div><div class="set">
+    <label>Text size</label>${seg('fs', [[17,'A'],[20,'A+'],[23,'A++'],[27,'A+++']])}
+    <label>Theme</label>${seg('theme', [['auto','Auto'],['light','Light'],['dark','Dark']])}
+    <label>Accent of the voice</label>${seg('voice', [['auto','Any'],['es-ES','Spain'],['es-MX','Mexico'],['es-US','US']])}
+    <label>Speaking speed</label>${seg('rate', [[0.75,'Slower'],[0.9,'Normal'],[1,'Fast']])}
+    <p class="note">${voices.length ? voices.length + ' Spanish voice(s) on this device.' : 'No Spanish voice found yet. On iPhone: Settings › Accessibility › Spoken Content › Voices › Spanish.'}</p></div>`;
+  sh.classList.remove('hide'); sh.querySelector('.close').onclick = closeSheet;
+  sh.querySelectorAll('[data-k]').forEach(b => b.onclick = () => {
+    const k = b.dataset.k; settings[k] = isNaN(+b.dataset.v) ? b.dataset.v : +b.dataset.v; applySettings(); openSettings();
+    if (k === 'voice' || k === 'rate') speak('Hola, ¿qué tal?', false);
+  });
+}
+$('#openSet').onclick = openSettings; $('#openSet2').onclick = openSettings;
+$('#openWords').onclick = () => {
+  const ws = LS.get('words', []), sh = $('#sheet');
+  sh.innerHTML = `<div class="row"><div class="word">My words (${ws.length})</div><button class="close">✕</button></div>
+    <div id="words"><ul>${ws.map(x => `<li><b>${esc(x.w)}</b>${x.lemma ? ' ← ' + esc(x.lemma) : ''} — ${esc(x.gloss || '')}<div class="s">${esc(x.sentence)}</div></li>`).join('') || '<p class="note">Tap ☆ Save on any word while reading.</p>'}</ul></div>
+    ${ws.length ? '<div class="tools"><button id="csv">Download as a spreadsheet (CSV)</button></div>' : ''}`;
+  sh.classList.remove('hide'); sh.querySelector('.close').onclick = closeSheet;
+  const c = $('#csv'); if (c) c.onclick = () => {
+    const q = s => '"' + String(s || '').replace(/"/g, '""') + '"';
+    const csv = 'word,lemma,meaning,sentence,book\n' + ws.map(x => [x.w, x.lemma, x.gloss, x.sentence, x.book].map(q).join(',')).join('\n');
+    const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([csv], {type:'text/csv'})); a.download = 'lector-words.csv'; a.click();
+  };
+};
+
+if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(() => {});
+renderLibrary();
+</script>
+</body>
+</html>
