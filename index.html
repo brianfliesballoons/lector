@@ -7,6 +7,9 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="theme-color" content="#faf7f2">
 <title>Lector</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;1,7..72,400&family=Lora:ital,wght@0,400;0,600;1,400&family=EB+Garamond:ital,wght@0,400;0,600;1,400&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap">
@@ -286,7 +289,7 @@ button:disabled{opacity:.5;cursor:default}
   <section class="sec"><h2>Free books</h2><div class="rows" id="shelf"></div>
     <button class="link" id="openFind">Find more free books</button></section>
   <section class="sec"><h2>Your books</h2><div class="rows" id="mine"></div>
-    <button class="outline" id="addBook"><svg class="icon sm"><use href="#i-plus"/></svg>Add a book from Files</button>
+    <button class="outline" id="addBook"><svg class="icon sm"><use href="#i-plus"/></svg><span id="addLabel">Add a book from Files</span></button>
     <p class="note" style="margin:0">Books you add stay on this phone. Nothing is uploaded.</p></section>
   <input type="file" id="file" accept=".epub,application/epub+zip" class="hide">
 </section>
@@ -332,6 +335,9 @@ const icon = (id, cls = '') => `<svg class="icon ${cls}" aria-hidden="true"><use
 const fold = w => w.toLowerCase().normalize('NFD').replace(/\p{M}/gu, '').replace(/[^a-z]/g, '');
 const foldText = s => String(s).toLowerCase().normalize('NFD').replace(/\p{M}/gu, '');
 const cap = s => s ? s[0].toUpperCase() + s.slice(1) : s;
+// Where wording differs by phone: saving a file, adding a voice. Everything else is the same web app.
+const PLATFORM = /Android/i.test(navigator.userAgent) ? 'android'
+  : /iPhone|iPad|iPod/i.test(navigator.userAgent) || (/Macintosh/.test(navigator.userAgent) && navigator.maxTouchPoints > 1) ? 'ios' : 'other';
 
 /* ---------- settings ---------- */
 const FONTS = {
@@ -340,7 +346,12 @@ const FONTS = {
 };
 const MAIN_FONTS = ['literata','lora','atkinson'];
 const THEMES = {light:['Paper','#faf7f2','#1f1c17','#e7e0d4'], sepia:['Sepia','#f3e7d0','#3b2f22','#e0cfae'], dark:['Dark','#1a1917','#e8e2d6','#34312b'], black:['Black','#000000','#d8d2c6','#222222']};
-const settings = Object.assign({fs:20, font:'literata', lh:1.7, mw:36, align:'left', theme:'light', match:true, voice:'auto', rate:0.9, slow:0.6, speakTap:true}, LS.get('settings', {}));
+// lang: the language being learned (Settings › Learning). Spanish unless chosen otherwise.
+const settings = Object.assign({fs:20, font:'literata', lh:1.7, mw:36, align:'left', theme:'light', match:true, voice:'auto', voice_fr:'auto', rate:0.9, slow:0.6, speakTap:true, lang:'es'}, LS.get('settings', {}));
+const LANGS = {es:'Spanish', fr:'French'};
+const langOf = code => { const c = String(code || '').trim().toLowerCase().slice(0, 2); return LANGS[c] ? c : '' };
+if (!LANGS[settings.lang]) settings.lang = 'es';
+const bookLang = b => (b && langOf(b.lang)) || 'es';   // books stored before French arrived are Spanish
 if (settings.theme === 'auto' || !THEMES[settings.theme]){ settings.match = settings.theme === 'auto' ? true : settings.match; settings.theme = 'light' }   // the old "Auto" swatch
 const darkMQ = matchMedia('(prefers-color-scheme: dark)');
 const effTheme = () => settings.match ? (darkMQ.matches ? 'dark' : 'light') : settings.theme;
@@ -418,7 +429,8 @@ async function tocLabels(zip, opf, base){
   } catch(e){}
   return map;
 }
-async function parseEpub(buf){
+// lang: the book's own language from its dc:language, else `fallback` (the language being learned).
+async function parseEpub(buf, fallback){
   const zip = await JSZip.loadAsync(buf);
   const xml = async p => new DOMParser().parseFromString(await zip.file(p).async('text'), 'application/xml');
   const cont = await xml('META-INF/container.xml');
@@ -426,6 +438,7 @@ async function parseEpub(buf){
   const base = dirOf(opfPath);
   const opf = await xml(opfPath);
   const meta = n => { const e = opf.getElementsByTagNameNS('*', n)[0]; return e ? e.textContent.trim() : '' };
+  const lang = langOf(meta('language')) || langOf(fallback) || settings.lang;
   const items = {}; for (const it of opf.querySelectorAll('manifest > item')) items[it.getAttribute('id')] = it.getAttribute('href');
   const toc = await tocLabels(zip, opf, base);
   const chapters = []; let done = false, cur = null;
@@ -460,25 +473,58 @@ async function parseEpub(buf){
       cur.paras.push(small ? '\u0001' + text : text);
     }
   }
-  const chs = chapters.filter(c => c.paras.some(t => /\p{L}/u.test(t)));   // drops empty items and "————" divider pages
+  let chs = chapters.filter(c => c.paras.some(t => /\p{L}/u.test(t)));   // drops empty items and "————" divider pages
+  if (lang === 'fr') chs = splitLabels(chs);
   chs.forEach(c => { if (!c.title) c.title = c.paras[0].replace(/^\u0001/, '').slice(0, 40) + (c.paras[0].length > 40 ? '…' : '') });
   let tr = null; const tf = zip.file('lector/translations.json');
   if (tf){ try { tr = JSON.parse(await tf.async('text')).map || null } catch(e){} }
-  const book = { title: meta('title') || 'Sin título', author: meta('creator'), chapters: chs, tr, pv: PARSER };
-  book.start = storyStart(chs);
+  const book = { title: meta('title') || (lang === 'fr' ? 'Sans titre' : 'Sin título'), author: meta('creator'), chapters: chs, tr, pv: PARSER, lang };
+  book.start = storyStart(chs, lang);
+  if (lang === 'fr') book.back = storyBack(chs, book.start);
   return book;
+}
+// French books name chapters "CHAPITRE II", "LIVRE PREMIER", "PREMIÈRE PARTIE" or a bare "XII".
+// A label that slipped into the text as a small heading (a source's markup slip) starts a new
+// chapter when its chapter is itself labelled that way; a long chapter holding three or more
+// "CHAPITRE …" lines between real prose is split at each of them.
+const FR_LABEL = /^(?:(?:chapitre|chap\.|livre|partie|tome|chant)\s+(?:[ivxlc]+|\d+|premier|première|unique)\b.{0,60}|(?:premi[èe]re|deuxi[èe]me|seconde|troisi[èe]me|quatri[èe]me|cinqui[èe]me|sixi[èe]me|septi[èe]me|huiti[èe]me|neuvi[èe]me|dixi[èe]me)\s+partie\b.{0,60}|[ivxlc]{1,7}\.?)$/i;
+const bareLabel = t => /^(?:(?:chapitre|chap\.|livre|partie|chant)\s+(?:[ivxlc]+|\d+|premier|première)\.?|[ivxlc]{1,7}\.?|\d{1,3}\.?)$/i.test(t.trim());
+function splitLabels(chs){
+  const out = [];
+  for (const c of chs){
+    // (a contents list is all labels and no prose, so it is never split)
+    const nl = c.paras.filter(t => /^\u0001?(chapitre|chap\.)\s+([ivxlc]+|\d+|premier)\b/i.test(t) && t.length < 90).length;
+    const hard = nl >= 3 && c.paras.filter(prose).length >= 5 * nl;
+    let cur = {title: c.title, paras: []}; out.push(cur);
+    c.paras.forEach((t, i) => {
+      const raw = t.replace(/^\u0001/, '').trim();
+      const label = i > 0 && cur.paras.length && raw.length < 90 && FR_LABEL.test(raw);
+      if (label && ((t[0] === '\u0001' && bareLabel(c.title)) || (hard && /^(chapitre|chap\.)/i.test(raw)))){ cur = {title: raw, paras: []}; out.push(cur); return }
+      cur.paras.push(t);
+    });
+  }
+  return out.filter(c => c.paras.some(t => /\p{L}/u.test(t)));
+}
+// Back matter at the end of a French book (the "TABLE" Gutenberg's French books close with).
+const FR_BACK = /^(table des mati[èe]res|table g[ée]n[ée]rale|table|tables|notes?( et [ée]claircissements)?|index|glossaire|lexique|achev[ée] d.imprimer|du m[êe]me auteur|catalogue|errata|bibliographie|au lecteur)\b/i;
+function storyBack(chs, start){
+  let i = chs.length;
+  while (i - 1 > start && FR_BACK.test(chs[i - 1].title.trim())) i--;
+  return i < chs.length ? i : 0;
 }
 // Where the story begins in a book we know nothing about: skip leading front matter, i.e.
 // chapters without real prose (two paragraphs of mostly lower-case text over ~120 characters,
 // so an all-caps title page or a one-line list does not count) or with a front-matter title.
 // Never skips past the first half of the book.
 const FRONT = /^(índice|indice|sumario|contenidos?|tabla de materias|notas? del transcriptor|notas? de transcripci[óo]n|transcriber|copyright|derechos|es propiedad|dedicatoria|portada|créditos|creditos|obras del|del mismo autor|erratas|title page|contents|pr[óo]logo|prefacio|introducci[óo]n|advertencia|al lector|biograf[íi]a|estudio preliminar|nota preliminar|juicio cr[íi]tico|preface|introduction)\b/i;
+const FRONT_FR = /^(table des mati[èe]res|table|sommaire|pr[ée]face|avant-propos|avertissement|introduction|notice|pr[ée]ambule|d[ée]dicace|au lecteur|aux lecteurs|du m[êe]me auteur|des m[êe]mes auteurs|note de l.[ée]diteur|notes? du transcripteur|notes? de transcription|personnages|biographie|[ée]tude (biographique|litt[ée]raire)|copyright|title page|contents|preface|introduction|transcriber)\b/i;
 const prose = t => { t = t.replace(/^\u0001/, ''); if (t.length <= 120) return false; const lo = (t.match(/\p{Ll}/gu) || []).length, up = (t.match(/\p{Lu}/gu) || []).length; return lo > 3 * up };
-function storyStart(chs){
+function storyStart(chs, lang){
+  const front = lang === 'fr' ? FRONT_FR : FRONT;
   let i = 0;
   while (i < chs.length - 1 && i < chs.length / 2){
     const c = chs[i], real = c.paras.filter(prose);
-    if ((real.length >= 2 || real.join('').length > 1500) && !FRONT.test(c.title.trim())) break;
+    if ((real.length >= 2 || real.join('').length > 1500) && !front.test(c.title.trim())) break;
     i++;
   }
   return i < chs.length / 2 ? i : 0;
@@ -493,11 +539,15 @@ function chapterAt(chs, text){
 /* ---------- dictionary ---------- */
 const shardOf = w => { const f = fold(w); return f.length >= 2 ? f.slice(0,2) : (f+'_').slice(0,2) || '__' };
 const shards = new Map();
+// Each language has its own shards: Spanish in dict/, French in dict/fr/. A language's shards are
+// only ever fetched once a word in it is looked up, so a Spanish reader never downloads French.
 function loadShard(k){
-  if (!shards.has(k)) shards.set(k, fetch('dict/'+k+'.json').then(r => r.ok ? r.json() : {}).catch(() => { shards.delete(k); return null }));
-  return shards.get(k);
+  const path = P.dict + k + '.json';
+  if (!shards.has(path)) shards.set(path, fetch(path).then(r => r.ok ? r.json() : {}).catch(() => { shards.delete(path); return null }));
+  return shards.get(path);
 }
 async function exact(w){
+  w = P.norm(w);
   const s = await loadShard(shardOf(w));
   return s === null ? {offline:true} : (s[w] || null);
 }
@@ -508,6 +558,7 @@ const unaccent = w => w.replace(/[áéíóú]/g, c => 'aeiou'['áéíóú'.index
 async function lookup(w){
   w = w.toLowerCase();
   const r = await exact(w); if (r) return r;
+  if (P.code !== 'es') return null;   // French splits elisions and inversions in analyze()
   let stem = w, peeled = [];
   for (let i = 0; i < 2 && stem.length > 4; i++){
     const m = stem.match(CLITIC); if (!m) break;
@@ -564,12 +615,16 @@ const TENSE = [[/present\/preterite ind\./,'present or past'],[/present ind\./,'
   [/imper\./,'command'],[/past participle/,'past participle (the -ed form)'],[/gerund/,'the -ing form'],[/infinitive/,'infinitive'],[/female equivalent/,'feminine'],
   [/feminine pl\./,'feminine plural'],[/masculine pl\./,'plural'],[/feminine sing\./,'feminine'],[/feminine/,'feminine'],[/^pl\./,'plural'],
   [/diminutive/,'smaller or fond form'],[/augmentative/,'bigger form'],[/superlative/,'very / most'],[/uncommon form/,'uncommon form']];
+// French labels Wiktionary uses that Spanish ones never do (the passé simple is its "past historic").
+const PERSON_FR = [[/first\/2nd sing\./,'I or you'],[/impersonal/,'it'],...PERSON];
+const TENSE_FR = [[/past historic/,'past'],[/present participle/,'the -ing form'],[/past anterior/,'past'],...TENSE];
 function plain(label){
-  const p = PERSON.find(([re]) => re.test(label)), t = TENSE.find(([re]) => re.test(label));
+  const fr = P.code === 'fr';
+  const p = (fr ? PERSON_FR : PERSON).find(([re]) => re.test(label)), t = (fr ? TENSE_FR : TENSE).find(([re]) => re.test(label));
   if (!p && !t) return label;
   return [p && p[1], t && t[1]].filter(Boolean).join(', ');
 }
-const POS = {noun:'noun', verb:'verb', adj:'adjective', adv:'adverb', prep:'preposition', pron:'pronoun', conj:'conjunction', det:'determiner', article:'article', intj:'interjection', num:'number', name:'name', phrase:'phrase', contraction:'contraction', particle:'particle', prefix:'prefix', suffix:'suffix'};
+const POS = {noun:'noun', verb:'verb', adj:'adjective', adv:'adverb', prep:'preposition', prep_phrase:'prepositional phrase', pron:'pronoun', conj:'conjunction', det:'determiner', article:'article', intj:'interjection', num:'number', name:'name', phrase:'phrase', contraction:'contraction', particle:'particle', prefix:'prefix', suffix:'suffix'};
 const ART = {m:'el', f:'la', mf:'el / la'};
 /* English for a conjugated verb: "estaba" -> "was", "dijo" -> "said", "firmaron" -> "signed" */
 const IRR = {be:'was,been',have:'had,had',do:'did,done',say:'said,said',go:'went,gone',get:'got,gotten',make:'made,made',know:'knew,known',think:'thought,thought',
@@ -593,12 +648,18 @@ const ingOf = v => /ie$/.test(v) ? v.slice(0, -2) + 'ying' : /[^eoy]e$/.test(v) 
 const sOf = v => ({be:'is', have:'has', do:'does', go:'goes'})[v] || (/(s|x|z|ch|sh|o)$/.test(v) ? v + 'es' : /[^aeiou]y$/.test(v) ? v.slice(0, -1) + 'ies' : v + 's');
 const pastOf = v => IRR[v] ? IRR[v].split(',')[0] : edOf(v);
 const ppOf = v => IRR[v] ? IRR[v].split(',')[1] : edOf(v);
-function verbEnglish(gloss, label){
+// aux (French only): the helper verb before a past participle. p = present (a dit: said),
+// i = imperfect or past anterior (avait dit: had said), f = future, c = conditional.
+function verbEnglish(gloss, label, aux){
   const m = /^to ([a-z]+)((?: [a-z'-]+){0,3})$/i.exec(gloss.split(',')[0].trim()); if (!m) return null;
-  const v = m[1].toLowerCase(), rest = m[2] || '';
+  const v = m[1].toLowerCase(), rest = m[2] || '', fr = P.code === 'fr';
+  if (fr) label = label.replace(/ind\.\/subj\./, 'ind.');   // parle: present indicative or subjunctive; in a story, the indicative
   const one = /(first\/3rd|1st|3rd) sing\./.test(label) && !/3rd sing\.\/pl/.test(label), first = /^1st sing\./.test(label);
   let out = null;
-  if (/past participle/.test(label)) out = ppOf(v);
+  if (fr && aux && /past participle/.test(label)) out = aux === 'p' ? (v === 'be' ? 'been' : pastOf(v)) : (aux === 'i' ? 'had ' : aux === 'f' ? 'will have ' : 'would have ') + ppOf(v);
+  else if (fr && /present participle/.test(label)) out = ingOf(v);
+  else if (fr && /(past historic|past anterior)/.test(label)) out = v === 'be' ? (one ? 'was' : 'were') : pastOf(v);
+  else if (/past participle/.test(label)) out = ppOf(v);
   else if (/gerund/.test(label)) out = ingOf(v);
   else if (/infinitive/.test(label)) out = 'to ' + v;
   else if (/imper\./.test(label)) out = v + '!';
@@ -616,8 +677,137 @@ const VERB_FIRST = new Set(['era','eras','eran','vino','diga','haya','sea','sean
 const PREFER = ['ser','estar','haber','tener','hacer'];
 // Where Wiktionary's first sense is not the everyday one.
 const VERB_GLOSS = {querer:'to want', deber:'to have to', quedar:'to stay'};
-async function analyze(raw){
-  const lw0 = raw.toLowerCase(), core = CORE[lw0];
+/* ---------- French: the hand-tuned parts, redone for French ---------- */
+// The commonest little words, where Wiktionary leads with letter names, abbreviations or rare senses.
+const CORE_FR = {
+  a:['has','From avoir, to have. It also makes the past: il a dit, he said.'], 'à':['to, at','Preposition.'],
+  au:['to the, at the','Short for à + le.'], aux:['to the, at the','Short for à + les.'], du:['of the, some','Short for de + le.'],
+  des:['some, of the','Plural of un / une, or short for de + les.'], de:['of, from','Preposition.'],
+  le:['the','Article, masculine. Before a verb it means him or it: je le vois, I see him.'], la:['the','Article, feminine. Before a verb it means her or it.'],
+  les:['the','Article, plural. Before a verb it means them.'], un:['a, an','Article, masculine. Also the number one.'], une:['a, an','Article, feminine. Also the number one.'],
+  et:['and','Conjunction.'], ou:['or','Conjunction. With an accent, où means where.'], 'où':['where','Also “when”: le jour où, the day when.'],
+  en:['in','Preposition. Before a verb it means of it, some: j’en ai, I have some.'], y:['there','Pronoun: there, to it. In il y a: there is.'],
+  se:['oneself, himself, herself','Pronoun. Makes the verb reflexive: il se lave, he washes himself.'],
+  sa:['his, her, its','Possessive, before a feminine noun.'], son:['his, her, its','Possessive, before a masculine noun. Also a noun: sound.'], ses:['his, her, its','Possessive, before a plural noun.'],
+  leur:['their; to them','Possessive before a noun, or a pronoun before a verb.'], leurs:['their','Possessive, before a plural noun.'],
+  mon:['my','Possessive, masculine.'], ma:['my','Possessive, feminine.'], mes:['my','Possessive, plural.'], ton:['your','Possessive, masculine.'], ta:['your','Possessive, feminine.'], tes:['your','Possessive, plural.'],
+  notre:['our','Possessive.'], nos:['our','Possessive, plural.'], votre:['your','Possessive.'], vos:['your','Possessive, plural.'],
+  ce:['this, that; it','Before a noun: this, that. Before être: it (c’est, it is).'], cet:['this, that','Before a masculine noun that starts with a vowel.'], cette:['this, that','Before a feminine noun.'], ces:['these, those','Before a plural noun.'],
+  ne:['not','With pas: ne … pas, not. With que: ne … que, only.'], pas:['not','With ne: ne … pas, not. Also a noun: step.'],
+  que:['that, than, what','Conjunction or pronoun. With ne: ne … que, only.'], qui:['who, which, that','Pronoun.'],
+  il:['he, it','Pronoun.'], elle:['she, it','Pronoun.'], ils:['they','Pronoun, masculine or mixed.'], elles:['they','Pronoun, feminine.'],
+  on:['one, we, people','Pronoun. Often means we, or someone.'], je:['I','Pronoun.'], tu:['you','Pronoun, informal.'], nous:['we, us','Pronoun.'], vous:['you','Pronoun, polite or plural.'],
+  me:['me, myself','Pronoun.'], te:['you, yourself','Pronoun.'], lui:['him; to him, to her','Pronoun.'], eux:['them','Pronoun.'], si:['if; so','Also “yes”, answering a negative question.'],
+  plus:['more','With ne: ne … plus, no longer.'], tout:['all, every','Also: quite, completely (tout seul, all alone).'], 'ça':['that, it','Pronoun, short for cela.'], cela:['that','Pronoun.']
+};
+// Elision: l’homme, d’or, j’ai, qu’il, n’est, s’écria, c’était, jusqu’à. Each is a little word
+// shortened before a vowel; the word after it is the one that means something.
+const FR_ELIDE = /^(jusqu|lorsqu|puisqu|quoiqu|presqu|qu|l|d|j|n|s|m|t|c)'(.+)$/;
+const FR_PRE = {l:['le or la','the; before a verb, him, her or it'], d:['de','of'], j:['je','I'], qu:['que','that'], n:['ne','not'], s:['se','oneself'], m:['me','me'], t:['te','you'],
+  c:['ce','it, that'], jusqu:['jusque','until'], lorsqu:['lorsque','when'], puisqu:['puisque','since'], quoiqu:['quoique','although'], presqu:['presque','almost']};
+// Inversion: dit-il, a-t-elle, s’écria-t-il, dites-moi.
+const FR_INV = /^(.+?)-(?:t-)?(je|tu|il|elle|on|nous|vous|ils|elles|moi|toi|le|la|les|lui|leur|y|en|ce)$/;
+const FR_SUBJECTS = /^(je|tu|il|elle|on|nous|vous|ils|elles)$/;
+// What the word before tells us: a determiner means a noun follows (le fait, the fact); a subject
+// or object pronoun means a verb (il fait, he does); a helper verb means a past participle (a fait, did).
+const FR_DET = new Set("le la les l' un une des du de d' au aux ce cet cette ces mon ma mes ton ta tes son sa ses notre nos votre vos leurs quel quelle quels quelles chaque plusieurs aucun aucune".split(' '));
+const FR_PREVERB = new Set("je j' tu il elle on nous vous ils elles qui ne n' se s' me m' te t' lui y en".split(' '));
+const FR_AUXOF = {};
+for (const [k, ws] of Object.entries({p:'a ai as avons avez ont est suis es sommes êtes sont ait aie aies ayons ayez aient soit sois soyons soyez soient',
+  i:'avait avais avions aviez avaient était étais étions étiez étaient eut eus eûmes eûtes eurent fut fus fûmes fûtes furent eût fût',
+  f:'aura aurai auras aurons aurez auront sera serai seras serons serez seront', c:'aurait aurais aurions auriez auraient serait serais serions seriez seraient'})) for (const w of ws.split(' ')) FR_AUXOF[w] = k;
+const FR_SKIP = new Set('pas jamais point plus rien guère déjà bien encore toujours tout aussi souvent beaucoup trop vraiment enfin donc alors même ensuite aussitôt'.split(' '));
+// Forms that in a story are nearly always the verb, though the dictionary lists a noun first.
+const VERB_FIRST_FR = new Set(['est','dit','fait','fut','sont','suis','vit','mis','pris','eut']);
+const PREFER_FR = ['être','avoir','faire','aller','dire','voir','venir','pouvoir','vouloir','savoir','devoir','prendre','mettre','falloir'];
+const VERB_GLOSS_FR = {pouvoir:'to be able to', devoir:'to have to', falloir:'to be necessary'};
+// Helper-like verbs read better as English modals: pouvait, could; devait, had to; il faut, one must.
+const FR_MODAL = {pouvoir:{pres:'can', past:'could', fut:'will be able to', cond:'could', subj:'can', pp:'could'},
+  devoir:{pres:'must', past:'had to', fut:'will have to', cond:'should', subj:'must', pp:'had to'},
+  falloir:{pres:'must', past:'had to', fut:'will have to', cond:'would have to', subj:'must', pp:'had to'}};
+function modalEnglish(lemma, label, aux){
+  const m = FR_MODAL[lemma]; if (!m) return null;
+  if (/past participle/.test(label)) return aux === 'p' ? m.pp : null;
+  const k = /subj\./.test(label) ? 'subj' : /cond\./.test(label) ? 'cond' : /future/.test(label) ? 'fut' : /(past historic|imperfect ind\.)/.test(label) ? 'past' : /present ind\./.test(label) ? 'pres' : null;
+  return k ? m[k] : null;
+}
+const FR_VERBLABEL = /ind\.|subj\.|cond\.|imper\.|participle|past historic|infinitive|impersonal/;
+// Which reading of an ambiguous form (dit: says, said, said) fits the words before it.
+function frLabelRank(label, cx){
+  if (cx.aux) return /past participle/.test(label) ? 0 : 5;
+  const order = [/past historic/, /imperfect ind\./, /present ind\./, /future/, /cond\./, /subj\./, /imper\./, /participle/];
+  const i = order.findIndex(re => re.test(label)); return i < 0 ? 9 : i;
+}
+// Context for a tapped French word from the words before it in the same sentence.
+function frContext(span){
+  const cx = {prev:[]}; if (!span || !span.parentElement) return cx;
+  let sep = '';
+  for (let n = span.previousSibling; n && cx.prev.length < 4; n = n.previousSibling){
+    if (n.nodeType === 1 && n.classList.contains('w')){
+      if (/[.!?;:«»"“”—]/.test(sep)) break;
+      cx.prev.push(n.textContent.toLowerCase().replace(/’/g, "'")); sep = '';
+    } else sep += n.textContent;
+  }
+  return cx;
+}
+// The word that does the work in a token: qu'il -> il, l'a -> a, a-t-il -> a.
+const frCore = t => { let m = FR_ELIDE.exec(t); if (m) t = m[2]; m = FR_INV.exec(t); return m ? m[1] : t };
+function frFlags(cx){
+  const prev = cx.prev || [], p0 = prev[0] || '', c0 = frCore(p0), ep = FR_ELIDE.exec(p0);
+  const f = {noun:false, verb:!!cx.verb, aux:'', inv:!!cx.inv};
+  if (cx.pre) (/^[ld]$/.test(cx.pre) ? f.noun = true : /^[jnsmtc]$/.test(cx.pre) && (f.verb = true));
+  else if (p0){
+    if (FR_DET.has(p0)) f.noun = true;
+    else if (FR_PREVERB.has(p0) || FR_PREVERB.has(c0) || (ep && /^[jnsmt]$/.test(ep[1]) && FR_PREVERB.has(ep[1] + "'"))) f.verb = true;
+  }
+  // the helper verb: the nearest word that is not ne/pas/jamais/an adverb/an object pronoun
+  for (const t of prev){ const c = frCore(t); if (FR_AUXOF[c]){ f.aux = FR_AUXOF[c]; break } if (!(FR_SKIP.has(c) || /^(ne|n'|le|la|les|l'|lui|leur|y|en|me|te|se|nous|vous)$/.test(t))) break }
+  return f;
+}
+const FR_PRE_NOTE = (pre, shown) => { const [full, en] = FR_PRE[pre]; return `<b lang="fr">${esc(shown)}</b> is <span lang="fr">${esc(full)}</span> (${esc(en)}), shortened before a vowel.` };
+// French splitting: elision, then inversion, then a capital E printed without its accent.
+async function frSplit(raw, cx){
+  const w = P.norm(raw);
+  if (CORE_FR[w] || w === 'à') return null;
+  // A dictionary entry for the whole token wins (aujourd'hui, jusqu'à, d'abord), unless it only
+  // says "contraction of que + il" or names another spelling: then the parts explain it better.
+  const r = await exact(w);
+  if (r && (r.offline || (r.f && r.f.length) || (() => { const g = goodEntry(r); return g && g[1][0] !== 'contraction' && !/^the interrogative form/i.test(g[0]) })())) return null;
+  let m = FR_ELIDE.exec(w);
+  if (m){
+    const restRaw = raw.slice(raw.length - m[2].length), shown = raw.slice(0, raw.length - m[2].length);
+    const sub = await analyze(restRaw, Object.assign({}, cx, {pre:m[1]}));
+    if (sub.status !== 'ok') return sub;
+    // s' before il/ils is si (if): s'il, if he
+    const note = m[1] === 's' && /^ils?$/.test(m[2]) ? `<b lang="fr">${esc(shown)}</b> is <span lang="fr">si</span> (if), shortened before il.` : FR_PRE_NOTE(m[1], shown);
+    sub.gram = note + ' ' + sub.gram; sub.key = sub.key || P.norm(restRaw);
+    return sub;
+  }
+  m = FR_INV.exec(w);
+  if (m){
+    const stemRaw = raw.slice(0, m[1].length);
+    const sub = await analyze(stemRaw, Object.assign({}, cx, {inv:true, verb:true}));
+    if (sub.status !== 'ok') return sub;
+    const subj = FR_SUBJECTS.test(m[2]);
+    sub.gram = `<b lang="fr">${esc(stemRaw)}</b> + <span lang="fr">${esc(m[2])}</span>: ${subj ? 'the subject after the verb, as in a question or “said he”.' : 'a pronoun joined on, as in a command.'} ` + sub.gram;
+    sub.key = sub.key || P.norm(stemRaw);
+    return sub;
+  }
+  // Old printings drop the accent on capitals: Etait for Était. And oe for œ: coeur, cœur.
+  for (const alt of [/^E/.test(raw) ? 'é' + w.slice(1) : '', /oe/.test(w) ? w.replace(/oe/g, 'œ') : ''].filter(Boolean)){
+    const hit = await exact(alt);
+    if (hit && !hit.offline){ const sub = await analyze(alt, cx); if (sub.status === 'ok'){ sub.key = sub.key || alt; return sub } }
+  }
+  return null;
+}
+async function analyze(raw, cx = {}){
+  const fr = P.code === 'fr';
+  if (fr){
+    if (raw === 'A') raw = 'à';   // old printings set À as a plain capital A: "A peine", "A ces mots"
+    const sp = await frSplit(raw, cx); if (sp) return sp;
+  }
+  const f = fr ? frFlags(cx) : null;
+  const lw0 = fr ? P.norm(raw) : raw.toLowerCase(), core = P.core[lw0];
   const r = await lookup(raw);
   if (core){ const rec = r && !r.offline && !r.clitic ? r : {}; return {status:'ok', best:core[0], gram:esc(core[1]), det:'', chain:[{w:lw0, rec}], lemma:'', from:0} }
   if (!r) return {status:'notfound'};
@@ -626,14 +816,18 @@ async function analyze(raw){
   if (r.clitic){ clitic = r.clitic; w = r.clitic.stem; rec = r.clitic.rec }
   const chain = [{w, rec}], seen = new Set([w]);
   // 1. the word's own first real entry
-  const verbFirst = VERB_FIRST.has(w) && rec.f && rec.f.length;
+  const hasVerbForm = rec.f && rec.f.length && (!fr || rec.f.some(([, l]) => FR_VERBLABEL.test(l)));
+  const verbFirst = fr ? !!(hasVerbForm && !f.noun && (f.verb || f.inv || (f.aux && rec.f.some(([, l]) => /participle/.test(l))) || VERB_FIRST_FR.has(w))) : (P.verbFirst.has(w) && rec.f && rec.f.length);
   const own = verbFirst ? [] : (rec.d || []).filter(e => !SKIP_POS.test(e[0]));
   let best = own[0] ? goodOf(own[0]) : null, bestEntry = best ? own[0] : null, from = best ? 0 : -1;
   const family = rec.f && rec.f.length && FAMILY.test(rec.f[0][1]);
   if (!best || family){
     while (chain.length < 4){
       const node = chain[chain.length - 1]; let next = null;
-      const fs = [...(node.rec.f || [])].sort((x, y) => (PREFER.indexOf(x[0]) + 1 || 99) - (PREFER.indexOf(y[0]) + 1 || 99));
+      const rank = x => fr && node === chain[0]
+        ? (f.noun && FR_VERBLABEL.test(x[1]) ? 5000 : 0) + ((f.verb || f.inv) && !FR_VERBLABEL.test(x[1]) ? 5000 : 0) + (P.prefer.indexOf(x[0]) + 1 || 99) * 10 + frLabelRank(x[1], f)
+        : (P.prefer.indexOf(x[0]) + 1 || 99) * (fr ? 10 : 1);
+      const fs = [...(node.rec.f || [])].sort((x, y) => rank(x) - rank(y));
       for (const [lemma, label] of fs){
         const lw = lemma.toLowerCase(); if (seen.has(lw)) continue;
         const lr = await exact(lw); if (!lr || lr.offline) continue;
@@ -643,7 +837,8 @@ async function analyze(raw){
       seen.add(next.w); chain.push(next);
     }
   }
-  const fromChain = () => { for (let i = 1; i < chain.length; i++){ const g = goodEntry(chain[i].rec); if (g){ [best, bestEntry] = g; from = i; return true } } return false };
+  const verbEntry = rec => { for (const e of rec.d || []){ if (e[0] !== 'verb') continue; const g = goodOf(e); if (g) return [g, e] } return null };
+  const fromChain = () => { for (let i = 1; i < chain.length; i++){ const g = (fr && FR_VERBLABEL.test(chain[i - 1].label || '') && verbEntry(chain[i].rec)) || goodEntry(chain[i].rec); if (g){ [best, bestEntry] = g; from = i; return true } } return false };
   // 2. an inflected form (cuarta -> cuarto) leans on its root before its own rarer senses
   if (!best && family) fromChain();
   // 3. the word's other entries, then 4. the root's
@@ -657,65 +852,80 @@ async function analyze(raw){
   // participle or inflection of a verb or adjective ("muerto", dead, from "morir").
   const ownWithRoot = from === 0 && bestEntry && /^(adj|verb)$/.test(bestEntry[0]) && family && chain.length > 1;
   if (from === 0 && !ownWithRoot) chain.length = 1;
-  const root = chain[chain.length - 1], rootG = VERB_GLOSS[root.w] || (root.rec.d ? anyGood(root.rec) : null);
+  const root = chain[chain.length - 1], rootG = P.verbGloss[root.w] || (root.rec.d ? anyGood(root.rec) : null);
+  const L = P.code;
   let gram = '', det = '', altVerb = '';
   // a conjugated verb reads as English: "estaba" -> "was", from estar, to be
   if (from === chain.length - 1 && chain.length > 1 && bestEntry && bestEntry[0] === 'verb'){
-    if (VERB_GLOSS[root.w]) best = VERB_GLOSS[root.w];
-    const en = verbEnglish(best, chain[chain.length - 2].label);
+    if (P.verbGloss[root.w]) best = P.verbGloss[root.w];
+    const label = chain[chain.length - 2].label;
+    const modal = fr && modalEnglish(root.w, label, f.aux), en = modal || verbEnglish(best, label, fr ? f.aux : '');
     if (en) best = en;
     // the other verb this form can belong to (fue: was, from ser; or went, from ir)
-    for (const [lemma, label] of rec.f || []){
+    if (!modal) for (const [lemma, label] of rec.f || []){
       const lw = lemma.toLowerCase(); if (lw === root.w || chain.some(n => n.w === lw)) continue;
       const lr = await exact(lw), e = lr && !lr.offline && (lr.d || []).find(x => x[0] === 'verb'), g = e && goodOf(e);
-      const alt = g && verbEnglish(g, label);
-      if (alt && alt !== best){ altVerb = `Or “${alt}”, from <b lang="es">${esc(lw)}</b>.`; break }
+      const alt = g && verbEnglish(g, label, fr ? f.aux : '');
+      if (alt && alt !== best){ altVerb = `Or “${alt}”, from <b lang="${L}">${esc(lw)}</b>.`; break }
     }
   }
-  // a verb-first word still has its noun: say so
-  if (verbFirst && rec.d){ const e = rec.d.find(x => !SKIP_POS.test(x[0]) && x[0] !== 'verb'), g = e && goodOf(e); if (g){ const k = POS[e[0]] || e[0]; altVerb = `Also ${/^[aeiou]/.test(k) ? 'an' : 'a'} ${k}: ${esc(g)}.` } }
+  // a verb-first word still has its noun: say so (in French only when nothing before it decided)
+  if (verbFirst && rec.d && !(fr && (f.verb || f.inv || f.aux))){ const e = rec.d.find(x => !SKIP_POS.test(x[0]) && x[0] !== 'verb'), g = e && goodOf(e); if (g && !(fr && g.length > 20)){ const k = POS[e[0]] || e[0]; altVerb = `Also ${/^[aeiou]/.test(k) ? 'an' : 'a'} ${k}: ${esc(g)}.` } }
   if (ownWithRoot){
-    gram = `${cap(POS[bestEntry[0]] || bestEntry[0])}, from <b lang="es">${esc(root.w)}</b>${rootG ? ', ' + esc(rootG) : ''}.`;
+    gram = `${cap(POS[bestEntry[0]] || bestEntry[0])}, from <b lang="${L}">${esc(root.w)}</b>${rootG ? ', ' + esc(rootG) : ''}.`;
     det = cap(chain.slice(0, -1).map(n => plain(n.label)).filter(Boolean).join(' · '));
   } else if (chain.length > 1){
-    gram = rootG && rootG !== best ? `From <b lang="es">${esc(root.w)}</b>, ${esc(rootG)}.` : `A form of <b lang="es">${esc(root.w)}</b>.`;
+    gram = rootG && rootG !== best ? `From <b lang="${L}">${esc(root.w)}</b>, ${esc(rootG)}.` : `A form of <b lang="${L}">${esc(root.w)}</b>.`;
     det = cap(chain.slice(0, -1).map(n => plain(n.label)).filter(Boolean).join(' · '));
   } else if (bestEntry){
     const [pos, g] = bestEntry, name = POS[pos] || pos;
-    gram = pos === 'noun' && ART[g] ? `Noun, ${g === 'f' ? 'feminine' : g === 'm' ? 'masculine' : 'either gender'}: <span lang="es">${ART[g]} ${esc(w)}</span>.` : cap(name) + '.';
+    gram = pos === 'noun' && P.art[g] ? `Noun, ${g === 'f' ? 'feminine' : g === 'm' ? 'masculine' : 'either gender'}: <span lang="${L}">${P.art[g]} ${esc(w)}</span>.` : cap(name) + '.';
   }
   if (altVerb) gram += ' ' + altVerb;
   if (clitic) gram = `<b lang="es">${esc(clitic.stem)}</b> + ${esc(clitic.peeled.join(' + '))}: a pronoun joined to the end. ` + gram;
   return {status:'ok', best: best || (chain.length > 1 ? 'a form of ' + root.w : raw), gram, det, chain, lemma: chain.length > 1 ? root.w : '', from};
 }
 function defsHtml(d, word){
-  return d.map(([pos, g, gl]) => `<div class="chips"><span class="chip k">${esc(POS[pos] || pos)}</span>${g && ART[g] ? `<span class="chip" lang="es">${ART[g]} ${esc(word)}</span>` : ''}</div><ol>${gl.map(x => `<li>${esc(x)}</li>`).join('')}</ol>`).join('');
+  return d.map(([pos, g, gl]) => `<div class="chips"><span class="chip k">${esc(POS[pos] || pos)}</span>${g && P.art[g] ? `<span class="chip" lang="${P.code}">${P.art[g]} ${esc(word)}</span>` : ''}</div><ol>${gl.map(x => `<li>${esc(x)}</li>`).join('')}</ol>`).join('');
 }
 function moreHtml(a){
   let h = '';
   a.chain.forEach((n, i) => {
-    if (n.rec.d) h += `<h4 lang="es">${esc(n.w)}</h4>` + defsHtml(n.rec.d, n.w);
-    if (n.label && a.chain[i + 1]) h += `<p class="also">${esc(cap(plain(n.label)))} of <b lang="es">${esc(a.chain[i+1].w)}</b></p>`;
+    if (n.rec.d) h += `<h4 lang="${P.code}">${esc(n.w)}</h4>` + defsHtml(n.rec.d, n.w);
+    if (n.label && a.chain[i + 1]) h += `<p class="also">${esc(cap(plain(n.label)))} of <b lang="${P.code}">${esc(a.chain[i+1].w)}</b></p>`;
   });
   const first = a.chain[0];
   for (const [lemma, label] of first.rec.f || []){
     if (a.chain.some(n => n.w === lemma.toLowerCase())) continue;
-    h += `<p class="also">Also: ${esc(plain(label))} of <b lang="es">${esc(lemma)}</b></p>`;
+    h += `<p class="also">Also: ${esc(plain(label))} of <b lang="${P.code}">${esc(lemma)}</b></p>`;
   }
   return h || '<p class="note">No other meanings.</p>';
 }
 
 /* ---------- speech ---------- */
-let voices = [];
-const loadVoices = () => { voices = speechSynthesis.getVoices().filter(v => /^es/i.test(v.lang)) };
-if ('speechSynthesis' in window){ loadVoices(); speechSynthesis.onvoiceschanged = () => { loadVoices(); if (view === 'settings') renderSettings() } }
-function speak(text, slow){
+// The phone's own voices for the language: Spanish voices for a Spanish book, French for a French one.
+let allVoices = [];
+// Android reports "fr_FR" where iPhone says "fr-FR"; both are read the same way here.
+const vlang = v => String(v.lang || '').replace(/_/g, '-').toLowerCase();
+const voicesFor = code => allVoices.filter(v => vlang(v).split('-')[0] === code);
+const loadVoices = () => { const n = allVoices.length; allVoices = speechSynthesis.getVoices() || []; return allVoices.length !== n };
+if ('speechSynthesis' in window){
+  loadVoices(); speechSynthesis.onvoiceschanged = () => { loadVoices(); if (view === 'settings') renderSettings() };
+  // Chrome on Android can fill the list late without firing the event: look again a few times.
+  [300, 1200, 3000, 8000].forEach(t => setTimeout(() => { if (loadVoices() && view === 'settings') renderSettings() }, t));
+}
+const NO_VOICE = name => PLATFORM === 'android' ? `No ${name} voice found yet. On Android: Settings › System › Languages › Text-to-speech › Google › Install voice data › ${name}.`
+  : PLATFORM === 'ios' ? `No ${name} voice found yet. On iPhone: Settings › Accessibility › Spoken Content › Voices › ${name}.`
+  : `No ${name} voice found yet. Add one in your device's text-to-speech settings.`;
+function speak(text, slow, code){
   if (!('speechSynthesis' in window)) return toast('This browser has no speech voice');
   speechSynthesis.cancel();
+  if (!allVoices.length) loadVoices();
+  const pk = PACK[langOf(code)] || P, voices = voicesFor(pk.code);
   const u = new SpeechSynthesisUtterance(text);
-  const want = settings.voice === 'auto' ? null : settings.voice;
-  const v = (want && voices.find(v => v.lang.replace('_','-').startsWith(want))) || voices.find(v => /es[-_](ES|MX|US)/i.test(v.lang)) || voices[0];
-  if (v){ u.voice = v; u.lang = v.lang } else u.lang = want || 'es-ES';
+  const want = settings[pk.voiceKey] === 'auto' ? null : settings[pk.voiceKey];
+  const v = (want && voices.find(v => vlang(v).startsWith(want.toLowerCase()))) || voices.find(v => pk.voiceRe.test(v.lang)) || voices[0];
+  if (v){ u.voice = v; u.lang = v.lang.replace(/_/g, '-') } else u.lang = want || pk.voiceDefault;
   u.rate = slow ? settings.slow : settings.rate;
   speechSynthesis.speak(u);
 }
@@ -762,13 +972,12 @@ document.querySelectorAll('#tabs [data-tab]').forEach(b => b.onclick = () => go(
 /* ---------- library ---------- */
 let bundled = [], manifestP = null, gids = new Set();
 const loadManifest = () => manifestP || (manifestP = fetch('books/manifest.json').then(r => r.json()).then(m => bundled = m).catch(() => { manifestP = null; return bundled }));
-const START = {text:'Marley había muerto. Sobre ello no había ni la menor sombra de duda.', book:'carol',
-  tr:{'Marley había muerto.':'Marley was dead.', 'Sobre ello no había ni la menor sombra de duda.':'There is no doubt whatever about that.'}};
-function wordsInto(el, text, saved){
+// key: how a word is matched against saved words (French drops the elided l', d', qu'…).
+function wordsInto(el, text, saved, key = t => t.toLowerCase()){
   for (const part of text.split(WORD)){
     if (!part) continue;
     if (WORD.test(part) && part.match(WORD)[0] === part){
-      const s = document.createElement('span'); s.className = 'w' + (saved && saved.has(part.toLowerCase()) ? ' saved' : ''); s.textContent = part; el.append(s);
+      const s = document.createElement('span'); s.className = 'w' + (saved && saved.has(key(part)) ? ' saved' : ''); s.textContent = part; el.append(s);
     } else el.append(part);
   }
 }
@@ -776,37 +985,40 @@ async function renderLibrary(){
   await loadManifest();
   const all = await DB.all(), mine = all.filter(b => !b.bundled);
   gids = new Set(mine.filter(b => b.gid).map(b => b.gid));
-  const last = LS.get('last');
+  const last = LS.get('last'), L = PACK[settings.lang], other = PACK[settings.lang === 'es' ? 'fr' : 'es'], START = L.start;
   // first run: one live sentence that teaches the tap
   const sh = $('#startHere'); sh.innerHTML = '';
   if (!last){
     sh.innerHTML = `<section class="card start" aria-label="Start here"><div class="kick">Start here</div>
       <div class="lead">Tap any word to see what it means and hear it spoken.</div>
-      <p class="es" lang="es" id="startP"></p><div class="peek hide" id="peek"></div>
-      <button class="primary" id="startRead">Start reading A Christmas Carol</button></section>`;
+      <p class="es" lang="${L.code}" id="startP"></p><div class="peek hide" id="peek"></div>
+      <button class="primary" id="startRead">${esc(START.button)}</button>
+      <button class="link" id="startLang" style="padding:0;min-height:44px">Learning ${other.name} instead? Switch</button></section>`;
     wordsInto($('#startP'), START.text);
     $('#startP').onclick = e => { const s = e.target.closest('.w'); if (!s) return;
       document.querySelectorAll('.w.on').forEach(x => x.classList.remove('on')); s.classList.add('on');
-      const carol = bundled.find(b => b.id === START.book) || {title:'El cántico de Navidad'};
-      showWord(s.textContent, sentenceAround(s), s, {bookId:START.book, title:carol.title, ct:'Primera estrofa', tr:START.tr, peek:true});
+      const sb = bundled.find(b => b.id === START.book) || {title:START.title};
+      showWord(s.textContent, sentenceAround(s), s, {bookId:START.book, title:sb.title, ct:START.ct, tr:START.tr, peek:true, lang:L.code});
     };
     $('#startRead').onclick = () => openBook(START.book);
+    $('#startLang').onclick = () => setLang(other.code);
   }
   // continue reading
   const c = $('#continue'); c.innerHTML = '';
   const lb = last && all.find(b => b.id === last);
   if (lb){
     const p = LS.get('progress', {})[last] || {c:0}, ch = lb.chapters[p.c] || lb.chapters[0], pc = pctOf(last);
-    c.innerHTML = `<button class="cont">${coverHtml(lb.title, lb.author)}<span class="info"><span class="kick">Continue reading</span><span class="t" lang="es">${esc(lb.title)}</span><span class="c" lang="es">${esc(ch.title)}</span><span class="bar"><i style="width:${pc}%"></i></span></span></button>`;
+    c.innerHTML = `<button class="cont">${coverHtml(lb.title, lb.author)}<span class="info"><span class="kick">Continue reading</span><span class="t" lang="${bookLang(lb)}">${esc(lb.title)}</span><span class="c" lang="${bookLang(lb)}">${esc(ch.title)}</span><span class="bar"><i style="width:${pc}%"></i></span></span></button>`;
     c.firstChild.onclick = () => openBook(last);
   }
   const row = (b, sub, extra = '') => {
     const pc = pctOf(b.id);
-    return `<button class="row" data-id="${esc(b.id)}">${miniHtml(b)}<span class="rt"><span class="t" lang="es">${esc(b.title)}</span><span class="s">${esc(sub)}</span>${pc ? `<span class="bar"><i style="width:${pc}%"></i></span>` : ''}</span>${extra}</button>`;
+    return `<button class="row" data-id="${esc(b.id)}">${miniHtml(b)}<span class="rt"><span class="t" lang="${bookLang(b)}">${esc(b.title)}</span><span class="s">${esc(sub)}</span>${pc ? `<span class="bar"><i style="width:${pc}%"></i></span>` : ''}</span>${extra}</button>`;
   };
   const LV = {easy:'Easy', medium:'Medium', hard:'Hard'};
-  $('#shelf').innerHTML = bundled.map(b => row(b, b.sub || b.note || b.author, b.level ? `<span class="lvl ${b.level}">${LV[b.level]}</span>` : '')).join('');
-  $('#mine').innerHTML = mine.map(b => `<div class="rowwrap">${row(b, b.author || '')}<button class="x" data-rm="${esc(b.id)}" aria-label="Remove ${esc(b.title)}">${icon('x')}</button></div>`).join('');
+  // The free shelf follows the language being learned; your own books are all listed, each in its language.
+  $('#shelf').innerHTML = bundled.filter(b => bookLang(b) === settings.lang).map(b => row(b, b.sub || b.note || b.author, b.level ? `<span class="lvl ${b.level}">${LV[b.level]}</span>` : '')).join('');
+  $('#mine').innerHTML = mine.map(b => `<div class="rowwrap">${row(b, [b.author, bookLang(b) !== settings.lang ? LANGS[bookLang(b)] : ''].filter(Boolean).join(' · '))}<button class="x" data-rm="${esc(b.id)}" aria-label="Remove ${esc(b.title)}">${icon('x')}</button></div>`).join('');
   document.querySelectorAll('#v-library .row').forEach(r => r.onclick = () => openBook(r.dataset.id));
   document.querySelectorAll('#mine [data-rm]').forEach(x => x.onclick = () => {
     const b = mine.find(b => b.id === x.dataset.rm); if (b && confirmRemove(b)) DB.del(b.id).then(renderLibrary);
@@ -823,7 +1035,7 @@ $('#file').onchange = async e => {
   const f = e.target.files[0]; if (!f) return; e.target.value = '';
   closeSheet(); toast('Opening ' + f.name + '…');
   try {
-    const book = await parseEpub(await f.arrayBuffer());
+    const book = await parseEpub(await f.arrayBuffer(), settings.lang);   // its own dc:language, else the language being learned
     if (!book.chapters.length) throw new Error('No readable text found');
     const same = (await DB.all()).find(b => !b.bundled && b.title === book.title && b.author === book.author);
     book.id = same ? same.id : 'u' + Date.now(); await DB.put(book); openBook(book.id);
@@ -831,29 +1043,40 @@ $('#file').onchange = async e => {
   } catch(err){ toast('Could not open that file: ' + err.message) }
 };
 function openAddHelp(){
-  const steps = [
+  const steps = PLATFORM === 'android' ? [
+    ['Get the book as an EPUB file', 'An EPUB is the common ebook file. Buy from a store that sells it "DRM-free". Books bought in Kindle or Google Play Books are locked to those apps and won\'t open here.'],
+    ['Download it', 'Tap the download link, or the attachment in the email. It lands in your Downloads folder.'],
+    ['Choose it below', 'Pick it from Downloads (or Files). It appears under Your books and opens at the first chapter of the story.']]
+  : PLATFORM === 'ios' ? [
     ['Get the book as an EPUB file', 'An EPUB is the common ebook file. Buy from a store that sells it "DRM-free". Books bought in Kindle or Apple Books are locked to those apps and won\'t open here.'],
     ['Save it to Files', 'If it came by email, tap the attachment, then Share, then Save to Files.'],
+    ['Choose it below', 'It appears under Your books and opens at the first chapter of the story.']]
+  : [
+    ['Get the book as an EPUB file', 'An EPUB is the common ebook file. Buy from a store that sells it "DRM-free". Books bought in Kindle, Apple Books or Google Play Books are locked to those apps and won\'t open here.'],
+    ['Save it', 'Download it, or save the email attachment, so it is in your files.'],
     ['Choose it below', 'It appears under Your books and opens at the first chapter of the story.']];
   openSheet(`${head('<h2 class="serif">Add your own book</h2>', 'Close')}
-    <p class="lede">Read any Spanish book you own. It stays on this phone, private to you.</p>
+    <p class="lede">Read any ${PACK[settings.lang].name} book you own. It stays on this phone, private to you.</p>
     <ol class="steps">${steps.map(([t, s], i) => `<li><span class="num" aria-hidden="true">${i + 1}</span><div><strong>${t}</strong><span>${esc(s)}</span></div></li>`).join('')}</ol>
     <button class="primary" id="choose">Choose a file</button>`, 'tall', 'Add your own book');
   $('#choose').onclick = () => $('#file').click();
 }
 
 /* ---------- find a free book ---------- */
-let catalog = null, catalogP = null, findQ = '';
+// One catalogue per language (books/catalog-es.json, books/catalog-fr.json), loaded when first opened.
+// An entry may carry `en`, the English title a reader knows it by (Les Misérables, Around the World…).
+let catalog = null, findQ = '', findLang = '';
+const catalogs = {}, catalogPs = {};
 const adding = new Map();   // gutenberg id -> status text
 const findErr = new Map();
-const loadCatalog = () => catalogP || (catalogP = fetch('books/catalog-es.json').then(r => { if (!r.ok) throw new Error(r.status); return r.json() })
-  .then(c => { c.forEach(b => b.k = foldText(b.t + ' ' + b.a)); return catalog = c }).catch(e => { catalogP = null; throw e }));
+const loadCatalog = (code = settings.lang) => catalogPs[code] || (catalogPs[code] = fetch('books/catalog-' + code + '.json').then(r => { if (!r.ok) throw new Error(r.status); return r.json() })
+  .then(c => { c.forEach(b => { b.k = foldText(b.t + ' ' + b.a + ' ' + (b.en || '')); b.lang = code }); return catalogs[code] = c }).catch(e => { delete catalogPs[code]; throw e }));
 async function renderFind(){
   const v = $('#v-find');
   if (!v.dataset.built){
     v.dataset.built = 1;
     v.innerHTML = `<div class="backbar"><button class="back" id="findBack">${icon('back')}Library</button></div>
-      <h1>Find a free book</h1><p class="note" id="findSub" style="margin:0;color:var(--ink2)">Classics in Spanish, free and out of copyright, from Project Gutenberg.</p>
+      <h1>Find a free book</h1><p class="note" id="findSub" style="margin:0;color:var(--ink2)"></p>
       <label class="search">${icon('search')}<span class="sr">Search by title or author</span><input type="search" id="findQ" placeholder="Title or author" autocomplete="off" autocapitalize="off" spellcheck="false" enterkeyhint="search"></label>
       <section class="sec"><h2 id="findH">Most read</h2><div id="findList" role="list"></div></section>
       <p class="small">Books come from <a href="https://www.gutenberg.org" target="_blank" rel="noopener">Project Gutenberg</a>, free and in the public domain in the US. They download to this phone and then work offline.</p>`;
@@ -861,10 +1084,13 @@ async function renderFind(){
     let t; $('#findQ').oninput = e => { clearTimeout(t); t = setTimeout(() => { findQ = e.target.value; drawFind() }, 120) };
     $('#findQ').onkeydown = e => { if (e.key === 'Enter') e.target.blur() };
   }
+  const code = settings.lang, name = PACK[code].name;
+  if (findLang !== code){ findLang = code; findQ = ''; $('#findQ').value = '' }   // a new language starts a new search
+  $('#findSub').textContent = `Classics in ${name}, free and out of copyright, from Project Gutenberg.`;
   const all = await DB.all(); gids = new Set(all.filter(b => b.gid).map(b => b.gid));
-  $('#findList').innerHTML = '<p class="note">Loading the list…</p>';
-  try { await loadCatalog() } catch(e){ $('#findList').innerHTML = '<p class="note">Couldn\'t load the book list. Check your connection and try again.</p>'; return }
-  $('#findSub').textContent = `${catalog.length.toLocaleString('en-US')} classics in Spanish, free and out of copyright, from Project Gutenberg.`;
+  catalog = null; $('#findList').innerHTML = '<p class="note">Loading the list…</p>';
+  try { catalog = await loadCatalog(code) } catch(e){ $('#findList').innerHTML = '<p class="note">Couldn\'t load the book list. Check your connection and try again.</p>'; return }
+  $('#findSub').textContent = `${catalog.length.toLocaleString('en-US')} classics in ${name}, free and out of copyright, from Project Gutenberg.`;
   drawFind();
 }
 function drawFind(){
@@ -882,7 +1108,7 @@ function drawFind(){
     const st = adding.get(b.id), have = gids.has(b.id), err = findErr.get(b.id);
     const btn = have ? `<button class="in" data-open="${b.id}" aria-label="${esc(b.t)} is in your library. Open it">In library</button>`
       : st ? `<button disabled data-busy="${b.id}">${esc(st)}</button>` : `<button data-add="${b.id}" aria-label="Add ${esc(b.t)} to your library">Add</button>`;
-    return `<div class="frow" role="listitem"><div class="rt"><span class="t" lang="es">${esc(b.t)}</span><span class="s">${esc(b.a || 'Unknown author')}</span>${err ? `<span class="err" role="alert">${esc(err)}</span>` : ''}</div>${btn}</div>`;
+    return `<div class="frow" role="listitem"><div class="rt"><span class="t" lang="${b.lang}">${esc(b.t)}</span><span class="s">${esc(b.a || 'Unknown author')}${b.en ? ' · <span lang="en">' + esc(b.en) + '</span>' : ''}</span>${err ? `<span class="err" role="alert">${esc(err)}</span>` : ''}</div>${btn}</div>`;
   }).join('') : '<p class="note">Try another spelling, or part of the title. Searching works with or without accents.</p>';
   document.querySelectorAll('#findList [data-add]').forEach(b => b.onclick = () => addFree(+b.dataset.add));
   document.querySelectorAll('#findList [data-open]').forEach(b => b.onclick = async () => {
@@ -890,7 +1116,7 @@ function drawFind(){
   });
 }
 async function addFree(id){
-  const c = catalog.find(b => b.id === id); if (!c || adding.has(id)) return;
+  const c = Object.values(catalogs).flat().find(b => b.id === id); if (!c || adding.has(id)) return;
   findErr.delete(id);
   if (!navigator.onLine){ findErr.set(id, 'You\'re offline. Connect to the internet to add a book.'); return drawFind() }
   adding.set(id, 'Adding…'); drawFind();
@@ -907,9 +1133,9 @@ async function addFree(id){
     clearTimeout(timer);
     const buf = new Uint8Array(got); let o = 0; for (const p of parts){ buf.set(p, o); o += p.length }
     adding.set(id, 'Opening…'); paintAdding(id);
-    const book = await parseEpub(buf.buffer);
+    const book = await parseEpub(buf.buffer, c.lang);
     if (!book.chapters.length) throw new Error('no readable text');
-    Object.assign(book, {id:'g' + id, gid:id, title:c.t, author:c.a || book.author});
+    Object.assign(book, {id:'g' + id, gid:id, title:c.t, author:c.a || book.author, lang:c.lang});
     await DB.put(book); gids.add(id); adding.delete(id);
     openBook(book.id);
   } catch(e){
@@ -935,8 +1161,8 @@ async function openBook(id, target){
     const old = book;
     if (!old) toast('Opening ' + m.title + '…');
     try {
-      book = await parseEpub(await (await fetch(m.file)).arrayBuffer());
-      Object.assign(book, {id, bundled:true, title:m.title, author:m.author, note:m.note});
+      book = await parseEpub(await (await fetch(m.file)).arrayBuffer(), bookLang(m));
+      Object.assign(book, {id, bundled:true, title:m.title, author:m.author, note:m.note, lang:bookLang(m)});
       if (old){ book.tr = Object.assign({}, book.tr || {}, old.tr || {}); carryPlace(id, old, book) }
       await DB.put(book);
     } catch(e){ if (!old) return toast('Could not open that book: ' + e.message); book = old }
@@ -947,7 +1173,8 @@ async function openBook(id, target){
     book.start = sa >= 0 ? sa : Math.min(m.start || 0, book.chapters.length - 1);
     book.end = ba > book.start ? ba : 0;
   }
-  if (book.start == null){ book.start = storyStart(book.chapters); DB.put(book) }
+  if (book.start == null){ book.start = storyStart(book.chapters, bookLang(book)); DB.put(book) }
+  autoSaveDictionary(bookLang(book));   // the first book in a language brings its dictionary for offline
   LS.set('last', id);
   go('reader');
   if (target) return jumpInBook(target);
@@ -966,15 +1193,18 @@ function carryPlace(id, old, nb){
   }
 }
 const WORD = /(\p{L}+(?:[-’']\p{L}+)*)/u;
-const storyEnd = () => book.end && book.end > book.start ? book.end : book.chapters.length;
+// book.back (French books): where the closing "Table des matières" and notes begin.
+const backAt = () => book.back && book.back > book.start ? book.back : book.chapters.length;
+const storyEnd = () => Math.min(book.end && book.end > book.start ? book.end : book.chapters.length, backAt());
 function chapLabel(i){
   if (i < book.start) return 'Before the story';
+  if (i >= backAt()) return 'After the story';
   if (i >= storyEnd()) return 'Bonus story';
   return `Chapter ${i - book.start + 1} of ${storyEnd() - book.start}`;
 }
 function showChapter(i, para){
   chap = i; closeSheet(); $('#toast').classList.add('hide');
-  const c = book.chapters[i], n = book.chapters.length, saved = new Set(LS.get('words', []).map(x => x.w));
+  const c = book.chapters[i], n = book.chapters.length, saved = new Set(LS.get('words', []).map(x => x.w)), lk = PACK[bookLang(book)].key;
   const out = document.createDocumentFragment();
   const op = document.createElement('header'); op.className = 'opener';
   op.innerHTML = `<div class="k">${esc(book.title)}</div><h1>${esc(c.title)}</h1>`; out.append(op);
@@ -989,10 +1219,11 @@ function showChapter(i, para){
   c.paras.forEach((t, pi) => {
     if (pi < skip) return;
     const head = t[0] === '\u0001', el = document.createElement(head ? 'h3' : 'p'); el.dataset.p = pi;
-    wordsInto(el, t.replace(/^\u0001/, ''), saved);
+    wordsInto(el, t.replace(/^\u0001/, ''), saved, lk);
     out.append(el);
   });
-  const tx = $('#text'); tx.replaceChildren(out);
+  const tx = $('#text'); tx.replaceChildren(out); tx.lang = bookLang(book);
+  document.querySelectorAll('#chapnav span').forEach(x => x.lang = bookLang(book));
   const nav = (b, j) => { b.classList.toggle('hide', j < 0 || j >= n); if (j >= 0 && j < n) b.querySelector('span').textContent = book.chapters[j].title };
   nav($('#prev'), i - 1); nav($('#next'), i + 1);
   $('#fChap').textContent = chapLabel(i);
@@ -1034,7 +1265,7 @@ $('#reader').addEventListener('click', e => {
   if (!LS.get('tipDone')){ LS.set('tipDone', 1); const t = $('#text .tip'); if (t) t.remove() }
   document.querySelectorAll('.w.on').forEach(x => x.classList.remove('on')); s.classList.add('on');
   const p = s.closest('[data-p]');
-  showWord(s.textContent, sentenceAround(s), s, {bookId:book.id, title:book.title, c:chap, p:p ? +p.dataset.p : 0, ct:book.chapters[chap].title, tr:book.tr, live:true});
+  showWord(s.textContent, sentenceAround(s), s, {bookId:book.id, title:book.title, c:chap, p:p ? +p.dataset.p : 0, ct:book.chapters[chap].title, tr:book.tr, live:true, lang:bookLang(book)});
 });
 
 // Jump to a saved word's sentence: by its stored place, else by finding the sentence.
@@ -1052,7 +1283,7 @@ async function jumpInBook(t){
   const el = $(`#text [data-p="${p}"]`); if (!el) return;
   requestAnimationFrame(() => {
     window.scrollTo(0, el.getBoundingClientRect().top + scrollY - Math.max(90, innerHeight / 3));
-    const hits = [...el.querySelectorAll('.w')].filter(x => x.textContent.toLowerCase() === t.word);
+    const lk = PACK[bookLang(book)].key, hits = [...el.querySelectorAll('.w')].filter(x => lk(x.textContent) === t.word);
     hits.forEach(x => x.classList.add('on')); setTimeout(() => hits.forEach(x => x.classList.remove('on')), 2500);
   });
 }
@@ -1139,70 +1370,112 @@ const LITTLE = new Set('de la el los las lo que a en y o u e un una unos unas po
 // pronoun entries ("de hierro" = strong, "mi alma" = friend) are too often literal in a story.
 const AUX = new Set('es era eras éramos eran son fue fueron sea sean está están estaba estaban ha han había habían hay será sería'.split(' '));
 const ARTICLE = /^(el|la|los|las|un|una|unos|unas|mi|tu|su|mis|tus|sus|lo|como)$/;
+// French: the same idea with French little words. "il y a" is all little words, so it and its
+// tenses are listed by hand; "au lieu d'aller" is tried as "au lieu de" and "qu'il y a" as "il y a".
+const LITTLE_FR = new Set("de d' la le les l' du des un une et ou à au aux en y que qui qu' ne n' pas se s' sa son ses ce c' cet cette ces il elle ils elles on je j' tu nous vous me m' te t' lui leur leurs mon ma mes ton ta tes notre nos votre vos est a dans par pour sur avec mais si plus comme".split(' '));
+const AUX_FR = new Set(Object.keys(FR_AUXOF));
+const ARTICLE_FR = /^(le|la|les|l'|un|une|des|du|mon|ma|mes|ton|ta|tes|son|sa|ses|notre|nos|votre|vos|leur|leurs|ce|cet|cette|ces|comme)$/;
+const FIXED_FR = {'il y a':'there is, there are', 'il y avait':'there was, there were', 'il y eut':'there was', 'il y aura':'there will be', 'il y aurait':'there would be',
+  "il n'y a":'there is no', "il n'y avait":'there was no', "il n'y a pas":'there is no', "il n'y avait pas":'there was no', "il n'y eut":'there was no',
+  'tout le monde':'everyone', 'quelque chose':'something', "n'importe quoi":'anything', "n'importe qui":'anyone', "n'importe où":'anywhere'};
 async function phraseOk(words, pos){
   const [first] = words, last = words[words.length - 1];
   if (/^(conj|prep_phrase)$/.test(pos)) return true;
-  if (pos === 'verb') return !LITTLE.has(last);
-  if (pos === 'adv') return !ARTICLE.test(first);
+  if (pos === 'verb') return !P.little.has(last);
+  if (pos === 'adv') return !P.article.test(first);
   if (pos === 'prep'){
     if (words.length > 2) return true;
     const r = await exact(first);   // "encima de" yes; "cosa de", "favor de" no
     return !!(r && r.d && r.d.some(e => /^(adv|prep)$/.test(e[0])));
   }
-  if (pos === 'noun') return !AUX.has(first) && words.every((w, i) => !LITTLE.has(w) || (w === 'de' && i > 0 && i < words.length - 1));
+  if (pos === 'noun') return !P.aux.has(first) && words.every((w, i) => !P.little.has(w) || (P.inner.has(w) && i > 0 && i < words.length - 1));
   return false;
 }
 async function phraseAround(span){
   if (!span || !span.parentElement) return null;
-  const ws = []; let sep = null;
+  const fr = P.code === 'fr', ws = []; let sep = null;
   for (const n of span.parentElement.childNodes){
-    if (n.nodeType === 1 && n.classList.contains('w')){ ws.push({el:n, t:n.textContent.toLowerCase(), ok: sep != null && /^ +$/.test(sep.replace(/\s/g, ' '))}); sep = '' }
+    if (n.nodeType === 1 && n.classList.contains('w')){ const raw = n.textContent; ws.push({el:n, t: fr ? (raw === 'A' ? 'à' : P.norm(raw)) : raw.toLowerCase(), ok: sep != null && /^ +$/.test(sep.replace(/\s/g, ' '))}); sep = '' }
     else sep = (sep == null ? '' : sep) + n.textContent;
   }
   const i = ws.findIndex(x => x.el === span); if (i < 0) return null;
   for (let L = 4; L >= 2; L--){
     for (let s0 = Math.max(0, i - L + 1); s0 <= i && s0 + L <= ws.length; s0++){
       const win = ws.slice(s0, s0 + L);
-      if (win.slice(1).some(x => !x.ok) || win.every(x => LITTLE.has(x.t))) continue;
-      const phrase = win.map(x => x.t).join(' ');
-      const rec = await exact(phrase);
-      if (!rec || rec.offline || !rec.d) continue;
-      const g = goodEntry(rec); if (!g || !(await phraseOk(win.map(x => x.t), g[1][0]))) continue;
-      return {phrase, best:g[0], rec, spans:win.map(x => x.el)};
+      if (win.slice(1).some(x => !x.ok)) continue;
+      const words = win.map(x => x.t), tries = [words];
+      if (fr){
+        const m0 = FR_ELIDE.exec(words[0]), mL = FR_ELIDE.exec(words[L - 1]);
+        if (m0) tries.push([m0[2], ...words.slice(1)]);
+        if (mL && /^(d|qu)$/.test(mL[1])) tries.push([...words.slice(0, -1), FR_PRE[mL[1]][0]]);
+      }
+      for (const ws2 of tries){
+        const phrase = ws2.join(' '), fixed = P.fixed[phrase];
+        if (fixed) return {phrase, best:fixed, rec:{d:[['phrase', '', [fixed]]]}, spans:win.map(x => x.el)};
+        if (ws2.every(x => P.little.has(x))) continue;
+        const rec = await exact(phrase);
+        if (!rec || rec.offline || !rec.d) continue;
+        const g = goodEntry(rec); if (!g || !(await phraseOk(ws2, g[1][0]))) continue;
+        return {phrase, best:g[0], rec, spans:win.map(x => x.el)};
+      }
     }
   }
   return null;
 }
 
+/* ---------- the two languages ---------- */
+// Everything that differs between Spanish and French. P is the language words are being looked
+// up in right now: the open book's own language, or the one being learned on the Library page.
+const PACK = {
+  es: {code:'es', name:'Spanish', dict:'dict/', size:'7 MB', norm: w => w.toLowerCase(), core:CORE, verbFirst:VERB_FIRST, prefer:PREFER, verbGloss:VERB_GLOSS,
+    art:ART, little:LITTLE, aux:AUX, article:ARTICLE, inner:new Set(['de']), fixed:{},
+    voiceKey:'voice', voiceRe:/es[-_](ES|MX|US)/i, voiceDefault:'es-ES', accents:[['auto','Any'],['es-ES','Spain'],['es-MX','Mexico'],['es-US','US']], hello:'Hola, ¿qué tal?',
+    site:'SpanishDict', siteUrl: w => 'https://www.spanishdict.com/translate/' + encodeURIComponent(w), key: t => t.toLowerCase(),
+    start:{text:'Marley había muerto. Sobre ello no había ni la menor sombra de duda.', book:'carol', button:'Start reading A Christmas Carol', ct:'Primera estrofa', title:'El cántico de Navidad',
+      tr:{'Marley había muerto.':'Marley was dead.', 'Sobre ello no había ni la menor sombra de duda.':'There is no doubt whatever about that.'}}},
+  fr: {code:'fr', name:'French', dict:'dict/fr/', size:'4 MB', norm: w => w.toLowerCase().replace(/’/g, "'"), core:CORE_FR, verbFirst:VERB_FIRST_FR, prefer:PREFER_FR, verbGloss:VERB_GLOSS_FR,
+    art:{m:'un', f:'une', mf:'un / une'}, little:LITTLE_FR, aux:AUX_FR, article:ARTICLE_FR, inner:new Set(['de', 'à', 'en']), fixed:FIXED_FR,
+    voiceKey:'voice_fr', voiceRe:/fr[-_]FR/i, voiceDefault:'fr-FR', accents:[['auto','Any'],['fr-FR','France'],['fr-CA','Canada']], hello:'Bonjour, ça va ?',
+    site:'WordReference', siteUrl: w => 'https://www.wordreference.com/fren/' + encodeURIComponent(w),
+    key: t => { t = t.toLowerCase().replace(/’/g, "'"); const m = FR_ELIDE.exec(t); return m ? m[2] : t },
+    start:{text:'Il était une fois une petite fille de village, la plus éveillée qu’on eût su voir.', book:'perrault', button:'Start reading Perrault’s fairy tales', ct:'Le petit Chaperon rouge', title:'Contes de Perrault',
+      tr:{'Il était une fois une petite fille de village, la plus éveillée qu’on eût su voir.':'Once upon a time there was a little village girl, the brightest anyone had ever seen.'}}}
+};
+let P = PACK[settings.lang] || PACK.es;
+const usePack = code => (P = PACK[langOf(code)] || PACK.es);
+
 /* ---------- the word card ---------- */
 let current = null;
-const isSaved = w => LS.get('words', []).some(x => x.w === w);
+const isSaved = (w, lang) => LS.get('words', []).some(x => x.w === w && (x.lang || 'es') === lang);
 async function showWord(raw, sentence, span, ctx){
-  const w = raw.toLowerCase();
+  usePack(ctx.lang);   // look the word up in its own book's language
+  const L = P.code;
+  let w = P.key(raw);
   const seq = (showWord.seq = (showWord.seq || 0) + 1);  // a slow answer for an earlier tap must not overwrite this one
   current = {w, sentence, ctx, seq, gloss:'', lemma:''};
-  openSheet(`<div class="sh-head"><div class="grab" aria-hidden="true"></div><div class="sh-row"><span class="wd" lang="es">${esc(raw)}</span>
+  openSheet(`<div class="sh-head"><div class="grab" aria-hidden="true"></div><div class="sh-row"><span class="wd" lang="${L}">${esc(raw)}</span>
       <button class="say" id="sayW" aria-label="Hear ${esc(raw)}">${icon('sound')}</button><button class="pill" data-close>Close</button></div></div>
     <div id="wbody"><div class="best wait">…</div></div>
     <div class="two"><button id="sayS">${icon('sound1','sm')}Play sentence</button><button id="slowS">${icon('slow','sm')}Sentence, slowly</button></div>
     <div class="en hide" id="sentEn" lang="en"></div>
     <div id="wmore"></div>`, 'word', 'Word: ' + raw);
   sheetSpan = span; requestAnimationFrame(reveal);
-  $('#sayW').onclick = () => speak(raw, false);
-  $('#sayS').onclick = () => speak(sentence, false);
-  $('#slowS').onclick = () => speak(sentence, true);
-  if (settings.speakTap) speak(raw, false);
+  $('#sayW').onclick = () => speak(raw, false, L);
+  $('#sayS').onclick = () => speak(sentence, false, L);
+  $('#slowS').onclick = () => speak(sentence, true, L);
+  if (settings.speakTap) speak(raw, false, L);
   englishFor(sentence, ctx).then(en => {
     if (!en || current.seq !== seq || !$('#sentEn')) return;
     $('#sentEn').innerHTML = `<small>Sentence in English</small>${esc(en)}`; $('#sentEn').classList.remove('hide'); reveal();
   });
-  const [a, ph] = await Promise.all([analyze(raw), phraseAround(span)]);
+  const [a, ph] = await Promise.all([analyze(raw, L === 'fr' ? frContext(span) : {}), phraseAround(span)]);
   if (current.seq !== seq || !$('#wbody')) return;
-  const sd = `https://www.spanishdict.com/translate/${encodeURIComponent(w)}`;
+  if (a.key) w = current.w = a.key;   // l'homme is saved as homme, dit-il as dit
+  const sd = P.siteUrl(w);
   if (ph) ph.spans.forEach(x => x.classList.add('on'));
   if (a.status !== 'ok' && ph) a.best = '';
   if (a.status === 'notfound' && !ph){
-    $('#wbody').innerHTML = `<p class="calm">This word isn't in the dictionary${/^\p{Lu}/u.test(raw) ? '. It may be a name' : ''}. <a target="_blank" rel="noopener" href="${sd}">Look it up on SpanishDict ›</a></p>`;
+    $('#wbody').innerHTML = `<p class="calm">This word isn't in the dictionary${/^\p{Lu}/u.test(raw) ? '. It may be a name' : ''}. <a target="_blank" rel="noopener" href="${sd}">Look it up on ${P.site} ›</a></p>`;
     if (ctx.peek) peek(raw, '', 'not in the dictionary');
     return reveal();
   }
@@ -1214,46 +1487,49 @@ async function showWord(raw, sentence, span, ctx){
   current.gloss = gloss; current.lemma = a.lemma || '';
   // A phrase the dictionary knows ("pompas fúnebres") leads; the single word follows beneath it.
   $('#wbody').innerHTML = ph
-    ? `<div class="phr"><small>Here, as a phrase</small><b lang="es">${esc(ph.phrase)}</b></div><div class="best" lang="en">${esc(ph.best)}</div>
-       <div class="alone">On its own, <b lang="es">${esc(raw)}</b>${a.best ? ': ' + esc(a.best) : ' is not in the dictionary'}</div>
+    ? `<div class="phr"><small>Here, as a phrase</small><b lang="${L}">${esc(ph.phrase)}</b></div><div class="best" lang="en">${esc(ph.best)}</div>
+       <div class="alone">On its own, <b lang="${L}">${esc(raw)}</b>${a.best ? ': ' + esc(a.best) : ' is not in the dictionary'}</div>
        ${a.gram ? `<div class="gram">${a.gram}${a.det ? `<span class="det">${esc(a.det)}</span>` : ''}</div>` : ''}
        <button class="primary" id="saveW" style="margin-top:14px"></button>`
     : `<div class="best" lang="en">${esc(a.best)}</div>
     ${a.gram ? `<div class="gram">${a.gram}${a.det ? `<span class="det">${esc(a.det)}</span>` : ''}</div>` : ''}
     <button class="primary" id="saveW" style="margin-top:14px"></button>`;
-  $('#wmore').innerHTML = `<button class="more" id="moreB" aria-expanded="false">More meanings${icon('next','sm')}</button><div class="defs hide" id="moreD">${ph ? `<h4 lang="es">${esc(ph.phrase)}</h4>` + defsHtml(ph.rec.d, ph.phrase) : ''}${a.chain ? moreHtml(a) : ''}</div>`;
+  $('#wmore').innerHTML = `<button class="more" id="moreB" aria-expanded="false">More meanings${icon('next','sm')}</button><div class="defs hide" id="moreD">${ph ? `<h4 lang="${L}">${esc(ph.phrase)}</h4>` + defsHtml(ph.rec.d, ph.phrase) : ''}${a.chain ? moreHtml(a) : ''}</div>`;
   $('#moreB').onclick = () => { const open = $('#moreD').classList.toggle('hide') === false; $('#moreB').setAttribute('aria-expanded', open); $('#sheet').classList.toggle('expanded', open); requestAnimationFrame(() => { reveal(); if (open){ const sh = $('#sheet'); sh.scrollTop = $('#moreB').offsetTop - sh.querySelector('.sh-head').offsetHeight - 8 } }) };
-  const paint = () => { const b = $('#saveW'), on = isSaved(w); b.className = on ? 'primary saved-on' : 'primary'; b.innerHTML = on ? `${icon('check','sm')}Saved · tap to remove` : `${icon('mark','sm')}Save word` };
+  const paint = () => { const b = $('#saveW'), on = isSaved(w, L); b.className = on ? 'primary saved-on' : 'primary'; b.innerHTML = on ? `${icon('check','sm')}Saved · tap to remove` : `${icon('mark','sm')}Save word` };
   paint();
   $('#saveW').onclick = () => {
     let ws = LS.get('words', []);
-    if (isSaved(w)) ws = ws.filter(x => x.w !== w);
-    else ws.unshift({w, lemma:a.lemma || '', gloss, sentence, book:ctx.title, bookId:ctx.bookId, c:ctx.c, p:ctx.p, ct:ctx.ct, t:Date.now()});
+    if (isSaved(w, L)) ws = ws.filter(x => !(x.w === w && (x.lang || 'es') === L));
+    else ws.unshift({w, lemma:a.lemma || '', gloss, sentence, book:ctx.title, bookId:ctx.bookId, c:ctx.c, p:ctx.p, ct:ctx.ct, t:Date.now(), lang:L});
     LS.set('words', ws); paint();
-    document.querySelectorAll('#text .w').forEach(x => { if (x.textContent.toLowerCase() === w) x.classList.toggle('saved', isSaved(w)) });
+    document.querySelectorAll('#text .w').forEach(x => { if (P.key(x.textContent) === w) x.classList.toggle('saved', isSaved(w, L)) });
   };
   if (ctx.peek) peek(ph ? ph.phrase : raw, ph ? ph.best : a.best, !ph && a.lemma && a.chain.length > 1 ? `from ${a.lemma}` : '');
   requestAnimationFrame(reveal);
 }
 function peek(word, mean, from){
   const p = $('#peek'); if (!p) return;
-  p.innerHTML = `<b lang="es">${esc(word)}</b><span>${esc(mean)}</span>${from ? `<small>${esc(from)}</small>` : ''}`; p.classList.remove('hide');
+  p.innerHTML = `<b lang="${P.code}">${esc(word)}</b><span>${esc(mean)}</span>${from ? `<small>${esc(from)}</small>` : ''}`; p.classList.remove('hide');
 }
 
 /* ---------- contents ---------- */
 $('#openToc').onclick = () => {
-  const s = book.start || 0, e = storyEnd(), cp = curPara(), L = book.chapters[chap].paras.length;
+  const s = book.start || 0, e = storyEnd(), back = backAt(), cp = curPara(), L = book.chapters[chap].paras.length, bl = bookLang(book);
   const inPct = Math.min(100, Math.round(100 * cp / Math.max(1, L)));
-  const item = (i, num, sub) => `<li><button data-c="${i}" class="${i === chap ? 'cur' : ''}" ${i === chap ? 'aria-current="true"' : ''}><span class="n">${num}</span><span class="tt" lang="es">${esc(book.chapters[i].title)}${sub ? `<small lang="en">${sub}</small>` : ''}</span>${i === chap ? `<span class="at">Reading · ${inPct}%</span>` : ''}</button></li>`;
+  // A French chapter titled only "XII" shows its own subtitle line under the number.
+  const subOf = c => { if (bl !== 'fr' || !bareLabel(c.title)) return ''; const h = c.paras[0] || ''; return h[0] === '\u0001' ? h.slice(1) : '' };
+  const item = (i, num, sub) => { const st = subOf(book.chapters[i]);
+    return `<li><button data-c="${i}" class="${i === chap ? 'cur' : ''}" ${i === chap ? 'aria-current="true"' : ''}><span class="n">${num}</span><span class="tt" lang="${bl}">${esc(book.chapters[i].title)}${st ? `<small>${esc(st)}</small>` : ''}${sub ? `<small lang="en">${sub}</small>` : ''}</span>${i === chap ? `<span class="at">Reading · ${inPct}%</span>` : ''}</button></li>` };
   let story = '';
-  for (let i = s; i < book.chapters.length; i++) story += item(i, i < e ? i - s + 1 : '', i >= e ? 'Bonus story' : '');
+  for (let i = s; i < book.chapters.length; i++) story += item(i, i < e ? i - s + 1 : '', i >= back ? 'After the story' : i >= e ? 'Bonus story' : '');
   const front = book.chapters.slice(0, s).map(c => c.title.length > 26 ? c.title.slice(0, 24).trim() + '…' : c.title);
   const fold1 = t => t === t.toUpperCase() && /\p{Lu}{3}/u.test(t) ? cap(t.toLowerCase()) : t;
   const frontSum = front.length ? `${front.slice(0, 2).map(fold1).join(', ')}${front.length > 2 ? `, +${front.length - 2} more` : ''}` : '';
   const sh = openSheet(`${head('<h2>Contents</h2>', 'Done')}
-    <div class="note es" lang="es" style="margin-top:-8px">${esc(book.title)}${book.author ? ' · ' + esc(book.author) : ''}</div>
+    <div class="note es" lang="${bl}" style="margin-top:-8px">${esc(book.title)}${book.author ? ' · ' + esc(book.author) : ''}</div>
     <ol class="toc">${story}</ol>
-    ${s ? `<button class="before" id="beforeB" aria-expanded="${chap < s}">${icon('next','sm')}<span>Before the story (<span lang="es">${esc(frontSum)}</span>)</span></button>
+    ${s ? `<button class="before" id="beforeB" aria-expanded="${chap < s}">${icon('next','sm')}<span>Before the story (<span lang="${bl}">${esc(frontSum)}</span>)</span></button>
       <ol class="toc ${chap < s ? '' : 'hide'}" id="beforeL">${book.chapters.slice(0, s).map((c, i) => item(i, '', '')).join('')}</ol>` : ''}`, 'tall', 'Contents');
   sh.querySelectorAll('[data-c]').forEach(b => b.onclick = () => showChapter(+b.dataset.c));
   const bb = $('#beforeB'); if (bb) bb.onclick = () => { const open = $('#beforeL').classList.toggle('hide') === false; bb.setAttribute('aria-expanded', open) };
@@ -1298,8 +1574,8 @@ function renderWords(){
   };
   v.innerHTML = `<div class="sh-row" style="gap:10px"><h1 style="flex:1">Words</h1>${ws.length ? '<button class="pill" id="csv">Export</button>' : ''}</div>
     ${ws.length ? `<p class="note" style="margin:-8px 0 0">${ws.length} ${ws.length === 1 ? 'word' : 'words'} saved. Tap one to go back to where you found it.</p>
-      <ul class="wcards">${ws.map((x, i) => `<li><button data-i="${i}"><span class="h"><b lang="es">${esc(x.w)}</b><span>${esc(x.gloss || '')}</span></span>
-        <span class="ctx" lang="es">${esc(ctxOf(x.sentence || '', x.w))}</span><span class="src" lang="es">${esc(x.book || '')}${x.ct ? ' · ' + esc(x.ct) : ''}</span></button></li>`).join('')}</ul>`
+      <ul class="wcards">${ws.map((x, i) => `<li><button data-i="${i}"><span class="h"><b lang="${x.lang || 'es'}">${esc(x.w)}</b><span>${esc(x.gloss || '')}</span></span>
+        <span class="ctx" lang="${x.lang || 'es'}">${esc(ctxOf(x.sentence || '', x.w))}</span><span class="src" lang="${x.lang || 'es'}">${esc(x.book || '')}${x.ct ? ' · ' + esc(x.ct) : ''}</span></button></li>`).join('')}</ul>`
     : `<div class="empty"><p>No saved words yet.</p><p class="note" style="font-size:17px">While you read, tap a word, then tap <b>Save word</b> on its card. It collects here with the sentence you found it in, and you can tap it to go back there.</p>
       <button class="outline" id="wGo" style="width:auto;padding:0 18px">Go to the Library</button></div>`}`;
   const g = $('#wGo'); if (g) g.onclick = () => go('library');
@@ -1312,79 +1588,99 @@ function renderWords(){
   });
   const c = $('#csv'); if (c) c.onclick = () => {
     const q = s => '"' + String(s || '').replace(/"/g, '""') + '"';
-    const csv = 'word,lemma,meaning,sentence,book\n' + ws.map(x => [x.w, x.lemma, x.gloss, x.sentence, x.book].map(q).join(',')).join('\n');
+    const csv = 'word,lemma,meaning,sentence,book,language\n' + ws.map(x => [x.w, x.lemma, x.gloss, x.sentence, x.book, LANGS[x.lang || 'es']].map(q).join(',')).join('\n');
     const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([csv], {type:'text/csv'})); a.download = 'lector-words.csv'; a.click();
   };
 }
 
 /* ---------- settings tab ---------- */
-const ACCENTS = [['auto','Any'],['es-ES','Spain'],['es-MX','Mexico'],['es-US','US']];
 const SLOWS = [[0.5,'50%'],[0.6,'60%'],[0.7,'70%'],[0.8,'80%']];
+// Switching the language being learned: the free shelf, Find a free book, the voice and the
+// dictionary follow it. Books already on the phone keep their own language.
+function setLang(code){
+  if (!LANGS[code]) return;
+  settings.lang = code; applySettings(); usePack(code);
+  if (view === 'library') renderLibrary();
+  if (view === 'settings') renderSettings();
+  if (LS.get('last')) autoSaveDictionary(code);
+}
 function renderSettings(){
-  const v = $('#v-settings');
+  const v = $('#v-settings'), pk = PACK[settings.lang], voices = voicesFor(pk.code);
   const opt = (list, cur) => list.map(([val, l]) => `<option value="${val}" ${String(cur) === String(val) ? 'selected' : ''}>${l}</option>`).join('');
   const lbl = (list, cur) => (list.find(([val]) => String(val) === String(cur)) || list[0])[1];
   v.innerHTML = `<h1>Settings</h1>
+    <section class="group"><h2>Language</h2><div class="list">
+      <label class="item"><span>Learning</span><span class="v">${pk.name}</span><select id="lng" aria-label="Language you are learning">${opt(Object.entries(LANGS), settings.lang)}</select></label>
+    </div><p class="small" style="margin:2px 0 0">Free books, the dictionary and the voice follow this. Each book keeps its own language.</p></section>
     <section class="group"><h2>Listening</h2><div class="list">
       <label class="item"><span>Speak each word I tap</span><input type="checkbox" id="spk" ${settings.speakTap ? 'checked' : ''}></label>
-      <label class="item"><span>Accent</span><span class="v">${lbl(ACCENTS, settings.voice)}</span><select id="acc" aria-label="Accent">${opt(ACCENTS, settings.voice)}</select></label>
+      <label class="item"><span>Accent</span><span class="v">${lbl(pk.accents, settings[pk.voiceKey])}</span><select id="acc" aria-label="Accent">${opt(pk.accents, settings[pk.voiceKey])}</select></label>
       <label class="item"><span>Slow speed</span><span class="v">${lbl(SLOWS, settings.slow)}</span><select id="slw" aria-label="Slow speed">${opt(SLOWS, settings.slow)}</select></label>
-    </div><p class="small" style="margin:2px 0 0">${voices.length ? voices.length + ' Spanish ' + (voices.length === 1 ? 'voice' : 'voices') + ' on this phone.' : 'No Spanish voice found yet. On iPhone: Settings › Accessibility › Spoken Content › Voices › Spanish.'}</p></section>
+    </div><p class="small" style="margin:2px 0 0">${voices.length ? voices.length + ' ' + pk.name + ' ' + (voices.length === 1 ? 'voice' : 'voices') + ' on this phone.' : NO_VOICE(pk.name)}</p></section>
     <section class="group"><h2>Offline</h2><div class="offcard" id="offCard"></div></section>
     <section class="group"><h2>Books</h2><div class="list">
       <button class="item" id="sHelp"><span>How to add your own book</span>${icon('next','sm')}</button>
       <button class="item" id="sFind"><span>Find a free book</span>${icon('next','sm')}</button>
     </div></section>
-    <p class="small">Your books and saved words stay on this phone. Nothing is uploaded, and there's no account. Dictionary from <a href="https://en.wiktionary.org" target="_blank" rel="noopener">Wiktionary</a> (CC BY-SA) via kaikki.org. Free books from Project Gutenberg and Wikisource. Pronunciation is your phone's own Spanish voice.</p>`;
+    <p class="small">Your books and saved words stay on this phone. Nothing is uploaded, and there's no account. Dictionaries from <a href="https://en.wiktionary.org" target="_blank" rel="noopener">Wiktionary</a> (CC BY-SA) via kaikki.org. Free books from Project Gutenberg and Wikisource. Pronunciation is your phone's own ${pk.name} voice.</p>`;
+  $('#lng').onchange = e => setLang(e.target.value);
   $('#spk').onchange = e => { settings.speakTap = e.target.checked; applySettings() };
-  $('#acc').onchange = e => { settings.voice = e.target.value; applySettings(); renderSettings(); speak('Hola, ¿qué tal?', false) };
-  $('#slw').onchange = e => { settings.slow = +e.target.value; applySettings(); renderSettings(); speak('Hola, ¿qué tal?', true) };
+  $('#acc').onchange = e => { settings[pk.voiceKey] = e.target.value; applySettings(); renderSettings(); speak(pk.hello, false, pk.code) };
+  $('#slw').onchange = e => { settings.slow = +e.target.value; applySettings(); renderSettings(); speak(pk.hello, true, pk.code) };
   $('#sHelp').onclick = openAddHelp;
   $('#sFind').onclick = () => go('find');
   paintOffline();
 }
 
 /* ---------- offline dictionary ---------- */
-// Downloads every shard once, through the service worker, so lookups work with no signal.
-const off = {state: LS.get('offline') ? 'saved' : 'none', pct: 0};
+// Downloads every shard of one language once, through the service worker, so lookups work with
+// no signal. Each language is saved separately (Spanish under "offline", French "offline.fr").
+const offKey = code => code === 'es' ? 'offline' : 'offline.' + code;
+const offs = {};
+const offOf = code => offs[code] || (offs[code] = {state: LS.get(offKey(code)) ? 'saved' : 'none', pct: 0});
+const off = offOf('es');   // kept for the test harness and older notes: the Spanish state
 function paintOffline(){
   const c = $('#offCard'); if (!c) return;
-  if (off.state === 'saved') c.innerHTML = `<div class="st">${icon('check')}<span>Dictionary saved on this phone</span></div><p>Looking up words works with no signal, even on a plane.</p>`;
-  else if (off.state === 'saving') c.innerHTML = `<div class="st"><span>Saving the dictionary… ${off.pct}%</span></div><div class="bar"><i style="width:${off.pct}%"></i></div><p>About 7 MB. You can keep reading while it saves.</p>`;
-  else c.innerHTML = `<div class="st"><span>${off.state === 'failed' ? 'The download stopped before it finished' : 'Dictionary not saved yet'}</span></div>
-    <p>Words look themselves up as you read. To read with no signal, like on a plane, save the whole dictionary first (about 7 MB).</p><button class="primary" id="offBtn">${off.state === 'failed' ? 'Try again' : 'Save it now'}</button>`;
-  const b = $('#offBtn'); if (b) b.onclick = () => saveDictionary();
+  const pk = PACK[settings.lang], o = offOf(pk.code);
+  if (o.state === 'saved') c.innerHTML = `<div class="st">${icon('check')}<span>${pk.name} dictionary saved on this phone</span></div><p>Looking up words works with no signal, even on a plane.</p>`;
+  else if (o.state === 'saving') c.innerHTML = `<div class="st"><span>Saving the ${pk.name} dictionary… ${o.pct}%</span></div><div class="bar"><i style="width:${o.pct}%"></i></div><p>About ${pk.size}. You can keep reading while it saves.</p>`;
+  else c.innerHTML = `<div class="st"><span>${o.state === 'failed' ? 'The download stopped before it finished' : pk.name + ' dictionary not saved yet'}</span></div>
+    <p>Words look themselves up as you read. To read with no signal, like on a plane, save the whole dictionary first (about ${pk.size}).</p><button class="primary" id="offBtn">${o.state === 'failed' ? 'Try again' : 'Save it now'}</button>`;
+  const b = $('#offBtn'); if (b) b.onclick = () => saveDictionary(pk.code);
 }
-async function saveDictionary(){
-  if (off.state === 'saving') return;
-  off.state = 'saving'; off.pct = 0; paintOffline();
+async function saveDictionary(code = settings.lang){
+  const o = offOf(code), dir = PACK[code].dict;
+  if (o.state === 'saving') return;
+  o.state = 'saving'; o.pct = 0; paintOffline();
   try {
     if ('serviceWorker' in navigator){
       await Promise.race([navigator.serviceWorker.ready, new Promise(r => setTimeout(r, 5000))]);
       if (!navigator.serviceWorker.controller) await new Promise(r => { navigator.serviceWorker.addEventListener('controllerchange', r, {once:true}); setTimeout(r, 4000) });
     }
-    const keys = await (await fetch('dict/_index.json')).json();
+    const keys = await (await fetch(dir + '_index.json')).json();
     for (let i = 0; i < keys.length; i += 6){
-      const rs = await Promise.all(keys.slice(i, i + 6).map(k => fetch('dict/' + k + '.json')));
+      const rs = await Promise.all(keys.slice(i, i + 6).map(k => fetch(dir + k + '.json')));
       if (rs.some(r => !r.ok)) throw new Error('fetch');
-      off.pct = Math.min(100, Math.round(100 * (i + 6) / keys.length)); paintOffline();
+      o.pct = Math.min(100, Math.round(100 * (i + 6) / keys.length)); paintOffline();
     }
     // Only claim "saved" if it really is in the offline cache.
-    const ok = 'caches' in window && await caches.match('dict/' + keys[keys.length - 1] + '.json');
+    const ok = 'caches' in window && await caches.match(dir + keys[keys.length - 1] + '.json');
     if (!ok) throw new Error('not cached');
-    LS.set('offline', Date.now()); off.state = 'saved';
-  } catch(e){ off.state = 'failed' }
+    LS.set(offKey(code), Date.now()); o.state = 'saved';
+  } catch(e){ o.state = 'failed' }
   paintOffline();
 }
-function autoSaveDictionary(){
-  if (off.state !== 'none' || !navigator.onLine) return;
+// Saved automatically on Wi-Fi the first time a language is used (a book in it is opened).
+function autoSaveDictionary(code = settings.lang){
+  if (offOf(code).state !== 'none' || !navigator.onLine) return;
   const cn = navigator.connection; if (cn && (cn.saveData || cn.type === 'cellular')) return;
-  setTimeout(() => { if (document.visibilityState === 'visible') saveDictionary() }, 4000);
+  setTimeout(() => { if (document.visibilityState === 'visible') saveDictionary(code) }, 4000);
 }
 
 if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(() => {});
+if (PLATFORM === 'android') $('#addLabel').textContent = 'Add a book from your phone';
 go('library');
-autoSaveDictionary();
+if (LS.get('last')) autoSaveDictionary(settings.lang);
 </script>
 </body>
 </html>

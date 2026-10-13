@@ -1,8 +1,10 @@
 #!/usr/bin/env python3
-"""Build Lector's sharded Spanish->English dictionary from the kaikki.org
-Wiktionary extract (CC BY-SA 4.0).
+"""Build Lector's sharded Spanish->English (or French->English) dictionary from
+the kaikki.org English-Wiktionary extract (CC BY-SA 4.0).
 
-usage: build_dict.py <kaikki-Spanish.jsonl.gz> <out_dir>
+usage: build_dict.py <kaikki-<Language>.jsonl.gz> <out_dir> [lang_code]
+
+lang_code is "es" (the default; output in dict/) or "fr" (output in dict/fr/).
 
 Output: <out_dir>/<shard>.json, one per two-letter prefix of the accent-folded
 lowercase word. Each maps word -> {"d": [[pos, gender, [glosses]]...],
@@ -14,6 +16,9 @@ from collections import defaultdict
 
 MAX_POS, MAX_SENSES, MAX_GLOSS = 3, 4, 140
 SKIP_TAGS = {"obsolete", "archaic", "rare", "dated"}
+# Inflection pointers from a regional dialect only (French: été as a Louisiana past participle of
+# aller) would otherwise compete with the everyday reading.
+SKIP_FORM_TAGS = {"fr": {"Louisiana"}}
 ABBR = [("first-person", "1st"), ("second-person", "2nd"), ("third-person", "3rd"),
         ("singular", "sing."), ("plural", "pl."), ("indicative", "ind."),
         ("subjunctive", "subj."), ("imperative", "imper."), ("preterite", "preterite"),
@@ -29,11 +34,11 @@ def shard(w):
     f = fold(w)
     return (f[:2] if len(f) >= 2 else (f + "_")[:2]) or "__"
 
-def gender(e):
+def gender(e, lang="es"):
     for t in e.get("head_templates", []):
         a = t.get("args", {})
         g = a.get("1", "")
-        if t.get("name", "").startswith("es-noun") and g in ("m", "f", "mf", "m-p", "f-p", "mfbysense"):
+        if t.get("name", "").startswith(lang + "-noun") and g in ("m", "f", "mf", "m-p", "f-p", "mfbysense"):
             return {"mfbysense": "mf", "m-p": "m", "f-p": "f"}.get(g, g)
     return ""
 
@@ -43,12 +48,12 @@ def label(gloss, lemma):
         lab = lab.replace(a, b)
     return lab[:80]
 
-def main(src, out):
+def main(src, out, lang="es"):
     words = defaultdict(lambda: {"d": [], "f": []})
     with gzip.open(src, "rt", encoding="utf-8") as fh:
         for line in fh:
             e = json.loads(line)
-            if e.get("lang_code") != "es":
+            if e.get("lang_code") != lang:
                 continue
             w = e["word"].lower().strip()
             if not w or " " in w and len(w) > 40:
@@ -59,9 +64,16 @@ def main(src, out):
             plain = [s for s in senses if not SKIP_TAGS & set(s.get("tags", []))] or senses
             for s in plain:
                 gl = (s.get("glosses") or [""])[-1].strip()
+                # French: a sub-sense ("sound of the action") follows its parent sense ("blow, hit,
+                # strike"), so the everyday meaning leads. (Spanish keeps its original build.)
+                parent = (s.get("glosses") or [""])[0].strip() if lang == "fr" and len(s.get("glosses") or []) > 1 else ""
+                if parent and not s.get("form_of") and parent not in defs:
+                    defs.append(parent[:MAX_GLOSS])
                 if not gl:
                     continue
                 if s.get("form_of"):
+                    if SKIP_FORM_TAGS.get(lang, set()) & set(s.get("tags", [])):
+                        continue
                     lem = s["form_of"][0].get("word", "").strip()
                     if lem and lem.lower() != w:
                         forms.append([lem, label(gl, lem)])
@@ -73,7 +85,7 @@ def main(src, out):
                     defs.append(gl[:MAX_GLOSS])
             rec = words[w]
             if defs and len(rec["d"]) < MAX_POS:
-                rec["d"].append([pos, gender(e), defs[:MAX_SENSES]])
+                rec["d"].append([pos, gender(e, lang), defs[:MAX_SENSES]])
             for f in forms:
                 if f not in rec["f"] and len(rec["f"]) < 4:
                     rec["f"].append(f)
@@ -92,4 +104,4 @@ def main(src, out):
     print(f"{total} words in {len(shards)} shards")
 
 if __name__ == "__main__":
-    main(sys.argv[1], sys.argv[2])
+    main(sys.argv[1], sys.argv[2], *(sys.argv[3:4]))
