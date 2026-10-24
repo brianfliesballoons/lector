@@ -132,7 +132,7 @@
     },
     "sources": [
      "Real Academia Española and Asociación de Academias de la Lengua Española (RAE–ASALE), Nueva gramática básica de la lengua española (2011): gender of nouns; the article.",
-     "RAE–ASALE, Diccionario panhispánico de dudas (2005), entry “el”: el before feminine nouns that begin with a stressed a (el agua, las aguas)."
+     "RAE–ASALE, Diccionario panhispánico de dudas (DPD, 2.ª ed. en línea, rae.es/dpd), entry “el”: el before feminine nouns that begin with a stressed a (el agua, las aguas)."
     ],
     "ask": "I'm learning Spanish (Mexican Spanish). Explain noun gender and the articles el, la, los, las, un, una in plain words, including the common exceptions (el día, la mano, el agua). Give five short everyday examples, then three quick fill-in-the-blank questions. Keep it brief."
    },
@@ -227,7 +227,7 @@
     },
     "sources": [
      "RAE–ASALE, Nueva gramática básica de la lengua española (2011): personal pronouns; unstressed pronouns (clitics) and where they go.",
-     "RAE–ASALE, Diccionario panhispánico de dudas (2005), entry “leísmo”: lo and la for direct objects, le and les for indirect objects."
+     "RAE–ASALE, Diccionario panhispánico de dudas (DPD, 2.ª ed. en línea, rae.es/dpd), entry “leísmo”: lo and la for direct objects, le and les for indirect objects."
     ],
     "ask": "I'm learning Spanish (Mexican Spanish). Explain the object pronouns me, te, lo, la, le, nos, los, las, les and se lo in plain words: which one to use and where it goes. Give five short everyday examples, then three quick practice sentences. Keep it brief."
    },
@@ -267,7 +267,7 @@
       "items": [
        [
         "un **buen** día",
-        "a good day (bueno → buen before a masculine noun)"
+        "a good day (bueno → buen before a masculine singular noun)"
        ],
        [
         "un **gran** hombre · un hombre **grande**",
@@ -353,7 +353,7 @@
        ],
        [
         "¿cuál? ¿cuáles?",
-        "{en|which?}"
+        "{en|which? / what? (before es: ¿cuál es tu nombre?)}"
        ],
        [
         "¿cuánto? ¿cuánta?",
@@ -371,7 +371,7 @@
      },
      {
       "t": "note",
-      "x": "Question words carry a written accent. {es|¿Por qué?} (two words) asks; {es|porque} (one word, no accent) answers: {es|¿Por qué? Porque sí.}"
+      "x": "Question words carry a written accent, in questions and exclamations, and even without ¿? ({es|no sé dónde está}). {es|¿Por qué?} (two words) asks; {es|porque} (one word, no accent) answers: {es|¿Por qué? Porque sí.}"
      },
      {
       "t": "h",
@@ -406,7 +406,7 @@
     },
     "sources": [
      "RAE–ASALE, Ortografía de la lengua española (2010): opening and closing question marks; the written accent on question words.",
-     "RAE–ASALE, Diccionario panhispánico de dudas (2005), entry “porque / porqué / por qué / por que”.",
+     "RAE–ASALE, Diccionario panhispánico de dudas (DPD, 2.ª ed. en línea, rae.es/dpd), entries “porque” and “porqué”.",
      "RAE–ASALE, Nueva gramática básica de la lengua española (2011): negation and negative words."
     ],
     "ask": "I'm learning Spanish (Mexican Spanish). Explain how to ask questions and say no in Spanish, in plain words: the question words with accents, por qué vs porque, and double negatives (no… nada, no… nadie). Give five short everyday examples and three quick practice sentences. Keep it brief."
@@ -635,7 +635,7 @@
     "sub": "quiero, puedo, pido",
     "fam": "boot",
     "words": "boot stem change stem-changing e ie o ue e i u ue querer poder pedir jugar dormir pensar volver nosotros",
-    "lead": "In the present, the stem vowel stretches when it carries the stress: e → ie, o → ue, e → i (and u → ue in jugar). Shade the changed forms and you get a boot. nosotros stays outside it.",
+    "lead": "In the present, the stem vowel changes when it carries the stress: e → ie, o → ue, e → i (and u → ue in jugar). Shade the changed forms and you get a boot. nosotros stays outside it.",
     "blocks": [
      {
       "t": "boot",
@@ -652,7 +652,7 @@
     ],
     "call": {
      "h": "Also good to know:",
-     "x": "-ir boot verbs change in the preterite too, but only in the él and ellos forms, and only to i or u: {es|pidió, pidieron; durmió, durmieron}. The present subjunctive keeps the boot: {es|quiera, quieras, queramos}."
+     "x": "-ir boot verbs change in the preterite too, but only in the él and ellos forms, and only to i or u: {es|pidió, pidieron; durmió, durmieron}. The present subjunctive keeps the boot ({es|quiera, quieras}; {es|queramos} outside). -ir boot verbs also change nosotros there: {es|pidamos, durmamos}."
     },
     "sources": [
      "RAE–ASALE, Nueva gramática básica de la lengua española (2011): vowel alternations in irregular verbs (diphthongs ie, ue; e → i).",
@@ -829,7 +829,7 @@
     "sub": "ser, ir, estar, haber",
     "fam": "true",
     "words": "true irregular irregulars ser ir estar haber dar saber ver soy voy estoy doy fui era iba hay",
-    "lead": "A handful of everyday verbs follow no family. Learn them whole: they are the ones you hear most.",
+    "lead": "These seven are irregular in more than one way and are best learned whole.",
     "blocks": [
      {
       "t": "verbs",
@@ -920,7 +920,7 @@
         "c": "r",
         "en": "until · up to",
         "shape": "until",
-        "es": "**desde** lunes **hasta** viernes",
+        "es": "**desde** el lunes **hasta** el viernes",
         "tr": "from Monday to Friday"
        }
       ]
@@ -935,7 +935,7 @@
       "items": [
        [
         "Voy **al** mercado. · la casa **del** señor",
-        "a + el = al, de + el = del (always joined)"
+        "a + el = al, de + el = del: always joined, except before a name that starts with El: de El Paso, a El Salvador"
        ],
        [
         "Veo **a** Ana.",
@@ -945,12 +945,13 @@
      }
     ],
     "call": {
-     "h": "Why “desde” and not “de”?",
-     "x": "The love is travelling, and **desde** marks where the trip starts. “{es|De California}” is heard too, but it leans toward __belonging to__ or __coming from__ California."
+     "h": "desde or de?",
+     "x": "Both work. **Desde** stresses the starting point of a trip; **de** is plain origin: “{es|Enviando amor desde California}”, “{es|Soy de California}”."
     },
     "sources": [
      "RAE–ASALE, Nueva gramática básica de la lengua española (2011): prepositions; the contractions al and del; a before a direct object that is a person.",
-     "RAE–ASALE, Diccionario panhispánico de dudas (2005), entries “a” and “desde”."
+     "RAE–ASALE, Diccionario panhispánico de dudas (DPD, 2.ª ed. en línea, rae.es/dpd), entries “a²”, “al” and “del”.",
+     "RAE–ASALE, El buen uso del español (2013): “Las preposiciones de y desde”."
     ],
     "ask": "I'm learning Spanish (Mexican Spanish). Explain the prepositions a, de, desde, en and hasta in plain words, plus al, del and the personal a. Give two short everyday examples for each. Keep it brief."
    },
@@ -1074,7 +1075,7 @@
     },
     "sources": [
      "RAE–ASALE, Ortografía de la lengua española (2010): the letters and the sounds they stand for.",
-     "RAE–ASALE, Diccionario panhispánico de dudas (2005), entries “seseo”, “yeísmo” and “México”."
+     "RAE–ASALE, Diccionario panhispánico de dudas (DPD, 2.ª ed. en línea, rae.es/dpd), entries “seseo”, “yeísmo” and “México”."
     ],
     "ask": "I'm learning Spanish (Mexican Spanish). Coach me on Spanish pronunciation in plain words: the five vowels, r vs rr, ñ, silent h, ll and y, j and g, and c/z as said in Mexico. Give me ten short words to practise out loud. Keep it brief."
    },
@@ -1103,7 +1104,7 @@
         "breaks the rule: the accent shows where the stress goes"
        ],
        [
-        "**te**léfono · **mú**sica · **rá**pido",
+        "te**lé**fono · **mú**sica · **rá**pido",
         "stress three from the end: always written"
        ],
        [
@@ -1154,7 +1155,7 @@
         "de {en|of, from}"
        ],
        [
-        "qué, cómo, dónde… {en|in questions}",
+        "qué, cómo, dónde… {en|in questions and exclamations, even without ¿? (no sé dónde está)}",
         "que, como, donde… {en|elsewhere}"
        ]
       ]
@@ -1283,7 +1284,7 @@
        ],
        [
         "**his** car · **her** car",
-        "el carro de él · el carro de ella: el «su» depende del dueño"
+        "el carro de él · el carro de ella: el “su” depende del dueño"
        ],
        [
         "This book is **mine**.",
@@ -1323,7 +1324,7 @@
        ],
        [
         "two big dog**s**",
-        "dos perros grandes: el adjetivo no lleva plural, nunca «bigs»"
+        "dos perros grandes: el adjetivo no lleva plural, nunca “bigs”"
        ],
        [
         "**I** drink coffee.",
@@ -1331,7 +1332,7 @@
        ],
        [
         "**It** is raining.",
-        "Está lloviendo: siempre va quién, aunque sea «it»"
+        "Está lloviendo: siempre va quién, aunque sea “it”"
        ],
        [
         "I **always** drink coffee.",
@@ -1405,7 +1406,7 @@
        ],
        [
         "Did you **go**?",
-        "¿Fuiste?: con did el verbo no va en pasado, nunca «Did you went?»"
+        "¿Fuiste?: con did el verbo no va en pasado, nunca “Did you went?”"
        ],
        [
         "Are you ready? · I can’t swim.",
@@ -1468,6 +1469,37 @@
        ]
       ],
       "rh": false
+     },
+     {
+      "t": "h",
+      "x": "La -s suena de tres maneras"
+     },
+     {
+      "t": "table",
+      "lang": "en",
+      "rh": false,
+      "head": [
+       "{es|suena}",
+       "{es|después de}",
+       "{es|ejemplos}"
+      ],
+      "rows": [
+       [
+        "“s”",
+        "{es|p, t, k, f (sin voz)}",
+        "works, stops, eats, laughs"
+       ],
+       [
+        "“z”",
+        "{es|vocales y los demás sonidos}",
+        "plays, lives, goes, calls"
+       ],
+       [
+        "“iz”",
+        "{es|s, z, sh, ch, x, ge: se agrega una sílaba}",
+        "watches, fixes, uses, changes"
+       ]
+      ]
      },
      {
       "t": "h",
@@ -1586,7 +1618,7 @@
         "{es|Voy a trabajar mañana.}"
        ],
        [
-        "{es|ya ha pasado}",
+        "{es|empezó antes y sigue}",
         "I **have worked** here for two years.",
         "{es|Llevo dos años trabajando aquí.}"
        ]
@@ -1743,7 +1775,7 @@
     "sub": "buy · bought",
     "efam": "ought",
     "words": "irregular familia -ought / -aught buy · bought",
-    "lead": "El pasado y el participio terminan en -ought o -aught y suenan casi igual, como «ot».",
+    "lead": "El pasado y el participio terminan en -ought o -aught y suenan casi igual, como “ot”.",
     "blocks": [
      {
       "t": "enshape",
@@ -1892,7 +1924,7 @@
     "titleLang": "en",
     "sub": "en, en, en…",
     "words": "in on at preposiciones lugar tiempo hora dia mes",
-    "lead": "En español casi todo es «en». En inglés depende de cómo es el lugar o el tiempo.",
+    "lead": "En español casi todo es “en”. En inglés depende de cómo es el lugar o el tiempo.",
     "blocks": [
      {
       "t": "lanes",
@@ -1924,6 +1956,20 @@
         "es": "**at** home · **at** work · **at** the door",
         "tr": "en casa · en el trabajo · en la puerta"
        }
+      ]
+     },
+     {
+      "t": "ex",
+      "lang": "en",
+      "items": [
+       [
+        "**on** the bus · **on** the train · **on** the plane",
+        "camión, tren, avión (te subes caminando): on"
+       ],
+       [
+        "**in** the car · **in** the taxi",
+        "carro o taxi: in"
+       ]
       ]
      },
      {
@@ -2009,7 +2055,7 @@
         "w": "for",
         "lang": "en",
         "c": "p",
-        "en": "durante (un rato)",
+        "en": "durante (cuánto tiempo)",
         "shape": "for",
         "es": "I’ve lived here **for** five years.",
         "tr": "Llevo cinco años viviendo aquí."
@@ -2022,7 +2068,7 @@
       "items": [
        [
         "This is **for** you.",
-        "Esto es para ti: for también es «para»"
+        "Esto es para ti: for también es “para”"
        ],
        [
         "**from** Monday **to** Friday",
@@ -2107,7 +2153,7 @@
     ],
     "call": {
      "h": "Con it, them, me:",
-     "x": "en muchos va en medio: {en|turn **it** off}, {en|pick **me** up}; nunca «turn off it». Otros nunca se separan: {en|look for it}, {en|get up}."
+     "x": "en muchos va en medio: {en|turn **it** off}, {en|pick **me** up}; nunca “turn off it”. Otros nunca se separan: {en|look after it}, {en|come back}."
     },
     "sources": [
      "Michael Swan, Practical English Usage (Oxford University Press, 4.ª ed., 2016): phrasal verbs (word order with pronouns).",
@@ -2127,15 +2173,15 @@
       "items": [
        [
         "ship",
-        "barco (i corta)",
+        "barco: una i relajada, casi entre i y e",
         "sheep",
-        "oveja (i larga)"
+        "oveja: i larga y tensa, como la i española"
        ],
        [
         "live",
-        "vivir (i corta)",
+        "vivir: i relajada",
         "leave",
-        "irse (i larga)"
+        "irse: i larga y tensa"
        ],
        [
         "very",
@@ -2186,10 +2232,10 @@
     ],
     "call": {
      "h": "La s sin e:",
-     "x": "{en|Spain, school, star}: empieza con una s larga, sssss, sin decir «e» antes."
+     "x": "{en|Spain, school, star}: empieza con una s larga, sssss, sin decir “e” antes."
     },
     "sources": [
-     "Peter Roach, English Phonetics and Phonology (Cambridge University Press, 4.ª ed., 2009): vowels, consonants (th, v).",
+     "Marianne Celce-Murcia, Donna M. Brinton y Janet M. Goodwin, con Barry Griner, Teaching Pronunciation (Cambridge University Press, 2.ª ed., 2010): vocales (ship, sheep) y consonantes (th, v), en inglés de Estados Unidos.",
      "Michael Swan, Practical English Usage (Oxford University Press, 4.ª ed., 2016): pronunciation; spelling and pronunciation."
     ],
     "group": "sounds"
@@ -2212,17 +2258,17 @@
       ],
       "rows": [
        [
-        "«t»",
-        "{es|p, k, s, sh, ch, f (sin voz)}",
+        "“t”",
+        "{es|p, k, s, x, sh, ch, f, th (sin voz)}",
         "worked, stopped, washed, watched"
        ],
        [
-        "«d»",
+        "“d”",
         "{es|vocales y los demás sonidos}",
         "played, lived, called, cleaned"
        ],
        [
-        "«id»",
+        "“id”",
         "{es|t o d}",
         "wanted, needed, visited, decided"
        ]
@@ -2234,15 +2280,15 @@
       "items": [
        [
         "worked",
-        "suena «workt»",
+        "suena “workt”",
         "played",
-        "suena «pleid»"
+        "suena “pleid”"
        ],
        [
         "wanted",
-        "suena «want-id»",
+        "suena “want-id”",
         "lived",
-        "suena «livd»"
+        "suena “livd”"
        ]
       ]
      }
@@ -2252,7 +2298,7 @@
      "x": "solo se oye una sílaba extra después de t o d: {en|want-ed}, {en|need-ed}. {en|worked} es una sola sílaba."
     },
     "sources": [
-     "Peter Roach, English Phonetics and Phonology (Cambridge University Press, 4.ª ed., 2009): the -ed ending.",
+     "Marianne Celce-Murcia, Donna M. Brinton y Janet M. Goodwin, con Barry Griner, Teaching Pronunciation (Cambridge University Press, 2.ª ed., 2010): las terminaciones -ed y -s.",
      "Michael Swan, Practical English Usage (Oxford University Press, 4.ª ed., 2016): pronunciation of -ed."
     ]
    }

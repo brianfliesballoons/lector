@@ -1401,7 +1401,7 @@ const UI = {en: {
     missed: 'Worth another look:', again: 'Another round', change: 'Change tenses', none: 'No forms fit those choices. Pick another tense.',
     deeper: (verb, tense, who, form) => `I'm learning Spanish (Mexican Spanish). Why is the ${tense.toLowerCase()} of "${verb}" for "${who}" "${form}"? Explain the pattern in plain words, show the whole row, and give two short everyday examples. Keep it brief.`,
     // the interactive verb chart
-    tabs: {pres: ['Now', 'present'], pret: ['Happened', 'fue'], impf: ['Used to', 'era'], fut: ['Will', 'future'], cond: ['Would', 'conditional'],
+    tabs: {pres: ['Now', 'present'], pret: ['Happened', 'fue'], impf: ['Was / used to', 'era'], fut: ['Will', 'future'], cond: ['Would', 'conditional'],
       sub: ['Subjunctive', 'that it…'], subi: ['Past subj.', 'if it…'], imp: ['Do it!', 'commands'], neg: ['Don’t!', 'commands']},
     tenseTabsL: 'Tense', moreTenses: 'More tenses', fewerTenses: 'Fewer tenses', quickL: 'Your verbs, then the most used',
     types: {reg: 'Regular', irr: 'Irregular', true: 'Truly irregular', spell: 'Spelling change'},
@@ -1435,7 +1435,7 @@ const UI = {en: {
       outside: 'nosotros keeps the plain stem: it sits outside the boot.',
       strong: (stem, yo, el) => `A strong past: the stem becomes ${stem}-, and ${yo} and ${el} carry no accent mark.`,
       pretIr: 'An -ir boot verb: in this tense only the él and ellos forms change, e to i or o to u.',
-      impfReg: 'Regular here. The “used to” tense has only three irregular verbs: ser, ir and ver.',
+      impfReg: 'Regular here. Only three verbs are irregular in this tense: ser, ir and ver.',
       short: (stem, inf) => `A short future stem: ${stem}- instead of ${inf}-. The endings are the regular ones.`,
       shortCond: stem => `The conditional uses the same short stem as the future: ${stem}-.`,
       futReg: 'Regular here: the endings go on the whole infinitive.',
@@ -1540,7 +1540,7 @@ UI.es = {
     askGrammar: t => `Estoy aprendiendo inglés (nivel básico) y mi idioma es el español. Explícame «${t}» de forma sencilla, con cinco ejemplos cortos y cotidianos en inglés con su traducción, y termina con un ejercicio pequeñito para mí. Responde en español.`,
     askClaudeAbout: t => `Preguntarle a Claude sobre ${t}`, tapHearAll: 'Toca cualquier ejemplo para escucharlo en inglés.'},
   ref: {title: 'Referencia', kick: 'Aprender', sub: 'Lo básico del inglés, explicado en español.', open: 'Referencia', openLine: 'Lo básico del inglés en un solo lugar. Cada tarjeta se puede imprimir.',
-    searchL: 'Buscar una regla', searchPh: 'Buscar: to be, do, sonidos…', none: q => `Nada coincide con «${q}». Prueba con una palabra, como «do» o «sonidos».`,
+    searchL: 'Buscar una regla', searchPh: 'Buscar: to be, do, sonidos…', none: q => `Nada coincide con “${q}”. Prueba con una palabra, como “do” o “sonidos”.`,
     print: 'Imprimir', deeper: 'Preguntar a Claude', back: 'Referencia', sources: 'Fuentes', drill: 'Practicar esta familia', famDrill: n => `Practicar: ${n}`,
     loading: 'Cargando…', cantLoad: 'No se pudo cargar la referencia. Revisa tu conexión e inténtalo otra vez.', tryAgain: 'Intentar otra vez'},
   wv: {tabsL: 'Tus palabras y verbos guardados', words: n => `Palabras · ${n}`, verbs: n => `Verbos · ${n}`, filterL: 'Mostrar verbos', fAll: 'Todos', fIrr: n => `Irregulares · ${n}`, fBoot: n => `Bota · ${n}`, fReg: n => `Regulares · ${n}`,
@@ -4467,17 +4467,18 @@ function enBase(gloss){
   const m = /^(?:to )?([a-z]+)((?: [a-z'-]+){0,3})$/i.exec(String(gloss || '').split(/[,;(]/)[0].trim());
   return m ? [m[1].toLowerCase(), m[2] || ''] : null;
 }
-const VERB_EN = {poder: {pres: () => 'can', cond: () => 'could', sub: () => 'can', subi: () => 'could'}};
+const VERB_EN = {poder: {pres: () => 'can', impf: () => 'could', cond: () => 'could', sub: () => 'can', subi: () => 'could'}};
 function formEn(inf, gloss, tense, i){
   const b = enBase(VERB_GLOSS[inf] || gloss); if (!b) return '';
   const [v, rest] = b, ov = VERB_EN[inf] && VERB_EN[inf][tense], who = EN_WHO[i];
   if (isImpT(tense)) return (tense === 'neg' ? 'Don’t ' + v : cap(v)) + rest + '!';
-  if (ov) return `${tense === 'sub' ? '(that) ' : tense === 'subi' ? '(if) ' : ''}${who} ${ov()}${rest}`;
+  if (ov) return `${tense === 'sub' ? '(that) ' : tense === 'subi' ? '(if) ' : ''}${who} ${ov()}`;   // can, could: the whole English, no "able to" after it
   const be = v === 'be', one = i === 0 || i === 2;
   switch (tense){
     case 'pres': return `${who} ${be ? (i === 0 ? 'am' : i === 2 ? 'is' : 'are') : i === 2 ? sOf(v) : v}${rest}`;
     case 'pret': return `${who} ${be ? (one ? 'was' : 'were') : pastOf(v)}${rest}`;
-    case 'impf': return `${who} used to ${v}${rest}`;
+    // a state (had, knew, wanted, was) reads as a plain past; an action as "used to"
+    case 'impf': return STATIVE.has(v) || v === 'think' ? `${who} ${be ? (one ? 'was' : 'were') : pastOf(v)}${rest}` : `${who} used to ${v}${rest}`;
     case 'fut': return `${who} will ${v}${rest}`;
     case 'cond': return `${who} would ${v}${rest}`;
     case 'sub': return `(that) ${who} ${v}${rest}`;
@@ -4893,41 +4894,43 @@ const enIrr = v => !!(v && v.f);
 // Everything on this side is written for a Spanish speaker, so its wording is Spanish whatever the app's language.
 const EVU = {
   title: 'Tabla de verbos', back: 'Referencia',
-  searchL: 'Buscar un verbo en inglés', searchPh: 'Un verbo: go, went, have…', show: 'Ver', notFound: q => `No encontré «${q}». Escribe el verbo, como go o have.`,
+  searchL: 'Buscar un verbo en inglés', searchPh: 'Un verbo: go, went, have…', show: 'Ver', notFound: q => `No encontré “${q}”. Escribe el verbo, como go o have.`,
   quickL: 'Tus verbos y los más usados', mostUsed: 'Los verbos más usados', showAll: n => `Ver los ${n}`, showFewer: 'Ver menos',
   loading: 'Cargando…', cantLoad: 'No se pudo cargar la tabla. Revisa tu conexión e inténtalo otra vez.', tryAgain: 'Intentar otra vez',
-  tabsL: 'Tiempo', tabs: {now: ['Ahora', 'presente'], past: ['Pasó', 'pasado'], will: ['Va a pasar', 'futuro'], perf: ['Ya ha pasado', 'have + participio'], prog: ['Está pasando', 'be + -ing']},
-  tenseLine: {now: 'Lo de siempre, o lo que es verdad ahora.', past: 'Algo que pasó y ya terminó.', will: 'Algo que va a pasar.', perf: 'Algo que ya pasó y todavía importa ahora.', prog: 'Lo que está pasando en este momento.'},
+  tabsL: 'Tiempo', tabs: {now: ['Ahora', 'presente'], past: ['Pasó', 'pasado'], will: ['Va a pasar', 'futuro'], perf: ['Empezó y sigue', 'have + participio'], prog: ['Está pasando', 'be + -ing']},
+  tenseLine: {now: 'Lo de siempre, o lo que es verdad ahora.', past: 'Algo que pasó y ya terminó.', will: 'Algo que va a pasar.', perf: 'Empezó antes y sigue, o todavía importa ahora.', prog: 'Lo que está pasando en este momento.'},
   persons: ['I', 'you', 'he / she / it', 'we', 'they'], esWho: ['yo', 'tú', 'él / ella', 'nosotros', 'ellos'],
   forms: {s: '-s', p: 'pasado', pp: 'participio', ing: '-ing'},
   types: {reg: 'Regular', irr: 'Irregular'},
-  legend: {irr: 'irregular', spell: 'cambia la escritura, no el sonido'}, legendL: 'Qué significan los colores',
+  legend: {irr: 'irregular', spell: 'se escribe distinto'}, legendL: 'Qué significan los colores',
   cover: 'Ponme a prueba: tapa las formas', uncover: 'Ver todas', tapSee: 'toca para ver', checkSelf: 'toca la fila para revisar', sayFirst: 'Dila en voz alta primero y luego toca.',
   saveVerb: '☆ Guardar verbo', savedVerb: '★ Guardado', saveL: v => `Guardar el verbo ${v}`, savedL: v => `${v} está guardado. Toca para quitarlo.`, hear: v => `Escuchar ${v}`,
   drillVerb: v => `Practicar ${v}`, deeper: 'Preguntar a Claude', print: 'Imprimir esta tabla', meaning: 'En español',
   tapForm: 'Toca una forma para escucharla y ver por qué es así.',
-  deeperVerb: v => `Estoy aprendiendo inglés (nivel básico) y mi idioma es el español. Explícame el verbo «${v}» de forma sencilla: sus formas (presente, pasado, participio, -ing), si es irregular y por qué, y dame cinco ejemplos cortos y cotidianos con su traducción. Responde en español.`,
+  deeperVerb: v => `Estoy aprendiendo inglés (nivel básico) y mi idioma es el español. Explícame el verbo “${v}” de forma sencilla: sus formas (presente, pasado, participio, -ing), si es irregular y por qué, y dame cinco ejemplos cortos y cotidianos con su traducción. Responde en español.`,
   famNames: {same: 'Iguales en las tres', iau: 'i · a · u', ought: '-ought / -aught', ewown: '-ew / -own', vowel: 'Cambia una vocal', t: 'Terminan en -t', en: 'Participio en -en', true: 'Los de memoria', other: 'Otros irregulares'},
   famRules: {same: 'put · put · put', iau: 'sing · sang · sung', ought: 'buy · bought · bought', ewown: 'know · knew · known', vowel: 'sit · sat · sat', t: 'feel · felt · felt', en: 'take · took · taken', true: 'be · go · do · have', other: 'say · said · said'},
   famNotes: {same: 'No cambia: el pasado y el participio son iguales al verbo.', iau: 'La i cambia a a en el pasado y a u en el participio.',
-    ought: 'El pasado y el participio terminan en -ought o -aught, y suenan casi igual: «ot».', ewown: 'El pasado termina en -ew y el participio en -wn.',
-    vowel: 'Cambia una vocal y el pasado y el participio quedan iguales. Ojo: get tiene el participio gotten.', t: 'El pasado y el participio terminan en -t; muchas veces la vocal también cambia.',
+    ought: 'El pasado y el participio terminan en -ought o -aught, y suenan casi igual: “ot”.', ewown: 'El pasado termina en -ew y el participio en -wn.',
+    vowel: 'Cambia una vocal y el pasado y el participio quedan iguales.', t: 'El pasado y el participio terminan en -t; muchas veces la vocal también cambia.',
     en: 'El pasado cambia y el participio termina en -en o -n.', true: 'be, go, do y have no siguen ninguna familia: se aprenden de memoria.', other: 'Es irregular pero no tiene familia: este se aprende solo.'},
   shapeL: (b, p, pp) => `${b}, ${p}, ${pp}: verbo, pasado y participio`, shapeH: ['verbo', 'pasado', 'participio'],
   drillFam: n => `Practicar: ${n}`, drill: 'Practicar esta familia', practiceL: 'Practicar mis irregulares',
   q: 'Escribe la forma', qForms: {s: 'con he / she / it', p: 'pasado', pp: 'participio', ing: 'con -ing'}, frame: {s: 'She ___ .', p: 'Yesterday I ___ .', pp: 'I have ___ .', ing: 'I am ___ .'},
-  typeIt: 'Escríbela', check: 'Comprobar', showChoices: 'Ver opciones', showAnswer: 'Ver la respuesta', youTyped: 'Escribiste', youChose: 'Elegiste', right: '¡Bien!', notQuite: 'Casi.', itIs: f => `Es ${f}.`, shown: 'Es esta:',
+  typeIt: 'Escríbela', check: 'Revisar', showChoices: 'Ver opciones', showAnswer: 'Ver la respuesta', youTyped: 'Escribiste', youChose: 'Elegiste', right: '¡Bien!', notQuite: 'Casi.', itIs: f => `Es ${f}.`, shown: 'Es esta:',
   row: 'Todas sus formas', seeChart: 'Ver la tabla', hearIt: 'Escuchar', none: 'No hay formas para practicar aquí.',
   why: {
     beNow: 'to be es irregular: I am, you are, he is. Se aprende de memoria.', haveNow: 'Con he, she e it, have cambia a has.',
     base: 'Con I, you, we y they, el verbo va tal cual.', s: 'Con he, she e it se agrega -s.', es: 'Termina en s, sh, ch, x u o: se agrega -es.',
     ies: 'Consonante + y: la y cambia a i y se agrega -es.', doNow: 'do cambia a does con he, she e it.',
     bePast: 'En pasado, to be tiene dos formas: was con I, he, she, it, y were con you, we, they.',
-    fam: (n, note) => `Verbo irregular, familia «${n}». ${note}`, ed: 'Verbo regular: se agrega -ed. Es igual para todas las personas.',
-    edE: 'Termina en e: solo se agrega -d.', ied: 'Consonante + y: la y cambia a -ied.', dbl: 'Una vocal + una consonante al final: la consonante se dobla.',
+    fam: (n, note) => `Verbo irregular, familia “${n}”. ${note}`, ed: 'Verbo regular: se agrega -ed. Es igual para todas las personas.',
+    edE: 'Termina en e: solo se agrega -d.', ied: 'Consonante + y: la y cambia a -ied.', dbl: 'Termina en una vocal + una consonante, y esa sílaba lleva la fuerza: la consonante se dobla (stop → stopped, admit → admitted; pero visit → visited).',
     will: 'will + el verbo tal cual, igual para todas las personas. Se dice corto: I’ll, she’ll.',
-    perf: 'have (has con he, she, it) + participio: algo que ya pasó y todavía importa ahora.', ppIrr: pp => `El participio es irregular: ${pp}.`, ppReg: 'El participio regular es igual al pasado (-ed).',
-    prog: 'am, is o are + -ing: lo que está pasando ahora mismo.', ingE: 'La e del final se va antes de -ing.', ingDbl: 'Una vocal + una consonante: se dobla antes de -ing.', ingIe: 'ie cambia a y antes de -ing.'
+    perf: 'have (has con he, she, it) + participio: algo que empezó antes y sigue, o que todavía importa ahora.', ppIrr: pp => `El participio es irregular: ${pp}.`, ppReg: 'El participio regular es igual al pasado (-ed).',
+    prog: 'am, is o are + -ing: lo que está pasando ahora mismo.',
+    state: 'Con verbos de estado (have, know, want…), el pasado en español casi siempre es el imperfecto: “tenía”, “sabía”. El pretérito cuenta un momento: “tuve una idea”; “supe” es “me enteré”.',
+    beEs: ' En español: era o estaba.', read: 'Se escribe igual, pero suena distinto: read suena “rid” en presente y “red” en pasado y participio.', ingE: 'La e del final se va antes de -ing.', ingDbl: 'Termina en una vocal + una consonante con fuerza: se dobla antes de -ing (run → running).', ingIe: 'ie cambia a y antes de -ing.'
   },
   wv: {fAll: 'Todos', fIrr: n => `Irregulares · ${n}`, fReg: n => `Regulares · ${n}`, filterL: 'Mostrar verbos', due: n => `${n} para repasar`, formsOf: n => `${n} de 4 formas`, fresh: 'nuevo',
     learnedL: n => `${n} de 4 formas aprendidas`, dots: ['-s', 'pasado', 'participio', '-ing'], practice: n => n ? `Practicar mis irregulares · ${n} para repasar` : 'Practicar mis irregulares',
@@ -4948,7 +4951,8 @@ function enCell(v, tense, i){
   else if (tense === 'will'){ aux = 'will'; form = v.b }
   else if (tense === 'perf'){ aux = i === 2 ? 'has' : 'have'; form = v.pp; mk = enMark(v, 'pp') }
   else { aux = BE_NOW[i]; form = v.ing; mk = enMark(v, 'ing') }
-  return {aux, form, mk, text: `${who} ${aux ? aux + ' ' : ''}${form}`};
+  const said = v.b === 'read' && (tense === 'past' || tense === 'perf') ? 'red' : form;   // read, read: same letters, "red" in the past
+  return {aux, form, mk, text: `${who} ${aux ? aux + ' ' : ''}${said}`};
 }
 const enCellHtml = c => (c.aux ? `<span class="pre">${esc(c.aux)} </span>` : '') + enSlice(c.form, c.mk);
 // The Spanish for a cell ("yo tuve"); to be gives both ser and estar.
@@ -4956,7 +4960,8 @@ function enSpanish(v, tense, i){
   const who = EVU.esWho[i];
   if (!v.t) return v.es;
   const one = t => `${who} ${t[tense][i]}`;
-  return v.t2 ? `${one(v.t)} · ${one(v.t2)}` : one(v.t);
+  if (v.t2) return `${one(v.t)} · ${one(v.t2)}`;
+  return tense === 'past' && v.t.pret ? `${one(v.t)} / ${who} ${v.t.pret[i]}` : one(v.t);   // tenía / tuve
 }
 function enWhy(v, tense, i){
   const W = EVU.why, fam = v.f && v.f !== 'true' ? W.fam(EVU.famNames[v.f], EVU.famNotes[v.f]) : v.f === 'true' ? EVU.famNotes.true : '';
@@ -4967,8 +4972,10 @@ function enWhy(v, tense, i){
     if (v.b === 'do') return W.doNow;
     return /[^aeiou]ies$/.test(v.s) && /y$/.test(v.b) ? W.ies : v.s === v.b + 'es' ? W.es : W.s;
   }
+  if (v.b === 'read' && (tense === 'past' || tense === 'perf')) return W.read;
   if (tense === 'past'){
-    if (v.b === 'be') return W.bePast;
+    if (v.b === 'be') return W.bePast + W.beEs;
+    if (v.state) return (v.f ? fam + ' ' : '') + W.state;
     if (v.f) return fam;
     const mk = enMark(v, 'p');
     return !mk ? (v.b.endsWith('e') ? W.edE : W.ed) : /ied$/.test(v.p) && /y$/.test(v.b) ? W.ied : W.dbl;
@@ -5155,7 +5162,7 @@ function bindEnCard(root, q, done){
   const ch = root.querySelector('#cjChoose'); if (ch) ch.onclick = () => { q.mode = 'choose'; done(null) };
   const sh = root.querySelector('#cjShow'); if (sh) sh.onclick = () => answer('', 'show');
   root.querySelectorAll('[data-o]').forEach(b => b.onclick = () => answer(b.dataset.o, 'choose'));
-  const v = enVerb(q.v), hr = root.querySelector('#cjHear'); if (hr) hr.onclick = () => speak([v.b, v.p.replace(' / ', ', '), v.pp].join(', '), false, 'en');
+  const v = enVerb(q.v), hr = root.querySelector('#cjHear'); if (hr) hr.onclick = () => speak(v.b === 'read' ? 'read, red, red' : [v.b, v.p.replace(' / ', ', '), v.pp].join(', '), false, 'en');
   const cc = root.querySelector('#cjChart'); if (cc) cc.onclick = () => { cz = null; if (rv) rv = null; EG2.verb = q.v; openGrammar('en-charts', null, 'ref') };
 }
 function renderEnConj(v){

@@ -21,7 +21,7 @@ ROOT = os.path.dirname(os.path.abspath(__file__))
 #   iau    i in the base, a in the past, u in the participle (sing, sang, sung)
 #   ought  past and participle end in -ought or -aught (buy, bought; teach, taught)
 #   ewown  past in -ew, participle in -wn (know, knew, known)
-#   vowel  one vowel changes, past and participle the same (sit, sat; find, found) — get keeps gotten (US)
+#   vowel  one vowel changes, past and participle the same (sit, sat; find, found)
 #   t      past and participle end in -t (feel, felt; keep, kept)
 #   en     participle ends in -en or -n with a new past (take, took, taken; eat, ate, eaten)
 #   true   be, go, do, have: learned whole
@@ -38,23 +38,23 @@ IRR = {
   'fight': ('fought', 'fought', 'ought'), 'seek': ('sought', 'sought', 'ought'), 'teach': ('taught', 'taught', 'ought'), 'catch': ('caught', 'caught', 'ought'),
   'know': ('knew', 'known', 'ewown'), 'grow': ('grew', 'grown', 'ewown'), 'throw': ('threw', 'thrown', 'ewown'), 'fly': ('flew', 'flown', 'ewown'),
   'blow': ('blew', 'blown', 'ewown'), 'draw': ('drew', 'drawn', 'ewown'),
-  'get': ('got', 'gotten', 'vowel'), 'sit': ('sat', 'sat', 'vowel'), 'find': ('found', 'found', 'vowel'), 'win': ('won', 'won', 'vowel'),
+  'sit': ('sat', 'sat', 'vowel'), 'find': ('found', 'found', 'vowel'), 'win': ('won', 'won', 'vowel'),
   'meet': ('met', 'met', 'vowel'), 'hold': ('held', 'held', 'vowel'), 'lead': ('led', 'led', 'vowel'), 'feed': ('fed', 'fed', 'vowel'),
   'shoot': ('shot', 'shot', 'vowel'), 'dig': ('dug', 'dug', 'vowel'), 'hang': ('hung', 'hung', 'vowel'), 'stick': ('stuck', 'stuck', 'vowel'),
   'swing': ('swung', 'swung', 'vowel'),
   'feel': ('felt', 'felt', 't'), 'leave': ('left', 'left', 't'), 'mean': ('meant', 'meant', 't'), 'keep': ('kept', 'kept', 't'), 'lose': ('lost', 'lost', 't'),
   'spend': ('spent', 'spent', 't'), 'build': ('built', 'built', 't'), 'send': ('sent', 'sent', 't'), 'sleep': ('slept', 'slept', 't'),
   'lend': ('lent', 'lent', 't'), 'bend': ('bent', 'bent', 't'), 'sweep': ('swept', 'swept', 't'), 'deal': ('dealt', 'dealt', 't'),
-  'take': ('took', 'taken', 'en'), 'see': ('saw', 'seen', 'en'), 'give': ('gave', 'given', 'en'), 'write': ('wrote', 'written', 'en'),
+  'get': ('got', 'gotten', 'en'), 'take': ('took', 'taken', 'en'), 'see': ('saw', 'seen', 'en'), 'give': ('gave', 'given', 'en'), 'write': ('wrote', 'written', 'en'),
   'speak': ('spoke', 'spoken', 'en'), 'fall': ('fell', 'fallen', 'en'), 'break': ('broke', 'broken', 'en'), 'drive': ('drove', 'driven', 'en'),
   'eat': ('ate', 'eaten', 'en'), 'choose': ('chose', 'chosen', 'en'), 'forget': ('forgot', 'forgotten', 'en'), 'hide': ('hid', 'hidden', 'en'),
   'ride': ('rode', 'ridden', 'en'), 'wake': ('woke', 'woken', 'en'), 'rise': ('rose', 'risen', 'en'), 'steal': ('stole', 'stolen', 'en'),
-  'bite': ('bit', 'bitten', 'en'), 'beat': ('beat', 'beaten', 'en'), 'shake': ('shook', 'shaken', 'en'), 'freeze': ('froze', 'frozen', 'en'),
+  'bite': ('bit', 'bitten', 'en'),  'shake': ('shook', 'shaken', 'en'), 'freeze': ('froze', 'frozen', 'en'),
   'forgive': ('forgave', 'forgiven', 'en'),
   'say': ('said', 'said', 'other'), 'make': ('made', 'made', 'other'), 'come': ('came', 'come', 'other'), 'tell': ('told', 'told', 'other'),
   'become': ('became', 'become', 'other'), 'run': ('ran', 'run', 'other'), 'stand': ('stood', 'stood', 'other'), 'hear': ('heard', 'heard', 'other'),
   'pay': ('paid', 'paid', 'other'), 'understand': ('understood', 'understood', 'other'), 'sell': ('sold', 'sold', 'other'),
-  'wear': ('wore', 'worn', 'other'), 'light': ('lit', 'lit', 'other'), 'lay': ('laid', 'laid', 'other'), 'show': ('showed', 'shown', 'other'),
+  'wear': ('wore', 'worn', 'other'), 'light': ('lit', 'lit', 'other'), 'lay': ('laid', 'laid', 'other'), 'show': ('showed', 'shown', 'other'), 'beat': ('beat', 'beaten', 'other'),
 }
 VERBS = [
   # base, Spanish meaning, Spanish verb (its forms translate each cell)
@@ -99,7 +99,7 @@ VERBS = [
   ('visit', 'visitar', 'visitar'), ('travel', 'viajar', 'viajar'), ('listen', 'escuchar', 'escuchar'), ('look', 'mirar, verse', 'mirar'),
   ('finish', 'terminar', 'terminar'), ('answer', 'contestar', 'contestar'), ('cry', 'llorar', 'llorar'), ('dance', 'bailar', 'bailar'),
   ('enjoy', 'disfrutar', 'disfrutar'), ('fix', 'arreglar', 'arreglar'), ('hurry', 'apurarse', 'apurarse'), ('jump', 'saltar', 'saltar'),
-  ('laugh', 'reírse', 'reír'), ('marry', 'casarse con', 'casarse'), ('miss', 'extrañar; perder (el camión)', 'extrañar'), ('order', 'pedir, ordenar', 'ordenar'),
+  ('laugh', 'reírse', 'reírse'), ('marry', 'casarse con', 'casarse'), ('miss', 'extrañar; perder (el camión)', 'extrañar'), ('order', 'pedir, ordenar', 'ordenar'),
   ('prefer', 'preferir', 'preferir'), ('push', 'empujar', 'empujar'), ('relax', 'relajarse', 'relajarse'), ('rest', 'descansar', 'descansar'),
   ('return', 'regresar, devolver', 'regresar'), ('share', 'compartir', 'compartir'), ('smile', 'sonreír', 'sonreír'), ('wash', 'lavar', 'lavar'),
   ('worry', 'preocuparse', 'preocuparse'), ('allow', 'permitir', 'permitir'), ('belong', 'pertenecer', 'pertenecer'), ('check', 'revisar', 'revisar'),
@@ -112,6 +112,9 @@ VERBS = [
   ('agree', 'estar de acuerdo', ''), ('fry', 'freír', 'freír'), ('apply', 'aplicar, solicitar', 'solicitar'), ('reply', 'responder', 'responder'),
 ]
 
+# State verbs: their everyday Spanish past is the imperfect (tenía, sabía, quería); the preterite tells of one moment
+# (tuve una llamada; supe = I found out).
+STATE = {'be', 'have', 'know', 'want', 'like', 'need', 'think', 'believe', 'love', 'seem', 'mean', 'understand'}
 def s_of(b):
     if b in ('be',): return 'is'
     if b == 'have': return 'has'
@@ -138,6 +141,12 @@ def ing_of(b):
 
 def irr_slice(base, form):
     if base == form: return None
+    a0 = _slice(base, form)
+    if a0[0] < a0[1]: return a0
+    # nothing left between the shared start and end (meet → met, hide → hid): mark the vowel before the cut
+    if a0[0] >= len(form): return [max(0, len(form) - 2), len(form)]   # hid, bit: the last two letters
+    return [max(0, a0[0] - 1), a0[0]]                                # met, led, fed, shot, chose, lit
+def _slice(base, form):
     a = 0
     while a < len(base) and a < len(form) and base[a] == form[a]: a += 1
     z = 0
@@ -164,7 +173,7 @@ def listed(form, base, label):
     e = load_dict(form)
     return bool(e) and any(l == base and lab == label for l, lab in e.get('f', []))
 
-def es_table(v):
+def es_table(v, state=False):
     if not v: return None
     from unicodedata import normalize
     pron = v.endswith('se') and not os.path.exists('x')
@@ -180,7 +189,8 @@ def es_table(v):
     HE, ESTOY = ['he', 'has', 'ha', 'hemos', 'han'], ['estoy', 'estás', 'está', 'estamos', 'están']
     return {
         'now': [pre(i) + t['pres'][i] for i in range(5)],
-        'past': [pre(i) + t['pret'][i] for i in range(5)],
+        'past': [pre(i) + (t['impf'] if state else t['pret'])[i] for i in range(5)],
+        'pret': [pre(i) + t['pret'][i] for i in range(5)] if state else None,
         'will': [pre(i) + t['fut'][i] for i in range(5)],
         'perf': [pre(i) + HE[i] + ' ' + t['pp'] for i in range(5)],
         'prog': [pre(i) + ESTOY[i] + ' ' + t['ger'] for i in range(5)],
@@ -205,6 +215,7 @@ def main():
         if v['pp'] != b and not listed(v['pp'], b, 'participio'): bad.append(f"{b}: participle {v['pp']}")
         x = {}
         if b in ('be', 'have'): x['s'] = ['irr'] + irr_slice(b, v['s'])   # is, has
+        elif b in ('do', 'say'): x['s'] = ['irr', 1, len(v['s'])]          # does, says: the vowel sound changes
         else:
             m = spell_mark(b, v['s'], 's');  x['s'] = m if m else 0
         m = spell_mark(b, v['ing'], 'ing'); x['ing'] = m if m else 0
@@ -218,8 +229,12 @@ def main():
         if b == 'be': x['p'] = ['irr', 0, 3]
         if any(x.values()): v['x'] = {k: m for k, m in x.items() if m}
         if ev:
-            v['ev'] = ev; v['t'] = es_table(ev)
-            if b == 'be': v['t2'] = es_table('estar')
+            st = b in STATE
+            v['ev'] = ev; v['t'] = es_table(ev, st)
+            if b == 'be': v['t2'] = es_table('estar', st); v['t']['pret'] = v['t2']['pret'] = None
+            if not v['t'].get('pret'): v['t'].pop('pret', None)
+            if v.get('t2') and not v['t2'].get('pret'): v['t2'].pop('pret', None)
+            if st: v['state'] = 1
         out.append(v)
     if '--rank' in sys.argv:
         from wordfreq import zipf_frequency
