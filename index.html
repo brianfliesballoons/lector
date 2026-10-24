@@ -655,6 +655,201 @@ a.primary{text-decoration:none}
 .best.two-sense span{display:flex;flex-direction:column;gap:2px;background:var(--bg);border-radius:10px;padding:8px 10px;overflow-wrap:anywhere}
 .best.two-sense small{font-size:13px;color:var(--mute);font-weight:400;font-family:var(--ui)}
 .acout{display:flex;flex-direction:column;gap:10px}
+/* ---------- the Reference shelf, the interactive verb chart, Words › Verbs ---------- */
+/* Five group colours (green building blocks, rust verbs, red irregulars, blue little words, purple sounds) plus
+   the boot's orange; text in them passes 4.5:1 on the card in every theme. */
+:root,:root[data-theme=light],:root[data-theme=sepia]{--rf-g:#2f6b3a;--rf-r:#9a4420;--rf-d:#9a3328;--rf-b:#1f6fb2;--rf-p:#6b4c9a;--rf-o:#a04b00;--rf-boot:#f6dfc5}
+:root[data-theme=dark],:root[data-theme=black]{--rf-g:#8cc78a;--rf-r:#e8955f;--rf-d:#ee8f7f;--rf-b:#8cc0f2;--rf-p:#c3a6ee;--rf-o:#f6ac4d;--rf-boot:#4a3520}
+.rc{font-weight:700}.rc.g{color:var(--rf-g)}.rc.r{color:var(--rf-r)}.rc.d{color:var(--rf-d)}.rc.b{color:var(--rf-b)}.rc.p{color:var(--rf-p)}.rc.o{color:var(--rf-o)}
+.rband{flex:none;width:6px;align-self:stretch;border-radius:3px;background:var(--line);min-height:28px}
+.rband.g{background:var(--rf-g)}.rband.r{background:var(--rf-r)}.rband.d{background:var(--rf-d)}.rband.b{background:var(--rf-b)}.rband.p{background:var(--rf-p)}.rband.o{background:var(--rf-o)}
+.refopen{display:flex;align-items:center;gap:14px;text-align:left;width:100%;border-radius:16px;padding:14px 16px;min-height:72px}
+.refopen .rbands{display:grid;grid-template-columns:repeat(5,6px);gap:3px;height:40px;flex:none}
+.refopen .rbands i{border-radius:3px}
+.rbands .g{background:var(--rf-g)}.rbands .r{background:var(--rf-r)}.rbands .d{background:var(--rf-d)}.rbands .b{background:var(--rf-b)}.rbands .p{background:var(--rf-p)}
+.refopen .rt{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.refopen b{font-family:var(--serif);font-size:19px;font-weight:600}
+.refopen small{font-size:14px;color:var(--mute);line-height:1.4}
+.rhead{display:flex;flex-direction:column;gap:2px}
+.rhead .kick{color:var(--mute)}
+#refShelf{display:flex;flex-direction:column;gap:18px}
+.rgroup{display:flex;flex-direction:column;gap:8px}
+.view .rgk{margin:0;font-size:13px;font-weight:700;letter-spacing:.5px;text-transform:uppercase}
+.rtiles{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.rtile{display:flex;gap:10px;align-items:center;text-align:left;border-radius:12px;padding:8px 10px;min-height:60px;width:100%;min-width:0}
+.rtile.wide{grid-column:1 / -1}
+.rtile .rt{display:flex;flex-direction:column;gap:1px;min-width:0}
+.rtile b{font-size:15px;line-height:1.25;overflow-wrap:anywhere}
+.rtile small{font-size:13px;color:var(--mute);line-height:1.3;overflow-wrap:anywhere}
+.refcard{display:flex;flex-direction:column;gap:14px}
+.view .rh{margin:4px 0 -6px;font-size:13px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--mute)}
+.rnote{margin:0;font-size:15px;line-height:1.5;color:var(--ink2)}
+.tablewrap{overflow-x:auto;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:6px 12px}
+.rtab{width:100%;border-collapse:collapse;font-size:16px}
+.rtab th,.rtab td{text-align:left;padding:7px 6px;border-top:1px solid var(--line);vertical-align:top}
+.rtab thead th{border-top:none;font-size:13px;font-weight:700;color:var(--mute)}
+.rtab tbody th{font-weight:400;color:var(--mute);font-size:14px}
+.rtab tbody tr:first-child th,.rtab tbody tr:first-child td{border-top:none}
+.rtab thead + tbody tr:first-child th,.rtab thead + tbody tr:first-child td{border-top:1px solid var(--line)}
+.rtab[lang=es] td,.rtab td[lang=es]{font-family:var(--serif)}
+.rtab [lang=en]{font-family:var(--ui);font-size:14px;color:var(--ink2)}
+.rtab thead [lang=en]{font-size:12px;font-weight:400;color:var(--mute)}
+.rtab.end td{font-size:17px}
+.rtab.pairs2 td{width:50%}
+.rboxes{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.rbox{border-left:4px solid var(--line);padding:2px 0 2px 10px;display:flex;flex-direction:column;gap:2px;font-size:15px;line-height:1.4;min-width:0}
+.rbox.b{border-color:var(--rf-b)}.rbox.r{border-color:var(--rf-r)}.rbox.g{border-color:var(--rf-g)}.rbox.d{border-color:var(--rf-d)}.rbox.p{border-color:var(--rf-p)}
+.rbox span{color:var(--mute);font-family:var(--serif)}
+.rex .es{font-size:17px}
+.lanes{padding:4px 14px;gap:0}
+.lane{display:grid;grid-template-columns:72px minmax(0,1fr);gap:10px;align-items:center;padding:6px 0;border-top:1px solid var(--line)}
+.lane:first-child{border-top:none}
+.lane .lw b{font-family:var(--serif);font-size:20px;display:block}
+.lane .lw small{font-size:12px;color:var(--mute);line-height:1.2;display:block}
+.lx{display:flex;flex-direction:column;align-items:flex-start;gap:3px;background:none;border:none;border-radius:8px;padding:4px 0;text-align:left;min-height:44px;width:100%}
+.lx svg{width:100%;max-width:200px;height:22px;overflow:visible}
+.lx .es{font-family:var(--serif);font-size:16px;line-height:1.35}
+.lx .en2{font-size:14px;color:var(--mute);line-height:1.35}
+.lx svg .s{stroke-width:2.5;fill:none}.lx svg .box{stroke-width:2;fill:var(--soft)}
+.lx svg .f.g{fill:var(--rf-g)}.lx svg .f.r{fill:var(--rf-r)}.lx svg .f.d{fill:var(--rf-d)}.lx svg .f.b{fill:var(--rf-b)}.lx svg .f.p{fill:var(--rf-p)}
+.lx svg .s.g,.lx svg .box.g{stroke:var(--rf-g)}.lx svg .s.r,.lx svg .box.r{stroke:var(--rf-r)}.lx svg .s.d,.lx svg .box.d{stroke:var(--rf-d)}.lx svg .s.b,.lx svg .box.b{stroke:var(--rf-b)}.lx svg .s.p,.lx svg .box.p{stroke:var(--rf-p)}
+.rlink{flex-direction:row;align-items:center;gap:12px}.rlink > div{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.rsrc{display:flex;flex-direction:column;gap:4px;border-top:1px dashed var(--line);padding-top:10px}
+.view .rsrc h2{font-size:12px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--mute)}
+.rsrc ul{margin:0;padding-left:18px;font-size:13px;line-height:1.45;color:var(--mute)}
+.ract{display:flex;flex-direction:column;gap:10px}
+.ract2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.ract2.one{grid-template-columns:minmax(0,1fr)}
+.ract2 .pill{display:flex;align-items:center;justify-content:center;gap:6px;text-decoration:none;color:var(--ink);font-size:15px;min-height:48px;padding:0 10px;text-align:center}
+.ract2 .rdeep{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.ract2 .rprint:only-child{grid-column:1 / -1}
+.bootc{gap:8px}
+.bh{display:flex;justify-content:space-between;align-items:baseline;gap:8px}.bh span{font-size:13px;color:var(--mute)}
+.boot{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.bc{min-height:40px;display:flex;align-items:center;padding:0 12px;font-family:var(--serif);font-size:18px;background:var(--card);border-top:1px solid var(--line2)}
+.bc:nth-child(-n+2){border-top:none}
+.bc.in{background:var(--rf-boot)}
+.bc.vos{font-size:12px;color:var(--mute);font-family:var(--ui)}
+.famlist{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+.famlist button{display:flex;gap:10px;align-items:center;width:100%;text-align:left;border-radius:12px;padding:8px 10px;min-height:56px}
+.famlist .fl{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.fh2{display:flex;justify-content:space-between;gap:8px;align-items:baseline}
+.fh2 b{font-size:15px}.fh2 small{font-size:12px;color:var(--mute);text-align:right}
+.fx{font-family:var(--serif);font-size:15px;color:var(--ink2);overflow-wrap:anywhere}
+.famlist .icon{color:var(--mute)}
+.famc{gap:8px}
+.fh{display:flex;gap:10px;align-items:center}
+.fh b{flex:1}.fh > span:last-child{font-size:13px;color:var(--mute)}
+.famv{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
+.famv button{display:flex;align-items:baseline;gap:12px;width:100%;text-align:left;border:none;border-top:1px solid var(--line2);border-radius:0;background:none;padding:8px 0;min-height:44px}
+.famv li:first-child button{border-top:none}
+.famv .fi{width:34%;flex:none;font-family:var(--serif);font-size:16px;color:var(--mute);overflow-wrap:anywhere}
+.famv .ff{flex:1;min-width:0;font-family:var(--serif);font-size:18px;overflow-wrap:anywhere}
+.famv .dot{color:var(--mute)}
+.vtab td{font-size:15px;line-height:1.5}
+.vlink{padding:0;min-height:44px;font-family:var(--serif);font-size:16px}
+/* the interactive verb chart */
+.vcard{gap:10px}
+.vcard .vhead{align-items:center}
+.vsave{min-height:44px;padding:0 14px;border-radius:22px;border:1px solid var(--field);background:var(--card);font-size:14px;font-weight:700;flex:none}
+.vsave.on{background:var(--ok);border-color:var(--ok);color:var(--card)}
+.kb.vtype.true,.kb.vtype.irr{color:var(--irr);border-color:var(--irr)}.kb.vtype.spell{color:var(--spell);border-color:var(--spell)}.kb.vtype.reg{color:var(--ok);border-color:var(--ok)}
+.kb.fam.orange{color:var(--stem);border-color:var(--stem)}.kb.fam.blue{color:var(--spell);border-color:var(--spell)}.kb.fam.rust,.kb.fam.red{color:var(--irr);border-color:var(--irr)}
+.vchip .star{color:var(--accent);font-size:13px}
+.vchips.quick{flex-wrap:nowrap;overflow-x:auto;padding-bottom:2px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.vchips.quick::-webkit-scrollbar{display:none}
+.vchips.quick .vchip{flex:none}
+.ttabs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px;background:var(--soft);border-radius:14px;padding:4px}
+.ttabs.more{grid-template-columns:repeat(5,minmax(0,1fr))}
+.ttabs button{min-height:48px;border:none;border-radius:10px;background:transparent;padding:4px 2px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;font-size:14px;line-height:1.15;min-width:0;color:var(--ink)}
+.ttabs button b{font-weight:400;overflow-wrap:anywhere}
+.ttabs button small{font-size:11px;color:var(--mute)}
+.ttabs button[aria-selected=true]{background:var(--card);box-shadow:0 1px 2px var(--shadow)}
+.ttabs button[aria-selected=true] b{font-weight:700}
+.ttabs.more button{font-size:12.5px}
+.morebtn{align-self:flex-start;margin:-6px 0 -8px;font-size:15px}
+.vrows{padding:2px 0;gap:0;overflow:hidden}
+.vrows .tuse{margin:0;padding:8px 14px;font-size:14px;line-height:1.4;color:var(--mute);border-bottom:1px solid var(--line2)}
+.vrows .cf{align-items:center}
+.vrows .cf .icon{color:var(--mute)}
+.cf .tapsee{font-family:var(--ui);font-size:15px;color:var(--mute)}
+.vleg{display:flex;flex-wrap:wrap;align-items:center;gap:6px 16px}
+.vleg .link{font-size:15px;text-decoration:underline;margin-left:auto;padding:0}
+.vnote{display:flex;flex-direction:column;gap:4px}
+.vnote .nf{line-height:1.4}.vnote .nf .fm{font-family:var(--serif);font-size:19px}
+.vnote .ven{color:var(--ink2)}
+.vnote .why{line-height:1.45}
+.vnote .link{align-self:flex-start;padding:0;min-height:44px;font-size:15px}
+.vfoot{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.vfoot .outline,.vfoot .primary{min-height:48px;font-size:15px;border-radius:24px;text-decoration:none;padding:0 8px;text-align:center}
+.vprint{display:none}
+.ttabs.en5{grid-template-columns:repeat(5,minmax(0,1fr))}.ttabs.en5 button{font-size:12.5px}.ttabs.en5 small{font-size:10px;text-align:center}
+.kd.reg{background:var(--grab)}
+.enshape{gap:8px}
+.eshape{display:flex;align-items:stretch;gap:4px}
+.eshape .arr{align-self:center;color:var(--mute);font-size:18px}
+.eb{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px;border:1px solid var(--line);border-radius:10px;padding:8px 10px;background:var(--card)}
+.eb.in{background:var(--rf-boot)}
+.eb small{font-size:11px;color:var(--mute)}.eb b{font-family:var(--serif);font-size:19px;font-weight:400;overflow-wrap:anywhere}
+/* Words › Verbs */
+.wtabs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px;background:var(--soft);border-radius:12px;padding:4px;margin-top:-8px}
+.wtabs button{min-height:44px;border:none;border-radius:9px;background:transparent;font-size:15px;color:var(--ink)}
+.wtabs button[aria-selected=true]{background:var(--card);font-weight:700;box-shadow:0 1px 2px var(--shadow)}
+.vlist{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+.vlist button{display:flex;align-items:center;gap:10px;width:100%;text-align:left;border-radius:14px;padding:10px 12px;min-height:64px}
+.vl{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.vn{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}.vn b{font-family:var(--serif);font-size:19px;font-weight:600}.vn span{font-size:14px;color:var(--mute)}
+.vf{font-size:13px;font-weight:700;color:var(--mute);line-height:1.35}.vf.irr,.vf.true{color:var(--irr)}.vf.spell{color:var(--spell)}.vf.reg{color:var(--ok)}
+.vr{display:flex;flex-direction:column;align-items:flex-end;gap:4px;flex:none}
+.pdots{display:flex;gap:3px}.pdots i{width:10px;height:10px;border-radius:5px;background:var(--line)}.pdots i.on{background:var(--ok)}
+.pdue{font-size:12px;font-weight:700;color:var(--accent)}.pst{font-size:12px;color:var(--mute)}
+.vsavew{margin-top:8px;font-size:16px;min-height:48px}
+.vsavew.on{border-color:var(--ok);color:var(--ok)}
+/* print: one card per page, light, no controls (tools/build-ref-pdfs.sh prints #print=<id> to refs/pdf/) */
+@media print{
+  @page{size:letter;margin:10mm 12mm}
+  :root[data-theme],:root{--bg:#fff;--ink:#111;--ink2:#333;--mute:#555;--line:#ccc;--line2:#ddd;--card:#fff;--soft:#f3ebde;--tip:#fff7e8;--tipline:#e5cfa2;--cur:#fff;--field:#ccc;--accent:#9a4420;
+    --irr:#9e2017;--stem:#b15200;--spell:#1e3277;--ok:#2f6b3a;--rf-g:#2f6b3a;--rf-r:#9a4420;--rf-d:#9a3328;--rf-b:#1f6fb2;--rf-p:#6b4c9a;--rf-o:#a04b00;--rf-boot:#f6dfc5;color-scheme:light}
+  html,body{background:#fff!important;color:#111}
+  #tabs,#toast,#sheet,#scrim,#reader,.noprint,.backbar,.ract,.vfoot,.tipbtn,.filters,.vsearch,.vchips{display:none!important}
+  .view{padding:0!important;max-width:none;gap:10px}
+  .view.hide,.stage.hide{display:none!important}
+  .refcard{gap:9px}
+  .view h1{font-size:24px}
+  .tablewrap,.card,.rboxes,.pair,.famlist li,.lane{break-inside:avoid}
+  .tablewrap{padding:2px 8px}
+  .rtab{font-size:12.5px}.rtab th,.rtab td{padding:3px 5px}.rtab.end td{font-size:13px}.rtab [lang=en]{font-size:11.5px}
+  .ex{min-height:0;padding:1px 0;margin:0}.ex .es,.rex .es{font-size:14px}.ex .en2{font-size:11.5px}
+  .exs{gap:4px}
+  .sub2,.calm,.trick,.rnote{font-size:13px}
+  .trick{padding:6px 10px}
+  .card{padding:10px 12px;gap:6px}
+  .lane{padding:3px 0}.lx{min-height:0}.lx .es{font-size:14px}.lx .en2{font-size:11.5px}
+  .famlist button,.famv button,.lx,.pair > button,.rtile{min-height:0;padding-top:4px;padding-bottom:4px}
+  .famv .ff{font-size:14px}.famv .fi{font-size:13px}.fx{font-size:13px}
+  .bc{min-height:26px;font-size:14px}
+  .rsrc ul{font-size:10px}.rsrc{padding-top:6px}
+  .vprint{display:block}.vprint .rtab{font-size:11px}.vprint .gh{margin:8px 0 2px}
+  #cvChart .vcard{border:none;padding:0}
+  .pics .pic svg{width:48px;height:36px}.pic{padding:6px}.pic b{font-size:17px}.pic span{font-size:11.5px}
+  .tl .track{break-inside:avoid}
+  #v-grammar{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:10px;row-gap:8px;align-items:start}
+  #v-grammar > *{grid-column:1 / -1}
+  #v-grammar > .rule,#v-grammar > .card{grid-column:auto}
+  #v-grammar > .card.tl,#v-grammar > .card:only-of-type{grid-column:1 / -1}
+  .glance button{flex-direction:row;align-items:baseline;gap:8px}.glance .gi{flex:none;width:70px}
+  .rule h2{font-size:15px}.rule .use{font-size:9.5px}.rule .exs{gap:2px}
+  .pair > button{padding:3px 8px;min-height:0}.pair .es{font-size:13px}.pair .en2{font-size:11px}.pairs{gap:4px}
+  .trick,.rcall{font-size:12px;line-height:1.4}
+  .glance,.irrl,.famv{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:16px}
+  .glance button{min-height:0;padding:3px 0}.glance .gi{font-size:13px}.glance .gf{font-size:12px;line-height:1.35}
+  .irrl button{min-height:0;padding:3px 0}.irrl .ib,.irrl .ip{font-size:13px}.irrl .ie{font-size:11px}
+  .egt{font-size:12.5px}.egt th,.egt td{padding:3px 6px 3px 0}
+  .vtab td{font-size:12px;line-height:1.3}.vlink{min-height:0;font-size:13px}
+  .boot .bc{min-height:22px}
+  .bootc p.small{font-size:11px}
+  .legend{font-size:11px}.legend .sl{font-size:13px}
+}
 </style>
 </head>
 <body>
@@ -672,6 +867,7 @@ a.primary{text-decoration:none}
   <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
   <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
   <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></symbol>
+  <symbol id="i-print" viewBox="0 0 24 24"><path d="M6 9V3h12v6M6 18H4v-7h16v7h-2M8 14h8v7H8z"/></symbol>
   <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></symbol>
   <symbol id="t-library" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V3H6.5A2.5 2.5 0 0 0 4 5.5z"/><path d="M4 19.5A2.5 2.5 0 0 0 6.5 22H20v-5"/></symbol>
   <symbol id="t-messages" viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1.1-4.6A8 8 0 1 1 21 12z"/></symbol>
@@ -1100,6 +1296,24 @@ const UI = {en: {
       failed: 'The download stopped before it finished', notSaved: name => `${name} dictionary not saved yet`,
       notSavedLine: size => `Words look themselves up as you read. To read with no signal, like on a plane, save the whole dictionary first (about ${size}).`,
       retry: 'Try again', save: 'Save it now'}},
+  // the Reference shelf (Learn › Reference): cards in refs/cards.json
+  ref: {title: 'Reference', kick: 'Learn', sub: 'The basics on one shelf. Every card prints.', open: 'Reference', openLine: 'The basics on one shelf: words, verbs, little words, sounds. Every card prints.',
+    searchL: 'Find a rule', searchPh: 'Find a rule: desde, gender, -ar verbs…', none: q => `Nothing on the shelf matches “${q}”. Try one word, like desde or gender.`,
+    print: 'Print this card', deeper: 'Go deeper in Claude', back: 'Reference', sources: 'Sources', drill: 'Drill this family', famDrill: n => `Drill: ${n}`,
+    loading: 'Loading…', cantLoad: 'The reference couldn’t load. Check your connection and try again.', tryAgain: 'Try again',
+    bootT: 'The boot', bootOf: v => `${v}, present`, bootL: (v, forms) => `The present of ${v}: ${forms}. The changed forms make a boot shape; nosotros sits outside it.`,
+    vos: 'vosotros · Spain only', bootLine: 'Shade the changed forms and you get a boot. Only nosotros (and vosotros, used in Spain) stay outside it.',
+    smaller: 'Two smaller families', smallerLine: '**-zco**: c becomes zc in yo ({es|conocer → conozco, parecer → parezco}). **-uir**: a y comes in ({es|construir → construyo}). Both are on the Yo-go card.',
+    stemH: ['verb', 'stem', 'will', 'would']},
+  // Words › Verbs: saved verbs, irregulars first
+  wv: {tabsL: 'Your saved words and verbs', words: n => `Words · ${n}`, verbs: n => `Verbs · ${n}`, filterL: 'Show verbs', fAll: 'All', fIrr: n => `Irregular · ${n}`, fBoot: n => `Boot · ${n}`, fReg: n => `Regular · ${n}`,
+    due: n => `${n} form${n === 1 ? '' : 's'} due`, tensesOf: n => `${n} of 4 tenses`, fresh: 'new', learnedL: n => `${n} of 4 tenses learned`, dotNames: ['now', 'happened', 'used to', 'will'],
+    practice: n => n ? `Practice my irregulars · ${n} form${n === 1 ? '' : 's'} due` : 'Practice my irregulars', practiceL: 'Practice my irregulars',
+    practiceNone: 'Save an irregular verb to practice its forms here.',
+    hint: 'Saved from the verb charts, your messages and your books. Tap any verb, anywhere, then Save verb to keep the whole verb, not just one form.',
+    none: 'No saved verbs yet. Open a verb chart and tap ☆ Save verb, or tap a verb while you read and choose Save verb.',
+    noneF: 'None of your saved verbs fit this filter.', loading: 'Loading…'},
+  saveVerbFrom: v => `☆ Save verb (${v})`, savedVerbFrom: v => `★ Verb saved (${v}) · tap to remove`, back2: 'Back',
   // grammar you can see (part 2b): verb charts, timeline, pattern cards, the conjugation drill
   gr: {
     back: 'Learn',
@@ -1115,7 +1329,7 @@ const UI = {en: {
     stemCh: s => `stem ${s.replace('>', ' → ')}`,
     legendL: 'What the colours mean', legend: {irr: 'irregular', stem: 'stem vowel changes', spell: 'spelling change, same sound'},
     tapForm: 'Tap any form to hear it and open its word card.',
-    saveVerb: 'Save this verb', savedVerb: 'Saved · tap to remove', hearInf: v => `Hear ${v}`,
+    saveVerb: '☆ Save verb', savedVerb: '★ Saved', saveVerbL: v => `Save the verb ${v}`, savedVerbL: v => `${v} is saved. Tap to remove it.`, hearInf: v => `Hear ${v}`,
     gerund: '-ing form', participle: 'past participle',
     pronominal: 'This verb comes with me, te, se, nos or se.',
     groups: {ind: ['Indicative', 'things as they are'], subj: ['Subjunctive', 'wishes, doubts, maybes'], cmd: ['Commands', 'telling someone to do it']},
@@ -1185,7 +1399,52 @@ const UI = {en: {
     qConj: 'Conjugate', typeForm: (tense, who) => `${tense}, ${who}`,
     shown: 'Here it is:', rowL: 'The whole row', seeChart: 'See the whole chart',
     missed: 'Worth another look:', again: 'Another round', change: 'Change tenses', none: 'No forms fit those choices. Pick another tense.',
-    deeper: (verb, tense, who, form) => `I'm learning Spanish (Mexican Spanish). Why is the ${tense.toLowerCase()} of "${verb}" for "${who}" "${form}"? Explain the pattern in plain words, show the whole row, and give two short everyday examples. Keep it brief.`
+    deeper: (verb, tense, who, form) => `I'm learning Spanish (Mexican Spanish). Why is the ${tense.toLowerCase()} of "${verb}" for "${who}" "${form}"? Explain the pattern in plain words, show the whole row, and give two short everyday examples. Keep it brief.`,
+    // the interactive verb chart
+    tabs: {pres: ['Now', 'present'], pret: ['Happened', 'fue'], impf: ['Used to', 'era'], fut: ['Will', 'future'], cond: ['Would', 'conditional'],
+      sub: ['Subjunctive', 'that it…'], subi: ['Past subj.', 'if it…'], imp: ['Do it!', 'commands'], neg: ['Don’t!', 'commands']},
+    tenseTabsL: 'Tense', moreTenses: 'More tenses', fewerTenses: 'Fewer tenses', quickL: 'Your verbs, then the most used',
+    types: {reg: 'Regular', irr: 'Irregular', true: 'Truly irregular', spell: 'Spelling change'},
+    fams: {boot: k => `boot ${String(k).replace('>', '→')}`, yogo: 'yo-go', zco: 'yo -zco', uir: '-uir', strong: 'strong past', short: 'short future', spell: 'spelling'},
+    famNames: {boot: 'Boot verbs', yogo: 'Yo-go verbs', zco: 'Yo -zco verbs', uir: '-uir verbs', strong: 'Strong pasts', short: 'Short futures', spell: 'Spelling only', true: 'The true irregulars'},
+    famRules: {boot: 'e→ie · o→ue · e→i', yogo: 'yo adds a g', zco: 'c → zc in yo', uir: 'a y comes in', strong: 'new stem, no accent', short: 'tener → tendr-', spell: 'same sound, new letters', true: 'learn them whole'},
+    cover: 'Quiz me: cover the forms', uncover: 'Show all', tapSee: 'tap to see', checkSelf: 'tap the row to check yourself', sayFirst: 'Say it out loud first, then tap.',
+    wordCard: 'Open its word card', drillVerb: v => `Drill ${v}`, printChart: 'Print this chart',
+    deeperVerb: (v, fams) => `I'm learning Spanish (Mexican Spanish). Walk me through the verb "${v}"${fams ? ` (${fams})` : ''}: which forms break the pattern and why, in plain words, with five short everyday examples across the present, preterite, imperfect and future. Keep it brief.`,
+    notes: {
+      reg: 'Regular here.', irr: 'Irregular here: learn this form as it is.', stem: 'The stem vowel changes here.',
+      spell: 'Only the spelling changes, to keep the sound.',
+      spQu: 'Only the spelling changes: c becomes qu before e, so it still sounds like k.',
+      spGu: 'Only the spelling changes: g becomes gu before e, so it keeps its hard g.',
+      spGue: 'Only the spelling changes: gu becomes gü before e, so the u is still heard.',
+      spZc: 'Only the spelling changes: z becomes c before e.',
+      spJ: 'Only the spelling changes: g becomes j before o and a, so it keeps the same sound.',
+      spZ: 'Only the spelling changes: c becomes z before o and a, so it keeps its s sound.',
+      spG: 'Only the spelling changes: gu becomes g before o and a.',
+      spY: 'Only the spelling changes: an unstressed i between two vowels is written y.',
+      accentShift: 'A written accent shows where the stress falls.',
+      impfThree: 'One of only three verbs that are irregular in this tense: ser, ir and ver.',
+      fue: 'ser and ir share this tense: fue can mean “was” or “went”. The sentence tells you which.',
+      oy: 'One of the -oy verbs: soy, estoy, voy, doy.',
+      haber: 'haber is the helper in “have done”: he comido, I have eaten. Its form hay means “there is, there are”.',
+      se: 'sé (I know) carries a written accent to tell it from se.',
+      yogo: 'A “yo-go” verb: the yo form adds a g. Same family: tengo, hago, pongo, salgo, digo, vengo.',
+      zco: 'The yo form adds a z: c becomes zc before o (conozco, parezco, ofrezco).',
+      uir: 'An -uir verb: a y comes in before the ending (construyo, incluyo). nosotros has none.',
+      boot: k => `A boot verb: ${k} in every form except nosotros.`,
+      outside: 'nosotros keeps the plain stem: it sits outside the boot.',
+      strong: (stem, yo, el) => `A strong past: the stem becomes ${stem}-, and ${yo} and ${el} carry no accent mark.`,
+      pretIr: 'An -ir boot verb: in this tense only the él and ellos forms change, e to i or o to u.',
+      impfReg: 'Regular here. The “used to” tense has only three irregular verbs: ser, ir and ver.',
+      short: (stem, inf) => `A short future stem: ${stem}- instead of ${inf}-. The endings are the regular ones.`,
+      shortCond: stem => `The conditional uses the same short stem as the future: ${stem}-.`,
+      futReg: 'Regular here: the endings go on the whole infinitive.',
+      subYo: (yo, s) => `Built on the yo form of the present: ${yo} → ${s}.`,
+      subiPret: (p, s) => `Built on the ellos form of the preterite: ${p} → ${s}.`,
+      shortCmd: 'One of the short tú commands: ten, pon, sal, ven, haz, di, ve, sé.',
+      cmdSub: 'usted and ustedes commands use the present subjunctive forms.',
+      cmdTu: 'The tú command is the same as the él form of the present.',
+      cmdNeg: 'Don’t-commands use the present subjunctive forms, after no.'}
   }
 }};
 // For a Spanish speaker (María Antonieta learns English): the same screens in Mexican Spanish, tú.
@@ -1280,6 +1539,17 @@ UI.es = {
     who: 'Quién', short: 'Corto', inSpanish: 'En español', examples: 'Ejemplos',
     askGrammar: t => `Estoy aprendiendo inglés (nivel básico) y mi idioma es el español. Explícame «${t}» de forma sencilla, con cinco ejemplos cortos y cotidianos en inglés con su traducción, y termina con un ejercicio pequeñito para mí. Responde en español.`,
     askClaudeAbout: t => `Preguntarle a Claude sobre ${t}`, tapHearAll: 'Toca cualquier ejemplo para escucharlo en inglés.'},
+  ref: {title: 'Referencia', kick: 'Aprender', sub: 'Lo básico del inglés, explicado en español.', open: 'Referencia', openLine: 'Lo básico del inglés en un solo lugar. Cada tarjeta se puede imprimir.',
+    searchL: 'Buscar una regla', searchPh: 'Buscar: to be, do, sonidos…', none: q => `Nada coincide con «${q}». Prueba con una palabra, como «do» o «sonidos».`,
+    print: 'Imprimir', deeper: 'Preguntar a Claude', back: 'Referencia', sources: 'Fuentes', drill: 'Practicar esta familia', famDrill: n => `Practicar: ${n}`,
+    loading: 'Cargando…', cantLoad: 'No se pudo cargar la referencia. Revisa tu conexión e inténtalo otra vez.', tryAgain: 'Intentar otra vez'},
+  wv: {tabsL: 'Tus palabras y verbos guardados', words: n => `Palabras · ${n}`, verbs: n => `Verbos · ${n}`, filterL: 'Mostrar verbos', fAll: 'Todos', fIrr: n => `Irregulares · ${n}`, fBoot: n => `Bota · ${n}`, fReg: n => `Regulares · ${n}`,
+    due: n => `${n} forma${n === 1 ? '' : 's'} para repasar`, tensesOf: n => `${n} de 4 tiempos`, fresh: 'nuevo', learnedL: n => `${n} de 4 tiempos aprendidos`, dotNames: ['ahora', 'pasó', 'solía', 'futuro'],
+    practice: n => n ? `Practicar mis irregulares · ${n} para repasar` : 'Practicar mis irregulares', practiceL: 'Practicar mis irregulares',
+    practiceNone: 'Guarda un verbo irregular para practicar sus formas aquí.',
+    hint: 'Guardados desde las tablas de verbos, tus mensajes y tus libros. Toca cualquier verbo y elige Guardar verbo para guardar el verbo entero, no solo una forma.',
+    none: 'Todavía no tienes verbos guardados. Abre una tabla de verbos y toca ☆ Guardar verbo.', noneF: 'Ninguno de tus verbos guardados entra en este filtro.', loading: 'Cargando…'},
+  saveVerbFrom: v => `☆ Guardar verbo (${v})`, savedVerbFrom: v => `★ Verbo guardado (${v}) · toca para quitarlo`, back2: 'Volver',
   close: 'Cerrar', cancel: 'Cancelar', next: 'Siguiente', backToLearn: 'Volver a Aprender', goLibrary: 'Ir a Leer',
   span: ms => { const m = ms / 60000, d = m / 1440;
     if (m < 59.5) return Math.max(1, Math.round(m)) + ' min';
@@ -1484,6 +1754,8 @@ UI.es = {
       notSavedLine: size => `Las palabras se buscan solas mientras lees. Para leer sin señal, como en un avión, guarda primero todo el diccionario (unos ${size}).`,
       retry: 'Intentar otra vez', save: 'Guardarlo ahora'}}
 };
+// Anything the Spanish tables leave out falls back to the English wording.
+Object.setPrototypeOf(UI.es.ref, UI.en.ref); Object.setPrototypeOf(UI.es.wv, UI.en.wv);
 let T = UI.en;
 
 /* ---------- storage (IndexedDB for book texts) ---------- */
@@ -2691,6 +2963,15 @@ async function showWord(raw, sentence, span, ctx){
       ctx.src && ctx.src !== 'book' ? ctx.srcInfo || {} : {book:ctx.title, bookId:ctx.bookId, c:ctx.c, p:ctx.p, ct:ctx.ct}));
     LS.set('words', ws); paint(); markSaved(w, L);
   };
+  if (L === 'es' && a.status === 'ok' && !ph) conjOf(a.lemma || w).then(tb => {
+    if (!tb || current.seq !== seq || !$('#saveW') || $('#saveV')) return;
+    const vn = vname(tb);
+    $('#saveW').insertAdjacentHTML('afterend', `<button class="outline vsavew" id="saveV"></button>`);
+    const pv = () => { const b = $('#saveV'); if (!b) return; const on = isVerbSaved(vn); b.setAttribute('aria-pressed', on); b.className = 'outline vsavew' + (on ? ' on' : ''); b.textContent = on ? T.savedVerbFrom(vn) : T.saveVerbFrom(vn) };
+    pv();
+    $('#saveV').onclick = async () => { const on = !isVerbSaved(vn); setVerbSaved(vn, on, on ? await verbGloss(vn) : ''); pv(); paint(); if (view === 'words') renderWords() };
+    requestAnimationFrame(reveal);
+  }).catch(() => {});
   if (deep) bindDeeper(raw, L, sentence, ctx, () => current.gloss);
   if (ctx.peek) peek(ph ? ph.phrase : raw, ph ? ph.best : a.best, !ph && a.lemma && a.chain.length > 1 ? `from ${a.lemma}` : '');
   requestAnimationFrame(reveal);
@@ -2904,9 +3185,11 @@ function startReview(){
   if (!n) return renderLearn();
   let keys = pool.slice(0, n).map(p => p.k);
   // a conjugation card needs the verb tables: fetch them once, or leave those cards for later if offline
-  if (keys.some(isCj) && !CJ.top && !startReview.tried){ startReview.tried = true; return loadTop().catch(() => {}).then(startReview) }
+  const cjVerbs = [...new Set(keys.filter(k => k.startsWith('es:cj:')).map(k => k.split(':')[2]))], enCj = keys.some(k => k.startsWith('en:cj:'));
+  if (((cjVerbs.length && (!CJ.top || cjVerbs.some(x => !tableOf(x)))) || (enCj && !EV.d)) && !startReview.tried){ startReview.tried = true;
+    return Promise.all([loadTop().catch(() => {}), ...cjVerbs.map(x => conjOf(x).catch(() => {})), enCj ? loadEnVerbs().catch(() => {}) : null]).then(startReview) }
   startReview.tried = false;
-  if (!CJ.top) keys = keys.filter(k => !isCj(k));
+  keys = keys.filter(k => !isCj(k) || (k.startsWith('en:') ? enVerb(k.split(':')[2]) : tableOf(k.split(':')[2])));
   if (!keys.length) return renderLearn();
   rv = {keys, i: 0, done: 0, lang: studyLang(), cur: null, n: new Set(keys).size, seen: new Set()};
   go('review');
@@ -3119,21 +3402,23 @@ function renderLearn(){
     ? openSheet(`${head(`<h2>${esc(t.firstChild.textContent)}</h2>`, T.close)}<p class="calm">${T.grammarSoon}</p>`, 'word', t.firstChild.textContent)
     : openGrammar(t.dataset.gt));
   const dr = $('#lnDrill'); if (dr) dr.onclick = openDrill;
+  const rf = $('#lnRef'); if (rf) rf.onclick = openShelf;
   if (pathOn()) bindPath();
 }
-// Grammar you can see: the verb charts and drill for Spanish; a note for French; English (for a
-// Spanish speaker) keeps its placeholder tiles until its own charts exist.
+// Grammar you can see: the drill and the Reference shelf for Spanish; the Referencia shelf for a Spanish
+// speaker learning English; a note for French.
+const refEntryHtml = () => { const R = R_(); return `<section class="sec" id="lnRefSec"><div class="kicker">${esc(R.title)}</div>
+  <button class="refopen" id="lnRef"><span class="rbands" aria-hidden="true"><i class="g"></i><i class="r"></i><i class="d"></i><i class="b"></i><i class="p"></i></span>
+    <span class="rt"><b>${esc(R.open)}</b><small>${esc(R.openLine)}</small></span>${icon('next')}</button></section>` };
 function grammarSection(L){
   const g = G();
   if (L === 'es'){
     const due = cjDue().length;
     return `<div class="lcard" id="lnConj"><div class="top"><span class="ic">${icon('conj')}</span><span style="flex:1"><span class="tt" style="display:block">${esc(g.drill)}</span><span class="ds">${esc(g.drillLine)}</span></span></div>
         ${due ? `<div class="box">${esc(g.waitingN(due))}</div>` : ''}<button class="primary" id="lnDrill">${esc(g.drillBtn)}</button></div>
-      <section class="sec"><div class="kicker">${T.grammar}</div>
-      <div class="gtiles">${['charts', 'timeline', 'serestar', 'porpara', 'glance'].map(id => `<button data-gt="${id}" class="${id === 'glance' ? 'wide' : ''}">${esc(g.titles[id])}<small>${esc(g.tileLines[id])}</small></button>`).join('')}</div></section>`;
+      ${refEntryHtml()}`;
   }
-  if (L === 'en') return `<section class="sec"><div class="kicker">${T.grammar}</div>
-      <div class="gtiles" id="lnEnG">${EN_PAGES.map(id => `<button data-gt="${id}"><span lang="en">${esc(EG[id].title)}</span><small>${esc(EG[id].line)}</small></button>`).join('')}</div></section>`;
+  if (L === 'en') return refEntryHtml();
   if (L === 'fr') return `<section class="sec"><div class="kicker">${T.grammar}</div><div class="card" id="lnFrOnly"><h2>${esc(g.frOnly)}</h2><p class="calm">${esc(g.frOnlyLine)}</p></div></section>`;
   return `<section class="sec"><div class="kicker">${T.grammar}</div>
       <div class="gtiles">${(T.grammarTiles[L] || T.grammarTiles.es).map((t, i) => `<button data-gt="${i}">${esc(t)}<small>${T.soon}</small></button>`).join('')}</div></section>`;
@@ -3493,7 +3778,7 @@ function renderEnGrammar(v, head){
         <div class="legend" role="note"><span><b class="sl irr" lang="en">went</b>${esc(c.legend)}</span></div>
         <div class="filters" role="group" aria-label="${esc(c.irrH)}"><button data-ea="0" aria-pressed="${!GR.enAll}">${esc(c.top20)}</button><button data-ea="1" aria-pressed="${!!GR.enAll}">${esc(c.all(IRR_EN.length))}</button></div>
         <ul class="irrl" id="irrList">${list.map(([b, p, es]) => `<li><button data-say="${esc(b + ', ' + p.replace(' / ', ', '))}"><span class="ib" lang="en">${esc(b)}</span><span class="ip" lang="en">${irrHtml(b, p)}${b === p ? `<small>${esc(c.same)}</small>` : ''}</span><span class="ie" lang="es">${esc(es)}</span></button></li>`).join('')}</ul>
-        <p class="small">${esc(c.tapHear)} ${esc(IRR_EN_SOURCE)}</p></section>`;
+        <p class="small noprint">${esc(c.tapHear)} ${esc(IRR_EN_SOURCE)}</p></section>`;
   } else {
     const [picA, picB] = EN_PICS[GR.page];
     const rules = list => `<ul class="exs">${list.map(([use, en, es, key]) => `<li><span class="use">${esc(use)}</span>${enEx(en, es, key)}</li>`).join('')}</ul>`;
@@ -3508,7 +3793,7 @@ function renderEnGrammar(v, head){
   }
   v.innerHTML = `${head}${body}
     <a class="tipbtn" id="grAsk" target="_blank" rel="noopener" href="${esc(askClaude(P2.askGrammar(c.title)))}">${esc(P2.askClaudeAbout(c.title))}${icon('out', 'sm')}</a>
-    <p class="small">${esc(P2.tapHearAll)}</p>`;
+    <p class="small noprint">${esc(P2.tapHearAll)}</p>`;
   v.querySelectorAll('[data-say]').forEach(b => b.onclick = () => speak(b.dataset.say, false, 'en'));
   v.querySelectorAll('[data-ea]').forEach(b => b.onclick = () => { GR.enAll = b.dataset.ea === '1'; const y = $('#irrSec').offsetTop; renderGrammar(); window.scrollTo(0, y - 20) });
 }
@@ -3529,7 +3814,7 @@ const TGROUPS = [['ind', ['pres', 'pret', 'impf', 'fut', 'cond']], ['subj', ['su
 const isImpT = t => t === 'imp' || t === 'neg';
 const REFL = ['me', 'te', 'se', 'nos', 'se'], IMP_REFL = ['te', 'se', 'se'];
 const SUBJ = ['yo', 'tú', 'él', 'nosotros', 'ellos'];
-const CJ = {top: null, topP: null, shards: new Map(), gloss: new Map(), tidx: null};
+const CJ = {top: null, topP: null, shards: new Map(), gloss: new Map(), tidx: null, loaded: new Map(), glossV: new Map()};
 const loadTop = () => CJ.topP || (CJ.topP = fetch(CONJ_DIR + 'top.json').then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json() })
   .then(d => (CJ.top = d)).catch(e => { CJ.topP = null; throw e }));
 // The everyday verbs: top.json in frequency order, minus the vulgar and the archaic.
@@ -3543,7 +3828,11 @@ async function conjOf(verb){
   const k = shardOf(verb);
   if (!CJ.shards.has(k)) CJ.shards.set(k, fetch(CONJ_DIR + k + '.json').then(r => r.ok ? r.json() : {}).catch(() => { CJ.shards.delete(k); return null }));
   const s = await CJ.shards.get(k);
-  return s === null ? undefined : (s[verb] || null);
+  if (s === null) return undefined;
+  let t = s[verb] || null;
+  if (!t && /.se$/.test(verb)){ const b = await conjOf(verb.slice(0, -2)); if (b && b.se) t = b }   // levantarse → levantar's table
+  if (t) CJ.loaded.set(verb, t);
+  return t;
 }
 // What someone typed into the search: an infinitive, a form (tuve → tener) or a pronominal verb.
 async function findVerb(q){
@@ -3601,18 +3890,28 @@ function rowHtml(t, tense, ask){
 }
 
 /* the grammar screens */
-let GR = {page: 'charts', verb: 'tener', all: false, glance: 'pres', tl: 'impf', table: null, msg: ''};
+// from: where the back button goes ('' Learn, 'ref' the Reference shelf, 'words' Words › Verbs).
+let GR = {page: 'charts', verb: 'tener', all: false, glance: 'pres', tl: 'impf', table: null, msg: '', from: '', q: '', print: false,
+  tense: TENSE_IDS.includes(LS.get('conj.tab', 'pres')) ? LS.get('conj.tab', 'pres') : 'pres', row: 0, cover: false, shown: new Set(), more: false};
 const LESSON_PAGE = {'por or para': 'porpara', 'ser or estar': 'serestar', 'Tense timeline': 'timeline', 'Irregulars at a glance': 'glance'};
-function openGrammar(page, verb){ GR.page = page; GR.msg = ''; if (verb){ GR.verb = verb; GR.table = null } go('grammar') }
+function openGrammar(page, verb, from = ''){ GR.page = page; GR.msg = ''; GR.from = from; if (verb){ GR.verb = verb; GR.table = null; GR.row = 0; GR.shown = new Set() } go('grammar') }
+function grBack(){
+  if (GR.page !== 'ref' && GR.from === 'ref'){ GR.page = 'ref'; GR.from = ''; renderGrammar(); window.scrollTo(0, 0); return }
+  go(GR.from === 'words' ? 'words' : 'learn');
+}
+const grBackLabel = fallback => GR.from === 'ref' ? R_().back : GR.from === 'words' ? T.tabs.words : fallback;
 function renderGrammar(){
   const v = $('#v-grammar'), g = G(), L = studyLang();
+  if (GR.page === 'ref') return renderShelf(v);
+  if (GR.page.startsWith('ref:')) return renderRefCard(v, GR.page.slice(4));
+  if (GR.page === 'en-charts') return renderEnCharts(v);
   if (EN_PAGES.includes(GR.page)){   // English grammar for a Spanish speaker, explained in Spanish
-    renderEnGrammar(v, `<div class="backbar"><button class="back" id="grBack">${icon('back')}${esc(T.backToLearn)}</button></div><h1 lang="en">${esc(EG[GR.page].title)}</h1>`);
-    $('#grBack').onclick = () => go('learn'); return;
+    renderEnGrammar(v, `<div class="backbar noprint"><button class="back" id="grBack">${icon('back')}${esc(grBackLabel(T.backToLearn))}</button></div><h1 lang="en">${esc(EG[GR.page].title)}</h1>`);
+    $('#grBack').onclick = grBack; pageActions(v, GR.page); return;
   }
-  const head = `<div class="backbar"><button class="back" id="grBack">${icon('back')}${esc(g.back)}</button></div><h1>${esc(g.titles[GR.page])}</h1>`;
-  const bind = () => { $('#grBack').onclick = () => go('learn') };
-  if (L !== 'es'){
+  const head = `<div class="backbar noprint"><button class="back" id="grBack">${icon('back')}${esc(grBackLabel(g.back))}</button></div><h1>${esc(g.titles[GR.page])}</h1>`;
+  const bind = () => { $('#grBack').onclick = grBack };
+  if (L !== 'es' && !GR.print && GR.from !== 'ref'){
     v.innerHTML = `${head}<div class="card"><h2>${esc(g.frOnly)}</h2><p class="calm">${esc(g.frOnlyLine)}</p></div>`;
     return bind();
   }
@@ -3630,30 +3929,36 @@ function renderGrammar(){
   else if (GR.page === 'glance') renderGlance(v, head);
   else renderPattern(v, head, GR.page);
   bind();
+  if (GR.page !== 'charts') pageActions(v, GR.page);
 }
 
-/* verb charts */
-function chipHtml(verb){ const t = CJ.top && CJ.top.tables[verb], k = t ? t.k : 'reg';
-  return `<button class="vchip" data-v="${esc(verb)}" lang="es" aria-pressed="${GR.verb === verb}" aria-label="${esc(verb)}, ${esc(G().kinds[k] || k)}"><i class="kd ${k}" aria-hidden="true"></i>${esc(verb)}</button>` }
+/* verb charts: tap a form to hear it, see its English and why it looks that way; tabs for the tenses */
+function chipHtml(verb, mine){ const t = tableOf(verb), k = t ? t.k : 'reg';
+  return `<button class="vchip" data-v="${esc(verb)}" lang="es" aria-pressed="${GR.verb === verb}" aria-label="${esc(verb)}, ${esc(G().kinds[k] || k)}${mine ? ', ' + esc(G().savedVerb) : ''}"><i class="kd ${k}" aria-hidden="true"></i>${esc(verb)}${mine ? '<span class="star" aria-hidden="true">★</span>' : ''}</button>` }
+// The quick chips: your saved verbs first, then the most used.
+function quickHtml(){ const mine = savedVerbs().map(x => x.w), top = topVerbs().filter(x => !mine.includes(x)).slice(0, Math.max(4, 10 - mine.length));
+  return mine.map(x => chipHtml(x, true)).join('') + top.map(x => chipHtml(x)).join('') }
 function renderCharts(v, head){
   const g = G(), verbs = topVerbs(), shown = GR.all ? verbs : verbs.slice(0, 24);
   v.innerHTML = `${head}
-    <form class="vsearch" id="cvF" role="search"><label class="search">${icon('search')}<span class="sr">${esc(g.searchL)}</span>
+    <form class="vsearch noprint" id="cvF" role="search"><label class="search">${icon('search')}<span class="sr">${esc(g.searchL)}</span>
       <input type="search" id="cvQ" lang="es" placeholder="${esc(g.searchPh)}" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="search"></label>
       <button class="pill" type="submit">${esc(g.show)}</button></form>
-    <div class="vchips" id="cvSug"></div>
+    <div class="vchips noprint" id="cvSug"></div>
+    <div class="vchips quick noprint" id="cvQuick" role="group" aria-label="${esc(g.quickL)}">${quickHtml()}</div>
     <div id="cvChart" class="sec" aria-live="polite"></div>
-    <section class="sec"><h2>${esc(g.mostUsed)}</h2><div class="vchips" id="cvTop">${shown.map(chipHtml).join('')}</div>
+    <section class="sec noprint"><h2>${esc(g.mostUsed)}</h2><div class="vchips" id="cvTop">${shown.map(x => chipHtml(x)).join('')}</div>
       <button class="link" id="cvAll">${GR.all ? esc(g.showFewer) : esc(g.showAll(verbs.length))}</button></section>
     <p class="small">${g.attribution}</p>`;
-  const pick = verb => { GR.verb = verb; GR.table = null; GR.msg = ''; drawChart(); const c = $('#cvChart'); if (c) c.scrollIntoView({block: 'start'}); window.scrollBy(0, -12) };
+  const pick = verb => { GR.verb = verb; GR.table = null; GR.msg = ''; GR.row = 0; GR.shown = new Set(); drawChart(); const c = $('#cvChart'); if (c) c.scrollIntoView({block: 'start'}); window.scrollBy(0, -12) };
   const bindChips = el => el.querySelectorAll('[data-v]').forEach(b => b.onclick = () => pick(b.dataset.v));
-  bindChips($('#cvTop'));
+  bindChips($('#cvTop')); bindChips($('#cvQuick'));
+  renderCharts.quick = () => { const q = $('#cvQuick'); if (q){ q.innerHTML = quickHtml(); bindChips(q); q.querySelectorAll('[data-v]').forEach(b => b.setAttribute('aria-pressed', b.dataset.v === GR.verb)) } };
   $('#cvAll').onclick = () => { GR.all = !GR.all; renderGrammar() };
   let tm;
   $('#cvQ').oninput = e => { clearTimeout(tm); tm = setTimeout(() => {
     const q = foldText(e.target.value.trim()), sug = $('#cvSug');
-    sug.innerHTML = q ? verbs.filter(x => foldText(x).startsWith(q)).slice(0, 8).map(chipHtml).join('') : ''; bindChips(sug) }, 100) };
+    sug.innerHTML = q ? verbs.filter(x => foldText(x).startsWith(q)).slice(0, 8).map(x => chipHtml(x)).join('') : ''; bindChips(sug) }, 100) };
   $('#cvF').onsubmit = async e => {
     e.preventDefault();
     const q = $('#cvQ').value.trim(); if (!q) return;
@@ -3661,11 +3966,12 @@ function renderCharts(v, head){
     const t = await findVerb(q);
     if (t === undefined){ GR.msg = g.offline; GR.table = null }
     else if (!t){ GR.msg = g.notFound(q); GR.table = null }
-    else { GR.verb = vname(t); GR.table = t; GR.msg = '' }
+    else { GR.verb = vname(t); GR.table = t; GR.msg = ''; GR.row = 0; GR.shown = new Set() }
     drawChart();
   };
   drawChart();
 }
+const TAB_SUB_ES = new Set(['pret', 'impf']);
 async function drawChart(){
   const box = $('#cvChart'); if (!box) return;
   const g = G();
@@ -3674,47 +3980,88 @@ async function drawChart(){
   if (!$('#cvChart')) return;
   if (!t){ box.innerHTML = `<p class="calm">${esc(t === undefined ? g.offline : g.notFound(GR.verb))}</p>`; return }
   GR.table = t;
-  const name = vname(t);
-  document.querySelectorAll('#cvTop [data-v], #cvSug [data-v]').forEach(b => b.setAttribute('aria-pressed', b.dataset.v === name));
-  const open = new Set(LS.get('conj.open', ['pres', 'pret']));
+  const name = vname(t); CJ.loaded.set(t.inf, t); CJ.loaded.set(name, t);
+  document.querySelectorAll('#cvTop [data-v], #cvSug [data-v], #cvQuick [data-v]').forEach(b => b.setAttribute('aria-pressed', b.dataset.v === name));
+  if (!TENSE_IDS.includes(GR.tense)) GR.tense = 'pres';
+  const more = GR.more || MORE_T.includes(GR.tense), type = typeOf(t);
   const nf = (key, label) => t[key] ? `<span>${esc(label)} <span class="fm" lang="es">${sliceHtml(t[key], t.x && t.x[key])}</span></span>` : '';
-  const tense = id => {
-    const [name, use] = g.tenses[id], dots = personsOf(id).map((p, i) => { const m = t.x && t.x[id] && t.x[id][i]; return `<i class="${m ? m[0] : ''}"></i>` }).join('');
-    const rows = personsOf(id).map((p, i) => { const c = cellOf(t, id, i);
-      return c ? `<button class="cf" data-t="${id}" data-i="${i}"><span class="pp">${esc(p)}</span><span class="fm" lang="es">${cellHtml(c)}</span></button>`
-        : `<div class="cf none"><span class="pp">${esc(p)}</span><span class="fm">—</span></div>` }).join('');
-    return `<details class="tz" data-tz="${id}" ${open.has(id) ? 'open' : ''}><summary><span class="tn"><b>${esc(name)}</b><span>${esc(use)}</span></span><span class="dots" aria-hidden="true">${dots}</span>${icon('next', 'sm')}</summary><div class="rows2">${rows}</div></details>`;
-  };
-  box.innerHTML = `<div class="card">
+  const tab = id => `<button role="tab" id="cvTab-${id}" data-tt="${id}" aria-selected="${GR.tense === id}" aria-controls="cvPanel" tabindex="${GR.tense === id ? 0 : -1}"><b>${esc(g.tabs[id][0])}</b><small${TAB_SUB_ES.has(id) ? ' lang="es"' : ''}>${esc(g.tabs[id][1])}</small></button>`;
+  const pdf = !t.se && topVerbs().slice(0, 24).includes(t.inf) ? 'verb-' + t.inf : '';
+  box.innerHTML = `<div class="card vcard">
       <div class="vhead"><div class="vt"><h2 lang="es">${esc(name)}</h2><div class="gl" data-gloss="${esc(name)}"></div></div>
-        <button class="say" id="cvSay" aria-label="${esc(g.hearInf(name))}">${icon('sound')}</button></div>
-      <div class="kbs"><span class="kb ${t.k}">${esc(g.kinds[t.k] || t.k)}</span>${(t.st || []).map(s => `<span class="kb">${esc(g.stemCh(s))}</span>`).join('')}</div>
+        <button class="say noprint" id="cvSay" aria-label="${esc(g.hearInf(name))}">${icon('sound')}</button><button class="vsave noprint" id="cvSave"></button></div>
+      <div class="kbs"><span class="kb vtype ${type}">${esc(g.types[type])}</span>${famBadges(t)}</div>
       <div class="nonfin">${nf('ger', g.gerund)}${nf('pp', g.participle)}</div>
-      ${t.se ? `<p class="small" style="margin:0;padding:0">${esc(g.pronominal)}</p>` : ''}
-      <button class="primary" id="cvSave"></button></div>
-    ${legendHtml()}
-    <p class="small" style="margin:-6px 0 0">${esc(g.tapForm)}</p>
-    ${TGROUPS.map(([gid, ids]) => `<h3 class="gh">${esc(g.groups[gid][0])} <span>· ${esc(g.groups[gid][1])}</span></h3><div class="tgrid">${ids.map(tense).join('')}</div>`).join('')}`;
+      ${t.se ? `<p class="small" style="margin:0;padding:0">${esc(g.pronominal)}</p>` : ''}</div>
+    <div class="ttabs noprint" role="tablist" aria-label="${esc(g.tenseTabsL)}">${MAIN_T.map(tab).join('')}</div>
+    <button class="link morebtn noprint" id="cvMore" aria-expanded="${more}" aria-controls="cvMoreT">${esc(more ? g.fewerTenses : g.moreTenses)}</button>
+    <div class="ttabs more noprint${more ? '' : ' hide'}" id="cvMoreT" role="tablist" aria-label="${esc(g.moreTenses)}">${MORE_T.map(tab).join('')}</div>
+    <section class="card vrows noprint" id="cvPanel" role="tabpanel"></section>
+    <div class="vleg">${legendHtml()}<button class="link noprint" id="cvCover" aria-pressed="${GR.cover}">${esc(GR.cover ? g.uncover : g.cover)}</button></div>
+    <div class="trick vnote noprint" id="cvNote" aria-live="polite"></div>
+    ${verbPrintHtml(t)}
+    <div class="vfoot noprint"><button class="outline" id="cvDrill">${esc(g.drillVerb(name))}</button><a class="primary" id="cvDeep" target="_blank" rel="noopener" href="${esc(askClaude(g.deeperVerb(name, famsOf(t).filter(f => f !== 'true').map(f => famLabel(t, f)).join(', '))))}">${esc(R_().deeper)}</a></div>
+    <div class="ract2 one noprint">${pdf ? `<a class="pill rprint" id="cvPrint" href="${esc(pdfOf(pdf))}" target="_blank" rel="noopener" data-pdf="${esc(pdf)}">${icon('print', 'sm')}${esc(g.printChart)}</a>`
+      : `<button class="pill rprint" id="cvPrint" data-print="1">${icon('print', 'sm')}${esc(g.printChart)}</button>`}</div>`;
   fillGlosses(box);
   $('#cvSay').onclick = () => speak(name, false, 'es');
-  const paintSave = () => { const b = $('#cvSave'); if (!b) return; const on = isSaved(name, 'es'); b.className = on ? 'primary saved-on' : 'primary'; b.innerHTML = on ? `${icon('check', 'sm')}${esc(g.savedVerb)}` : `${icon('mark', 'sm')}${esc(g.saveVerb)}` };
+  const paintSave = () => { const b = $('#cvSave'); if (!b) return; const on = isVerbSaved(name); b.className = 'vsave noprint' + (on ? ' on' : ''); b.setAttribute('aria-pressed', on);
+    b.textContent = on ? g.savedVerb : g.saveVerb; b.setAttribute('aria-label', on ? g.savedVerbL(name) : g.saveVerbL(name)) };
   paintSave();
-  $('#cvSave').onclick = async () => {
-    let ws = savedWords();
-    if (isSaved(name, 'es')) ws = ws.filter(x => !(x.w === name && (x.lang || 'es') === 'es'));
-    else ws.unshift({w: name, lemma: '', gloss: await verbGloss(name), sentence: '', t: Date.now(), lang: 'es', src: 'lesson', lesson: g.titles.charts, verb: name});
-    LS.set('words', ws); paintSave();
+  $('#cvSave').onclick = async () => { const on = !isVerbSaved(name); setVerbSaved(name, on, on ? await verbGloss(name) : ''); paintSave(); if (renderCharts.quick) renderCharts.quick() };
+  box.querySelectorAll('[data-tt]').forEach(b => b.onclick = () => cvTense(b.dataset.tt));
+  // arrow keys move along a tab row
+  box.querySelectorAll('[role=tablist]').forEach(tl => tl.onkeydown = e => {
+    const bs = [...tl.querySelectorAll('[role=tab]')], i = bs.indexOf(document.activeElement); if (i < 0) return;
+    const j = e.key === 'ArrowRight' ? (i + 1) % bs.length : e.key === 'ArrowLeft' ? (i - 1 + bs.length) % bs.length : -1;
+    if (j >= 0){ e.preventDefault(); cvTense(bs[j].dataset.tt); bs[j].focus() }
+  });
+  $('#cvMore').onclick = () => {
+    GR.more = !$('#cvMoreT').classList.toggle('hide');
+    if (!GR.more && MORE_T.includes(GR.tense)) cvTense('pres');
+    $('#cvMore').setAttribute('aria-expanded', GR.more); $('#cvMore').textContent = GR.more ? g.fewerTenses : g.moreTenses;
   };
-  box.querySelectorAll('details.tz').forEach(d => d.ontoggle = () => {
-    const s = new Set(LS.get('conj.open', ['pres', 'pret'])); d.open ? s.add(d.dataset.tz) : s.delete(d.dataset.tz); LS.set('conj.open', [...s]);
-  });
+  $('#cvCover').onclick = () => { GR.cover = !GR.cover; GR.shown = new Set(); const c = $('#cvCover'); c.textContent = GR.cover ? g.uncover : g.cover; c.setAttribute('aria-pressed', GR.cover); paintPanel() };
+  $('#cvDrill').onclick = () => startListDrill({verbs: [t.inf], tenses: MAIN_T.filter(x => t[x]), irr: false, label: g.drillVerb(name)}, 'grammar');
+  wirePrint(box);
+  paintPanel();
+}
+// Switch the tense shown (also used by the tests): synchronous, so the rows are there on return.
+function cvTense(id){
+  if (!TENSE_IDS.includes(id)) return;
+  GR.tense = id; LS.set('conj.tab', id);
+  if (MORE_T.includes(id)){ const m = $('#cvMoreT'); if (m && m.classList.contains('hide')){ m.classList.remove('hide'); GR.more = true; const b = $('#cvMore'); if (b){ b.setAttribute('aria-expanded', true); b.textContent = G().fewerTenses } } }
+  paintPanel();
+}
+function paintPanel(){
+  const t = GR.table, box = $('#cvPanel'); if (!t || !box) return;
+  const g = G(), id = GR.tense, ps = personsOf(id);
+  if (GR.row >= ps.length) GR.row = 0;
+  box.dataset.t = id; box.setAttribute('aria-labelledby', 'cvTab-' + id);
+  $('#cvChart').querySelectorAll('[data-tt]').forEach(b => { const on = b.dataset.tt === id; b.setAttribute('aria-selected', on); b.tabIndex = on ? 0 : -1 });
+  box.innerHTML = `<p class="tuse"><b>${esc(g.tenses[id][0])}</b> · ${esc(g.tenses[id][1])}</p>` + ps.map((p, i) => { const c = cellOf(t, id, i), hid = GR.cover && !GR.shown.has(id + ':' + i);
+    return c ? `<button class="cf${GR.row === i ? ' on' : ''}${hid ? ' hid' : ''}" data-t="${id}" data-i="${i}"><span class="pp">${esc(p)}</span><span class="fm" lang="es">${hid ? `<span class="tapsee" lang="en">${esc(g.tapSee)}</span>` : cellHtml(c)}</span>${icon('sound1', 'sm')}</button>`
+      : `<div class="cf none"><span class="pp">${esc(p)}</span><span class="fm">—</span></div>` }).join('');
   box.querySelectorAll('.cf[data-t]').forEach(b => b.onclick = () => {
-    const id = b.dataset.t, i = +b.dataset.i, c = cellOf(t, id, i);
-    box.querySelectorAll('.cf.on').forEach(x => x.classList.remove('on')); b.classList.add('on');
-    const sentence = isImpT(id) ? `¡${cap(c.text)}!` : `${SUBJ[i]} ${c.text}`;
-    if (!settings.speakTap) speak(c.text, false, 'es');
-    showWord(c.form, sentence, b, {lang: 'es', src: 'lesson', srcInfo: {lesson: `${name} · ${g.tenses[id][0]}`, verb: name}, tr: {}});
+    const i = +b.dataset.i, c = cellOf(t, id, i);
+    GR.row = i; GR.shown.add(id + ':' + i); paintPanel(); speak(c.text, false, 'es');
   });
+  paintNote();
+}
+// The note under the rows: the tapped form, its English ("I had") and why it looks that way.
+function paintNote(){
+  const t = GR.table, box = $('#cvNote'); if (!t || !box) return;
+  const g = G(), id = GR.tense, i = GR.row, c = cellOf(t, id, i), name = vname(t);
+  if (!c){ box.innerHTML = ''; return }
+  if (GR.cover && !GR.shown.has(id + ':' + i)){ box.innerHTML = `<div class="nf"><b class="fm" lang="es">?</b> <span class="ven">· ${esc(g.checkSelf)}</span></div><div class="why">${esc(g.sayFirst)}</div>`; return }
+  if (!CJ.glossV.has(name)){ CJ.glossV.set(name, ''); verbGloss(name).then(x => { CJ.glossV.set(name, x || ''); if (GR.table === t && x) paintNote() }) }
+  const en = formEn(t.inf, CJ.glossV.get(name), id, i);
+  box.innerHTML = `<div class="nf"><b class="fm" lang="es">${esc(c.text)}</b>${en ? ` <span class="ven" lang="en">· ${esc(en)}</span>` : ''}</div><div class="why">${esc(whyOf(t, id, i))}</div>
+    <button class="link" id="cvCard">${esc(g.wordCard)}</button>`;
+  $('#cvCard').onclick = () => {
+    const sentence = isImpT(id) ? `¡${cap(c.text)}!` : `${SUBJ[i]} ${c.text}`;
+    showWord(c.form, sentence, $('#cvPanel .cf.on') || $('#cvCard'), {lang: 'es', src: 'lesson', srcInfo: {lesson: `${name} · ${g.tenses[id][0]}`, verb: name}, tr: {}});
+  };
 }
 
 /* the tense timeline: era (a stretch) or fue (a point), and the present and future beside them */
@@ -3836,7 +4183,7 @@ function renderPattern(v, head, id){
       <button data-say="${esc(b)}"><span class="es" lang="es">${esc(b)}</span><span class="en2">${esc(be)}</span></button></div>`).join('')}</div></section>
     <p class="trick">${c.trick}</p>
     <a class="tipbtn" id="grAsk" target="_blank" rel="noopener" href="${esc(askClaude(c.ask))}">${esc(g.askClaudeAbout(g.titles[id]))}${icon('out', 'sm')}</a>
-    <p class="small">${esc(g.tapHear)}</p>`;
+    <p class="small noprint">${esc(g.tapHear)}</p>`;
   v.querySelectorAll('[data-say]').forEach(b => b.onclick = () => speak(b.dataset.say, false, 'es'));
 }
 
@@ -3869,16 +4216,21 @@ function regularForm(inf, tense, i){
   if (tense === 'cond') return base + ['ía', 'ías', 'ía', 'íamos', 'ían'][i];
   const e = REG_END[cls][tense]; return e ? base.slice(0, -2) + e[i] : null;
 }
-function makeQ(verb, tense, onlyIrr, notI){
-  const t = CJ.top && CJ.top.tables[verb]; if (!t || !t[tense]) return null;
-  let idx = t[tense].map((f, i) => i).filter(i => t[tense][i] != null && (!onlyIrr || (t.x && t.x[tense] && t.x[tense][i])));
-  if (idx.length > 1 && notI != null) idx = idx.filter(i => i !== notI);
-  if (!idx.length) return null;
-  const i = idx[Math.floor(Math.random() * idx.length)], c = cellOf(t, tense, i);
-  return {v: verb, tense, i, k: cjKey(verb, tense), answer: c.form, pre: c.pre, mode: 'type', typed: '', how: '', verdict: ''};
+// o.i: ask this person; o.persons: only these persons; o.person: one FSRS card per person (es:cj:tener:pret:0).
+function makeQ(verb, tense, onlyIrr, notI, o = {}){
+  const t = tableOf(verb); if (!t || !t[tense]) return null;
+  let i = o.i;
+  if (i == null){
+    let idx = t[tense].map((f, i) => i).filter(i => t[tense][i] != null && (!onlyIrr || markOf(t, tense, i)) && (!o.persons || o.persons.includes(i)));
+    if (idx.length > 1 && notI != null) idx = idx.filter(i => i !== notI);
+    if (!idx.length) return null;
+    i = idx[Math.floor(Math.random() * idx.length)];
+  } else if (t[tense][i] == null) return null;
+  const c = cellOf(t, tense, i);
+  return {v: verb, tense, i, k: cjKey(verb, tense) + (o.person ? ':' + i : ''), answer: c.form, pre: c.pre, mode: 'type', typed: '', how: '', verdict: '', person: !!o.person};
 }
 function choicesFor(q){
-  const t = CJ.top.tables[q.v], seen = new Set([normAns(q.answer)]), out = [q.answer];
+  const t = tableOf(q.v), seen = new Set([normAns(q.answer)]), out = [q.answer];
   const add = f => { if (f && !seen.has(normAns(f)) && out.length < 4){ seen.add(normAns(f)); out.push(f) } };
   add(regularForm(t.inf, q.tense, q.i));
   const other = {pres: 'pret', pret: 'impf', impf: 'pret', fut: 'cond', cond: 'fut', sub: 'pres', subi: 'pret', imp: 'pres', neg: 'sub'}[q.tense];
@@ -3938,11 +4290,12 @@ function bindCj(root, q, t, done){
 let cz = null;
 function openDrill(){ cz = {phase: 'setup'}; go('conj') }
 function drillQs(f){
+  if (f.verbs) return listQs(f);   // Practice my irregulars, a family, one verb
   const verbs = topVerbs().slice(0, 150), all = srsAll(), now = Date.now(), qs = [], used = new Set();
   // the verbs you missed come back first, the most forgotten first
-  const due = cjDue(now).map(k => { const [, , v, t] = k.split(':'); return {k, v, t, r: F ? F.get_retrievability(fromStore(all[k]), new Date(now), false) : 0} })
-    .filter(d => f.tenses.includes(d.t) && CJ.top.tables[d.v]).sort((a, b) => a.r - b.r);
-  for (const d of due){ const q = makeQ(d.v, d.t, f.irr); if (q){ qs.push(q); used.add(q.k) } if (qs.length >= 10) break }
+  const due = cjDue(now).map(k => { const [, , v, t, pi] = k.split(':'); return {k, v, t, pi, r: F ? F.get_retrievability(fromStore(all[k]), new Date(now), false) : 0} })
+    .filter(d => f.tenses.includes(d.t) && tableOf(d.v)).sort((a, b) => a.r - b.r);
+  for (const d of due){ const q = makeQ(d.v, d.t, f.irr, null, d.pi != null ? {i: +d.pi, person: true} : {}); if (q){ qs.push(q); used.add(q.k) } if (qs.length >= 10) break }
   for (let n = 0; qs.length < 10 && n < 600; n++){
     const v = verbs[Math.floor(Math.random() * Math.min(verbs.length, 40 + n))], t = f.tenses[Math.floor(Math.random() * f.tenses.length)];
     if (used.has(cjKey(v, t))) continue;
@@ -3953,6 +4306,7 @@ function drillQs(f){
 function renderConj(){
   const v = $('#v-conj'), g = G();
   if (!cz) return go('learn');
+  if (cz.en) return renderEnConj(v);
   if (!CJ.top){
     v.innerHTML = `<div class="rtop"><button class="x" id="czX" aria-label="${esc(T.backToLearn)}">${icon('x')}</button></div><p class="calm" id="czWait" style="padding-top:24px">${esc(g.loading)}</p>`;
     $('#czX').onclick = () => { cz = null; go('learn') };
@@ -3960,6 +4314,7 @@ function renderConj(){
     return;
   }
   const f = Object.assign({tenses: ['pres', 'pret', 'impf'], irr: false}, LS.get('conj.drill', {}));
+  const leave = () => { const b = cz && cz.back; cz = null; go(b || 'learn') }, backL = cz.back === 'words' ? T.tabs.words : cz.back === 'grammar' ? T.back2 : T.backToLearn;
   if (cz.phase === 'setup'){
     const due = cjDue().filter(k => f.tenses.includes(k.split(':')[3])).length;
     v.innerHTML = `<div class="rtop"><button class="x" id="czX" aria-label="${esc(T.backToLearn)}">${icon('x')}</button></div>
@@ -3989,18 +4344,18 @@ function renderConj(){
     const missed = [...new Map(cz.missed.map(q => [q.v + q.tense, q])).values()];
     v.innerHTML = `${top(n)}<div class="done"><h2>${T.quizScore(cz.right, cz.qs.filter(q => !q.again).length)}</h2><p>${T.quizNoTimer}</p>
       ${missed.length ? `<p>${esc(g.missed)}</p><ul>${missed.map(q => `<li><button class="link" data-mv="${esc(q.v)}" lang="es">${esc(q.v)}</button> · ${esc(g.tenses[q.tense][0])}</li>`).join('')}</ul>` : ''}
-      <button class="primary" id="czAgain">${esc(g.again)}</button><button class="outline" id="czSet">${esc(g.change)}</button><button class="outline" id="czBack">${T.backToLearn}</button></div>`;
-    $('#czX').onclick = $('#czBack').onclick = () => { cz = null; go('learn') };
-    $('#czAgain').onclick = () => { const qs = drillQs(cz.f); cz = {phase: 'q', qs, i: 0, right: 0, f: cz.f, requeued: new Set(), missed: []}; renderConj(); window.scrollTo(0, 0) };
-    $('#czSet').onclick = () => { cz = {phase: 'setup'}; renderConj() };
+      <button class="primary" id="czAgain">${esc(g.again)}</button>${cz.f.verbs ? '' : `<button class="outline" id="czSet">${esc(g.change)}</button>`}<button class="outline" id="czBack">${esc(backL)}</button></div>`;
+    $('#czX').onclick = $('#czBack').onclick = leave;
+    $('#czAgain').onclick = () => { const qs = drillQs(cz.f); cz = {phase: 'q', qs, i: 0, right: 0, f: cz.f, requeued: new Set(), missed: [], back: cz.back}; renderConj(); window.scrollTo(0, 0) };
+    const cs = $('#czSet'); if (cs) cs.onclick = () => { cz = {phase: 'setup'}; renderConj() };
     v.querySelectorAll('[data-mv]').forEach(b => b.onclick = () => { cz = null; openGrammar('charts', b.dataset.mv) });
     return;
   }
-  const q = cz.qs[cz.i], t = CJ.top.tables[q.v];
-  v.innerHTML = `${top(cz.i)}<div class="rmain"><div class="from"><svg class="icon sm" aria-hidden="true"><use href="#t-learn"/></svg><span>${esc(g.drill)}</span></div>${cjCardHtml(q, t)}</div>
+  const q = cz.qs[cz.i], t = tableOf(q.v);
+  v.innerHTML = `${top(cz.i)}<div class="rmain"><div class="from"><svg class="icon sm" aria-hidden="true"><use href="#t-learn"/></svg><span>${esc(cz.f.label || g.drill)}</span></div>${cjCardHtml(q, t)}</div>
     <div class="rfoot">${q.verdict ? `<button class="primary" id="czNext">${cz.i + 1 < cz.qs.length ? T.next : T.seeHow}</button>` : ''}
       <div class="lnks"><a id="czDeep" target="_blank" rel="noopener" href="${esc(askClaude(g.deeper(q.v, g.tenses[q.tense][0], personsOf(q.tense)[q.i], q.pre + q.answer)))}">${T.goDeeper}</a><span></span></div></div>`;
-  $('#czX').onclick = () => { cz = null; go('learn') };
+  $('#czX').onclick = leave;
   wireDeep($('#czDeep'), line => withRef(g.deeper(q.v, g.tenses[q.tense][0], personsOf(q.tense)[q.i], q.pre + q.answer), line),
     {word: q.answer, lang: 'es', note: `${q.v} · ${g.tenses[q.tense][0]} · ${personsOf(q.tense)[q.i]}`, source: {kind: 'lesson', title: g.drill},
       question: cutText(g.deeper(q.v, g.tenses[q.tense][0], personsOf(q.tense)[q.i], q.pre + q.answer), 400)});
@@ -4011,7 +4366,7 @@ function renderConj(){
     else {
       cz.missed.push(q);
       // a miss comes back once more before the round ends, as another person of the same tense
-      if (!cz.requeued.has(q.k)){ cz.requeued.add(q.k); const r = makeQ(q.v, q.tense, cz.f.irr, q.i); if (r){ r.again = true; cz.qs.push(r) } }
+      if (!cz.requeued.has(q.k)){ cz.requeued.add(q.k); const r = makeQ(q.v, q.tense, cz.f.irr, q.i, q.person ? {person: true, persons: cz.f.persons} : {}); if (r){ r.again = true; cz.qs.push(r) } }
     }
     renderConj();
   });
@@ -4020,9 +4375,10 @@ function renderConj(){
 }
 // A conjugation card due in Your reviews: the same question, graded with the four FSRS buttons.
 function renderCjReview(v, k, topHtml){
-  const [, , verb, tense] = k.split(':'), t = CJ.top && CJ.top.tables[verb];
+  if (k.startsWith('en:')) return renderEnCjReview(v, k, topHtml);
+  const [, , verb, tense, pi] = k.split(':'), t = tableOf(verb);
   if (!t || !t[tense]){ rv.seen.add(k); rv.i++; return renderReview() }
-  if (!rv.cur || rv.cur.at !== rv.i){ const card = cardFor(k); rv.cur = {k, x: null, card, type: 'conj', at: rv.i, q: makeQ(verb, tense, false)} }
+  if (!rv.cur || rv.cur.at !== rv.i){ const card = cardFor(k); rv.cur = {k, x: null, card, type: 'conj', at: rv.i, q: makeQ(verb, tense, false, null, pi != null ? {i: +pi, person: true} : {})} }
   const c = rv.cur, q = c.q, g = G();
   if (!q){ rv.seen.add(k); rv.i++; rv.cur = null; return renderReview() }
   if (q.verdict && !c.preview) c.preview = F.repeat(c.card, new Date());
@@ -4036,6 +4392,839 @@ function renderCjReview(v, k, topHtml){
       question: cutText(g.deeper(verb, g.tenses[tense][0], personsOf(tense)[q.i], q.pre + q.answer), 400)});
   bindCj(v, q, t, () => renderReview());
   v.querySelectorAll('[data-g]').forEach(b => b.onclick = () => gradeCard(+b.dataset.g));
+}
+
+/* ---------- verb families: derived from the conj/ marks, checked against the tables ---------- */
+// A family is read off a verb's own table, so compounds follow their base verb (obtener, mantener, proponer).
+//   boot:   a stem mark (ie, ue, i) on yo, tú, él and ellos in the present, none on nosotros
+//   yogo:   the yo present ends in -go with the g inside an irregular mark (tengo, oigo, caigo, valgo)
+//   zco:    the yo present ends in -zco, marked irregular (conozco, parezco, conduzco)
+//   uir:    an -uir verb whose yo present gains a y (construyo, incluyo)
+//   strong: the yo preterite is marked irregular and ends in an unstressed -e (tuve, pude, dije)
+//   short:  the yo future is marked irregular (tendré, haré, diré)
+//   spell:  the verb's strongest change is a spelling one (busqué, escojo, leyó)
+//   true:   the seven everyday verbs that follow no family, by hand
+const TRUE_IRR = new Set(['ser', 'ir', 'estar', 'haber', 'dar', 'saber', 'ver']);
+const FAM_IDS = ['boot', 'yogo', 'zco', 'uir', 'strong', 'short', 'spell', 'true'];
+// The examples shown on each family's card (the brief's lists, kept only while the tables agree).
+const FAM_EX = {
+  boot: ['querer', 'pensar', 'empezar', 'entender', 'poder', 'volver', 'dormir', 'encontrar', 'pedir', 'seguir', 'servir', 'repetir', 'jugar'],
+  yogo: ['tener', 'hacer', 'poner', 'salir', 'decir', 'venir', 'traer', 'oír', 'valer', 'caer'],
+  zco: ['conocer', 'parecer', 'ofrecer', 'conducir'],
+  uir: ['construir', 'incluir', 'destruir'],
+  strong: ['tener', 'estar', 'poder', 'poner', 'saber', 'hacer', 'querer', 'venir', 'decir', 'traer', 'andar', 'conducir'],
+  short: ['tener', 'poder', 'poner', 'salir', 'venir', 'hacer', 'decir', 'querer', 'saber', 'haber', 'caber', 'valer'],
+  spell: ['buscar', 'llegar', 'realizar', 'escoger', 'vencer', 'distinguir', 'averiguar', 'leer', 'enviar', 'continuar'],
+  true: ['ser', 'ir', 'estar', 'haber', 'dar', 'saber', 'ver']
+};
+// What a family drill asks: the tenses (and persons) the family changes.
+const FAM_DRILL = {boot: {tenses: ['pres']}, yogo: {tenses: ['pres'], persons: [0]}, zco: {tenses: ['pres'], persons: [0]}, uir: {tenses: ['pres']},
+  strong: {tenses: ['pret']}, short: {tenses: ['fut', 'cond']}, spell: {tenses: ['pres', 'pret']}, true: {tenses: ['pres', 'pret', 'impf']}};
+// The card each family lives on (zco and uir are the two small families on the yo-go card).
+const FAM_CARD = {boot: 'boot', yogo: 'yogo', zco: 'yogo', uir: 'yogo', strong: 'strong', short: 'short', spell: 'spell', true: 'true'};
+const FAM_COLOR = {boot: 'orange', yogo: 'rust', zco: 'rust', uir: 'rust', strong: 'rust', short: 'rust', spell: 'blue', true: 'red'};
+const MAIN_T = ['pres', 'pret', 'impf', 'fut'], MORE_T = ['cond', 'sub', 'subi', 'imp', 'neg'];
+// Any table loaded so far: the top 300 or a shard (conjOf keeps them), so drills and reviews can use any verb.
+const tableOf = v => (CJ.top && CJ.top.tables[v]) || CJ.loaded.get(v) || null;
+const markOf = (t, tense, i) => (t && t.x && t.x[tense] && t.x[tense][i]) || 0;
+// The present's boot: e>ie, o>ue, e>i, u>ue or i>ie, read from the first changed form.
+function bootKind(t){
+  const xs = t && t.x && t.x.pres; if (!xs || !t.pres) return '';
+  for (const i of [0, 1, 2, 4]){
+    const k = xs[i]; if (!k || k[0] !== 'stem') continue;
+    const s = t.pres[i].slice(k[1], k[2]), st = t.st || [];
+    if (s === 'ie' || s === 'ye') return st.includes('i>ie') ? 'i>ie' : 'e>ie';
+    if (s === 'ue' || s === 'hue' || s === 'üe') return st.includes('u>ue') ? 'u>ue' : 'o>ue';
+    if (s === 'i' || s === 'í') return 'e>i';
+    return '';
+  }
+  return '';
+}
+function famsOf(t){
+  const out = []; if (!t || !t.pres) return out;
+  const m3 = markOf(t, 'pres', 3);
+  if (bootKind(t) && !(m3 && m3[0] === 'stem')) out.push('boot');
+  const y = markOf(t, 'pres', 0), yo = t.pres[0] || '';
+  if (y && y[0] === 'irr' && /go$/.test(yo) && yo.slice(y[1], y[2]).includes('g')) out.push('yogo');
+  if (y && y[0] === 'irr' && /zco$/.test(yo)) out.push('zco');
+  if (y && y[0] === 'irr' && /[^gq]uir$/.test(t.inf) && yo.slice(y[1], y[2]).includes('y')) out.push('uir');
+  const p = markOf(t, 'pret', 0); if (p && p[0] === 'irr' && /e$/.test((t.pret || [])[0] || '')) out.push('strong');
+  const f = markOf(t, 'fut', 0); if (f && f[0] === 'irr') out.push('short');
+  if (t.k === 'spell') out.push('spell');
+  if (TRUE_IRR.has(t.inf)) out.push('true');
+  return out;
+}
+// The type badge: Regular / Irregular / Truly irregular / Spelling change (stem changes count as irregular, as the RAE counts them).
+const typeOf = t => !t ? 'reg' : TRUE_IRR.has(t.inf) ? 'true' : t.k === 'irr' || t.k === 'stem' ? 'irr' : t.k === 'spell' ? 'spell' : 'reg';
+const isIrrVerb = t => !!t && (t.k === 'irr' || t.k === 'stem');
+function famLabel(t, f){ const g = G(); return f === 'boot' ? g.fams.boot(bootKind(t)) : g.fams[f] }
+const famBadges = t => famsOf(t).filter(f => f !== 'true').map(f => `<span class="kb fam ${FAM_COLOR[f]}">${esc(famLabel(t, f))}</span>`).join('');
+
+/* ---------- a verb form in English, and why it looks the way it does ---------- */
+const EN_WHO = ['I', 'you', 'he / she', 'we', 'they'];
+// The infinitive's English (verbGloss) as [verb, rest]: "to look for" → ['look', ' for'].
+function enBase(gloss){
+  const m = /^(?:to )?([a-z]+)((?: [a-z'-]+){0,3})$/i.exec(String(gloss || '').split(/[,;(]/)[0].trim());
+  return m ? [m[1].toLowerCase(), m[2] || ''] : null;
+}
+const VERB_EN = {poder: {pres: () => 'can', cond: () => 'could', sub: () => 'can', subi: () => 'could'}};
+function formEn(inf, gloss, tense, i){
+  const b = enBase(VERB_GLOSS[inf] || gloss); if (!b) return '';
+  const [v, rest] = b, ov = VERB_EN[inf] && VERB_EN[inf][tense], who = EN_WHO[i];
+  if (isImpT(tense)) return (tense === 'neg' ? 'Don’t ' + v : cap(v)) + rest + '!';
+  if (ov) return `${tense === 'sub' ? '(that) ' : tense === 'subi' ? '(if) ' : ''}${who} ${ov()}${rest}`;
+  const be = v === 'be', one = i === 0 || i === 2;
+  switch (tense){
+    case 'pres': return `${who} ${be ? (i === 0 ? 'am' : i === 2 ? 'is' : 'are') : i === 2 ? sOf(v) : v}${rest}`;
+    case 'pret': return `${who} ${be ? (one ? 'was' : 'were') : pastOf(v)}${rest}`;
+    case 'impf': return `${who} used to ${v}${rest}`;
+    case 'fut': return `${who} will ${v}${rest}`;
+    case 'cond': return `${who} would ${v}${rest}`;
+    case 'sub': return `(that) ${who} ${v}${rest}`;
+    case 'subi': return `(if) ${who} ${be ? 'were' : pastOf(v)}${rest}`;
+  }
+  return '';
+}
+// The note under a tapped form: it names the form's family when it has one.
+function whyOf(t, tense, i){
+  const N = G().notes, mk = markOf(t, tense, i), fams = famsOf(t), form = (t[tense] || [])[i] || '', inf = t.inf;
+  const s = mk ? form.slice(mk[1], mk[2]) : '';
+  if (mk && mk[0] === 'spell'){
+    if (tense === 'pres' && /[íú]/.test(s)) return N.accentShift;
+    if (s === 'qu') return N.spQu; if (s === 'gu') return N.spGu; if (s === 'gü') return N.spGue;
+    if (s === 'c' && /zar$/.test(inf)) return N.spZc; if (s === 'j') return N.spJ; if (s === 'z') return N.spZ;
+    if (s === 'g' && /guir$/.test(inf)) return N.spG; if (/y/.test(s)) return N.spY; if (/[íú]/.test(s)) return N.accentShift;
+    return N.spell;
+  }
+  if (TRUE_IRR.has(inf)){
+    if (tense === 'impf' && mk) return N.impfThree;
+    if (tense === 'pret' && (inf === 'ser' || inf === 'ir')) return N.fue;
+    if (tense === 'pres' && i === 0 && /oy$/.test(form)) return N.oy;
+    if (inf === 'haber' && tense === 'pres') return N.haber;
+    if (inf === 'saber' && tense === 'pres' && i === 0) return N.se;
+  }
+  if (tense === 'pres'){
+    if (i === 0 && fams.includes('yogo')) return N.yogo;
+    if (i === 0 && fams.includes('zco')) return N.zco;
+    if (mk && fams.includes('uir')) return N.uir;
+    if (fams.includes('boot')){ if (mk && mk[0] === 'stem') return N.boot(bootKind(t).replace('>', ' → ')); if (i === 3) return N.outside }
+  }
+  if (tense === 'pret'){
+    if (mk && fams.includes('strong')) return N.strong(t.pret[0].slice(0, -1), t.pret[0], t.pret[2]);
+    if (mk && mk[0] === 'stem') return N.pretIr;
+  }
+  if (tense === 'impf') return mk ? N.irr : N.impfReg;
+  if ((tense === 'fut' || tense === 'cond') && mk && fams.includes('short')){ const st = t.fut[0].slice(0, -1); return tense === 'fut' ? N.short(st, inf) : N.shortCond(st) }
+  if (tense === 'fut' || tense === 'cond') return mk ? N.irr : N.futReg;
+  if (tense === 'sub' && t.pres && /o$/.test(t.pres[0] || '') && !TRUE_IRR.has(inf) && foldText(form).startsWith(foldText(t.pres[0].slice(0, -1)))) return N.subYo(t.pres[0], t.sub[0]);
+  if (tense === 'subi' && t.pret && t.pret[4] && foldText(form).startsWith(foldText(t.pret[4].replace(/ron$/, '')).slice(0, -1))) return N.subiPret(t.pret[4], t.subi[0]);
+  if (tense === 'imp'){ if (i === 0 && mk && mk[0] === 'irr' && form.length <= 3) return N.shortCmd; if (i > 0) return N.cmdSub; if (!mk) return N.cmdTu }
+  if (tense === 'neg') return N.cmdNeg;
+  if (mk && mk[0] === 'stem') return N.stem;
+  return mk ? N.irr : N.reg;
+}
+
+/* ---------- saved verbs: a saved word that is a whole verb ({w: inf, verb: inf}), so they sync with the words ---------- */
+// A form saved from a chart (tuve, verb tener) is a word, not a saved verb.
+const savedVerbs = () => savedWords().filter(x => (x.lang || 'es') === 'es' && x.verb && x.w === x.verb);
+const isVerbSaved = v => savedVerbs().some(x => x.w === v);
+function setVerbSaved(v, on, gloss){
+  let ws = savedWords().slice(); const i = ws.findIndex(x => x.w === v && (x.lang || 'es') === 'es');
+  if (on){
+    if (i >= 0) ws[i] = Object.assign({}, ws[i], {verb: v});
+    else ws.unshift({w: v, lemma: '', gloss: gloss || '', sentence: '', t: Date.now(), lang: 'es', src: 'lesson', lesson: G().titles.charts, verb: v});
+  } else if (i >= 0){
+    const x = ws[i];
+    if (srcOf(x) === 'lesson' && !x.sentence) ws.splice(i, 1);
+    else { const y = Object.assign({}, x); delete y.verb; ws[i] = y }
+  }
+  LS.set('words', ws);
+}
+// Progress on one verb from its conjugation cards (es:cj:verb:tense, and es:cj:verb:tense:person).
+function verbProgress(v, all = srsAll(), now = Date.now()){
+  const by = {}; let due = 0;
+  for (const k in all){
+    if (!k.startsWith('es:cj:' + v + ':')) continue;
+    const t = k.split(':')[3], o = all[k]; (by[t] = by[t] || []).push(o);
+    if (o.due <= now) due++;
+  }
+  const learned = MAIN_T.map(t => !!by[t] && by[t].some(o => o.st === 2) && !by[t].some(o => o.st === 1 || o.st === 3));
+  return {learned, due, seen: Object.keys(by).length};
+}
+// A drill over a list of verbs (Practice my irregulars, a family, one verb): one FSRS card per verb + tense + person.
+async function startListDrill(f, back){
+  try { await loadTop() } catch(e){}
+  await Promise.all(f.verbs.map(v => conjOf(v).catch(() => null)));
+  const qs = drillQs(f);
+  if (!qs.length) return toast(G().none);
+  cz = {phase: 'q', qs, i: 0, right: 0, f, requeued: new Set(), missed: [], back}; go('conj'); window.scrollTo(0, 0);
+}
+function listQs(f){
+  const all = srsAll(), now = Date.now(), qs = [], used = new Set(), n = f.n || 10;
+  const verbs = f.verbs.filter(v => tableOf(v)), okI = i => !f.persons || f.persons.includes(i);
+  const due = Object.keys(all).filter(k => k.startsWith('es:cj:') && all[k].due <= now).map(k => { const [, , v, t, i] = k.split(':'); return {v, t, i: i == null ? null : +i, r: F ? F.get_retrievability(fromStore(all[k]), new Date(now), false) : 0} })
+    .filter(d => verbs.includes(d.v) && f.tenses.includes(d.t) && d.i != null && okI(d.i)).sort((a, b) => a.r - b.r);
+  for (const d of due){ if (qs.length >= n) break; const q = makeQ(d.v, d.t, f.irr, null, {i: d.i, person: true}); if (q && !used.has(q.k)){ qs.push(q); used.add(q.k) } }
+  const cands = [];
+  for (const v of verbs){ const tb = tableOf(v); for (const t of f.tenses) (tb[t] || []).forEach((x, i) => { if (x != null && okI(i) && (!f.irr || markOf(tb, t, i))) cands.push({v, t, i, k: cjKey(v, t) + ':' + i}) }) }
+  // forms never practised first, spread across the verbs; then the rest
+  for (const c of shuffle(cands.filter(c => !all[c.k])).concat(shuffle(cands.filter(c => all[c.k])))){
+    if (qs.length >= n) break; if (used.has(c.k)) continue;
+    const q = makeQ(c.v, c.t, f.irr, null, {i: c.i, person: true}); if (q){ qs.push(q); used.add(c.k) }
+  }
+  return qs;
+}
+// The verbs a family drill asks about: its hand-picked examples that the tables confirm, then the most used others.
+function famVerbs(fam){
+  const inFam = v => { const t = tableOf(v); return t && famsOf(t).includes(fam) };
+  const out = FAM_EX[fam].filter(inFam);
+  for (const v of topVerbs()) if (out.length < 20 && !out.includes(v) && inFam(v)) out.push(v);
+  return out;
+}
+async function drillFamily(fam){
+  try { await loadTop() } catch(e){}
+  await Promise.all(FAM_EX[fam].map(v => conjOf(v).catch(() => null)));
+  const R = T.ref || UI.en.ref;
+  startListDrill(Object.assign({verbs: famVerbs(fam), irr: true, label: R.famDrill(G().famNames[fam])}, FAM_DRILL[fam]), 'grammar');
+}
+
+/* ---------- the Reference shelf (Learn › Reference) ---------- */
+// Card content lives in refs/cards.json (precached by sw.js, so the shelf works with no signal). es: an English
+// speaker learning Spanish; en: a Spanish speaker learning English, explained in Spanish. A card with a page opens
+// one of the app's own screens (the verb charts, the timeline, ser or estar…).
+const REF = {d: null, p: null};
+const loadRefs = () => REF.p || (REF.p = fetch('refs/cards.json').then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json() })
+  .then(d => (REF.d = d)).catch(e => { REF.p = null; throw e }));
+const refSide = () => studyLang() === 'en' ? 'en' : 'es';
+const R_ = () => T.ref || UI.en.ref;
+const refCards = (side = refSide()) => REF.d && REF.d[side] ? REF.d[side].cards : [];
+const refCard = id => REF.d ? (REF.d.es.cards.find(c => c.id === id) || REF.d.en.cards.find(c => c.id === id) || null) : null;
+const refSideOf = id => /^everb-/.test(id) || (REF.d && REF.d.en.cards.some(c => c.id === id)) ? 'en' : 'es';
+const REF_COLORS = {green: 'g', rust: 'r', red: 'd', blue: 'b', purple: 'p', orange: 'o'};
+// The little markup in cards.json: **bold**, __italic__, [c|coloured], {es|text} for the language. Escaped first.
+function refFmt(s){
+  return esc(s).replace(/\{(es|en)\|([^{}]*)\}/g, '<span lang="$1">$2</span>')
+    .replace(/\[([grdbpo])\|([^\[\]]*)\]/g, '<b class="rc $1">$2</b>')
+    .replace(/\*\*([^*]+)\*\*/g, '<b>$1</b>').replace(/__([^_]+)__/g, '<i>$1</i>');
+}
+const refPlain = s => String(s || '').replace(/\{(es|en)\|([^{}]*)\}/g, '$2').replace(/\[[grdbpo]\|([^\[\]]*)\]/g, '$1').replace(/\*\*|__/g, '');
+// Everything a search can find on a card: title, line, keywords and every word of its content.
+function refHay(c){
+  const out = [c.title, c.sub, c.words, c.lead];
+  const walk = v => { if (typeof v === 'string') out.push(refPlain(v)); else if (Array.isArray(v)) v.forEach(walk); else if (v && typeof v === 'object') Object.values(v).forEach(walk) };
+  walk(c.blocks || []); if (c.call) walk(c.call);
+  if (c.fam) for (const f of Object.keys(FAM_CARD)) if (FAM_CARD[f] === c.id) walk(FAM_EX[f]);
+  if (c.efam && EV.d) walk(enFamVerbs(c.efam).map(v => [v.b, v.p, v.pp]));
+  return foldText(out.filter(Boolean).join(' '));
+}
+function refMatches(c, q){
+  q = foldText(q.trim()); if (!q) return true;
+  const hay = c._hay || (c._hay = refHay(c));
+  return q.split(/\s+/).every(w => hay.includes(w));
+}
+function openShelf(){ GR.page = 'ref'; GR.from = ''; GR.msg = ''; go('grammar') }
+function openRefCard(c){
+  if (c.page){ GR.page = c.page; GR.from = 'ref'; GR.msg = ''; if (c.page === 'charts') GR.table = null }
+  else { GR.page = 'ref:' + c.id; GR.from = 'ref' }
+  if (view !== 'grammar') return go('grammar');
+  renderGrammar(); window.scrollTo(0, 0);
+}
+function refTile(c, color){
+  const col = REF_COLORS[c.color || color] || 'r';
+  return `<button class="rtile${c.wide ? ' wide' : ''}" data-ref="${esc(c.id)}"${c.page ? ` data-gt="${esc(c.page)}"` : ''}><span class="rband ${col}" aria-hidden="true"></span><span class="rt"><b${c.titleLang ? ` lang="${c.titleLang}"` : ''}>${esc(c.title)}</b><small>${refFmt(c.sub || '')}</small></span></button>`;
+}
+function renderShelf(v){
+  const R = R_(), side = refSide();
+  const head = `<div class="backbar noprint"><button class="back" id="grBack">${icon('back')}${esc(T.backToLearn)}</button></div>`;
+  if (!REF.d){
+    v.innerHTML = `${head}<h1>${esc(R.title)}</h1><p class="calm" id="refWait">${esc(R.loading)}</p>`;
+    $('#grBack').onclick = () => go('learn');
+    loadRefs().then(() => { if (view === 'grammar' && GR.page === 'ref') renderGrammar() }, () => {
+      const w = $('#refWait'); if (!w) return; w.textContent = R.cantLoad;
+      w.insertAdjacentHTML('afterend', `<button class="outline" id="refRetry">${esc(R.tryAgain)}</button>`); $('#refRetry').onclick = renderGrammar;
+    });
+    return;
+  }
+  if (side === 'en' && !EV.d) loadEnVerbs().then(() => { REF.d.en.cards.forEach(c => { delete c._hay }); const i = $('#refQ'); if (i && i.value) i.dispatchEvent(new Event('input')) }, () => {});
+  const D = REF.d[side], q = GR.q || '';
+  const groups = D.groups.length ? D.groups.map(g => [g, D.cards.filter(c => c.group === g.id)]) : [[null, D.cards]];
+  v.innerHTML = `${head}<header class="rhead"><div class="kick">${esc(R.kick)}</div><h1>${esc(R.title)}</h1><p class="sub2">${esc(R.sub)}</p></header>
+    <label class="search rsearch">${icon('search')}<span class="sr">${esc(R.searchL)}</span>
+      <input type="search" id="refQ" placeholder="${esc(R.searchPh)}" value="${esc(q)}" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="search"></label>
+    <div id="refShelf">${groups.map(([g, cs]) => `<section class="rgroup" data-group="${g ? esc(g.id) : 'all'}">${g ? `<h2 class="rgk rc ${REF_COLORS[g.color]}">${esc(g.title)}</h2>` : ''}
+      <div class="rtiles">${cs.map(c => refTile(c, g && g.color)).join('')}</div></section>`).join('')}</div>
+    <p class="note hide" id="refNone" role="status"></p>`;
+  $('#grBack').onclick = () => go('learn');
+  const filter = () => {
+    const s = $('#refQ').value; GR.q = s; let n = 0;
+    v.querySelectorAll('#refShelf .rgroup').forEach(sec => {
+      let any = false;
+      sec.querySelectorAll('[data-ref]').forEach(b => { const on = refMatches(refCard(b.dataset.ref), s); b.classList.toggle('hide', !on); if (on){ any = true; n++ } });
+      sec.classList.toggle('hide', !any);
+    });
+    const none = $('#refNone'); none.textContent = n ? '' : R.none(s.trim()); none.classList.toggle('hide', !!n);
+  };
+  $('#refQ').oninput = filter; filter();
+  v.querySelectorAll('[data-ref]').forEach(b => b.onclick = () => openRefCard(refCard(b.dataset.ref)));
+}
+// The verb tables a card draws from (boot diagrams, families, the true irregulars).
+function refVerbsOf(c){
+  const vs = new Set();
+  for (const b of c.blocks || []){
+    if (b.t === 'boot') vs.add(b.verb);
+    if (b.t === 'verbs') b.verbs.forEach(x => vs.add(x));
+    if (b.t === 'fam') FAM_EX[b.fam].forEach(x => vs.add(x));
+    if (b.t === 'families') FAM_IDS.forEach(f => FAM_EX[f].forEach(x => vs.add(x)));
+    if (b.t === 'shortstems') FAM_EX.short.forEach(x => vs.add(x));
+  }
+  return [...vs];
+}
+const SHAPES = {
+  from: c => `<circle cx="8" cy="11" r="6" class="f ${c}"/><line x1="14" y1="11" x2="188" y2="11" class="s ${c}"/><path d="M186 5l9 6-9 6z" class="f ${c}"/>`,
+  of: c => `<circle cx="8" cy="11" r="6" class="f ${c}"/><line x1="14" y1="11" x2="60" y2="11" class="s ${c}" stroke-dasharray="4 4"/>`,
+  to: c => `<line x1="4" y1="11" x2="178" y2="11" class="s ${c}"/><path d="M176 5l9 6-9 6z" class="f ${c}"/><circle cx="190" cy="11" r="6" class="f ${c}"/>`,
+  in: c => `<rect x="60" y="2" width="80" height="18" rx="9" class="box ${c}"/><circle cx="100" cy="11" r="6" class="f ${c}"/>`,
+  until: c => `<circle cx="8" cy="11" r="6" class="f ${c}"/><line x1="14" y1="11" x2="178" y2="11" class="s ${c}"/><path d="M176 5l9 6-9 6z" class="f ${c}"/><line x1="192" y1="2" x2="192" y2="20" class="s ${c}" stroke-width="3"/>`,
+  on: c => `<line x1="40" y1="18" x2="160" y2="18" class="s ${c}"/><circle cx="100" cy="10" r="6" class="f ${c}"/>`,
+  at: c => `<line x1="4" y1="11" x2="196" y2="11" class="s ${c}" stroke-dasharray="3 5"/><circle cx="100" cy="11" r="7" class="f ${c}"/>`,
+  // since: from a point in time up to now (the bar); for: a stretch of time, both ends marked
+  since: c => `<circle cx="40" cy="11" r="6" class="f ${c}"/><line x1="46" y1="11" x2="178" y2="11" class="s ${c}"/><path d="M176 5l9 6-9 6z" class="f ${c}"/><line x1="192" y1="2" x2="192" y2="20" class="s ${c}" stroke-dasharray="3 3"/>`,
+  for: c => `<line x1="40" y1="3" x2="40" y2="19" class="s ${c}"/><line x1="160" y1="3" x2="160" y2="19" class="s ${c}"/><rect x="40" y="7" width="120" height="8" rx="4" class="box ${c}"/>`
+};
+// One verb's present as a boot: the changed forms shaded, nosotros outside.
+function bootHtml(t){
+  if (!t) return '';
+  const R = R_(), cell = i => { const c = cellOf(t, 'pres', i), mk = markOf(t, 'pres', i);
+    return `<div class="bc${mk && mk[0] !== 'spell' ? ' in' : ''}" lang="es">${cellHtml(c)}</div>` };
+  return `<section class="card bootc"><div class="bh"><b>${esc(R.bootT)}${bootKind(t) ? ' · ' + esc(bootKind(t).replace('>', ' → ')) : ''}</b><span>${esc(R.bootOf(t.inf))}</span></div>
+    <div class="boot" role="img" aria-label="${esc(R.bootL(t.inf, t.pres.join(', ')))}">${cell(0)}${cell(3)}${cell(1)}<div class="bc vos">${esc(R.vos)}</div>${cell(2)}${cell(4)}</div>
+    <p class="small" style="margin:0;padding:0">${esc(R.bootLine)}</p></section>`;
+}
+// The forms that show a family best, for one example verb.
+function famForms(t, fam){
+  const pick = {boot: [['pres', 0], ['pres', 3]], yogo: [['pres', 0], ['pres', 1]], zco: [['pres', 0]], uir: [['pres', 0], ['pres', 3]], strong: [['pret', 0], ['pret', 2]],
+    short: [['fut', 0], ['cond', 0]], true: [['pres', 0], ['pret', 0], ['impf', 0]]}[fam];
+  if (fam === 'spell'){ for (const [tn, i] of [['pret', 0], ['pres', 0], ['pret', 2]]) if (markOf(t, tn, i)) return [[tn, i]]; return [['pres', 0]] }
+  return pick;
+}
+function famBlockHtml(fam){
+  const R = R_(), g = G(), vs = FAM_EX[fam].filter(v => { const t = tableOf(v); return t && famsOf(t).includes(fam) });
+  return `<section class="card famc" data-fam="${fam}"><div class="fh"><span class="rband ${REF_COLORS[FAM_COLOR[fam]]}" aria-hidden="true"></span><b>${esc(g.famNames[fam])}</b><span>${esc(g.famRules[fam])}</span></div>
+    <ul class="famv">${vs.map(v => { const t = tableOf(v);
+      return `<li><button data-v="${esc(v)}" lang="es"><span class="fi">${esc(v)}</span><span class="ff">${famForms(t, fam).map(([tn, i]) => cellHtml(cellOf(t, tn, i))).join('<span class="dot" aria-hidden="true"> · </span>')}</span></button></li>` }).join('')}</ul></section>`;
+}
+function familiesHtml(){
+  const R = R_(), g = G();
+  return `<ul class="famlist">${['boot', 'yogo', 'strong', 'short', 'spell', 'true'].map(f => { const ex = FAM_EX[f].filter(v => { const t = tableOf(v); return t && famsOf(t).includes(f) }).slice(0, 6);
+    return `<li><button data-card="${FAM_CARD[f]}"><span class="rband ${REF_COLORS[FAM_COLOR[f]]}" aria-hidden="true"></span><span class="fl"><span class="fh2"><b>${esc(g.famNames[f])}</b><small>${esc(g.famRules[f])}</small></span>
+      <span class="fx" lang="es">${ex.map(v => { const t = tableOf(v), [tn, i] = famForms(t, f)[0]; return esc((t[tn] || [])[i] || v) }).join(' · ')}</span></span>${icon('next', 'sm')}</button></li>` }).join('')}</ul>
+    <section class="card famc"><div class="fh"><b>${esc(R.smaller)}</b></div><p class="calm" style="font-size:15px">${refFmt(R.smallerLine)}</p></section>`;
+}
+function verbsTableHtml(b){
+  const g = G();
+  return `<div class="tablewrap"><table class="rtab vtab" lang="es"><thead><tr><th scope="col"></th>${b.tenses.map(x => `<th scope="col" lang="en">${esc(g.tabs[x][0])}</th>`).join('')}</tr></thead>
+    <tbody>${b.verbs.map(v => { const t = tableOf(v); if (!t) return '';
+      return `<tr><th scope="row"><button class="link vlink" data-v="${esc(v)}">${esc(v)}</button></th>${b.tenses.map(x => `<td>${(t[x] || []).map((f, i) => cellHtml(cellOf(t, x, i))).join('<br>')}</td>`).join('')}</tr>` }).join('')}</tbody></table></div>`;
+}
+function shortStemsHtml(){
+  const R = R_(), vs = FAM_EX.short.filter(v => { const t = tableOf(v); return t && famsOf(t).includes('short') });
+  return `<div class="tablewrap"><table class="rtab" lang="es"><thead><tr><th scope="col" lang="en">${esc(R.stemH[0])}</th><th scope="col" lang="en">${esc(R.stemH[1])}</th><th scope="col" lang="en">${esc(R.stemH[2])}</th><th scope="col" lang="en">${esc(R.stemH[3])}</th></tr></thead>
+    <tbody>${vs.map(v => { const t = tableOf(v); return `<tr><th scope="row">${esc(v)}</th><td><b class="rc d">${esc(t.fut[0].slice(0, -1))}-</b></td><td>${cellHtml(cellOf(t, 'fut', 0))}</td><td>${cellHtml(cellOf(t, 'cond', 0))}</td></tr>` }).join('')}</tbody></table></div>`;
+}
+function refBlockHtml(b, c){
+  const L = b.lang || 'es';
+  switch (b.t){
+    case 'p': return `<p class="calm">${refFmt(b.x)}</p>`;
+    case 'h': return `<h2 class="rh">${refFmt(b.x)}</h2>`;
+    case 'note': return `<p class="rnote">${refFmt(b.x)}</p>`;
+    case 'table': return `<div class="tablewrap"><table class="rtab ${b.cls || ''}" lang="${L}">${b.head && b.head.some(Boolean) ? `<thead><tr>${b.head.map(h => `<th scope="col">${refFmt(h)}</th>`).join('')}</tr></thead>` : ''}
+      <tbody>${b.rows.map(r => `<tr>${r.map((x, i) => i === 0 && b.rh !== false && b.head && b.head.some(Boolean) ? `<th scope="row">${refFmt(x)}</th>` : `<td>${refFmt(x)}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
+    case 'boxes': return `<div class="rboxes" lang="${L}">${b.items.map(([col, h, line]) => `<div class="rbox ${col}"><b>${refFmt(h)}</b><span>${refFmt(line)}</span></div>`).join('')}</div>`;
+    case 'ex': return `<ul class="exs rex">${b.items.map(([x, tr]) => `<li><button class="ex" data-say="${esc(refPlain(x))}" data-sl="${L}"><span class="es" lang="${L}">${refFmt(x)}</span><span class="en2" lang="${L === 'es' ? 'en' : 'es'}">${refFmt(tr)}</span></button></li>`).join('')}</ul>`;
+    case 'pairs': return `<div class="pairs">${b.items.map(([a, ae, bb, be]) => `<div class="pair"><button data-say="${esc(a)}" data-sl="${L}"><span class="es" lang="${L}">${esc(a)}</span><span class="en2" lang="${L === 'es' ? 'en' : 'es'}">${esc(ae)}</span></button>
+      <button data-say="${esc(bb)}" data-sl="${L}"><span class="es" lang="${L}">${esc(bb)}</span><span class="en2" lang="${L === 'es' ? 'en' : 'es'}">${esc(be)}</span></button></div>`).join('')}</div>`;
+    case 'lanes': return `<section class="card lanes">${b.items.map(it => { const col = it.c, lg = it.lang || 'es';
+      return `<div class="lane"><div class="lw"><b class="rc ${col}" lang="${lg}">${esc(it.w)}</b><small>${esc(it.en)}</small></div>
+        <button class="lx" data-say="${esc(refPlain(it.es))}" data-sl="${lg}"><svg viewBox="0 0 200 22" aria-hidden="true">${SHAPES[it.shape](col)}</svg><span class="es" lang="${lg}">${refFmt(it.es)}</span><span class="en2" lang="${lg === 'es' ? 'en' : 'es'}">${refFmt(it.tr)}</span></button></div>` }).join('')}</section>`;
+    case 'link': return `<section class="card rlink"><div><b>${refFmt(b.x)}</b><span class="small" style="padding:0">${refFmt(b.line)}</span></div><button class="pill" data-page="${esc(b.page)}">${esc(b.x)}</button></section>`;
+    case 'boot': return bootHtml(tableOf(b.verb));
+    case 'fam': return famBlockHtml(b.fam);
+    case 'families': return familiesHtml();
+    case 'verbs': return verbsTableHtml(b);
+    case 'shortstems': return shortStemsHtml();
+    case 'enshape': return enVerb(b.verb) ? enShapeHtml(enVerb(b.verb)) : '';
+    case 'enfam': return enFamHtml(b.fam);
+    case 'enfamilies': return enFamiliesHtml();
+  }
+  return '';
+}
+// The two actions every card carries: Print (the ready-made PDF, or this page) and Go deeper in Claude.
+const pdfOf = id => `refs/pdf/${id}.pdf`;
+function refActionsHtml(id, ask, extra = ''){
+  const R = R_();
+  return `<div class="ract noprint">${extra}<div class="ract2"><a class="pill rprint" id="refPrint" href="${esc(pdfOf(id))}" target="_blank" rel="noopener" data-pdf="${esc(id)}">${icon('print', 'sm')}${esc(R.print)}</a>
+    <a class="pill rdeep" id="refDeep" target="_blank" rel="noopener" href="${esc(askClaude(ask))}">${esc(R.deeper)}${icon('out', 'sm')}</a></div></div>`;
+}
+// The PDF opens when it is on the phone or there is signal; with neither, the button prints this page instead.
+function wirePrint(root){
+  root.querySelectorAll('[data-pdf]').forEach(a => {
+    const url = a.getAttribute('href');
+    const fallback = () => { a.removeAttribute('target'); a.dataset.fallback = '1'; a.onclick = e => { e.preventDefault(); window.print() } };
+    if (!navigator.onLine){ if (window.caches) caches.match(url, {ignoreSearch: true}).then(hit => { if (!hit && a.isConnected) fallback() }).catch(fallback); else fallback() }
+  });
+  root.querySelectorAll('[data-print]').forEach(b => b.onclick = e => { e.preventDefault(); window.print() });
+}
+const refAsk = c => c.ask || (T.path && T.path.askGrammar ? T.path.askGrammar(c.title) : UI.es.path.askGrammar(c.title));
+function bindRefCommon(v){
+  v.querySelectorAll('[data-say]').forEach(b => b.onclick = () => speak(b.dataset.say, false, b.dataset.sl || 'es'));
+  v.querySelectorAll('[data-v]').forEach(b => b.onclick = () => openGrammar('charts', b.dataset.v, 'ref'));
+  v.querySelectorAll('[data-ev]').forEach(b => b.onclick = () => { EG2.verb = b.dataset.ev; EG2.row = 0; EG2.shown = new Set(); EG2.msg = ''; openGrammar('en-charts', null, 'ref') });
+  v.querySelectorAll('[data-card]').forEach(b => b.onclick = () => { const c = refCard(b.dataset.card); if (c) openRefCard(c) });
+  v.querySelectorAll('[data-page]').forEach(b => b.onclick = () => openGrammar(b.dataset.page, null, 'ref'));
+  wirePrint(v);
+}
+function renderRefCard(v, id){
+  const R = R_(), c = refCard(id), back = `<div class="backbar noprint"><button class="back" id="grBack">${icon('back')}${esc(R.back)}</button></div>`;
+  const bindBack = () => { $('#grBack').onclick = () => { GR.page = 'ref'; GR.from = ''; renderGrammar(); window.scrollTo(0, 0) } };
+  if (!REF.d || !c){
+    v.innerHTML = `${back}<p class="calm" id="refWait">${esc(R.loading)}</p>`; bindBack();
+    if (!REF.d) loadRefs().then(() => { if (view === 'grammar' && GR.page === 'ref:' + id) renderGrammar() }, () => { const w = $('#refWait'); if (w) w.textContent = R.cantLoad });
+    return;
+  }
+  if ((c.blocks || []).some(b => /^en/.test(b.t)) && !EV.d){
+    v.innerHTML = `${back}<h1>${esc(c.title)}</h1><p class="calm" id="refWait">${esc(R.loading)}</p>`; bindBack();
+    loadEnVerbs().then(() => { if (view === 'grammar' && GR.page === 'ref:' + id) renderGrammar() }, () => { const w = $('#refWait'); if (w) w.textContent = R.cantLoad });
+    return;
+  }
+  const need = refVerbsOf(c).filter(x => !tableOf(x));
+  if (need.length){
+    v.innerHTML = `${back}<h1>${esc(c.title)}</h1><p class="calm" id="refWait">${esc(R.loading)}</p>`; bindBack();
+    Promise.all([loadTop().catch(() => null), ...need.map(x => conjOf(x).catch(() => null))]).then(() => {
+      if (view !== 'grammar' || GR.page !== 'ref:' + id) return;
+      if (refVerbsOf(c).some(x => !tableOf(x)) && !navigator.onLine){ const w = $('#refWait'); if (w) w.textContent = G().cantLoad; return }
+      renderGrammar();
+    });
+    return;
+  }
+  const side = refSideOf(id), drill = c.fam || c.efam ? `<button class="primary" id="refDrill">${esc(c.efam ? EVU.drill : R.drill)}</button>` : '';
+  v.innerHTML = `${back}<article class="refcard" data-cid="${esc(id)}" lang="${side === 'en' ? 'es' : 'en'}">
+    <h1${c.titleLang ? ` lang="${c.titleLang}"` : ''}>${esc(c.title)}</h1>${c.lead ? `<p class="sub2">${refFmt(c.lead)}</p>` : ''}
+    ${(c.blocks || []).map(b => refBlockHtml(b, c)).join('')}
+    ${c.call ? `<div class="trick rcall"><b>${refFmt(c.call.h)}</b> ${refFmt(c.call.x)}</div>` : ''}
+    ${c.sources && c.sources.length ? `<section class="rsrc"><h2>${esc(R.sources)}</h2><ul>${c.sources.map(s => `<li>${esc(s)}</li>`).join('')}</ul></section>` : ''}</article>
+    ${refActionsHtml(id, refAsk(c), drill)}`;
+  bindBack(); bindRefCommon(v);
+  const d = $('#refDrill'); if (d) d.onclick = () => c.efam ? drillEnFamily(c.efam) : drillFamily(c.fam);
+}
+// Print + Go deeper under one of the app's own screens when it sits on the shelf (ser or estar, the timeline…).
+function pageActions(v, page){
+  if (page === 'charts') return;
+  if (!REF.d){ loadRefs().then(() => { if (view === 'grammar' && GR.page === page && !v.querySelector('.ract')) pageActions(v, page) }, () => {}); return }
+  const c = [...REF.d.es.cards, ...REF.d.en.cards].find(x => x.page === page); if (!c || v.querySelector('.ract')) return;
+  const id = c.id, hasAsk = !!v.querySelector('#grAsk');
+  v.insertAdjacentHTML('beforeend', `${c.sources && c.sources.length ? `<section class="rsrc"><h2>${esc(R_().sources)}</h2><ul>${c.sources.map(s => `<li>${esc(s)}</li>`).join('')}</ul></section>` : ''}${refActionsHtml(id, refAsk(c))}`);
+  if (hasAsk) v.querySelector('.rdeep').remove();
+  wirePrint(v);
+}
+
+/* ---------- printing: #print=<card id> renders one card alone (tools/build-ref-pdfs.sh prints it to refs/pdf/) ---------- */
+const printId = () => { const m = /^#print=([a-z0-9-]+)$/.exec(location.hash); return m ? m[1] : '' };
+async function printRoute(id){
+  document.documentElement.classList.add('printmode'); document.documentElement.dataset.theme = 'light';
+  try { await loadRefs() } catch(e){}
+  const side = refSideOf(id); setUiLang(side === 'en' ? 'es' : 'en'); GR.print = true;
+  if (/^everb-/.test(id)){ try { await loadEnVerbs() } catch(e){} EG2.verb = id.slice(6); GR.page = 'en-charts'; GR.from = 'ref'; go('grammar'); return }
+  if (/^verb-/.test(id)){ GR.page = 'charts'; GR.verb = id.slice(5); GR.table = null; GR.from = 'ref'; try { await loadTop() } catch(e){} go('grammar'); return }
+  const c = refCard(id);
+  if (c && c.page){ try { await loadTop() } catch(e){} GR.from = 'ref'; openGrammar(c.page, null, 'ref'); return }
+  GR.page = 'ref:' + id; GR.from = 'ref'; go('grammar');
+}
+// The full table of one verb, every tense: shown only on paper.
+function verbPrintHtml(t){
+  const g = G();
+  return `<section class="vprint" aria-hidden="true">${TGROUPS.map(([gid, ids]) => `<h3 class="gh">${esc(g.groups[gid][0])}</h3><table class="rtab"><thead><tr><th></th>${ids.map(id => `<th>${esc(g.tenses[id][0])}</th>`).join('')}</tr></thead>
+    <tbody>${[0, 1, 2, 3, 4].filter(i => ids.some(id => cellOf(t, id, i))).map(i => `<tr><th>${esc(personsOf(ids[0])[i] || '')}</th>${ids.map(id => `<td lang="es">${cellHtml(cellOf(t, id, i))}</td>`).join('')}</tr>`).join('')}</tbody></table>`).join('')}</section>`;
+}
+
+/* ---------- Words › Verbs ---------- */
+let wordsTab = 'words', verbsFilter = 'all';
+function renderVerbsTab(v, tabsHtml){
+  const W = T.wv || UI.en.wv, vs = savedVerbs(), missing = vs.map(x => x.w).filter(x => !tableOf(x));
+  if (missing.length && !renderVerbsTab.loading){
+    renderVerbsTab.loading = true;
+    Promise.all([loadTop().catch(() => null), ...missing.map(x => conjOf(x).catch(() => null))]).then(() => { renderVerbsTab.loading = false; if (view === 'words' && wordsTab === 'verbs') renderWords() });
+  }
+  const all = srsAll(), now = Date.now();
+  const rows = vs.map(x => { const t = tableOf(x.w); return {x, t, p: verbProgress(x.w, all, now)} });
+  const kinds = {irr: r => isIrrVerb(r.t), boot: r => famsOf(r.t).includes('boot'), reg: r => !!r.t && !isIrrVerb(r.t)};
+  const shown = rows.filter(r => verbsFilter === 'all' || (r.t && kinds[verbsFilter](r)));
+  const irrVerbs = rows.filter(r => isIrrVerb(r.t)), due = irrVerbs.reduce((n, r) => n + r.p.due, 0);
+  const n = k => rows.filter(r => r.t && kinds[k](r)).length;
+  const dots = r => `<span class="pdots" role="img" aria-label="${esc(W.learnedL(r.p.learned.filter(Boolean).length))}">${r.p.learned.map((on, i) => `<i class="${on ? 'on' : ''}" title="${esc(W.dotNames[i])}"></i>`).join('')}</span>`;
+  const status = r => r.p.due ? `<span class="pdue">${esc(W.due(r.p.due))}</span>` : r.p.seen ? `<span class="pst">${esc(W.tensesOf(r.p.learned.filter(Boolean).length))}</span>` : `<span class="pst">${esc(W.fresh)}</span>`;
+  v.innerHTML = `<div class="sh-row" style="gap:10px"><h1 style="flex:1">${T.wordsTitle}</h1></div>${tabsHtml}
+    ${vs.length ? `<div class="filters" role="group" aria-label="${esc(W.filterL)}">${[['all', W.fAll], ['irr', W.fIrr(n('irr'))], ['boot', W.fBoot(n('boot'))], ['reg', W.fReg(n('reg'))]].map(([k, l]) => `<button data-vf="${k}" aria-pressed="${verbsFilter === k}">${esc(l)}</button>`).join('')}</div>` : ''}
+    ${!vs.length ? `<div class="empty"><p class="note" style="font-size:17px" id="vNone">${esc(W.none)}</p><button class="outline" id="vCharts" style="width:auto;padding:0 18px">${esc(G().titles.charts)}</button></div>`
+      : !shown.length ? `<p class="note" id="vNone">${esc(W.noneF)}</p>`
+      : `<ul class="vlist" id="vList">${shown.map(r => `<li><button data-vv="${esc(r.x.w)}"><span class="vl"><span class="vn"><b lang="es">${esc(r.x.w)}</b><span>${esc(r.x.gloss || '')}</span></span>
+          <span class="vf ${r.t ? typeOf(r.t) : ''}">${r.t ? esc([G().types[typeOf(r.t)], ...famsOf(r.t).filter(f => f !== 'true').map(f => famLabel(r.t, f))].join(' · ')) : esc(W.loading)}</span></span>
+          <span class="vr">${dots(r)}${status(r)}</span></button></li>`).join('')}</ul>`}
+    <p class="small">${esc(W.hint)}</p>
+    ${vs.length ? (irrVerbs.length ? `<button class="primary" id="wPractice">${esc(W.practice(due))}</button>` : `<p class="note" id="wPracticeNone">${esc(W.practiceNone)}</p>`) : ''}`;
+  v.querySelectorAll('[data-wt]').forEach(b => b.onclick = () => { wordsTab = b.dataset.wt; renderWords() });
+  v.querySelectorAll('[data-vf]').forEach(b => b.onclick = () => { verbsFilter = b.dataset.vf; renderWords() });
+  v.querySelectorAll('[data-vv]').forEach(b => b.onclick = () => openGrammar('charts', b.dataset.vv, 'words'));
+  const vc = $('#vCharts'); if (vc) vc.onclick = () => openGrammar('charts', null, 'words');
+  const pr = $('#wPractice'); if (pr) pr.onclick = () => startListDrill({verbs: irrVerbs.map(r => r.x.w), tenses: MAIN_T, irr: true, label: W.practiceL}, 'words');
+}
+
+/* ---------- English verbs for a Spanish speaker (María Antonieta's side): chart, families, drill, saved verbs ---------- */
+// conj-en/verbs.json (build_conj_en.py): ~200 everyday English verbs with base, -s, past, participle and -ing, every
+// form checked against English Wiktionary; the Spanish forms that translate each cell come from Lector's Spanish
+// tables. Marks: irr (red) the irregular part of a past or participle, spell (blue) a regular spelling change.
+const EV = {d: null, p: null, by: new Map(), form: new Map()};
+const loadEnVerbs = () => EV.p || (EV.p = fetch('conj-en/verbs.json').then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json() }).then(d => {
+  EV.d = d;
+  for (const v of d.verbs){ EV.by.set(v.b, v); for (const f of [v.b, v.s, ...v.p.split(' / '), v.pp, v.ing]) if (!EV.form.has(f)) EV.form.set(f, v.b) }
+  return d;
+}).catch(e => { EV.p = null; throw e }));
+const enVerb = b => EV.by.get(b) || null;
+const enIrr = v => !!(v && v.f);
+// Everything on this side is written for a Spanish speaker, so its wording is Spanish whatever the app's language.
+const EVU = {
+  title: 'Tabla de verbos', back: 'Referencia',
+  searchL: 'Buscar un verbo en inglés', searchPh: 'Un verbo: go, went, have…', show: 'Ver', notFound: q => `No encontré «${q}». Escribe el verbo, como go o have.`,
+  quickL: 'Tus verbos y los más usados', mostUsed: 'Los verbos más usados', showAll: n => `Ver los ${n}`, showFewer: 'Ver menos',
+  loading: 'Cargando…', cantLoad: 'No se pudo cargar la tabla. Revisa tu conexión e inténtalo otra vez.', tryAgain: 'Intentar otra vez',
+  tabsL: 'Tiempo', tabs: {now: ['Ahora', 'presente'], past: ['Pasó', 'pasado'], will: ['Va a pasar', 'futuro'], perf: ['Ya ha pasado', 'have + participio'], prog: ['Está pasando', 'be + -ing']},
+  tenseLine: {now: 'Lo de siempre, o lo que es verdad ahora.', past: 'Algo que pasó y ya terminó.', will: 'Algo que va a pasar.', perf: 'Algo que ya pasó y todavía importa ahora.', prog: 'Lo que está pasando en este momento.'},
+  persons: ['I', 'you', 'he / she / it', 'we', 'they'], esWho: ['yo', 'tú', 'él / ella', 'nosotros', 'ellos'],
+  forms: {s: '-s', p: 'pasado', pp: 'participio', ing: '-ing'},
+  types: {reg: 'Regular', irr: 'Irregular'},
+  legend: {irr: 'irregular', spell: 'cambia la escritura, no el sonido'}, legendL: 'Qué significan los colores',
+  cover: 'Ponme a prueba: tapa las formas', uncover: 'Ver todas', tapSee: 'toca para ver', checkSelf: 'toca la fila para revisar', sayFirst: 'Dila en voz alta primero y luego toca.',
+  saveVerb: '☆ Guardar verbo', savedVerb: '★ Guardado', saveL: v => `Guardar el verbo ${v}`, savedL: v => `${v} está guardado. Toca para quitarlo.`, hear: v => `Escuchar ${v}`,
+  drillVerb: v => `Practicar ${v}`, deeper: 'Preguntar a Claude', print: 'Imprimir esta tabla', meaning: 'En español',
+  tapForm: 'Toca una forma para escucharla y ver por qué es así.',
+  deeperVerb: v => `Estoy aprendiendo inglés (nivel básico) y mi idioma es el español. Explícame el verbo «${v}» de forma sencilla: sus formas (presente, pasado, participio, -ing), si es irregular y por qué, y dame cinco ejemplos cortos y cotidianos con su traducción. Responde en español.`,
+  famNames: {same: 'Iguales en las tres', iau: 'i · a · u', ought: '-ought / -aught', ewown: '-ew / -own', vowel: 'Cambia una vocal', t: 'Terminan en -t', en: 'Participio en -en', true: 'Los de memoria', other: 'Otros irregulares'},
+  famRules: {same: 'put · put · put', iau: 'sing · sang · sung', ought: 'buy · bought · bought', ewown: 'know · knew · known', vowel: 'sit · sat · sat', t: 'feel · felt · felt', en: 'take · took · taken', true: 'be · go · do · have', other: 'say · said · said'},
+  famNotes: {same: 'No cambia: el pasado y el participio son iguales al verbo.', iau: 'La i cambia a a en el pasado y a u en el participio.',
+    ought: 'El pasado y el participio terminan en -ought o -aught, y suenan casi igual: «ot».', ewown: 'El pasado termina en -ew y el participio en -wn.',
+    vowel: 'Cambia una vocal y el pasado y el participio quedan iguales. Ojo: get tiene el participio gotten.', t: 'El pasado y el participio terminan en -t; muchas veces la vocal también cambia.',
+    en: 'El pasado cambia y el participio termina en -en o -n.', true: 'be, go, do y have no siguen ninguna familia: se aprenden de memoria.', other: 'Es irregular pero no tiene familia: este se aprende solo.'},
+  shapeL: (b, p, pp) => `${b}, ${p}, ${pp}: verbo, pasado y participio`, shapeH: ['verbo', 'pasado', 'participio'],
+  drillFam: n => `Practicar: ${n}`, drill: 'Practicar esta familia', practiceL: 'Practicar mis irregulares',
+  q: 'Escribe la forma', qForms: {s: 'con he / she / it', p: 'pasado', pp: 'participio', ing: 'con -ing'}, frame: {s: 'She ___ .', p: 'Yesterday I ___ .', pp: 'I have ___ .', ing: 'I am ___ .'},
+  typeIt: 'Escríbela', check: 'Comprobar', showChoices: 'Ver opciones', showAnswer: 'Ver la respuesta', youTyped: 'Escribiste', youChose: 'Elegiste', right: '¡Bien!', notQuite: 'Casi.', itIs: f => `Es ${f}.`, shown: 'Es esta:',
+  row: 'Todas sus formas', seeChart: 'Ver la tabla', hearIt: 'Escuchar', none: 'No hay formas para practicar aquí.',
+  why: {
+    beNow: 'to be es irregular: I am, you are, he is. Se aprende de memoria.', haveNow: 'Con he, she e it, have cambia a has.',
+    base: 'Con I, you, we y they, el verbo va tal cual.', s: 'Con he, she e it se agrega -s.', es: 'Termina en s, sh, ch, x u o: se agrega -es.',
+    ies: 'Consonante + y: la y cambia a i y se agrega -es.', doNow: 'do cambia a does con he, she e it.',
+    bePast: 'En pasado, to be tiene dos formas: was con I, he, she, it, y were con you, we, they.',
+    fam: (n, note) => `Verbo irregular, familia «${n}». ${note}`, ed: 'Verbo regular: se agrega -ed. Es igual para todas las personas.',
+    edE: 'Termina en e: solo se agrega -d.', ied: 'Consonante + y: la y cambia a -ied.', dbl: 'Una vocal + una consonante al final: la consonante se dobla.',
+    will: 'will + el verbo tal cual, igual para todas las personas. Se dice corto: I’ll, she’ll.',
+    perf: 'have (has con he, she, it) + participio: algo que ya pasó y todavía importa ahora.', ppIrr: pp => `El participio es irregular: ${pp}.`, ppReg: 'El participio regular es igual al pasado (-ed).',
+    prog: 'am, is o are + -ing: lo que está pasando ahora mismo.', ingE: 'La e del final se va antes de -ing.', ingDbl: 'Una vocal + una consonante: se dobla antes de -ing.', ingIe: 'ie cambia a y antes de -ing.'
+  },
+  wv: {fAll: 'Todos', fIrr: n => `Irregulares · ${n}`, fReg: n => `Regulares · ${n}`, filterL: 'Mostrar verbos', due: n => `${n} para repasar`, formsOf: n => `${n} de 4 formas`, fresh: 'nuevo',
+    learnedL: n => `${n} de 4 formas aprendidas`, dots: ['-s', 'pasado', 'participio', '-ing'], practice: n => n ? `Practicar mis irregulares · ${n} para repasar` : 'Practicar mis irregulares',
+    practiceNone: 'Guarda un verbo irregular para practicarlo aquí.', none: 'Todavía no guardas verbos. Abre la tabla de verbos y toca ☆ Guardar verbo, o toca un verbo cuando leas.',
+    noneF: 'Ninguno de tus verbos entra en este filtro.', hint: 'Guardados desde la tabla de verbos, tus mensajes y tus libros. Toca cualquier verbo y elige Guardar verbo para guardar el verbo entero.'}
+};
+const EN_T = ['now', 'past', 'will', 'perf', 'prog'], EN_FORMS = ['s', 'p', 'pp', 'ing'];
+const EN_FAM_IDS = ['same', 'iau', 'ought', 'ewown', 'vowel', 't', 'en', 'true'];
+const enMark = (v, k) => (v.x && v.x[k]) || 0;
+const enSlice = (form, mk) => !mk ? esc(form) : esc(form.slice(0, mk[1])) + `<b class="sl ${mk[0]}">${esc(form.slice(mk[1], mk[2]))}</b>` + esc(form.slice(mk[2]));
+const BE_NOW = ['am', 'are', 'is', 'are', 'are'], BE_PAST = ['was', 'were', 'was', 'were', 'were'];
+// One cell: the helper (muted), the verb form (with its mark), and what is spoken.
+function enCell(v, tense, i){
+  const who = ['I', 'you', 'he', 'we', 'they'][i], be = v.b === 'be';
+  let aux = '', form, mk = 0;
+  if (tense === 'now'){ form = be ? BE_NOW[i] : i === 2 ? v.s : v.b; mk = be ? ['irr', 0, form.length] : i === 2 ? enMark(v, 's') : 0 }
+  else if (tense === 'past'){ form = be ? BE_PAST[i] : v.p; mk = be ? ['irr', 0, form.length] : enMark(v, 'p') }
+  else if (tense === 'will'){ aux = 'will'; form = v.b }
+  else if (tense === 'perf'){ aux = i === 2 ? 'has' : 'have'; form = v.pp; mk = enMark(v, 'pp') }
+  else { aux = BE_NOW[i]; form = v.ing; mk = enMark(v, 'ing') }
+  return {aux, form, mk, text: `${who} ${aux ? aux + ' ' : ''}${form}`};
+}
+const enCellHtml = c => (c.aux ? `<span class="pre">${esc(c.aux)} </span>` : '') + enSlice(c.form, c.mk);
+// The Spanish for a cell ("yo tuve"); to be gives both ser and estar.
+function enSpanish(v, tense, i){
+  const who = EVU.esWho[i];
+  if (!v.t) return v.es;
+  const one = t => `${who} ${t[tense][i]}`;
+  return v.t2 ? `${one(v.t)} · ${one(v.t2)}` : one(v.t);
+}
+function enWhy(v, tense, i){
+  const W = EVU.why, fam = v.f && v.f !== 'true' ? W.fam(EVU.famNames[v.f], EVU.famNotes[v.f]) : v.f === 'true' ? EVU.famNotes.true : '';
+  if (tense === 'now'){
+    if (v.b === 'be') return W.beNow;
+    if (i !== 2) return W.base;
+    if (v.b === 'have') return W.haveNow;
+    if (v.b === 'do') return W.doNow;
+    return /[^aeiou]ies$/.test(v.s) && /y$/.test(v.b) ? W.ies : v.s === v.b + 'es' ? W.es : W.s;
+  }
+  if (tense === 'past'){
+    if (v.b === 'be') return W.bePast;
+    if (v.f) return fam;
+    const mk = enMark(v, 'p');
+    return !mk ? (v.b.endsWith('e') ? W.edE : W.ed) : /ied$/.test(v.p) && /y$/.test(v.b) ? W.ied : W.dbl;
+  }
+  if (tense === 'will') return W.will;
+  if (tense === 'perf') return W.perf + ' ' + (v.f ? W.ppIrr(v.pp) : W.ppReg);
+  const mk = enMark(v, 'ing');
+  return W.prog + (!mk ? '' : ' ' + (/ying$/.test(v.ing) && /ie$/.test(v.b) ? W.ingIe : v.ing.length > v.b.length + 3 ? W.ingDbl : W.ingE));
+}
+// saved English verbs: a word entry {w: base, verb: base, lang: 'en'}, synced with the words
+const savedVerbsOf = L => savedWords().filter(x => (x.lang || 'es') === L && x.verb && x.w === x.verb);
+const isEnVerbSaved = b => savedVerbsOf('en').some(x => x.w === b);
+function setEnVerbSaved(b, on){
+  let ws = savedWords().slice(); const i = ws.findIndex(x => x.w === b && (x.lang || 'es') === 'en'), v = enVerb(b);
+  if (on){
+    if (i >= 0) ws[i] = Object.assign({}, ws[i], {verb: b});
+    else ws.unshift({w: b, lemma: '', gloss: v ? v.es : '', sentence: '', t: Date.now(), lang: 'en', src: 'lesson', lesson: EVU.title, verb: b});
+  } else if (i >= 0){
+    const x = ws[i];
+    if (srcOf(x) === 'lesson' && !x.sentence) ws.splice(i, 1); else { const y = Object.assign({}, x); delete y.verb; ws[i] = y }
+  }
+  LS.set('words', ws);
+}
+
+/* the chart */
+let EG2 = {verb: 'have', tense: ['now', 'past', 'will', 'perf', 'prog'].includes(LS.get('conj.entab')) ? LS.get('conj.entab') : 'now', row: 0, cover: false, shown: new Set(), all: false, msg: ''};
+function enChipHtml(b, mine){ const v = enVerb(b);
+  return `<button class="vchip" data-ev="${esc(b)}" lang="en" aria-pressed="${EG2.verb === b}" aria-label="${esc(b)}, ${esc(EVU.types[enIrr(v) ? 'irr' : 'reg'])}${mine ? ', ' + esc(EVU.savedVerb) : ''}"><i class="kd ${enIrr(v) ? 'irr' : 'reg'}" aria-hidden="true"></i>${esc(b)}${mine ? '<span class="star" aria-hidden="true">★</span>' : ''}</button>` }
+const enQuickHtml = () => { const mine = savedVerbsOf('en').map(x => x.w).filter(enVerb), top = EV.d.verbs.map(v => v.b).filter(b => !mine.includes(b)).slice(0, Math.max(4, 10 - mine.length));
+  return mine.map(b => enChipHtml(b, true)).join('') + top.map(b => enChipHtml(b)).join('') };
+function renderEnCharts(v){
+  const head = `<div class="backbar noprint"><button class="back" id="grBack">${icon('back')}${esc(grBackLabel(T.backToLearn))}</button></div><h1>${esc(EVU.title)}</h1>`;
+  if (!EV.d){
+    v.innerHTML = `${head}<p class="calm" id="grWait">${esc(EVU.loading)}</p>`; $('#grBack').onclick = grBack;
+    loadEnVerbs().then(() => { if (view === 'grammar' && GR.page === 'en-charts') renderGrammar() }, () => { const w = $('#grWait'); if (!w) return; w.textContent = EVU.cantLoad;
+      w.insertAdjacentHTML('afterend', `<button class="outline" id="grRetry">${esc(EVU.tryAgain)}</button>`); $('#grRetry').onclick = renderGrammar });
+    return;
+  }
+  const all = EV.d.verbs.map(x => x.b), shown = EG2.all ? all : all.slice(0, 24);
+  v.innerHTML = `${head}
+    <form class="vsearch noprint" id="evF" role="search"><label class="search">${icon('search')}<span class="sr">${esc(EVU.searchL)}</span>
+      <input type="search" id="evQ" lang="en" placeholder="${esc(EVU.searchPh)}" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="search"></label>
+      <button class="pill" type="submit">${esc(EVU.show)}</button></form>
+    <div class="vchips quick noprint" id="evQuick" role="group" aria-label="${esc(EVU.quickL)}">${enQuickHtml()}</div>
+    <div id="evChart" class="sec" aria-live="polite"></div>
+    <section class="sec noprint"><h2>${esc(EVU.mostUsed)}</h2><div class="vchips" id="evTop">${shown.map(b => enChipHtml(b)).join('')}</div>
+      <button class="link" id="evAll">${esc(EG2.all ? EVU.showFewer : EVU.showAll(all.length))}</button></section>
+    <p class="small">${esc(EV.d.source)}</p>`;
+  $('#grBack').onclick = grBack;
+  const pick = b => { EG2.verb = b; EG2.row = 0; EG2.shown = new Set(); EG2.msg = ''; drawEnChart(); const c = $('#evChart'); if (c) c.scrollIntoView({block: 'start'}); window.scrollBy(0, -12) };
+  const bind = el => el.querySelectorAll('[data-ev]').forEach(b => b.onclick = () => pick(b.dataset.ev));
+  bind($('#evQuick')); bind($('#evTop'));
+  renderEnCharts.quick = () => { const q = $('#evQuick'); if (q){ q.innerHTML = enQuickHtml(); bind(q) } };
+  $('#evAll').onclick = () => { EG2.all = !EG2.all; renderGrammar() };
+  $('#evF').onsubmit = e => { e.preventDefault(); const q = $('#evQ').value.trim().toLowerCase().replace(/^to\s+/, ''); if (!q) return; $('#evQ').blur();
+    const b = EV.form.get(q); if (b){ EG2.verb = b; EG2.msg = ''; EG2.row = 0; EG2.shown = new Set() } else EG2.msg = EVU.notFound(q); drawEnChart() };
+  drawEnChart();
+}
+function drawEnChart(){
+  const box = $('#evChart'); if (!box) return;
+  if (EG2.msg){ box.innerHTML = `<p class="calm">${esc(EG2.msg)}</p>`; return }
+  const v = enVerb(EG2.verb) || EV.d.verbs[0]; EG2.verb = v.b;
+  document.querySelectorAll('#evQuick [data-ev], #evTop [data-ev]').forEach(b => b.setAttribute('aria-pressed', b.dataset.ev === v.b));
+  if (!EN_T.includes(EG2.tense)) EG2.tense = 'now';
+  const tab = id => `<button role="tab" id="evTab-${id}" data-et="${id}" aria-selected="${EG2.tense === id}" aria-controls="evPanel" tabindex="${EG2.tense === id ? 0 : -1}"><b>${esc(EVU.tabs[id][0])}</b><small>${esc(EVU.tabs[id][1])}</small></button>`;
+  const forms = EN_FORMS.map(k => `<span>${esc(EVU.forms[k])} <span class="fm" lang="en">${enSlice(v[k], enMark(v, k))}</span></span>`).join('');
+  const pdf = EV.d.verbs.slice(0, 24).some(x => x.b === v.b) ? 'everb-' + v.b : '';
+  box.innerHTML = `<div class="card vcard">
+      <div class="vhead"><div class="vt"><h2 lang="en">${esc(v.b)}</h2><div class="gl" lang="es">${esc(v.es)}</div></div>
+        <button class="say noprint" id="evSay" aria-label="${esc(EVU.hear(v.b))}">${icon('sound')}</button><button class="vsave noprint" id="evSave"></button></div>
+      <div class="kbs"><span class="kb vtype ${enIrr(v) ? 'irr' : 'reg'}">${esc(EVU.types[enIrr(v) ? 'irr' : 'reg'])}</span>${v.f ? `<span class="kb fam rust">${esc(EVU.famNames[v.f])}</span>` : ''}</div>
+      <div class="nonfin">${forms}</div></div>
+    <div class="ttabs en5 noprint" role="tablist" aria-label="${esc(EVU.tabsL)}">${EN_T.map(tab).join('')}</div>
+    <section class="card vrows noprint" id="evPanel" role="tabpanel"></section>
+    <div class="vleg"><div class="legend" role="note" aria-label="${esc(EVU.legendL)}"><span><b class="sl irr" lang="en">went</b>${esc(EVU.legend.irr)}</span><span><b class="sl spell" lang="en">pp</b>${esc(EVU.legend.spell)}</span></div>
+      <button class="link noprint" id="evCover" aria-pressed="${EG2.cover}">${esc(EG2.cover ? EVU.uncover : EVU.cover)}</button></div>
+    <div class="trick vnote noprint" id="evNote" aria-live="polite"></div>
+    <section class="vprint" aria-hidden="true"><table class="rtab"><thead><tr><th></th>${EN_T.map(id => `<th>${esc(EVU.tabs[id][0])}</th>`).join('')}</tr></thead>
+      <tbody>${[0, 1, 2, 3, 4].map(i => `<tr><th lang="en">${esc(EVU.persons[i])}</th>${EN_T.map(id => `<td lang="en">${enCellHtml(enCell(v, id, i))}</td>`).join('')}</tr>`).join('')}</tbody></table></section>
+    <div class="vfoot noprint"><button class="outline" id="evDrill">${esc(EVU.drillVerb(v.b))}</button><a class="primary" id="evDeep" target="_blank" rel="noopener" href="${esc(askClaude(EVU.deeperVerb(v.b)))}">${esc(EVU.deeper)}</a></div>
+    <div class="ract2 one noprint">${pdf ? `<a class="pill rprint" id="evPrint" href="${esc(pdfOf(pdf))}" target="_blank" rel="noopener" data-pdf="${esc(pdf)}">${icon('print', 'sm')}${esc(EVU.print)}</a>`
+      : `<button class="pill rprint" id="evPrint" data-print="1">${icon('print', 'sm')}${esc(EVU.print)}</button>`}</div>`;
+  $('#evSay').onclick = () => speak(v.b, false, 'en');
+  const paintSave = () => { const b = $('#evSave'); if (!b) return; const on = isEnVerbSaved(v.b); b.className = 'vsave noprint' + (on ? ' on' : ''); b.setAttribute('aria-pressed', on);
+    b.textContent = on ? EVU.savedVerb : EVU.saveVerb; b.setAttribute('aria-label', on ? EVU.savedL(v.b) : EVU.saveL(v.b)) };
+  paintSave();
+  $('#evSave').onclick = () => { setEnVerbSaved(v.b, !isEnVerbSaved(v.b)); paintSave(); if (renderEnCharts.quick) renderEnCharts.quick() };
+  box.querySelectorAll('[data-et]').forEach(b => b.onclick = () => evTense(b.dataset.et));
+  box.querySelector('[role=tablist]').onkeydown = e => { const bs = [...box.querySelectorAll('[data-et]')], i = bs.indexOf(document.activeElement); if (i < 0) return;
+    const j = e.key === 'ArrowRight' ? (i + 1) % bs.length : e.key === 'ArrowLeft' ? (i - 1 + bs.length) % bs.length : -1; if (j >= 0){ e.preventDefault(); evTense(bs[j].dataset.et); bs[j].focus() } };
+  $('#evCover').onclick = () => { EG2.cover = !EG2.cover; EG2.shown = new Set(); const c = $('#evCover'); c.textContent = EG2.cover ? EVU.uncover : EVU.cover; c.setAttribute('aria-pressed', EG2.cover); paintEnPanel() };
+  $('#evDrill').onclick = () => startEnDrill({verbs: [v.b], forms: EN_FORMS, label: EVU.drillVerb(v.b)}, 'grammar');
+  wirePrint(box);
+  paintEnPanel();
+}
+function evTense(id){ if (!EN_T.includes(id)) return; EG2.tense = id; LS.set('conj.entab', id); paintEnPanel() }
+function paintEnPanel(){
+  const v = enVerb(EG2.verb), box = $('#evPanel'); if (!v || !box) return;
+  const id = EG2.tense;
+  box.dataset.t = id; box.setAttribute('aria-labelledby', 'evTab-' + id);
+  $('#evChart').querySelectorAll('[data-et]').forEach(b => { const on = b.dataset.et === id; b.setAttribute('aria-selected', on); b.tabIndex = on ? 0 : -1 });
+  box.innerHTML = `<p class="tuse"><b>${esc(EVU.tabs[id][0])}</b> · ${esc(EVU.tenseLine[id])}</p>` + EVU.persons.map((p, i) => { const c = enCell(v, id, i), hid = EG2.cover && !EG2.shown.has(id + ':' + i);
+    return `<button class="cf${EG2.row === i ? ' on' : ''}${hid ? ' hid' : ''}" data-et2="${id}" data-i="${i}"><span class="pp" lang="en">${esc(p)}</span><span class="fm" lang="en">${hid ? `<span class="tapsee" lang="es">${esc(EVU.tapSee)}</span>` : enCellHtml(c)}</span>${icon('sound1', 'sm')}</button>` }).join('');
+  box.querySelectorAll('.cf[data-et2]').forEach(b => b.onclick = () => { const i = +b.dataset.i; EG2.row = i; EG2.shown.add(id + ':' + i); paintEnPanel(); speak(enCell(v, id, i).text, false, 'en') });
+  const n = $('#evNote'), i = EG2.row, c = enCell(v, id, i);
+  if (EG2.cover && !EG2.shown.has(id + ':' + i)){ n.innerHTML = `<div class="nf"><b class="fm" lang="en">?</b> <span class="ven">· ${esc(EVU.checkSelf)}</span></div><div class="why">${esc(EVU.sayFirst)}</div>`; return }
+  n.innerHTML = `<div class="nf"><b class="fm" lang="en">${esc(c.text)}</b> <span class="ven" lang="es">· ${esc(enSpanish(v, id, i))}</span></div><div class="why">${esc(enWhy(v, id, i))}</div>`;
+}
+
+/* families */
+const enFamVerbs = f => EV.d ? EV.d.verbs.filter(v => v.f === f) : [];
+// Visual like the boot: verb → past → participle, three boxes, the changed part coloured.
+function enShapeHtml(v){
+  return `<section class="card enshape"><div class="bh"><b lang="en">${esc(EVU.famNames[v.f] || '')}</b><span lang="en">${esc(v.b)}</span></div>
+    <div class="eshape" role="img" aria-label="${esc(EVU.shapeL(v.b, v.p, v.pp))}">${[['b', v.b, 0], ['p', v.p, enMark(v, 'p')], ['pp', v.pp, enMark(v, 'pp')]].map(([k, f, mk], j) =>
+      `${j ? '<span class="arr" aria-hidden="true">→</span>' : ''}<div class="eb${mk ? ' in' : ''}"><small lang="es">${esc(EVU.shapeH[j])}</small><b lang="en">${enSlice(f, mk)}</b></div>`).join('')}</div>
+    <p class="small" style="margin:0;padding:0">${esc(EVU.famNotes[v.f] || '')}</p></section>`;
+}
+function enFamHtml(f){
+  const vs = enFamVerbs(f);
+  return `<section class="card famc" data-efam="${f}"><div class="fh"><span class="rband ${f === 'true' ? 'd' : 'r'}" aria-hidden="true"></span><b lang="es">${esc(EVU.famNames[f])}</b><span lang="en">${esc(EVU.famRules[f])}</span></div>
+    <ul class="famv">${vs.map(v => `<li><button data-ev="${esc(v.b)}" lang="en"><span class="fi">${esc(v.b)}</span><span class="ff">${enSlice(v.p, enMark(v, 'p'))}<span class="dot" aria-hidden="true"> · </span>${enSlice(v.pp, enMark(v, 'pp'))}</span></button></li>`).join('')}</ul></section>`;
+}
+function enFamiliesHtml(){
+  return `<ul class="famlist">${[...EN_FAM_IDS, 'other'].map(f => { const vs = enFamVerbs(f).slice(0, 5);
+    return `<li><button ${f === 'other' ? 'data-efam2="other"' : `data-card="en-fam-${f}"`}><span class="rband ${f === 'true' ? 'd' : 'r'}" aria-hidden="true"></span><span class="fl"><span class="fh2"><b>${esc(EVU.famNames[f])}</b><small lang="en">${esc(EVU.famRules[f])}</small></span>
+      <span class="fx" lang="en">${vs.map(v => esc(v.p)).join(' · ')}</span></span>${f === 'other' ? '' : icon('next', 'sm')}</button></li>` }).join('')}</ul>`;
+}
+async function drillEnFamily(f){
+  try { await loadEnVerbs() } catch(e){}
+  startEnDrill({verbs: enFamVerbs(f).map(v => v.b), forms: ['p', 'pp'], label: EVU.drillFam(EVU.famNames[f])}, 'grammar');
+}
+
+/* the drill: verb + form (pasado, participio, -s, -ing) → type it; one FSRS card per verb and form (en:cj:go:p) */
+const enKey = (b, k) => `en:cj:${b}:${k}`;
+function enQ(b, k){ const v = enVerb(b); if (!v) return null; return {en: true, v: b, k: enKey(b, k), form: k, answer: v[k], mode: 'type', typed: '', how: '', verdict: ''} }
+function enQs(f){
+  const all = srsAll(), now = Date.now(), qs = [], used = new Set(), n = f.n || 10;
+  const verbs = f.verbs.filter(enVerb), forms = f.forms;
+  const due = Object.keys(all).filter(k => k.startsWith('en:cj:') && all[k].due <= now).map(k => { const [, , b, form] = k.split(':'); return {b, form, k, r: F ? F.get_retrievability(fromStore(all[k]), new Date(now), false) : 0} })
+    .filter(d => verbs.includes(d.b) && forms.includes(d.form)).sort((a, b) => a.r - b.r);
+  for (const d of due){ if (qs.length >= n) break; const q = enQ(d.b, d.form); if (q){ qs.push(q); used.add(q.k) } }
+  const cands = []; for (const b of verbs) for (const k of forms) cands.push({b, k, key: enKey(b, k)});
+  for (const c of shuffle(cands.filter(c => !all[c.key])).concat(shuffle(cands.filter(c => all[c.key])))){ if (qs.length >= n) break; if (used.has(c.key)) continue; const q = enQ(c.b, c.k); if (q){ qs.push(q); used.add(c.key) } }
+  return qs;
+}
+async function startEnDrill(f, back){
+  try { await loadEnVerbs() } catch(e){}
+  const qs = enQs(f); if (!qs.length) return toast(EVU.none);
+  cz = {en: true, phase: 'q', qs, i: 0, right: 0, f, requeued: new Set(), missed: [], back}; go('conj'); window.scrollTo(0, 0);
+}
+// was / were: either one is right
+const enJudge = (typed, answer) => { const t = String(typed || '').trim().toLowerCase().replace(/^(i|you|he|she|it|we|they|i have|i am|she)\s+/, ''); return answer.split(' / ').some(a => judge(t, a) === 'right') ? 'right' : 'wrong' };
+function enChoices(q){
+  const v = enVerb(q.v), out = [q.answer], seen = new Set([q.answer]), add = f => { if (f && !seen.has(f) && out.length < 4){ seen.add(f); out.push(f) } };
+  if (v.f && (q.form === 'p' || q.form === 'pp')) add(v.b.endsWith('e') ? v.b + 'd' : v.b + 'ed');
+  for (const k of ['p', 'pp', 's', 'ing']) add(v[k]);
+  add(v.b);
+  return shuffle(out);
+}
+function enCardHtml(q){
+  const v = enVerb(q.v), back = !!q.verdict;
+  let h = `<div class="fcard cj"><div class="q" lang="es">${esc(EVU.q)}</div>
+    <div class="cjv"><span class="bigw" lang="en">${esc(v.b)}</span><span class="gl" lang="es">${esc(v.es)}</span></div>
+    <div class="cjtags"><span class="tag" lang="es">${esc(EVU.qForms[q.form])}</span></div><div class="hint" lang="en">${esc(EVU.frame[q.form])}</div>`;
+  if (!back){
+    if (q.mode === 'choose') h += `<div class="opts" role="group" aria-label="${esc(EVU.showChoices)}">${(q.opts || (q.opts = enChoices(q))).map(o => `<button lang="en" data-o="${esc(o)}">${esc(o)}</button>`).join('')}</div>`;
+    else h += `<div class="ans"><input id="cjIn" lang="en" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="done" aria-label="${esc(EVU.qForms[q.form])}" placeholder="${esc(EVU.typeIt)}"><button class="pill" id="cjCheck">${esc(EVU.check)}</button></div>`;
+    h += `<div class="lnks">${q.mode === 'choose' ? '<span></span>' : `<button class="link" id="cjChoose">${esc(EVU.showChoices)}</button>`}<button class="link" id="cjShow">${esc(EVU.showAnswer)}</button></div>`;
+  } else {
+    const full = `<b lang="en">${esc(q.answer)}</b>`;
+    h += `<div class="fb">${q.how === 'show' ? `${esc(EVU.shown)} ${full}` : `${esc(q.how === 'choose' ? EVU.youChose : EVU.youTyped)} <b lang="en">${esc(q.typed)}</b>. ${q.verdict === 'right' ? `<span class="ok">${esc(EVU.right)}</span>` : `<span class="no">${esc(EVU.notQuite)}</span> ${EVU.itIs(full)}`}`}</div>
+      <div class="kicker">${esc(EVU.row)}</div><div class="crow">${['b', ...EN_FORMS].map(k => `<div class="cr ${k === q.form ? 'ask' : ''}" role="row"><span class="pp" role="cell">${esc(k === 'b' ? 'verbo' : EVU.forms[k])}</span><span class="fm" role="cell" lang="en">${enSlice(v[k], k === 'b' ? 0 : enMark(v, k))}</span></div>`).join('')}</div>
+      ${v.f ? `<p class="small" style="margin:0;padding:0">${esc(EVU.famNames[v.f])}: ${esc(EVU.famNotes[v.f])}</p>` : ''}
+      <div class="lnks"><button class="hear" id="cjHear">${icon('sound1', 'sm')}${esc(EVU.hearIt)}</button><button class="link" id="cjChart">${esc(EVU.seeChart)}</button></div>`;
+  }
+  return h + '</div>';
+}
+function bindEnCard(root, q, done){
+  const answer = (typed, how) => { q.typed = typed; q.how = how; q.verdict = how === 'show' ? 'wrong' : enJudge(typed, q.answer); done(q) };
+  const inp = root.querySelector('#cjIn'), chk = root.querySelector('#cjCheck');
+  if (inp){ inp.value = q.typed || ''; inp.oninput = () => { q.typed = inp.value }; inp.onkeydown = e => { if (e.key === 'Enter'){ e.preventDefault(); if (inp.value.trim()) answer(inp.value, 'type') } } }
+  if (chk) chk.onclick = () => { if (inp.value.trim()) answer(inp.value, 'type'); else inp.focus() };
+  const ch = root.querySelector('#cjChoose'); if (ch) ch.onclick = () => { q.mode = 'choose'; done(null) };
+  const sh = root.querySelector('#cjShow'); if (sh) sh.onclick = () => answer('', 'show');
+  root.querySelectorAll('[data-o]').forEach(b => b.onclick = () => answer(b.dataset.o, 'choose'));
+  const v = enVerb(q.v), hr = root.querySelector('#cjHear'); if (hr) hr.onclick = () => speak([v.b, v.p.replace(' / ', ', '), v.pp].join(', '), false, 'en');
+  const cc = root.querySelector('#cjChart'); if (cc) cc.onclick = () => { cz = null; if (rv) rv = null; EG2.verb = q.v; openGrammar('en-charts', null, 'ref') };
+}
+function renderEnConj(v){
+  const n = cz.qs.length, leave = () => { const b = cz && cz.back; cz = null; go(b || 'learn') };
+  const top = i => `<div class="rtop"><button class="x" id="czX" aria-label="${esc(T.back2)}">${icon('x')}</button>
+    <div class="prog" role="img" aria-label="${T.questionOf(Math.min(i + 1, n), n)}"><i style="width:${Math.round(100 * i / n)}%"></i></div><span class="cnt">${T.nOf(Math.min(i + 1, n), n)}</span></div>`;
+  if (cz.i >= n){
+    v.innerHTML = `${top(n)}<div class="done"><h2>${T.quizScore(cz.right, cz.qs.filter(q => !q.again).length)}</h2><p>${T.quizNoTimer}</p>
+      <button class="primary" id="czAgain">${esc(G().again)}</button><button class="outline" id="czBack">${esc(T.back2)}</button></div>`;
+    $('#czX').onclick = $('#czBack').onclick = leave;
+    $('#czAgain').onclick = () => { cz = {en: true, phase: 'q', qs: enQs(cz.f), i: 0, right: 0, f: cz.f, requeued: new Set(), missed: [], back: cz.back}; renderConj(); window.scrollTo(0, 0) };
+    return;
+  }
+  const q = cz.qs[cz.i];
+  v.innerHTML = `${top(cz.i)}<div class="rmain"><div class="from"><svg class="icon sm" aria-hidden="true"><use href="#t-learn"/></svg><span>${esc(cz.f.label || EVU.title)}</span></div>${enCardHtml(q)}</div>
+    <div class="rfoot">${q.verdict ? `<button class="primary" id="czNext">${cz.i + 1 < n ? T.next : T.seeHow}</button>` : ''}</div>`;
+  $('#czX').onclick = leave;
+  bindEnCard(v, q, done => {
+    if (!done) return renderConj();
+    feedConj(q.k, cjGrade(q, cardFor(q.k)));
+    if (q.verdict === 'right'){ if (!q.again) cz.right++ }
+    else if (!cz.requeued.has(q.k)){ cz.requeued.add(q.k); const r = enQ(q.v, q.form); if (r){ r.again = true; cz.qs.push(r) } }
+    renderConj();
+  });
+  const nx = $('#czNext'); if (nx) nx.onclick = () => { cz.i++; renderConj(); window.scrollTo(0, 0) };
+}
+function renderEnCjReview(v, k, topHtml){
+  const [, , b, form] = k.split(':');
+  if (!enVerb(b)){ rv.seen.add(k); rv.i++; rv.cur = null; return renderReview() }
+  if (!rv.cur || rv.cur.at !== rv.i) rv.cur = {k, x: null, card: cardFor(k), type: 'conj', at: rv.i, q: enQ(b, form)};
+  const c = rv.cur, q = c.q;
+  if (q.verdict && !c.preview) c.preview = F.repeat(c.card, new Date());
+  const G4 = [[1, 'again', T.again], [2, 'hard', T.hard], [3, 'good', T.good], [4, 'easy', T.easy]];
+  v.innerHTML = `${topHtml}<div class="rmain"><div class="from"><svg class="icon sm" aria-hidden="true"><use href="#t-learn"/></svg><span>${esc(EVU.title)}</span></div>${enCardHtml(q)}</div>
+    <div class="rfoot">${q.verdict ? `<div class="askg">${T.howWell}</div><div class="grades">${G4.map(([n, cls, l]) => `<button class="${cls}" data-g="${n}">${l}<small>${T.span(c.preview[n].card.due - Date.now())}</small></button>`).join('')}</div>` : ''}</div>`;
+  $('#rvX').onclick = () => { rv = null; go('learn') };
+  bindEnCard(v, q, () => renderReview());
+  v.querySelectorAll('[data-g]').forEach(b => b.onclick = () => gradeCard(+b.dataset.g));
+}
+
+/* Palabras › Verbos for a Spanish speaker learning English */
+let enVerbsFilter = 'all';
+function enProgress(b, all = srsAll(), now = Date.now()){
+  let due = 0; const learned = EN_FORMS.map(k => { const o = all[enKey(b, k)]; if (o && o.due <= now) due++; return !!o && o.st === 2 });
+  return {learned, due, seen: EN_FORMS.some(k => all[enKey(b, k)])};
+}
+function renderEnVerbsTab(v, tabsHtml){
+  const W = EVU.wv;
+  if (!EV.d){ v.innerHTML = `<div class="sh-row" style="gap:10px"><h1 style="flex:1">${T.wordsTitle}</h1></div>${tabsHtml}<p class="calm">${esc(EVU.loading)}</p>`;
+    v.querySelectorAll('[data-wt]').forEach(b => b.onclick = () => { wordsTab = b.dataset.wt; renderWords() });
+    loadEnVerbs().then(() => { if (view === 'words') renderWords() }, () => {}); return }
+  const all = srsAll(), now = Date.now(), rows = savedVerbsOf('en').map(x => ({x, v: enVerb(x.w), p: enProgress(x.w, all, now)})).filter(r => r.v);
+  const kinds = {irr: r => enIrr(r.v), reg: r => !enIrr(r.v)}, shown = rows.filter(r => enVerbsFilter === 'all' || kinds[enVerbsFilter](r));
+  const irr = rows.filter(r => enIrr(r.v)), due = irr.reduce((n, r) => n + r.p.due, 0), n = k => rows.filter(kinds[k]).length;
+  v.innerHTML = `<div class="sh-row" style="gap:10px"><h1 style="flex:1">${T.wordsTitle}</h1></div>${tabsHtml}
+    ${rows.length ? `<div class="filters" role="group" aria-label="${esc(W.filterL)}">${[['all', W.fAll], ['irr', W.fIrr(n('irr'))], ['reg', W.fReg(n('reg'))]].map(([k, l]) => `<button data-vf="${k}" aria-pressed="${enVerbsFilter === k}">${esc(l)}</button>`).join('')}</div>` : ''}
+    ${!rows.length ? `<div class="empty"><p class="note" style="font-size:17px" id="vNone">${esc(W.none)}</p><button class="outline" id="vCharts" style="width:auto;padding:0 18px">${esc(EVU.title)}</button></div>`
+      : !shown.length ? `<p class="note" id="vNone">${esc(W.noneF)}</p>`
+      : `<ul class="vlist" id="vList">${shown.map(r => `<li><button data-vv="${esc(r.v.b)}"><span class="vl"><span class="vn"><b lang="en">${esc(r.v.b)}</b><span lang="es">${esc(r.v.es)}</span></span>
+          <span class="vf ${enIrr(r.v) ? 'irr' : 'reg'}">${esc([EVU.types[enIrr(r.v) ? 'irr' : 'reg'], r.v.f ? EVU.famNames[r.v.f] : ''].filter(Boolean).join(' · '))} <span lang="en">· ${esc(r.v.p)} · ${esc(r.v.pp)}</span></span></span>
+          <span class="vr"><span class="pdots" role="img" aria-label="${esc(W.learnedL(r.p.learned.filter(Boolean).length))}">${r.p.learned.map((on, i) => `<i class="${on ? 'on' : ''}" title="${esc(W.dots[i])}"></i>`).join('')}</span>
+          ${r.p.due ? `<span class="pdue">${esc(W.due(r.p.due))}</span>` : `<span class="pst">${esc(r.p.seen ? W.formsOf(r.p.learned.filter(Boolean).length) : W.fresh)}</span>`}</span></button></li>`).join('')}</ul>`}
+    <p class="small">${esc(W.hint)}</p>
+    ${rows.length ? (irr.length ? `<button class="primary" id="wPractice">${esc(W.practice(due))}</button>` : `<p class="note" id="wPracticeNone">${esc(W.practiceNone)}</p>`) : ''}`;
+  v.querySelectorAll('[data-wt]').forEach(b => b.onclick = () => { wordsTab = b.dataset.wt; renderWords() });
+  v.querySelectorAll('[data-vf]').forEach(b => b.onclick = () => { enVerbsFilter = b.dataset.vf; renderWords() });
+  v.querySelectorAll('[data-vv]').forEach(b => b.onclick = () => { EG2.verb = b.dataset.vv; EG2.row = 0; EG2.shown = new Set(); openGrammar('en-charts', null, 'words') });
+  const vc = $('#vCharts'); if (vc) vc.onclick = () => openGrammar('en-charts', null, 'words');
+  const pr = $('#wPractice'); if (pr) pr.onclick = () => startEnDrill({verbs: irr.map(r => r.v.b), forms: ['p', 'pp'], label: EVU.practiceL}, 'words');
 }
 
 /* ---------- messages: a two-language chat with your language partner ---------- */
@@ -5314,6 +6503,14 @@ async function showWordEn(raw, sentence, span, ctx){
   } else body = `<p class="calm" id="enState">${a.status === 'soon' ? `<b>${T.enSoon}</b><br>${T.enSoonLine}` : a.status === 'offline' ? T.enOffline : T.enNotFound}</p>`;
   $('#wbody').innerHTML = body + `<button class="primary" id="saveW" style="margin-top:14px"></button>` + deeperRow();
   bindSave(w, 'en', ctx, () => current.gloss);
+  if (a.status === 'ok') loadEnVerbs().then(() => {
+    const b = enVerb(current.lemma || w) ? (current.lemma || w) : EV.form.get(w);
+    if (!b || current.seq !== seq || !$('#saveW') || $('#saveV')) return;
+    $('#saveW').insertAdjacentHTML('afterend', `<button class="outline vsavew" id="saveV"></button>`);
+    const pv = () => { const e = $('#saveV'); if (!e) return; const on = isEnVerbSaved(b); e.setAttribute('aria-pressed', on); e.className = 'outline vsavew' + (on ? ' on' : ''); e.textContent = on ? UI.es.savedVerbFrom(b) : UI.es.saveVerbFrom(b) };
+    pv(); $('#saveV').onclick = () => { setEnVerbSaved(b, !isEnVerbSaved(b)); pv(); if (view === 'words') renderWords() };
+    requestAnimationFrame(reveal);
+  }).catch(() => {});
   bindDeeper(raw, 'en', sentence, ctx, () => current.gloss);
   if (ctx.peek) peek(raw, current.gloss || '', '', 'en');
   requestAnimationFrame(reveal);
@@ -5562,6 +6759,10 @@ function openMsgWord(x){
 let wordsFilter = 'all';
 function renderWords(){
   const ws = savedWords(), v = $('#v-words'), L = studyLang(), name = langName(L), st = wordStats(L), all = srsAll(), now = Date.now();
+  // Spanish learners get Words · Verbs (no phrase list exists yet, so no Phrases tab)
+  const W = T.wv || UI.en.wv, verbsOn = L === 'es' || L === 'en';
+  const tabsHtml = verbsOn ? `<div class="wtabs" role="tablist" aria-label="${esc(W.tabsL)}"><button role="tab" id="wtWords" data-wt="words" aria-selected="${wordsTab !== 'verbs'}">${esc(W.words(ws.length))}</button><button role="tab" id="wtVerbs" data-wt="verbs" aria-selected="${wordsTab === 'verbs'}">${esc(W.verbs(savedVerbsOf(L).length))}</button></div>` : '';
+  if (verbsOn && wordsTab === 'verbs') return L === 'en' ? renderEnVerbsTab(v, tabsHtml) : renderVerbsTab(v, tabsHtml);
   const secs = (LS.get('read', {})[L]) || 0, mins = Math.floor(secs / 60), hrs = mins >= 120;
   const ctxOf = (s, w) => {
     const i = foldText(s).search(new RegExp('(^|[^a-z])' + foldText(w).replace(/[^a-z]/g, '') + '($|[^a-z])'));
@@ -5571,7 +6772,7 @@ function renderWords(){
   const NT = LS.get('notes', {}), fromClaude = x => srcOf(x) === 'claude' || !!noteFor(x.lang || 'es', x.w, NT);
   const shown = ws.map((x, i) => [x, i]).filter(([x]) => wordsFilter === 'all' || (wordsFilter === 'claude' ? fromClaude(x) : srcOf(x) === wordsFilter));
   const F4 = [['all', T.fAll], ['message', T.fMessages], ['book', T.fBooks], ['lesson', T.fLessons]].concat(ws.some(fromClaude) || wordsFilter === 'claude' ? [['claude', T.acct.claudeF]] : []);
-  v.innerHTML = `<div class="sh-row" style="gap:10px"><h1 style="flex:1">${T.wordsTitle}</h1>${ws.length ? `<button class="pill" id="csv">${T.export}</button>` : ''}</div>
+  v.innerHTML = `<div class="sh-row" style="gap:10px"><h1 style="flex:1">${T.wordsTitle}</h1>${ws.length ? `<button class="pill" id="csv">${T.export}</button>` : ''}</div>${tabsHtml}
     <section class="stats" aria-label="${T.progress}">
       <div><b id="stTime">${hrs ? (Math.round(mins / 6) / 10) : mins}</b><span>${hrs ? T.hoursReading(name) : T.minsReading(name)}</span></div>
       <div><b id="stKnown">${st.known}</b><span>${T.wordsKnown(name)}</span></div>
@@ -5589,12 +6790,13 @@ function renderWords(){
         ${x.sentence ? `<span class="ctx" lang="${lg}">${esc(ctxOf(x.sentence, x.w))}</span>` : ''}${(n => n ? `<span class="cnl">${icon('spark', 'sm')}<b>${T.acct.fromClaude}:</b> ${esc(n.items[0].text)}</span>` : '')(noteFor(lg, x.w, NT))}<span class="src" lang="${lg}">${esc(srcLabel(x))}${lg !== L ? ' · ' + langName(lg) : ''}</span></button></li>` }).join('')}</ul>
       <p class="small">${T.strengthNote}</p>`}`;
   const g = $('#wGo'); if (g) g.onclick = () => go('library');
+  v.querySelectorAll('[data-wt]').forEach(b => b.onclick = () => { wordsTab = b.dataset.wt; renderWords() });
   v.querySelectorAll('[data-f]').forEach(b => b.onclick = () => { wordsFilter = b.dataset.f; renderWords() });
   v.querySelectorAll('[data-i]').forEach(b => b.onclick = async () => {
     const x = ws[+b.dataset.i];
     if (srcOf(x) === 'claude') return openNoteSheet(x);
     if (srcOf(x) === 'message') return openMsgWord(x);
-    if (srcOf(x) === 'lesson' && (x.lang || 'es') === 'es' && studyLang() === 'es'){ const pg = x.verb ? 'charts' : LESSON_PAGE[x.lesson]; if (pg) return openGrammar(pg, x.verb) }
+    if (srcOf(x) === 'lesson' && (x.lang || 'es') === 'es' && studyLang() === 'es'){ const pg = x.verb ? 'charts' : LESSON_PAGE[x.lesson]; if (pg) return openGrammar(pg, x.verb, 'words') }
     if (srcOf(x) !== 'book') return toast(T.notYet);
     await loadManifest();
     let id = x.bookId;
@@ -5739,7 +6941,8 @@ Owner.boot();
 const joined = Auth.fromUrl();
 setUiLang(uiCode());
 paintTabs();
-go(joined ? 'messages' : 'library');
+if (printId()) printRoute(printId());
+else go(joined ? 'messages' : 'library');
 if (Auth.token() && !joined) chatLoad();
 if (Auth.token()) Sync.run();   // pull on launch; the very first time, upload this phone's words first, then merge
 if (LS.get('last')) autoSaveDictionary(settings.lang);

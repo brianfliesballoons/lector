@@ -1,0 +1,2261 @@
+{
+ "v": 1,
+ "note": "Lector's Reference shelf. es = cards for an English speaker learning Spanish (Mexican / Latin American Spanish, no vosotros). en = cards for a Spanish speaker learning English, explained in Spanish. Markup in text: **bold**, __italic__, [c|coloured bold] (c = g green, r rust, d red, b blue, p purple, o orange), {es|text} / {en|text} marks the language. Cards with a page open one of the app's own screens. Dynamic blocks (boot, families, fam, verbs, shortstems) are drawn from conj/ at runtime.",
+ "es": {
+  "groups": [
+   {
+    "id": "blocks",
+    "title": "Building blocks",
+    "color": "green"
+   },
+   {
+    "id": "verbs",
+    "title": "Verbs",
+    "color": "rust"
+   },
+   {
+    "id": "irr",
+    "title": "Irregular verbs",
+    "color": "red"
+   },
+   {
+    "id": "little",
+    "title": "Little words",
+    "color": "blue"
+   },
+   {
+    "id": "sounds",
+    "title": "Sounds and spelling",
+    "color": "purple"
+   }
+  ],
+  "cards": [
+   {
+    "id": "gender",
+    "group": "blocks",
+    "title": "Gender and articles",
+    "sub": "el, la, un, una",
+    "words": "gender masculine feminine noun article el la los las un una unos unas agua adjective agree",
+    "lead": "Every noun is masculine or feminine. The little word in front tells you which.",
+    "blocks": [
+     {
+      "t": "table",
+      "lang": "es",
+      "head": [
+       "",
+       "[b|masculine]",
+       "[r|feminine]"
+      ],
+      "rows": [
+       [
+        "{en|the}",
+        "[b|el] libro",
+        "[r|la] casa"
+       ],
+       [
+        "{en|the (many)}",
+        "[b|los] libros",
+        "[r|las] casas"
+       ],
+       [
+        "{en|a / an}",
+        "[b|un] libro",
+        "[r|una] casa"
+       ],
+       [
+        "{en|some}",
+        "[b|unos] libros",
+        "[r|unas] casas"
+       ]
+      ]
+     },
+     {
+      "t": "h",
+      "x": "Guess from the ending"
+     },
+     {
+      "t": "boxes",
+      "lang": "es",
+      "items": [
+       [
+        "b",
+        "**-o** → el",
+        "el perro, el vuelo"
+       ],
+       [
+        "r",
+        "**-a** → la",
+        "la mesa, la comida"
+       ],
+       [
+        "b",
+        "**-ma** (many) → el",
+        "el problema, el idioma"
+       ],
+       [
+        "r",
+        "**-ción, -dad** → la",
+        "la canción, la ciudad"
+       ]
+      ]
+     },
+     {
+      "t": "note",
+      "x": "[d|Break the rule:] {es|el día, el mapa, la mano, la foto} (short for {es|la fotografía})."
+     },
+     {
+      "t": "h",
+      "x": "Adjectives match the noun"
+     },
+     {
+      "t": "ex",
+      "lang": "es",
+      "items": [
+       [
+        "el perro **negro**",
+        "the black dog"
+       ],
+       [
+        "la casa **blanca**",
+        "the white house"
+       ],
+       [
+        "los libros **nuevos**",
+        "the new books"
+       ]
+      ]
+     }
+    ],
+    "call": {
+     "h": "Sounds odd but right:",
+     "x": "{es|el agua fría}: {es|agua} is feminine, but takes {es|el} because it starts with a stressed “a”. In the plural it is {es|las aguas}."
+    },
+    "sources": [
+     "Real Academia Española and Asociación de Academias de la Lengua Española (RAE–ASALE), Nueva gramática básica de la lengua española (2011): gender of nouns; the article.",
+     "RAE–ASALE, Diccionario panhispánico de dudas (2005), entry “el”: el before feminine nouns that begin with a stressed a (el agua, las aguas)."
+    ],
+    "ask": "I'm learning Spanish (Mexican Spanish). Explain noun gender and the articles el, la, los, las, un, una in plain words, including the common exceptions (el día, la mano, el agua). Give five short everyday examples, then three quick fill-in-the-blank questions. Keep it brief."
+   },
+   {
+    "id": "pronouns",
+    "group": "blocks",
+    "title": "Pronouns",
+    "sub": "yo, tú, me, te, lo, le",
+    "words": "pronoun subject object direct indirect yo tu tú el él ella usted nosotros ellos ustedes me te lo la le nos los las les se mi tu su nuestro possessive my your his her",
+    "lead": "Who does it, who gets it, and whose it is. In Latin America, ustedes is “you all” for everyone.",
+    "blocks": [
+     {
+      "t": "table",
+      "lang": "es",
+      "head": [
+       "does it",
+       "it, him, her",
+       "to, for",
+       "my, your…"
+      ],
+      "rows": [
+       [
+        "yo",
+        "me",
+        "me",
+        "mi"
+       ],
+       [
+        "tú",
+        "te",
+        "te",
+        "tu"
+       ],
+       [
+        "él, ella, usted",
+        "lo, la",
+        "le",
+        "su"
+       ],
+       [
+        "nosotros, nosotras",
+        "nos",
+        "nos",
+        "nuestro, nuestra"
+       ],
+       [
+        "ellos, ellas, ustedes",
+        "los, las",
+        "les",
+        "su"
+       ]
+      ]
+     },
+     {
+      "t": "ex",
+      "lang": "es",
+      "items": [
+       [
+        "**Te** quiero.",
+        "I love you."
+       ],
+       [
+        "**Lo** veo.",
+        "I see it. (or: I see him.)"
+       ],
+       [
+        "**Le** doy el libro.",
+        "I give him (or her) the book."
+       ],
+       [
+        "**Se lo** doy.",
+        "I give it to him (or her)."
+       ],
+       [
+        "Quiero ver**te**. · **Te** quiero ver.",
+        "I want to see you. (both are fine)"
+       ],
+       [
+        "Tengo hambre.",
+        "I'm hungry. (no yo needed: the ending says who)"
+       ]
+      ]
+     },
+     {
+      "t": "note",
+      "x": "**usted** is the polite “you” and takes the él forms: {es|usted tiene}. **vosotros** is used in Spain only, so Lector leaves it out."
+     }
+    ],
+    "call": {
+     "h": "Where they go:",
+     "x": "before a conjugated verb ({es|te veo}), or joined to the end of an infinitive, an -ndo form or a yes-command ({es|verte, viéndote, mírame}). Two in a row: {es|le} and {es|les} become {es|se} before {es|lo, la, los, las}: {es|le + lo → se lo}."
+    },
+    "sources": [
+     "RAE–ASALE, Nueva gramática básica de la lengua española (2011): personal pronouns; unstressed pronouns (clitics) and where they go.",
+     "RAE–ASALE, Diccionario panhispánico de dudas (2005), entry “leísmo”: lo and la for direct objects, le and les for indirect objects."
+    ],
+    "ask": "I'm learning Spanish (Mexican Spanish). Explain the object pronouns me, te, lo, la, le, nos, los, las, les and se lo in plain words: which one to use and where it goes. Give five short everyday examples, then three quick practice sentences. Keep it brief."
+   },
+   {
+    "id": "order",
+    "group": "blocks",
+    "title": "Word order",
+    "sub": "la casa blanca",
+    "words": "word order adjective after noun before gran grande buen bueno viejo position sentence subject verb object",
+    "lead": "Mostly like English: who, does, what. The big difference is where the describing words go.",
+    "blocks": [
+     {
+      "t": "h",
+      "x": "Adjectives usually come after the noun"
+     },
+     {
+      "t": "ex",
+      "lang": "es",
+      "items": [
+       [
+        "la casa **blanca**",
+        "the white house"
+       ],
+       [
+        "un vuelo **largo**",
+        "a long flight"
+       ]
+      ]
+     },
+     {
+      "t": "h",
+      "x": "A few come before, and some change meaning"
+     },
+     {
+      "t": "ex",
+      "lang": "es",
+      "items": [
+       [
+        "un **buen** día",
+        "a good day (bueno → buen before a masculine noun)"
+       ],
+       [
+        "un **gran** hombre · un hombre **grande**",
+        "a great man · a big man"
+       ],
+       [
+        "un **viejo** amigo · un amigo **viejo**",
+        "a friend of many years · an elderly friend"
+       ]
+      ]
+     },
+     {
+      "t": "h",
+      "x": "The rest of the sentence"
+     },
+     {
+      "t": "ex",
+      "lang": "es",
+      "items": [
+       [
+        "**Lo** compré.",
+        "I bought it. (the pronoun goes before the verb)"
+       ],
+       [
+        "**No** lo sé.",
+        "I don't know. (no goes before the verb and its pronouns)"
+       ],
+       [
+        "¿Dónde vive Ana?",
+        "Where does Ana live? (the subject can follow the verb)"
+       ],
+       [
+        "Vamos mañana.",
+        "We're going tomorrow. (who is often left out)"
+       ]
+      ]
+     }
+    ],
+    "call": {
+     "h": "Rule of thumb:",
+     "x": "an adjective after the noun sorts it from others ({es|la casa blanca}, not the blue one). Before the noun it often adds feeling or a different sense ({es|un gran amigo})."
+    },
+    "sources": [
+     "RAE–ASALE, Nueva gramática básica de la lengua española (2011): the adjective and its position; word order in the sentence."
+    ],
+    "ask": "I'm learning Spanish (Mexican Spanish). Explain Spanish word order in plain words: where adjectives go, the ones that change meaning before the noun (gran, viejo), and where object pronouns and no go. Give five short everyday examples. Keep it brief."
+   },
+   {
+    "id": "questions",
+    "group": "blocks",
+    "title": "Questions and “no”",
+    "sub": "¿qué?, ¿dónde?, no… nada",
+    "words": "question questions ask que qué quien quién donde dónde cuando cuándo como cómo cual cuál cuanto cuánto por qué porque why because no nada nadie nunca negative double",
+    "lead": "A question opens with ¿ and closes with ?. A yes-or-no question can use the same words as a statement, said with your voice going up.",
+    "blocks": [
+     {
+      "t": "table",
+      "lang": "es",
+      "head": [
+       "",
+       "{en|means}"
+      ],
+      "rows": [
+       [
+        "¿qué?",
+        "{en|what?}"
+       ],
+       [
+        "¿quién? ¿quiénes?",
+        "{en|who?}"
+       ],
+       [
+        "¿dónde?",
+        "{en|where?}"
+       ],
+       [
+        "¿cuándo?",
+        "{en|when?}"
+       ],
+       [
+        "¿cómo?",
+        "{en|how?}"
+       ],
+       [
+        "¿cuál? ¿cuáles?",
+        "{en|which?}"
+       ],
+       [
+        "¿cuánto? ¿cuánta?",
+        "{en|how much?}"
+       ],
+       [
+        "¿cuántos? ¿cuántas?",
+        "{en|how many?}"
+       ],
+       [
+        "¿por qué?",
+        "{en|why?}"
+       ]
+      ]
+     },
+     {
+      "t": "note",
+      "x": "Question words carry a written accent. {es|¿Por qué?} (two words) asks; {es|porque} (one word, no accent) answers: {es|¿Por qué? Porque sí.}"
+     },
+     {
+      "t": "h",
+      "x": "Saying no"
+     },
+     {
+      "t": "ex",
+      "lang": "es",
+      "items": [
+       [
+        "**No** hablo inglés.",
+        "I don't speak English."
+       ],
+       [
+        "**No** veo **nada**.",
+        "I don't see anything."
+       ],
+       [
+        "**No** viene **nadie**.",
+        "Nobody is coming."
+       ],
+       [
+        "**No** voy **nunca**. · **Nunca** voy.",
+        "I never go."
+       ]
+      ]
+     }
+    ],
+    "call": {
+     "h": "Double “no” is correct:",
+     "x": "Spanish keeps {es|no} before the verb and adds {es|nada, nadie, nunca, ninguno}. When the negative word comes first, leave the {es|no} out: {es|Nadie viene.}"
+    },
+    "sources": [
+     "RAE–ASALE, Ortografía de la lengua española (2010): opening and closing question marks; the written accent on question words.",
+     "RAE–ASALE, Diccionario panhispánico de dudas (2005), entry “porque / porqué / por qué / por que”.",
+     "RAE–ASALE, Nueva gramática básica de la lengua española (2011): negation and negative words."
+    ],
+    "ask": "I'm learning Spanish (Mexican Spanish). Explain how to ask questions and say no in Spanish, in plain words: the question words with accents, por qué vs porque, and double negatives (no… nada, no… nadie). Give five short everyday examples and three quick practice sentences. Keep it brief."
+   },
+   {
+    "id": "charts",
+    "group": "verbs",
+    "title": "Verb charts",
+    "sub": "Any verb, tap and quiz",
+    "page": "charts",
+    "words": "verb chart charts conjugate conjugation table forms tense tenses present preterite imperfect future conditional subjunctive commands tener quiz save",
+    "sources": [
+     "Verb tables from Wiktionary (en.wiktionary.org), by its contributors, extracted by kaikki.org (Wiktextract), CC BY-SA 4.0. Irregular-form marks added by Lector."
+    ]
+   },
+   {
+    "id": "endings",
+    "group": "verbs",
+    "title": "Verb endings",
+    "sub": "-ar, -er, -ir",
+    "words": "verb endings -ar -er -ir ar er ir regular hablar comer vivir present preterite imperfect future conjugation pattern vosotros",
+    "lead": "Take off -ar, -er or -ir, then add the ending for who is doing it.",
+    "blocks": [
+     {
+      "t": "h",
+      "x": "Now (present)"
+     },
+     {
+      "t": "table",
+      "lang": "es",
+      "cls": "end",
+      "head": [
+       "",
+       "[r|hablar] {en|speak}",
+       "[b|comer] {en|eat}",
+       "[g|vivir] {en|live}"
+      ],
+      "rows": [
+       [
+        "yo",
+        "habl[r|o]",
+        "com[b|o]",
+        "viv[g|o]"
+       ],
+       [
+        "tú",
+        "habl[r|as]",
+        "com[b|es]",
+        "viv[g|es]"
+       ],
+       [
+        "él, ella, usted",
+        "habl[r|a]",
+        "com[b|e]",
+        "viv[g|e]"
+       ],
+       [
+        "nosotros",
+        "habl[r|amos]",
+        "com[b|emos]",
+        "viv[g|imos]"
+       ],
+       [
+        "ellos, ustedes",
+        "habl[r|an]",
+        "com[b|en]",
+        "viv[g|en]"
+       ]
+      ]
+     },
+     {
+      "t": "h",
+      "x": "Happened (preterite)"
+     },
+     {
+      "t": "table",
+      "lang": "es",
+      "cls": "end",
+      "head": [
+       "",
+       "[r|hablar]",
+       "[b|comer]",
+       "[g|vivir]"
+      ],
+      "rows": [
+       [
+        "yo",
+        "habl[r|é]",
+        "com[b|í]",
+        "viv[g|í]"
+       ],
+       [
+        "tú",
+        "habl[r|aste]",
+        "com[b|iste]",
+        "viv[g|iste]"
+       ],
+       [
+        "él, ella, usted",
+        "habl[r|ó]",
+        "com[b|ió]",
+        "viv[g|ió]"
+       ],
+       [
+        "nosotros",
+        "habl[r|amos]",
+        "com[b|imos]",
+        "viv[g|imos]"
+       ],
+       [
+        "ellos, ustedes",
+        "habl[r|aron]",
+        "com[b|ieron]",
+        "viv[g|ieron]"
+       ]
+      ]
+     },
+     {
+      "t": "h",
+      "x": "Used to (imperfect) and Will (future)"
+     },
+     {
+      "t": "table",
+      "lang": "es",
+      "cls": "end",
+      "head": [
+       "",
+       "[r|hablar]",
+       "[b|comer]",
+       "[g|vivir]"
+      ],
+      "rows": [
+       [
+        "yo, used to",
+        "habl[r|aba]",
+        "com[b|ía]",
+        "viv[g|ía]"
+       ],
+       [
+        "nosotros, used to",
+        "habl[r|ábamos]",
+        "com[b|íamos]",
+        "viv[g|íamos]"
+       ],
+       [
+        "yo, will",
+        "hablar[r|é]",
+        "comer[b|é]",
+        "vivir[g|é]"
+       ],
+       [
+        "ellos, will",
+        "hablar[r|án]",
+        "comer[b|án]",
+        "vivir[g|án]"
+       ]
+      ]
+     },
+     {
+      "t": "link",
+      "page": "charts",
+      "x": "Verb charts",
+      "line": "Same shape, every tense: open any of 8,737 verbs, irregular parts in red."
+     }
+    ],
+    "call": {
+     "h": "Spot it:",
+     "x": "-er and -ir share every present ending except **nosotros** ({es|comemos, vivimos}). The future keeps the whole infinitive and adds the ending. {es|hablamos} is both “we speak” and “we spoke”: the sentence tells you which. __vosotros__ is used in Spain only, so it is left out."
+    },
+    "sources": [
+     "RAE–ASALE, Nueva gramática básica de la lengua española (2011): regular conjugation, the three model verbs (-ar, -er, -ir).",
+     "Forms checked against Lector's verb tables (Wiktionary via kaikki.org, CC BY-SA 4.0)."
+    ],
+    "ask": "I'm learning Spanish (Mexican Spanish). Show me the regular endings for -ar, -er and -ir verbs in the present, preterite, imperfect and future, using hablar, comer and vivir, in plain words, with one short example sentence for each tense. Keep it brief."
+   },
+   {
+    "id": "timeline",
+    "group": "verbs",
+    "title": "The pasts",
+    "sub": "era or fue?",
+    "page": "timeline",
+    "words": "past pasts preterite imperfect era fue timeline used to happened stretch point tense",
+    "ask": "I'm learning Spanish (Mexican Spanish). Explain the preterite (fue, comí) vs the imperfect (era, comía) in plain words: a finished point vs a stretch or a habit. Give five pairs of short everyday examples, then three quick sentences for me to choose the right one. Keep it brief.",
+    "sources": [
+     "RAE–ASALE, Nueva gramática básica de la lengua española (2011): the preterite (pretérito perfecto simple) and the imperfect (pretérito imperfecto)."
+    ]
+   },
+   {
+    "id": "serestar",
+    "group": "verbs",
+    "title": "ser or estar",
+    "sub": "Two kinds of “is”",
+    "page": "serestar",
+    "words": "ser estar to be is are soy estoy es está",
+    "sources": [
+     "RAE–ASALE, Nueva gramática básica de la lengua española (2011): ser and estar (copulative verbs)."
+    ]
+   },
+   {
+    "id": "irregular",
+    "group": "irr",
+    "title": "All the families",
+    "sub": "Learn the family, not the list",
+    "wide": true,
+    "words": "irregular verbs families boot yo-go strong past short future spelling true irregulars zco uir poder",
+    "lead": "The most used verbs break the pattern, but they break it in families. Learn the family, not the list.",
+    "blocks": [
+     {
+      "t": "boot",
+      "verb": "poder"
+     },
+     {
+      "t": "families"
+     }
+    ],
+    "sources": [
+     "RAE–ASALE, Nueva gramática básica de la lengua española (2011): irregular verbs (vowel changes, consonant changes, strong preterites, future stems).",
+     "Every family and example is checked against Lector's verb tables (Wiktionary via kaikki.org, CC BY-SA 4.0)."
+    ],
+    "ask": "I'm learning Spanish (Mexican Spanish). Explain the main families of irregular Spanish verbs in plain words: boot (stem-changing) verbs, yo-go verbs, strong preterites, short future stems, spelling changes and the true irregulars (ser, ir). Two examples for each. Keep it brief."
+   },
+   {
+    "id": "boot",
+    "group": "irr",
+    "title": "The boot",
+    "sub": "quiero, puedo, pido",
+    "fam": "boot",
+    "words": "boot stem change stem-changing e ie o ue e i u ue querer poder pedir jugar dormir pensar volver nosotros",
+    "lead": "In the present, the stem vowel stretches when it carries the stress: e → ie, o → ue, e → i (and u → ue in jugar). Shade the changed forms and you get a boot. nosotros stays outside it.",
+    "blocks": [
+     {
+      "t": "boot",
+      "verb": "querer"
+     },
+     {
+      "t": "boot",
+      "verb": "pedir"
+     },
+     {
+      "t": "fam",
+      "fam": "boot"
+     }
+    ],
+    "call": {
+     "h": "Also good to know:",
+     "x": "-ir boot verbs change in the preterite too, but only in the él and ellos forms, and only to i or u: {es|pidió, pidieron; durmió, durmieron}. The present subjunctive keeps the boot: {es|quiera, quieras, queramos}."
+    },
+    "sources": [
+     "RAE–ASALE, Nueva gramática básica de la lengua española (2011): vowel alternations in irregular verbs (diphthongs ie, ue; e → i).",
+     "Every example is checked against Lector's verb tables (Wiktionary via kaikki.org, CC BY-SA 4.0)."
+    ],
+    "ask": "I'm learning Spanish (Mexican Spanish). Explain boot (stem-changing) verbs in plain words: e→ie, o→ue, e→i and jugar's u→ue, why nosotros stays outside, and what -ir boot verbs do in the preterite. Give examples with querer, poder, pedir and dormir. Keep it brief."
+   },
+   {
+    "id": "yogo",
+    "group": "irr",
+    "title": "Yo-go verbs",
+    "sub": "tengo, hago, pongo",
+    "fam": "yogo",
+    "words": "yo-go yogo go tengo hago pongo salgo digo vengo traigo oigo valgo caigo yo present",
+    "lead": "Only the yo form of the present adds a g. The rest of the present follows its own pattern.",
+    "blocks": [
+     {
+      "t": "fam",
+      "fam": "yogo"
+     },
+     {
+      "t": "h",
+      "x": "Two smaller families"
+     },
+     {
+      "t": "fam",
+      "fam": "zco"
+     },
+     {
+      "t": "fam",
+      "fam": "uir"
+     }
+    ],
+    "call": {
+     "h": "Why it matters:",
+     "x": "the present subjunctive is built on this yo form: {es|tengo → tenga, hago → haga, salgo → salga}. Compounds follow their base verb: {es|obtener → obtengo, proponer → propongo}."
+    },
+    "sources": [
+     "RAE–ASALE, Nueva gramática básica de la lengua española (2011): consonant changes in irregular verbs (tengo, conozco, construyo).",
+     "Every example is checked against Lector's verb tables (Wiktionary via kaikki.org, CC BY-SA 4.0)."
+    ],
+    "ask": "I'm learning Spanish (Mexican Spanish). Explain yo-go verbs (tengo, hago, pongo, salgo, digo, vengo, traigo, oigo) and the -zco verbs (conozco) in plain words, and how the present subjunctive is built on the yo form. Five short everyday examples. Keep it brief."
+   },
+   {
+    "id": "strong",
+    "group": "irr",
+    "title": "Strong pasts",
+    "sub": "tuve, pude, hice",
+    "fam": "strong",
+    "words": "strong past preterite tuve estuve pude puse supe hice quise vine dije traje anduve conduje no accent",
+    "lead": "These preterites take a new stem, and their endings carry no accent mark: -e, -iste, -o, -imos, -ieron.",
+    "blocks": [
+     {
+      "t": "fam",
+      "fam": "strong"
+     }
+    ],
+    "call": {
+     "h": "Two small twists:",
+     "x": "after j, the ellos ending is -eron: {es|dijeron, trajeron, condujeron}. {es|hacer} writes {es|hizo} with a z to keep the sound."
+    },
+    "sources": [
+     "RAE–ASALE, Nueva gramática básica de la lengua española (2011): irregular preterites with a stressed stem (pretéritos fuertes).",
+     "Every example is checked against Lector's verb tables (Wiktionary via kaikki.org, CC BY-SA 4.0)."
+    ],
+    "ask": "I'm learning Spanish (Mexican Spanish). Explain the strong (irregular-stem) preterites in plain words: tuve, estuve, pude, puse, supe, hice, quise, vine, dije, traje, with their endings and no accent marks. Five short everyday examples. Keep it brief."
+   },
+   {
+    "id": "short",
+    "group": "irr",
+    "title": "Short futures",
+    "sub": "tendré, podré, haré",
+    "fam": "short",
+    "words": "short future conditional stem tendré podré pondré saldré vendré haré diré querré sabré habré cabré valdré tendría will would",
+    "lead": "The future and the conditional share one short stem. The endings are the regular ones.",
+    "blocks": [
+     {
+      "t": "shortstems"
+     },
+     {
+      "t": "fam",
+      "fam": "short"
+     }
+    ],
+    "call": {
+     "h": "Three ways the stem gets short:",
+     "x": "the vowel drops ({es|poder → podr-, saber → sabr-, querer → querr-, haber → habr-, caber → cabr-}), a d slips in ({es|tener → tendr-, poner → pondr-, salir → saldr-, venir → vendr-, valer → valdr-}), or it is simply short ({es|hacer → har-, decir → dir-})."
+    },
+    "sources": [
+     "RAE–ASALE, Nueva gramática básica de la lengua española (2011): irregular future and conditional stems.",
+     "Every example is checked against Lector's verb tables (Wiktionary via kaikki.org, CC BY-SA 4.0)."
+    ],
+    "ask": "I'm learning Spanish (Mexican Spanish). Explain the irregular future and conditional stems (tendr-, podr-, pondr-, saldr-, vendr-, har-, dir-, querr-, sabr-, habr-) in plain words, with five short everyday examples. Keep it brief."
+   },
+   {
+    "id": "spell",
+    "group": "irr",
+    "title": "Spelling only",
+    "sub": "busqué, llegué, realicé",
+    "fam": "spell",
+    "words": "spelling change spell busqué llegué empecé realicé escojo venzo distingo averigüé leyó envío continúo car gar zar qu gu sound",
+    "lead": "The sound stays the same; only the letters change, so the spelling keeps matching the sound. Lector colours these changes blue.",
+    "blocks": [
+     {
+      "t": "table",
+      "lang": "es",
+      "head": [
+       "{en|verbs in}",
+       "{en|change}",
+       "{en|example}"
+      ],
+      "rows": [
+       [
+        "-car",
+        "{en|c → qu before e}",
+        "buscar → bus[b|qu]é"
+       ],
+       [
+        "-gar",
+        "{en|g → gu before e}",
+        "llegar → lleg[b|u]é"
+       ],
+       [
+        "-zar",
+        "{en|z → c before e}",
+        "realizar → reali[b|c]é"
+       ],
+       [
+        "-ger, -gir",
+        "{en|g → j before o, a}",
+        "escoger → esco[b|j]o"
+       ],
+       [
+        "-cer {en|after a consonant}",
+        "{en|c → z before o, a}",
+        "vencer → ven[b|z]o"
+       ],
+       [
+        "-guir",
+        "{en|gu → g before o, a}",
+        "distinguir → distin[b|g]o"
+       ],
+       [
+        "-guar",
+        "{en|gu → gü before e}",
+        "averiguar → averi[b|gü]é"
+       ],
+       [
+        "-eer",
+        "{en|unstressed i between vowels → y}",
+        "leer → le[b|y]ó"
+       ]
+      ]
+     },
+     {
+      "t": "note",
+      "x": "Some verbs only move the stress, and a written accent shows it: {es|enviar → envío, continuar → continúo}."
+     },
+     {
+      "t": "fam",
+      "fam": "spell"
+     }
+    ],
+    "sources": [
+     "RAE–ASALE, Ortografía de la lengua española (2010): the letters c, qu, z; g, gu, gü, j; and the written accent.",
+     "Every example is checked against Lector's verb tables (Wiktionary via kaikki.org, CC BY-SA 4.0)."
+    ],
+    "ask": "I'm learning Spanish (Mexican Spanish). Explain Spanish spelling-change verbs in plain words (buscar → busqué, llegar → llegué, realizar → realicé, escoger → escojo, leer → leyó) and why the spelling changes while the sound stays. Keep it brief."
+   },
+   {
+    "id": "true",
+    "group": "irr",
+    "title": "The true irregulars",
+    "sub": "ser, ir, estar, haber",
+    "fam": "true",
+    "words": "true irregular irregulars ser ir estar haber dar saber ver soy voy estoy doy fui era iba hay",
+    "lead": "A handful of everyday verbs follow no family. Learn them whole: they are the ones you hear most.",
+    "blocks": [
+     {
+      "t": "verbs",
+      "verbs": [
+       "ser",
+       "ir",
+       "estar",
+       "haber",
+       "dar",
+       "saber",
+       "ver"
+      ],
+      "tenses": [
+       "pres",
+       "pret",
+       "impf"
+      ]
+     }
+    ],
+    "call": {
+     "h": "Worth knowing:",
+     "x": "{es|ser} and {es|ir} share the preterite: {es|fue} is “was” or “went”, and the sentence tells you which. Only {es|ser}, {es|ir} and {es|ver} are irregular in the imperfect ({es|era, iba, veía}). {es|haber} is the helper in “have done” ({es|he comido}), and its form {es|hay} means “there is, there are”. {es|sé} (I know) has an accent to tell it from {es|se}."
+    },
+    "sources": [
+     "RAE–ASALE, Nueva gramática básica de la lengua española (2011): highly irregular verbs (ser, ir, estar, haber, dar, saber, ver).",
+     "Forms from Lector's verb tables (Wiktionary via kaikki.org, CC BY-SA 4.0)."
+    ],
+    "ask": "I'm learning Spanish (Mexican Spanish). Walk me through the most irregular verbs (ser, ir, estar, haber, dar, saber, ver) in the present, preterite and imperfect, in plain words, with one short everyday example each. Keep it brief."
+   },
+   {
+    "id": "glance",
+    "group": "irr",
+    "title": "Irregulars at a glance",
+    "sub": "The 40 that break the pattern",
+    "page": "glance",
+    "wide": true,
+    "words": "irregulars glance list 40 most used tense filter",
+    "ask": "I'm learning Spanish (Mexican Spanish). Which irregular Spanish verbs should I learn first, and what is the pattern behind each? Group them by family (boot, yo-go, strong past, short future, true irregulars) with one example form each. Keep it brief.",
+    "sources": [
+     "Verb tables from Wiktionary (en.wiktionary.org) via kaikki.org, CC BY-SA 4.0; ranked by wordfreq (Robyn Speer)."
+    ]
+   },
+   {
+    "id": "little",
+    "group": "little",
+    "title": "a, de, desde, en",
+    "sub": "Where things start and go",
+    "words": "preposition prepositions a de desde en hasta al del to from of since in on at until personal a contraction",
+    "lead": "Short words, big jobs. Picture where things start, where they go and where they sit.",
+    "blocks": [
+     {
+      "t": "lanes",
+      "items": [
+       {
+        "w": "desde",
+        "c": "r",
+        "en": "from · since",
+        "shape": "from",
+        "es": "Enviando amor **desde** California.",
+        "tr": "Sending love from California."
+       },
+       {
+        "w": "de",
+        "c": "b",
+        "en": "of · from",
+        "shape": "of",
+        "es": "Soy **de** California. · la casa **de** Ana",
+        "tr": "I’m from California. · Ana’s house"
+       },
+       {
+        "w": "a",
+        "c": "g",
+        "en": "to · toward",
+        "shape": "to",
+        "es": "Voy **a** Ámsterdam.",
+        "tr": "I’m going to Amsterdam."
+       },
+       {
+        "w": "en",
+        "c": "p",
+        "en": "in · on · at",
+        "shape": "in",
+        "es": "Estoy **en** casa.",
+        "tr": "I’m at home."
+       },
+       {
+        "w": "hasta",
+        "c": "r",
+        "en": "until · up to",
+        "shape": "until",
+        "es": "**desde** lunes **hasta** viernes",
+        "tr": "from Monday to Friday"
+       }
+      ]
+     },
+     {
+      "t": "h",
+      "x": "Two more rules"
+     },
+     {
+      "t": "ex",
+      "lang": "es",
+      "items": [
+       [
+        "Voy **al** mercado. · la casa **del** señor",
+        "a + el = al, de + el = del (always joined)"
+       ],
+       [
+        "Veo **a** Ana.",
+        "I see Ana. (a goes before a person who receives the action)"
+       ]
+      ]
+     }
+    ],
+    "call": {
+     "h": "Why “desde” and not “de”?",
+     "x": "The love is travelling, and **desde** marks where the trip starts. “{es|De California}” is heard too, but it leans toward __belonging to__ or __coming from__ California."
+    },
+    "sources": [
+     "RAE–ASALE, Nueva gramática básica de la lengua española (2011): prepositions; the contractions al and del; a before a direct object that is a person.",
+     "RAE–ASALE, Diccionario panhispánico de dudas (2005), entries “a” and “desde”."
+    ],
+    "ask": "I'm learning Spanish (Mexican Spanish). Explain the prepositions a, de, desde, en and hasta in plain words, plus al, del and the personal a. Give two short everyday examples for each. Keep it brief."
+   },
+   {
+    "id": "porpara",
+    "group": "little",
+    "title": "por or para",
+    "sub": "Two kinds of “for”",
+    "page": "porpara",
+    "words": "por para for because through by",
+    "sources": [
+     "RAE–ASALE, Nueva gramática básica de la lengua española (2011): the prepositions por and para."
+    ]
+   },
+   {
+    "id": "sounds",
+    "group": "sounds",
+    "title": "Say it right",
+    "sub": "Vowels, r and rr, ñ, h",
+    "words": "pronunciation sounds say vowels r rr ñ h silent ll y j g c z qu b v x seseo yeísmo accent mexico",
+    "lead": "Spanish is spelled the way it sounds. Learn these and you can read any word aloud. This is the Latin American way.",
+    "blocks": [
+     {
+      "t": "table",
+      "lang": "es",
+      "head": [
+       "",
+       "{en|sounds like}",
+       "{en|try it}"
+      ],
+      "rows": [
+       [
+        "a e i o u",
+        "{en|five short, clean vowels, always the same}",
+        "casa, mesa, sí, todo, uno"
+       ],
+       [
+        "h",
+        "{en|silent}",
+        "hola, ahora"
+       ],
+       [
+        "ñ",
+        "{en|ny, as in canyon}",
+        "año, niño"
+       ],
+       [
+        "ll, y",
+        "{en|y, as in yes (one sound in most of Latin America)}",
+        "llamo, yo"
+       ],
+       [
+        "j; g {en|before} e, i",
+        "{en|a strong h from the throat}",
+        "jamón, gente"
+       ],
+       [
+        "g {en|before} a, o, u",
+        "{en|g, as in go}",
+        "gato, gusto"
+       ],
+       [
+        "gue, gui · güe, güi",
+        "{en|the u is silent · the u is heard}",
+        "guitarra · pingüino"
+       ],
+       [
+        "c {en|before} e, i; z",
+        "{en|s (in Latin America)}",
+        "cena, zapato"
+       ],
+       [
+        "c {en|before} a, o, u; qu",
+        "{en|k}",
+        "casa, queso"
+       ],
+       [
+        "r",
+        "{en|one quick tap of the tongue}",
+        "pero, caro"
+       ],
+       [
+        "rr; r {en|at the start or after} l, n, s",
+        "{en|a rolled r}",
+        "perro, rojo, Enrique"
+       ],
+       [
+        "b, v",
+        "{en|the same sound}",
+        "vaso, beso"
+       ],
+       [
+        "x {en|in} México, Oaxaca",
+        "{en|like j}",
+        "México"
+       ]
+      ]
+     },
+     {
+      "t": "pairs",
+      "lang": "es",
+      "items": [
+       [
+        "pero",
+        "but",
+        "perro",
+        "dog"
+       ],
+       [
+        "caro",
+        "expensive",
+        "carro",
+        "car"
+       ]
+      ]
+     }
+    ],
+    "call": {
+     "h": "Tip:",
+     "x": "keep every vowel short and clear, even when it is not stressed. English blurs unstressed vowels into “uh”; Spanish never does."
+    },
+    "sources": [
+     "RAE–ASALE, Ortografía de la lengua española (2010): the letters and the sounds they stand for.",
+     "RAE–ASALE, Diccionario panhispánico de dudas (2005), entries “seseo”, “yeísmo” and “México”."
+    ],
+    "ask": "I'm learning Spanish (Mexican Spanish). Coach me on Spanish pronunciation in plain words: the five vowels, r vs rr, ñ, silent h, ll and y, j and g, and c/z as said in Mexico. Give me ten short words to practise out loud. Keep it brief."
+   },
+   {
+    "id": "accents",
+    "group": "sounds",
+    "title": "Accent marks",
+    "sub": "Where the stress lands",
+    "words": "accent accents written accent tilde stress syllable si sí tu tú el él mi mí se sé te té mas más de dé que qué como cómo diacritic",
+    "lead": "Two rules tell you where the stress falls. A written accent marks a word that breaks them.",
+    "blocks": [
+     {
+      "t": "ex",
+      "lang": "es",
+      "items": [
+       [
+        "**ca**sa · **ha**blan · **li**bros",
+        "ends in a vowel, n or s: stress the second-to-last syllable"
+       ],
+       [
+        "ha**blar** · ciu**dad** · re**loj**",
+        "ends in any other consonant: stress the last syllable"
+       ],
+       [
+        "ca**fé** · can**ción** · **ár**bol · **fá**cil",
+        "breaks the rule: the accent shows where the stress goes"
+       ],
+       [
+        "**te**léfono · **mú**sica · **rá**pido",
+        "stress three from the end: always written"
+       ],
+       [
+        "**ha**blo · ha**bló**",
+        "I speak · he spoke: the accent changes the meaning"
+       ]
+      ]
+     },
+     {
+      "t": "h",
+      "x": "Accents that tell two words apart"
+     },
+     {
+      "t": "table",
+      "lang": "es",
+      "cls": "pairs2",
+      "rows": [
+       [
+        "sí {en|yes}",
+        "si {en|if}"
+       ],
+       [
+        "tú {en|you}",
+        "tu {en|your}"
+       ],
+       [
+        "él {en|he}",
+        "el {en|the}"
+       ],
+       [
+        "mí {en|me}",
+        "mi {en|my}"
+       ],
+       [
+        "sé {en|I know}",
+        "se {en|oneself, etc.}"
+       ],
+       [
+        "té {en|tea}",
+        "te {en|you, to you}"
+       ],
+       [
+        "más {en|more}",
+        "mas {en|but (rare)}"
+       ],
+       [
+        "dé {en|give (a form of dar)}",
+        "de {en|of, from}"
+       ],
+       [
+        "qué, cómo, dónde… {en|in questions}",
+        "que, como, donde… {en|elsewhere}"
+       ]
+      ]
+     }
+    ],
+    "call": {
+     "h": "Capitals too:",
+     "x": "capital letters keep their accents: {es|Él, Ángel, ÁFRICA}."
+    },
+    "sources": [
+     "RAE–ASALE, Ortografía de la lengua española (2010): the rules of written accentuation and the diacritic accent (tilde diacrítica)."
+    ],
+    "ask": "I'm learning Spanish (Mexican Spanish). Explain Spanish stress and written accents in plain words: the two rules, when a word needs an accent mark, and the pairs it tells apart (sí/si, tú/tu, él/el, qué/que). Then give me five words to place the accent on. Keep it brief."
+   }
+  ]
+ },
+ "en": {
+  "groups": [
+   {
+    "id": "blocks",
+    "title": "Bloques básicos",
+    "color": "green"
+   },
+   {
+    "id": "verbs",
+    "title": "Verbos",
+    "color": "rust"
+   },
+   {
+    "id": "irr",
+    "title": "Verbos irregulares",
+    "color": "red"
+   },
+   {
+    "id": "little",
+    "title": "Palabritas",
+    "color": "blue"
+   },
+   {
+    "id": "sounds",
+    "title": "Sonidos y ortografía",
+    "color": "purple"
+   }
+  ],
+  "cards": [
+   {
+    "id": "en-art",
+    "title": "a, an, the",
+    "titleLang": "en",
+    "sub": "un, una, el, la",
+    "page": "en-art",
+    "words": "a an the articulo articulos un una el la los las",
+    "sources": [
+     "Michael Swan, Practical English Usage (Oxford University Press, 4.ª ed., 2016): articles (a/an, the, no article)."
+    ],
+    "group": "blocks"
+   },
+   {
+    "id": "en-pron",
+    "title": "Pronombres",
+    "sub": "I, me, my, mine",
+    "words": "pronombres i me my mine you your he him his she her it its we us our they them their posesivo",
+    "lead": "Quién hace algo, a quién, y de quién es.",
+    "blocks": [
+     {
+      "t": "table",
+      "lang": "en",
+      "head": [
+       "{es|hace}",
+       "{es|recibe}",
+       "{es|de quién}",
+       "{es|el mío…}"
+      ],
+      "rows": [
+       [
+        "I",
+        "me",
+        "my",
+        "mine"
+       ],
+       [
+        "you",
+        "you",
+        "your",
+        "yours"
+       ],
+       [
+        "he",
+        "him",
+        "his",
+        "his"
+       ],
+       [
+        "she",
+        "her",
+        "her",
+        "hers"
+       ],
+       [
+        "it",
+        "it",
+        "its",
+        "—"
+       ],
+       [
+        "we",
+        "us",
+        "our",
+        "ours"
+       ],
+       [
+        "they",
+        "them",
+        "their",
+        "theirs"
+       ]
+      ]
+     },
+     {
+      "t": "ex",
+      "lang": "en",
+      "items": [
+       [
+        "**She** loves **him**.",
+        "Ella lo quiere."
+       ],
+       [
+        "**his** car · **her** car",
+        "el carro de él · el carro de ella: el «su» depende del dueño"
+       ],
+       [
+        "This book is **mine**.",
+        "Este libro es mío."
+       ],
+       [
+        "**It**’s cold.",
+        "Hace frío: it es para cosas, animales y el clima"
+       ]
+      ]
+     }
+    ],
+    "call": {
+     "h": "Ojo:",
+     "x": "{en|you} es tú, usted y ustedes. {en|its} (de eso) no lleva apóstrofo; {en|it’s} es {en|it is}."
+    },
+    "sources": [
+     "Michael Swan, Practical English Usage (Oxford University Press, 4.ª ed., 2016): personal pronouns; possessives.",
+     "Raymond Murphy, English Grammar in Use (Cambridge University Press, 5.ª ed., 2019): I/me/my/mine."
+    ],
+    "group": "blocks"
+   },
+   {
+    "id": "en-order",
+    "title": "El orden",
+    "sub": "a big dog",
+    "words": "orden adjetivo antes sustantivo plural big dog sujeto always",
+    "lead": "El inglés casi siempre va en el mismo orden: quién, qué hace, qué cosa. Y el adjetivo va antes.",
+    "blocks": [
+     {
+      "t": "ex",
+      "lang": "en",
+      "items": [
+       [
+        "a **big** dog",
+        "un perro grande: el adjetivo va antes"
+       ],
+       [
+        "two big dog**s**",
+        "dos perros grandes: el adjetivo no lleva plural, nunca «bigs»"
+       ],
+       [
+        "**I** drink coffee.",
+        "Tomo café: quién + verbo + qué"
+       ],
+       [
+        "**It** is raining.",
+        "Está lloviendo: siempre va quién, aunque sea «it»"
+       ],
+       [
+        "I **always** drink coffee.",
+        "Siempre tomo café: always va antes del verbo…"
+       ],
+       [
+        "She is **always** late.",
+        "Siempre llega tarde: …pero después de am, is, are"
+       ],
+       [
+        "a **nice big red** car",
+        "un carro rojo, grande y bonito: opinión, tamaño, color"
+       ]
+      ]
+     }
+    ],
+    "call": {
+     "h": "El adjetivo va antes:",
+     "x": "{en|a big dog} = un perro grande. Y no cambia: {en|big dog**s**}, nunca “bigs”."
+    },
+    "sources": [
+     "Michael Swan, Practical English Usage (Oxford University Press, 4.ª ed., 2016): adjectives (position and order); word order.",
+     "Raymond Murphy, English Grammar in Use (Cambridge University Press, 5.ª ed., 2019): word order; adjectives."
+    ],
+    "group": "blocks"
+   },
+   {
+    "id": "en-do",
+    "title": "Preguntas y negativos",
+    "sub": "do, does, did",
+    "words": "do does did don't doesn't didn't preguntas negativo no pasado auxiliar",
+    "lead": "En inglés, para preguntar o decir que no casi siempre se usa do, does o did. El verbo regresa a su forma sencilla.",
+    "blocks": [
+     {
+      "t": "table",
+      "lang": "en",
+      "head": [
+       "",
+       "{es|pregunta}",
+       "{es|no}"
+      ],
+      "rows": [
+       [
+        "I, you, we, they",
+        "Do you like it?",
+        "I **don’t** like it."
+       ],
+       [
+        "he, she, it",
+        "Does she work here?",
+        "She **doesn’t** work here."
+       ],
+       [
+        "{es|pasado (todos)}",
+        "Did you go?",
+        "We **didn’t** go."
+       ]
+      ]
+     },
+     {
+      "t": "ex",
+      "lang": "en",
+      "items": [
+       [
+        "Yes, I do. · No, she doesn’t.",
+        "Sí. · No. (respuestas cortas)"
+       ],
+       [
+        "She doesn’t **work**.",
+        "No trabaja: con does el verbo ya no lleva -s"
+       ],
+       [
+        "Did you **go**?",
+        "¿Fuiste?: con did el verbo no va en pasado, nunca «Did you went?»"
+       ],
+       [
+        "Are you ready? · I can’t swim.",
+        "Con am, is, are y can no se usa do"
+       ]
+      ]
+     }
+    ],
+    "call": {
+     "h": "Truco:",
+     "x": "do, does o did ya dicen el tiempo y la persona. El verbo que sigue va siempre en su forma de diccionario: {en|go, work, like}."
+    },
+    "sources": [
+     "Michael Swan, Practical English Usage (Oxford University Press, 4.ª ed., 2016): do (auxiliary); questions; negatives.",
+     "Raymond Murphy, English Grammar in Use (Cambridge University Press, 5.ª ed., 2019): present simple and past simple, questions and negatives."
+    ],
+    "group": "blocks"
+   },
+   {
+    "id": "en-verbchart",
+    "group": "verbs",
+    "title": "Tabla de verbos",
+    "sub": "Cualquier verbo: toca y practica",
+    "page": "en-charts",
+    "words": "tabla verbos verbo conjugar formas have went did pasado participio ing presente futuro will tiempos guardar",
+    "sources": [
+     "Formas comprobadas con el Wiktionary en inglés (kaikki.org, CC BY-SA 4.0); traducciones con las tablas de verbos en español de Lector."
+    ]
+   },
+   {
+    "id": "en-endings",
+    "group": "verbs",
+    "title": "Las terminaciones",
+    "sub": "-s, -ed, -ing",
+    "words": "terminaciones s es ies ed ied ing doble consonante e muda tries stopped making watches",
+    "lead": "En inglés el verbo casi no cambia. Solo hay tres terminaciones, y unas reglas para escribirlas.",
+    "blocks": [
+     {
+      "t": "h",
+      "x": "-s: con he, she, it (presente)"
+     },
+     {
+      "t": "table",
+      "lang": "en",
+      "head": [
+       "{es|casi siempre}",
+       "{es|s, sh, ch, x, o}",
+       "{es|consonante + y}"
+      ],
+      "rows": [
+       [
+        "work → work**s**",
+        "watch → watch[b|es]",
+        "try → tr[b|ies]"
+       ],
+       [
+        "live → live**s**",
+        "go → go[b|es]",
+        "study → stud[b|ies]"
+       ]
+      ],
+      "rh": false
+     },
+     {
+      "t": "h",
+      "x": "-ed: el pasado de los verbos regulares"
+     },
+     {
+      "t": "table",
+      "lang": "en",
+      "head": [
+       "{es|casi siempre}",
+       "{es|termina en e}",
+       "{es|consonante + y}",
+       "{es|vocal + consonante}"
+      ],
+      "rows": [
+       [
+        "work → work**ed**",
+        "live → live[b|d]",
+        "try → tr[b|ied]",
+        "stop → stop[b|ped]"
+       ],
+       [
+        "play → play**ed**",
+        "like → like[b|d]",
+        "study → stud[b|ied]",
+        "plan → plan[b|ned]"
+       ]
+      ],
+      "rh": false
+     },
+     {
+      "t": "h",
+      "x": "-ing: lo que está pasando"
+     },
+     {
+      "t": "table",
+      "lang": "en",
+      "head": [
+       "{es|casi siempre}",
+       "{es|e muda: se va}",
+       "{es|vocal + consonante}",
+       "{es|ie → y}"
+      ],
+      "rows": [
+       [
+        "work → work**ing**",
+        "make → ma[b|king]",
+        "run → run[b|ning]",
+        "die → d[b|ying]"
+       ],
+       [
+        "play → play**ing**",
+        "write → writ[b|ing]",
+        "swim → swim[b|ming]",
+        "lie → l[b|ying]"
+       ]
+      ],
+      "rh": false
+     },
+     {
+      "t": "link",
+      "page": "en-charts",
+      "x": "Tabla de verbos",
+      "line": "Mira las tres terminaciones en cualquier verbo, con los cambios en azul."
+     }
+    ],
+    "call": {
+     "h": "Ojo:",
+     "x": "la consonante se dobla cuando el verbo termina en una vocal y una consonante y esa sílaba lleva la fuerza: {en|stop → stopped}, {en|admit → admitted}, pero {en|visit → visited}. En Estados Unidos: {en|traveled}."
+    },
+    "sources": [
+     "Michael Swan, Practical English Usage (Oxford University Press, 4.ª ed., 2016): spelling of -s, -ed and -ing.",
+     "Raymond Murphy, English Grammar in Use (Cambridge University Press, 5.ª ed., 2019): spelling (apéndice)."
+    ]
+   },
+   {
+    "id": "en-tenses",
+    "group": "verbs",
+    "title": "Los tiempos",
+    "sub": "I work, I worked, I will work…",
+    "words": "tiempos presente pasado futuro will going to present perfect have ing continuo simple",
+    "lead": "Los tiempos más usados, todos con el mismo verbo: work (trabajar).",
+    "blocks": [
+     {
+      "t": "table",
+      "lang": "en",
+      "head": [
+       "{es|tiempo}",
+       "{es|ejemplo}",
+       "{es|en español}"
+      ],
+      "rows": [
+       [
+        "{es|presente: siempre}",
+        "I **work** every day.",
+        "{es|Trabajo todos los días.}"
+       ],
+       [
+        "{es|ahora mismo}",
+        "I **am working** now.",
+        "{es|Estoy trabajando ahora.}"
+       ],
+       [
+        "{es|pasado}",
+        "I **worked** yesterday.",
+        "{es|Trabajé ayer.}"
+       ],
+       [
+        "{es|futuro: will}",
+        "I **will work** tomorrow.",
+        "{es|Trabajaré mañana.}"
+       ],
+       [
+        "{es|futuro: plan}",
+        "I **am going to work** tomorrow.",
+        "{es|Voy a trabajar mañana.}"
+       ],
+       [
+        "{es|ya ha pasado}",
+        "I **have worked** here for two years.",
+        "{es|Llevo dos años trabajando aquí.}"
+       ]
+      ]
+     },
+     {
+      "t": "h",
+      "x": "will o going to"
+     },
+     {
+      "t": "ex",
+      "lang": "en",
+      "items": [
+       [
+        "I**’ll** call you.",
+        "Te llamo (lo decido ahora mismo): will"
+       ],
+       [
+        "I**’m going to** call her tonight.",
+        "Voy a llamarla hoy en la noche (ya era mi plan): going to"
+       ]
+      ]
+     },
+     {
+      "t": "h",
+      "x": "Ya ha pasado: have + participio"
+     },
+     {
+      "t": "ex",
+      "lang": "en",
+      "items": [
+       [
+        "**Have** you ever **been** to Mexico?",
+        "¿Alguna vez has ido a México?"
+       ],
+       [
+        "She **has lived** here since 2020.",
+        "Vive aquí desde 2020."
+       ]
+      ]
+     },
+     {
+      "t": "link",
+      "page": "en-charts",
+      "x": "Tabla de verbos",
+      "line": "Los cinco tiempos de cualquier verbo, con su traducción."
+     }
+    ],
+    "call": {
+     "h": "Truco:",
+     "x": "con {en|have} + participio, piensa en algo que empezó antes y todavía importa ahora."
+    },
+    "sources": [
+     "Raymond Murphy, English Grammar in Use (Cambridge University Press, 5.ª ed., 2019): present simple and continuous; past simple; will and going to; present perfect.",
+     "Michael Swan, Practical English Usage (Oxford University Press, 4.ª ed., 2016): future; present perfect."
+    ]
+   },
+   {
+    "id": "en-now",
+    "title": "I work o I’m working",
+    "sub": "siempre o ahora mismo",
+    "page": "en-now",
+    "words": "presente work working ing ahora siempre continuo",
+    "sources": [
+     "Michael Swan, Practical English Usage (Oxford University Press, 4.ª ed., 2016): present tenses (simple and progressive)."
+    ],
+    "group": "verbs"
+   },
+   {
+    "id": "en-tobe",
+    "title": "to be",
+    "titleLang": "en",
+    "sub": "ser y estar en uno",
+    "page": "en-tobe",
+    "words": "to be am is are ser estar tener hambre frio",
+    "sources": [
+     "Michael Swan, Practical English Usage (Oxford University Press, 4.ª ed., 2016): be."
+    ],
+    "group": "verbs"
+   },
+   {
+    "id": "en-irregular",
+    "group": "irr",
+    "title": "Todas las familias",
+    "sub": "Aprende la familia, no la lista",
+    "wide": true,
+    "words": "irregulares familias pasado participio went gone sang sung bought known",
+    "lead": "Los verbos irregulares más usados cambian por familias. Si aprendes la familia, aprendes muchos verbos de una vez.",
+    "blocks": [
+     {
+      "t": "enshape",
+      "verb": "sing"
+     },
+     {
+      "t": "enfamilies"
+     }
+    ],
+    "sources": [
+     "Formas comprobadas con el Wiktionary en inglés (kaikki.org, CC BY-SA 4.0); traducciones con las tablas de verbos en español de Lector.",
+     "Michael Swan, Practical English Usage (Oxford University Press, 4.ª ed., 2016): irregular verbs.",
+     "Ronald Carter y Michael McCarthy, Cambridge Grammar of English (Cambridge University Press, 2006): irregular verbs."
+    ]
+   },
+   {
+    "id": "en-fam-same",
+    "group": "irr",
+    "title": "Iguales en las tres",
+    "sub": "put · put · put",
+    "efam": "same",
+    "words": "irregular familia Iguales en las tres put · put · put",
+    "lead": "Estos verbos no cambian: el pasado y el participio son iguales al verbo.",
+    "blocks": [
+     {
+      "t": "enshape",
+      "verb": "put"
+     },
+     {
+      "t": "enfam",
+      "fam": "same"
+     }
+    ],
+    "sources": [
+     "Formas comprobadas con el Wiktionary en inglés (kaikki.org, CC BY-SA 4.0); traducciones con las tablas de verbos en español de Lector.",
+     "Michael Swan, Practical English Usage (Oxford University Press, 4.ª ed., 2016): irregular verbs (lista)."
+    ]
+   },
+   {
+    "id": "en-fam-iau",
+    "group": "irr",
+    "title": "i · a · u",
+    "sub": "sing · sang · sung",
+    "efam": "iau",
+    "words": "irregular familia i · a · u sing · sang · sung",
+    "lead": "La i del verbo cambia a a en el pasado y a u en el participio.",
+    "blocks": [
+     {
+      "t": "enshape",
+      "verb": "sing"
+     },
+     {
+      "t": "enfam",
+      "fam": "iau"
+     }
+    ],
+    "sources": [
+     "Formas comprobadas con el Wiktionary en inglés (kaikki.org, CC BY-SA 4.0); traducciones con las tablas de verbos en español de Lector.",
+     "Michael Swan, Practical English Usage (Oxford University Press, 4.ª ed., 2016): irregular verbs (lista)."
+    ]
+   },
+   {
+    "id": "en-fam-ought",
+    "group": "irr",
+    "title": "-ought / -aught",
+    "sub": "buy · bought",
+    "efam": "ought",
+    "words": "irregular familia -ought / -aught buy · bought",
+    "lead": "El pasado y el participio terminan en -ought o -aught y suenan casi igual, como «ot».",
+    "blocks": [
+     {
+      "t": "enshape",
+      "verb": "buy"
+     },
+     {
+      "t": "enfam",
+      "fam": "ought"
+     }
+    ],
+    "sources": [
+     "Formas comprobadas con el Wiktionary en inglés (kaikki.org, CC BY-SA 4.0); traducciones con las tablas de verbos en español de Lector.",
+     "Michael Swan, Practical English Usage (Oxford University Press, 4.ª ed., 2016): irregular verbs (lista)."
+    ]
+   },
+   {
+    "id": "en-fam-ewown",
+    "group": "irr",
+    "title": "-ew / -own",
+    "sub": "know · knew · known",
+    "efam": "ewown",
+    "words": "irregular familia -ew / -own know · knew · known",
+    "lead": "El pasado termina en -ew y el participio en -wn.",
+    "blocks": [
+     {
+      "t": "enshape",
+      "verb": "know"
+     },
+     {
+      "t": "enfam",
+      "fam": "ewown"
+     }
+    ],
+    "sources": [
+     "Formas comprobadas con el Wiktionary en inglés (kaikki.org, CC BY-SA 4.0); traducciones con las tablas de verbos en español de Lector.",
+     "Michael Swan, Practical English Usage (Oxford University Press, 4.ª ed., 2016): irregular verbs (lista)."
+    ]
+   },
+   {
+    "id": "en-fam-vowel",
+    "group": "irr",
+    "title": "Cambia una vocal",
+    "sub": "sit · sat · sat",
+    "efam": "vowel",
+    "words": "irregular familia Cambia una vocal sit · sat · sat",
+    "lead": "Cambia una vocal y el pasado y el participio quedan iguales.",
+    "blocks": [
+     {
+      "t": "enshape",
+      "verb": "sit"
+     },
+     {
+      "t": "enfam",
+      "fam": "vowel"
+     }
+    ],
+    "sources": [
+     "Formas comprobadas con el Wiktionary en inglés (kaikki.org, CC BY-SA 4.0); traducciones con las tablas de verbos en español de Lector.",
+     "Michael Swan, Practical English Usage (Oxford University Press, 4.ª ed., 2016): irregular verbs (lista)."
+    ]
+   },
+   {
+    "id": "en-fam-t",
+    "group": "irr",
+    "title": "Terminan en -t",
+    "sub": "feel · felt · felt",
+    "efam": "t",
+    "words": "irregular familia Terminan en -t feel · felt · felt",
+    "lead": "El pasado y el participio terminan en -t. Muchas veces la vocal también se hace más corta.",
+    "blocks": [
+     {
+      "t": "enshape",
+      "verb": "feel"
+     },
+     {
+      "t": "enfam",
+      "fam": "t"
+     }
+    ],
+    "sources": [
+     "Formas comprobadas con el Wiktionary en inglés (kaikki.org, CC BY-SA 4.0); traducciones con las tablas de verbos en español de Lector.",
+     "Michael Swan, Practical English Usage (Oxford University Press, 4.ª ed., 2016): irregular verbs (lista)."
+    ]
+   },
+   {
+    "id": "en-fam-en",
+    "group": "irr",
+    "title": "Participio en -en",
+    "sub": "take · took · taken",
+    "efam": "en",
+    "words": "irregular familia Participio en -en take · took · taken",
+    "lead": "El pasado cambia y el participio termina en -en o -n.",
+    "blocks": [
+     {
+      "t": "enshape",
+      "verb": "take"
+     },
+     {
+      "t": "enfam",
+      "fam": "en"
+     }
+    ],
+    "sources": [
+     "Formas comprobadas con el Wiktionary en inglés (kaikki.org, CC BY-SA 4.0); traducciones con las tablas de verbos en español de Lector.",
+     "Michael Swan, Practical English Usage (Oxford University Press, 4.ª ed., 2016): irregular verbs (lista)."
+    ]
+   },
+   {
+    "id": "en-fam-true",
+    "group": "irr",
+    "title": "Los de memoria",
+    "sub": "be · go · do · have",
+    "efam": "true",
+    "words": "irregular familia Los de memoria be · go · do · have",
+    "lead": "Los cuatro verbos más usados no siguen ninguna familia. Se aprenden de memoria, y vale la pena.",
+    "blocks": [
+     {
+      "t": "enshape",
+      "verb": "go"
+     },
+     {
+      "t": "enfam",
+      "fam": "true"
+     }
+    ],
+    "sources": [
+     "Formas comprobadas con el Wiktionary en inglés (kaikki.org, CC BY-SA 4.0); traducciones con las tablas de verbos en español de Lector.",
+     "Michael Swan, Practical English Usage (Oxford University Press, 4.ª ed., 2016): irregular verbs (lista)."
+    ]
+   },
+   {
+    "id": "en-past",
+    "title": "Lista de irregulares",
+    "sub": "Los 60 más usados",
+    "page": "en-past",
+    "words": "pasado irregular went had was were did said made got came saw took ed",
+    "sources": [
+     "Formas comprobadas con el Wiktionary en inglés (kaikki.org); orden por frecuencia de wordfreq (Robyn Speer)."
+    ],
+    "group": "irr",
+    "wide": true
+   },
+   {
+    "id": "en-prep",
+    "title": "in, on, at",
+    "titleLang": "en",
+    "sub": "en, en, en…",
+    "words": "in on at preposiciones lugar tiempo hora dia mes",
+    "lead": "En español casi todo es «en». En inglés depende de cómo es el lugar o el tiempo.",
+    "blocks": [
+     {
+      "t": "lanes",
+      "items": [
+       {
+        "w": "in",
+        "lang": "en",
+        "c": "p",
+        "en": "dentro de algo",
+        "shape": "in",
+        "es": "**in** the box · **in** Mexico · **in** the car",
+        "tr": "en la caja · en México · en el carro"
+       },
+       {
+        "w": "on",
+        "lang": "en",
+        "c": "b",
+        "en": "sobre una superficie",
+        "shape": "on",
+        "es": "**on** the table · **on** the wall · **on** the bus",
+        "tr": "en la mesa · en la pared · en el camión"
+       },
+       {
+        "w": "at",
+        "lang": "en",
+        "c": "r",
+        "en": "en un punto, un sitio",
+        "shape": "at",
+        "es": "**at** home · **at** work · **at** the door",
+        "tr": "en casa · en el trabajo · en la puerta"
+       }
+      ]
+     },
+     {
+      "t": "h",
+      "x": "Con el tiempo"
+     },
+     {
+      "t": "table",
+      "lang": "en",
+      "head": [
+       "",
+       "{es|para}",
+       "{es|ejemplos}"
+      ],
+      "rows": [
+       [
+        "in",
+        "{es|meses, años, partes del día}",
+        "in May · in 2026 · in the morning"
+       ],
+       [
+        "on",
+        "{es|días y fechas}",
+        "on Monday · on May 5th · on my birthday"
+       ],
+       [
+        "at",
+        "{es|horas y momentos}",
+        "at 3 o’clock · at noon · at night"
+       ]
+      ]
+     }
+    ],
+    "call": {
+     "h": "Ojo:",
+     "x": "{en|in the morning}, {en|in the afternoon}, pero {en|at night}."
+    },
+    "sources": [
+     "Michael Swan, Practical English Usage (Oxford University Press, 4.ª ed., 2016): at, in and on (lugar y tiempo).",
+     "Raymond Murphy, English Grammar in Use (Cambridge University Press, 5.ª ed., 2019): at, on, in."
+    ],
+    "group": "little"
+   },
+   {
+    "id": "en-little",
+    "group": "little",
+    "title": "to, from, since, for",
+    "sub": "a, de, desde, por…",
+    "words": "to from since for preposiciones desde durante para hacia de",
+    "lead": "Palabritas que en español a veces son la misma. Imagina un camino y el tiempo.",
+    "blocks": [
+     {
+      "t": "lanes",
+      "items": [
+       {
+        "w": "to",
+        "lang": "en",
+        "c": "g",
+        "en": "a, hacia",
+        "shape": "to",
+        "es": "I go **to** work.",
+        "tr": "Voy al trabajo."
+       },
+       {
+        "w": "from",
+        "lang": "en",
+        "c": "r",
+        "en": "de, desde (un lugar)",
+        "shape": "from",
+        "es": "I’m **from** Mexico.",
+        "tr": "Soy de México."
+       },
+       {
+        "w": "since",
+        "lang": "en",
+        "c": "b",
+        "en": "desde (un momento)",
+        "shape": "since",
+        "es": "I’ve lived here **since** 2020.",
+        "tr": "Vivo aquí desde 2020."
+       },
+       {
+        "w": "for",
+        "lang": "en",
+        "c": "p",
+        "en": "durante (un rato)",
+        "shape": "for",
+        "es": "I’ve lived here **for** five years.",
+        "tr": "Llevo cinco años viviendo aquí."
+       }
+      ]
+     },
+     {
+      "t": "ex",
+      "lang": "en",
+      "items": [
+       [
+        "This is **for** you.",
+        "Esto es para ti: for también es «para»"
+       ],
+       [
+        "**from** Monday **to** Friday",
+        "de lunes a viernes"
+       ]
+      ]
+     }
+    ],
+    "call": {
+     "h": "since o for:",
+     "x": "{en|since} va con el momento en que empezó ({en|since Monday}); {en|for} va con cuánto tiempo ({en|for three days})."
+    },
+    "sources": [
+     "Michael Swan, Practical English Usage (Oxford University Press, 4.ª ed., 2016): since and for; from and to.",
+     "Raymond Murphy, English Grammar in Use (Cambridge University Press, 5.ª ed., 2019): for, since and ago."
+    ]
+   },
+   {
+    "id": "en-phrasal",
+    "group": "little",
+    "title": "Verbos con partícula",
+    "sub": "get up, look for, turn on",
+    "words": "phrasal verbs verbos frasales get up look for turn on off give up pick up find out come back put on take off wake up",
+    "lead": "Un verbo + una palabrita (up, on, off, for…) puede significar algo nuevo. Se aprenden como palabras completas.",
+    "blocks": [
+     {
+      "t": "table",
+      "lang": "en",
+      "head": [
+       "",
+       "{es|significa}",
+       "{es|ejemplo}"
+      ],
+      "rows": [
+       [
+        "get up",
+        "{es|levantarse}",
+        "I get up at seven."
+       ],
+       [
+        "wake up",
+        "{es|despertarse}",
+        "She woke up early."
+       ],
+       [
+        "look for",
+        "{es|buscar}",
+        "I’m looking for my keys."
+       ],
+       [
+        "turn on / turn off",
+        "{es|prender / apagar}",
+        "Turn off the light."
+       ],
+       [
+        "put on / take off",
+        "{es|ponerse / quitarse}",
+        "Put on your jacket."
+       ],
+       [
+        "pick up",
+        "{es|recoger}",
+        "I’ll pick you up at noon."
+       ],
+       [
+        "find out",
+        "{es|averiguar, enterarse}",
+        "I found out yesterday."
+       ],
+       [
+        "come back",
+        "{es|regresar}",
+        "Come back soon!"
+       ],
+       [
+        "give up",
+        "{es|rendirse, dejar de}",
+        "Don’t give up."
+       ]
+      ]
+     }
+    ],
+    "call": {
+     "h": "Con it, them, me:",
+     "x": "en muchos va en medio: {en|turn **it** off}, {en|pick **me** up}; nunca «turn off it». Otros nunca se separan: {en|look for it}, {en|get up}."
+    },
+    "sources": [
+     "Michael Swan, Practical English Usage (Oxford University Press, 4.ª ed., 2016): phrasal verbs (word order with pronouns).",
+     "Raymond Murphy, English Grammar in Use (Cambridge University Press, 5.ª ed., 2019): phrasal verbs."
+    ]
+   },
+   {
+    "id": "en-sounds",
+    "title": "Los sonidos",
+    "sub": "ship · sheep",
+    "words": "sonidos pronunciacion ship sheep th think this v b very berry letras mudas silent knife write hour",
+    "lead": "El inglés no se lee como se escribe. Estos son los sonidos que más cuestan cuando hablas español.",
+    "blocks": [
+     {
+      "t": "pairs",
+      "lang": "en",
+      "items": [
+       [
+        "ship",
+        "barco (i corta)",
+        "sheep",
+        "oveja (i larga)"
+       ],
+       [
+        "live",
+        "vivir (i corta)",
+        "leave",
+        "irse (i larga)"
+       ],
+       [
+        "very",
+        "muy (v: dientes en el labio)",
+        "berry",
+        "baya (b: labios juntos)"
+       ],
+       [
+        "three",
+        "tres (th: lengua entre los dientes)",
+        "tree",
+        "árbol"
+       ],
+       [
+        "they",
+        "ellos (th con voz)",
+        "day",
+        "día"
+       ]
+      ]
+     },
+     {
+      "t": "h",
+      "x": "Letras que no suenan"
+     },
+     {
+      "t": "ex",
+      "lang": "en",
+      "items": [
+       [
+        "**k**nife · **k**now",
+        "la k no suena antes de n"
+       ],
+       [
+        "**w**rite · **w**rong",
+        "la w no suena antes de r"
+       ],
+       [
+        "**h**our · **h**onest",
+        "aquí la h no suena (por eso: an hour)"
+       ],
+       [
+        "lis**t**en · clim**b** · We**d**nesday",
+        "otras letras mudas comunes"
+       ]
+      ]
+     }
+    ],
+    "call": {
+     "h": "La s sin e:",
+     "x": "{en|Spain, school, star}: empieza con una s larga, sssss, sin decir «e» antes."
+    },
+    "sources": [
+     "Peter Roach, English Phonetics and Phonology (Cambridge University Press, 4.ª ed., 2009): vowels, consonants (th, v).",
+     "Michael Swan, Practical English Usage (Oxford University Press, 4.ª ed., 2016): pronunciation; spelling and pronunciation."
+    ],
+    "group": "sounds"
+   },
+   {
+    "id": "en-ed",
+    "group": "sounds",
+    "title": "-ed: tres sonidos",
+    "sub": "worked · played · wanted",
+    "words": "ed sonido pasado t d id worked played wanted pronunciacion",
+    "lead": "La -ed del pasado se escribe igual, pero suena de tres maneras. Depende del último sonido del verbo.",
+    "blocks": [
+     {
+      "t": "table",
+      "lang": "en",
+      "head": [
+       "{es|suena}",
+       "{es|después de}",
+       "{es|ejemplos}"
+      ],
+      "rows": [
+       [
+        "«t»",
+        "{es|p, k, s, sh, ch, f (sin voz)}",
+        "worked, stopped, washed, watched"
+       ],
+       [
+        "«d»",
+        "{es|vocales y los demás sonidos}",
+        "played, lived, called, cleaned"
+       ],
+       [
+        "«id»",
+        "{es|t o d}",
+        "wanted, needed, visited, decided"
+       ]
+      ]
+     },
+     {
+      "t": "pairs",
+      "lang": "en",
+      "items": [
+       [
+        "worked",
+        "suena «workt»",
+        "played",
+        "suena «pleid»"
+       ],
+       [
+        "wanted",
+        "suena «want-id»",
+        "lived",
+        "suena «livd»"
+       ]
+      ]
+     }
+    ],
+    "call": {
+     "h": "Truco:",
+     "x": "solo se oye una sílaba extra después de t o d: {en|want-ed}, {en|need-ed}. {en|worked} es una sola sílaba."
+    },
+    "sources": [
+     "Peter Roach, English Phonetics and Phonology (Cambridge University Press, 4.ª ed., 2009): the -ed ending.",
+     "Michael Swan, Practical English Usage (Oxford University Press, 4.ª ed., 2016): pronunciation of -ed."
+    ]
+   }
+  ]
+ }
+}

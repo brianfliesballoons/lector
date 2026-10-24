@@ -58,7 +58,9 @@ const bad = [null, [], { doc: [] }, { doc: { '1x': 1 } }, { doc: { 'a b': 1 } },
 for (const b of bad) try { validateIncoming(b); ok(false, 'accepted bad ' + JSON.stringify(b).slice(0, 80)); } catch (e) { ok(e.status === 400, 'refused with 400: ' + JSON.stringify(b).slice(0, 60)); }
 try { validateIncoming({ doc: Object.fromEntries([...Array(41)].map((_, i) => ['k' + i, 1])) }); ok(false, '41 keys accepted'); } catch { ok(true); }
 const good2 = [{ doc: { words: { 'es:a': { t: 1, w: 'a', lang: 'es' }, 'es:b': { t: 2, deleted: true } }, srs: { 'es:a': { t: 1, due: 5, s: 1, d: 5, reps: 1, lapses: 0, st: 1, lr: 0 } } }, stamps: { words: 1, srs: 1 } },
-  { doc: { words: null, settings: { theme: 'dark' }, last: { id: 'x' }, other: [1, 2], flag: true } }, { doc: { words: {} }, confirmWipe: true }];
+  { doc: { words: null, settings: { theme: 'dark' }, last: { id: 'x' }, other: [1, 2], flag: true } }, { doc: { words: {} }, confirmWipe: true },
+  // a saved verb (Words › Verbs) is a word entry that carries verb; its drill cards are srs entries per verb + tense + person
+  { doc: { words: { 'es:tener': { t: 1, w: 'tener', lang: 'es', src: 'lesson', verb: 'tener' }, 'en:go': { t: 1, w: 'go', lang: 'en', src: 'lesson', verb: 'go' } }, srs: { 'en:cj:go:p': { t: 1, due: 5, s: 1, d: 5, reps: 1, lapses: 0, st: 2, lr: 0 }, 'es:cj:tener:pret:0': { t: 1, due: 5, s: 1, d: 5, reps: 1, lapses: 0, st: 2, lr: 0 } } }, stamps: { words: 1, srs: 1 } }];
 for (const b of good2) try { validateIncoming(b); ok(true); } catch (e) { ok(false, 'refused good ' + JSON.stringify(b).slice(0, 80) + ': ' + e.message); }
 console.log(`unit: ${pass} passed, ${fail} failed`);
 process.exit(fail ? 1 : 0);
