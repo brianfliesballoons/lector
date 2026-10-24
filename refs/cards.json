@@ -134,7 +134,7 @@
      "Real Academia Española and Asociación de Academias de la Lengua Española (RAE–ASALE), Nueva gramática básica de la lengua española (2011): gender of nouns; the article.",
      "RAE–ASALE, Diccionario panhispánico de dudas (DPD, 2.ª ed. en línea, rae.es/dpd), entry “el”: el before feminine nouns that begin with a stressed a (el agua, las aguas)."
     ],
-    "ask": "I'm learning Spanish (Mexican Spanish). Explain noun gender and the articles el, la, los, las, un, una in plain words, including the common exceptions (el día, la mano, el agua). Give five short everyday examples, then three quick fill-in-the-blank questions. Keep it brief."
+    "ask": "Explain noun gender and the articles el, la, los, las, un, una: the main rule, the common exceptions (el día, la mano, el agua), and three short everyday examples. Then offer me a 3-question fill-in practice."
    },
    {
     "id": "pronouns",
@@ -229,7 +229,7 @@
      "RAE–ASALE, Nueva gramática básica de la lengua española (2011): personal pronouns; unstressed pronouns (clitics) and where they go.",
      "RAE–ASALE, Diccionario panhispánico de dudas (DPD, 2.ª ed. en línea, rae.es/dpd), entry “leísmo”: lo and la for direct objects, le and les for indirect objects."
     ],
-    "ask": "I'm learning Spanish (Mexican Spanish). Explain the object pronouns me, te, lo, la, le, nos, los, las, les and se lo in plain words: which one to use and where it goes. Give five short everyday examples, then three quick practice sentences. Keep it brief."
+    "ask": "Explain the object pronouns me, te, lo, la, le, nos, los, las, les and se lo: which one to use and where it goes, with three short everyday examples. Then offer me a 3-question practice."
    },
    {
     "id": "order",
@@ -313,7 +313,7 @@
     "sources": [
      "RAE–ASALE, Nueva gramática básica de la lengua española (2011): the adjective and its position; word order in the sentence."
     ],
-    "ask": "I'm learning Spanish (Mexican Spanish). Explain Spanish word order in plain words: where adjectives go, the ones that change meaning before the noun (gran, viejo), and where object pronouns and no go. Give five short everyday examples. Keep it brief."
+    "ask": "Explain Spanish word order: where adjectives go, the few that change meaning before the noun (gran, viejo), and where object pronouns and \"no\" go. Three short everyday examples."
    },
    {
     "id": "questions",
@@ -409,7 +409,7 @@
      "RAE–ASALE, Diccionario panhispánico de dudas (DPD, 2.ª ed. en línea, rae.es/dpd), entries “porque” and “porqué”.",
      "RAE–ASALE, Nueva gramática básica de la lengua española (2011): negation and negative words."
     ],
-    "ask": "I'm learning Spanish (Mexican Spanish). Explain how to ask questions and say no in Spanish, in plain words: the question words with accents, por qué vs porque, and double negatives (no… nada, no… nadie). Give five short everyday examples and three quick practice sentences. Keep it brief."
+    "ask": "Explain how to ask questions and say no: the question words and their accents, por qué vs porque, and double negatives (no… nada, no… nadie). Three short everyday examples, then offer me a 3-question practice."
    },
    {
     "id": "charts",
@@ -580,7 +580,7 @@
      "RAE–ASALE, Nueva gramática básica de la lengua española (2011): regular conjugation, the three model verbs (-ar, -er, -ir).",
      "Forms checked against Lector's verb tables (Wiktionary via kaikki.org, CC BY-SA 4.0)."
     ],
-    "ask": "I'm learning Spanish (Mexican Spanish). Show me the regular endings for -ar, -er and -ir verbs in the present, preterite, imperfect and future, using hablar, comer and vivir, in plain words, with one short example sentence for each tense. Keep it brief."
+    "ask": "Show me the regular present-tense endings for -ar, -er and -ir verbs as a small table (hablar, comer, vivir), with one short example each. Then offer to do the preterite, imperfect and future, one at a time."
    },
    {
     "id": "timeline",
@@ -589,7 +589,7 @@
     "sub": "era or fue?",
     "page": "timeline",
     "words": "past pasts preterite imperfect era fue timeline used to happened stretch point tense",
-    "ask": "I'm learning Spanish (Mexican Spanish). Explain the preterite (fue, comí) vs the imperfect (era, comía) in plain words: a finished point vs a stretch or a habit. Give five pairs of short everyday examples, then three quick sentences for me to choose the right one. Keep it brief.",
+    "ask": "Explain the preterite (fue, comí) vs the imperfect (era, comía): a finished moment vs a stretch of time or a habit. Three pairs of short everyday examples, then offer me a 3-question practice choosing the right one.",
     "sources": [
      "RAE–ASALE, Nueva gramática básica de la lengua española (2011): the preterite (pretérito perfecto simple) and the imperfect (pretérito imperfecto)."
     ]
@@ -626,7 +626,7 @@
      "RAE–ASALE, Nueva gramática básica de la lengua española (2011): irregular verbs (vowel changes, consonant changes, strong preterites, future stems).",
      "Every family and example is checked against Lector's verb tables (Wiktionary via kaikki.org, CC BY-SA 4.0)."
     ],
-    "ask": "I'm learning Spanish (Mexican Spanish). Explain the main families of irregular Spanish verbs in plain words: boot (stem-changing) verbs, yo-go verbs, strong preterites, short future stems, spelling changes and the true irregulars (ser, ir). Two examples for each. Keep it brief."
+    "ask": "Explain the main families of irregular Spanish verbs (boot verbs, yo-go verbs, strong preterites, short future stems, spelling changes, and true irregulars like ser and ir), one line and one example each."
    },
    {
     "id": "boot",
@@ -658,7 +658,7 @@
      "RAE–ASALE, Nueva gramática básica de la lengua española (2011): vowel alternations in irregular verbs (diphthongs ie, ue; e → i).",
      "Every example is checked against Lector's verb tables (Wiktionary via kaikki.org, CC BY-SA 4.0)."
     ],
-    "ask": "I'm learning Spanish (Mexican Spanish). Explain boot (stem-changing) verbs in plain words: e→ie, o→ue, e→i and jugar's u→ue, why nosotros stays outside, and what -ir boot verbs do in the preterite. Give examples with querer, poder, pedir and dormir. Keep it brief."
+    "ask": "Explain boot (stem-changing) verbs: e→ie, o→ue, e→i and jugar's u→ue, why nosotros stays outside the boot, and what -ir boot verbs do in the preterite. One short example each with querer, poder, pedir and dormir."
    },
    {
     "id": "yogo",
@@ -694,7 +694,7 @@
      "RAE–ASALE, Nueva gramática básica de la lengua española (2011): consonant changes in irregular verbs (tengo, conozco, construyo).",
      "Every example is checked against Lector's verb tables (Wiktionary via kaikki.org, CC BY-SA 4.0)."
     ],
-    "ask": "I'm learning Spanish (Mexican Spanish). Explain yo-go verbs (tengo, hago, pongo, salgo, digo, vengo, traigo, oigo) and the -zco verbs (conozco) in plain words, and how the present subjunctive is built on the yo form. Five short everyday examples. Keep it brief."
+    "ask": "Explain yo-go verbs (tengo, hago, pongo, salgo, digo, vengo, traigo, oigo) and -zco verbs (conozco), and how the present subjunctive is built on the yo form. Three short everyday examples."
    },
    {
     "id": "strong",
@@ -718,7 +718,7 @@
      "RAE–ASALE, Nueva gramática básica de la lengua española (2011): irregular preterites with a stressed stem (pretéritos fuertes).",
      "Every example is checked against Lector's verb tables (Wiktionary via kaikki.org, CC BY-SA 4.0)."
     ],
-    "ask": "I'm learning Spanish (Mexican Spanish). Explain the strong (irregular-stem) preterites in plain words: tuve, estuve, pude, puse, supe, hice, quise, vine, dije, traje, with their endings and no accent marks. Five short everyday examples. Keep it brief."
+    "ask": "Explain the strong preterites (tuve, estuve, pude, puse, supe, hice, quise, vine, dije, traje): their shared endings and why they carry no accent marks. Three short everyday examples."
    },
    {
     "id": "short",
@@ -745,7 +745,7 @@
      "RAE–ASALE, Nueva gramática básica de la lengua española (2011): irregular future and conditional stems.",
      "Every example is checked against Lector's verb tables (Wiktionary via kaikki.org, CC BY-SA 4.0)."
     ],
-    "ask": "I'm learning Spanish (Mexican Spanish). Explain the irregular future and conditional stems (tendr-, podr-, pondr-, saldr-, vendr-, har-, dir-, querr-, sabr-, habr-) in plain words, with five short everyday examples. Keep it brief."
+    "ask": "Explain the irregular future and conditional stems (tendr-, podr-, pondr-, saldr-, vendr-, har-, dir-, querr-, sabr-, habr-) and how the endings go on. Three short everyday examples."
    },
    {
     "id": "spell",
@@ -820,7 +820,7 @@
      "RAE–ASALE, Ortografía de la lengua española (2010): the letters c, qu, z; g, gu, gü, j; and the written accent.",
      "Every example is checked against Lector's verb tables (Wiktionary via kaikki.org, CC BY-SA 4.0)."
     ],
-    "ask": "I'm learning Spanish (Mexican Spanish). Explain Spanish spelling-change verbs in plain words (buscar → busqué, llegar → llegué, realizar → realicé, escoger → escojo, leer → leyó) and why the spelling changes while the sound stays. Keep it brief."
+    "ask": "Explain spelling-change verbs (buscar → busqué, llegar → llegué, realizar → realicé, escoger → escojo, leer → leyó): why the spelling changes so the sound stays the same. One line per pattern."
    },
    {
     "id": "true",
@@ -857,7 +857,7 @@
      "RAE–ASALE, Nueva gramática básica de la lengua española (2011): highly irregular verbs (ser, ir, estar, haber, dar, saber, ver).",
      "Forms from Lector's verb tables (Wiktionary via kaikki.org, CC BY-SA 4.0)."
     ],
-    "ask": "I'm learning Spanish (Mexican Spanish). Walk me through the most irregular verbs (ser, ir, estar, haber, dar, saber, ver) in the present, preterite and imperfect, in plain words, with one short everyday example each. Keep it brief."
+    "ask": "Walk me through the most irregular verbs (ser, ir, estar, haber, dar, saber, ver): the yo form in the present, preterite and imperfect as a small table, then one short everyday example for three of them."
    },
    {
     "id": "glance",
@@ -867,7 +867,7 @@
     "page": "glance",
     "wide": true,
     "words": "irregulars glance list 40 most used tense filter",
-    "ask": "I'm learning Spanish (Mexican Spanish). Which irregular Spanish verbs should I learn first, and what is the pattern behind each? Group them by family (boot, yo-go, strong past, short future, true irregulars) with one example form each. Keep it brief.",
+    "ask": "Which irregular Spanish verbs should I learn first? A short list grouped by family (boot, yo-go, strong past, short future, true irregulars), with one example form each.",
     "sources": [
      "Verb tables from Wiktionary (en.wiktionary.org) via kaikki.org, CC BY-SA 4.0; ranked by wordfreq (Robyn Speer)."
     ]
@@ -953,7 +953,7 @@
      "RAE–ASALE, Diccionario panhispánico de dudas (DPD, 2.ª ed. en línea, rae.es/dpd), entries “a²”, “al” and “del”.",
      "RAE–ASALE, El buen uso del español (2013): “Las preposiciones de y desde”."
     ],
-    "ask": "I'm learning Spanish (Mexican Spanish). Explain the prepositions a, de, desde, en and hasta in plain words, plus al, del and the personal a. Give two short everyday examples for each. Keep it brief."
+    "ask": "Explain the prepositions a, de, desde, en and hasta, plus al, del and the personal a. One short everyday example each."
    },
    {
     "id": "porpara",
@@ -1077,7 +1077,7 @@
      "RAE–ASALE, Ortografía de la lengua española (2010): the letters and the sounds they stand for.",
      "RAE–ASALE, Diccionario panhispánico de dudas (DPD, 2.ª ed. en línea, rae.es/dpd), entries “seseo”, “yeísmo” and “México”."
     ],
-    "ask": "I'm learning Spanish (Mexican Spanish). Coach me on Spanish pronunciation in plain words: the five vowels, r vs rr, ñ, silent h, ll and y, j and g, and c/z as said in Mexico. Give me ten short words to practise out loud. Keep it brief."
+    "ask": "Coach me on the Spanish sounds English speakers get wrong, as said in Mexico: the five vowels, r vs rr, ñ, silent h, ll and y, j and g, and c/z. One line each, then offer me ten practice words to say out loud."
    },
    {
     "id": "accents",
@@ -1168,7 +1168,7 @@
     "sources": [
      "RAE–ASALE, Ortografía de la lengua española (2010): the rules of written accentuation and the diacritic accent (tilde diacrítica)."
     ],
-    "ask": "I'm learning Spanish (Mexican Spanish). Explain Spanish stress and written accents in plain words: the two rules, when a word needs an accent mark, and the pairs it tells apart (sí/si, tú/tu, él/el, qué/que). Then give me five words to place the accent on. Keep it brief."
+    "ask": "Explain Spanish stress and written accents: the two rules, when a word needs an accent mark, and the pairs it tells apart (sí/si, tú/tu, él/el, qué/que). Then offer me five words to place the accent on."
    }
   ]
  },
@@ -1211,7 +1211,8 @@
     "sources": [
      "Michael Swan, Practical English Usage (Oxford University Press, 4.ª ed., 2016): articles (a/an, the, no article)."
     ],
-    "group": "blocks"
+    "group": "blocks",
+    "ask": "Explícame cuándo se usa a, an o the en inglés, y cuándo no se pone nada (como en «I like coffee»). Tres ejemplos cortos de todos los días con su traducción. Al final ofréceme una práctica de tres preguntas."
    },
    {
     "id": "en-pron",
@@ -1305,7 +1306,8 @@
      "Michael Swan, Practical English Usage (Oxford University Press, 4.ª ed., 2016): personal pronouns; possessives.",
      "Raymond Murphy, English Grammar in Use (Cambridge University Press, 5.ª ed., 2019): I/me/my/mine."
     ],
-    "group": "blocks"
+    "group": "blocks",
+    "ask": "Explícame los pronombres del inglés (I, me, my, mine y los de you, he, she, it, we, they): cuándo se usa cada uno, en una tablita, con tres ejemplos cortos y su traducción."
    },
    {
     "id": "en-order",
@@ -1357,7 +1359,8 @@
      "Michael Swan, Practical English Usage (Oxford University Press, 4.ª ed., 2016): adjectives (position and order); word order.",
      "Raymond Murphy, English Grammar in Use (Cambridge University Press, 5.ª ed., 2019): word order; adjectives."
     ],
-    "group": "blocks"
+    "group": "blocks",
+    "ask": "Explícame el orden de las palabras en inglés: quién, qué hace y qué cosa, y por qué el adjetivo va antes («a big dog»). Tres ejemplos cortos con su traducción."
    },
    {
     "id": "en-do",
@@ -1423,7 +1426,8 @@
      "Michael Swan, Practical English Usage (Oxford University Press, 4.ª ed., 2016): do (auxiliary); questions; negatives.",
      "Raymond Murphy, English Grammar in Use (Cambridge University Press, 5.ª ed., 2019): present simple and past simple, questions and negatives."
     ],
-    "group": "blocks"
+    "group": "blocks",
+    "ask": "Explícame cómo se hacen preguntas y frases con «no» en inglés usando do, does y did, y por qué el verbo regresa a su forma sencilla («I didn’t go», no «I didn’t went»). Tres ejemplos cortos con su traducción. Al final ofréceme una práctica de tres preguntas."
    },
    {
     "id": "en-verbchart",
@@ -1573,7 +1577,8 @@
     "sources": [
      "Michael Swan, Practical English Usage (Oxford University Press, 4.ª ed., 2016): spelling of -s, -ed and -ing.",
      "Raymond Murphy, English Grammar in Use (Cambridge University Press, 5.ª ed., 2019): spelling (apéndice)."
-    ]
+    ],
+    "ask": "Explícame las tres terminaciones del verbo en inglés (-s, -ed, -ing) y las reglas para escribirlas (tries, stopped, making, watches). Un ejemplo corto de cada una con su traducción."
    },
    {
     "id": "en-tenses",
@@ -1674,7 +1679,8 @@
     "sources": [
      "Raymond Murphy, English Grammar in Use (Cambridge University Press, 5.ª ed., 2019): present simple and continuous; past simple; will and going to; present perfect.",
      "Michael Swan, Practical English Usage (Oxford University Press, 4.ª ed., 2016): future; present perfect."
-    ]
+    ],
+    "ask": "Explícame los tiempos más usados del inglés con el verbo work (I work, I’m working, I worked, I will work, I have worked): cuándo se usa cada uno, con un ejemplo corto y su traducción."
    },
    {
     "id": "en-now",
@@ -1685,7 +1691,8 @@
     "sources": [
      "Michael Swan, Practical English Usage (Oxford University Press, 4.ª ed., 2016): present tenses (simple and progressive)."
     ],
-    "group": "verbs"
+    "group": "verbs",
+    "ask": "Explícame la diferencia entre «I work» y «I’m working»: lo de siempre contra lo que pasa ahora mismo. Tres pares de ejemplos cortos con su traducción. Al final ofréceme una práctica de tres preguntas."
    },
    {
     "id": "en-tobe",
@@ -1697,7 +1704,8 @@
     "sources": [
      "Michael Swan, Practical English Usage (Oxford University Press, 4.ª ed., 2016): be."
     ],
-    "group": "verbs"
+    "group": "verbs",
+    "ask": "Explícame el verbo «to be» en inglés (am, is, are, was, were), que es ser y estar al mismo tiempo. Tres ejemplos cortos con su traducción."
    },
    {
     "id": "en-irregular",
@@ -1720,7 +1728,8 @@
      "Formas comprobadas con el Wiktionary en inglés (kaikki.org, CC BY-SA 4.0); traducciones con las tablas de verbos en español de Lector.",
      "Michael Swan, Practical English Usage (Oxford University Press, 4.ª ed., 2016): irregular verbs.",
      "Ronald Carter y Michael McCarthy, Cambridge Grammar of English (Cambridge University Press, 2006): irregular verbs."
-    ]
+    ],
+    "ask": "Explícame cómo los verbos irregulares del inglés se agrupan en familias (put·put·put, sing·sang·sung, buy·bought, know·knew·known, take·took·taken). Una línea y un ejemplo por familia."
    },
    {
     "id": "en-fam-same",
@@ -1743,7 +1752,8 @@
     "sources": [
      "Formas comprobadas con el Wiktionary en inglés (kaikki.org, CC BY-SA 4.0); traducciones con las tablas de verbos en español de Lector.",
      "Michael Swan, Practical English Usage (Oxford University Press, 4.ª ed., 2016): irregular verbs (lista)."
-    ]
+    ],
+    "ask": "Explícame los verbos del inglés que no cambian (put, cut, let, hit): el pasado y la forma de «I have ___» son iguales al verbo. Tres ejemplos cortos con su traducción."
    },
    {
     "id": "en-fam-iau",
@@ -1766,7 +1776,8 @@
     "sources": [
      "Formas comprobadas con el Wiktionary en inglés (kaikki.org, CC BY-SA 4.0); traducciones con las tablas de verbos en español de Lector.",
      "Michael Swan, Practical English Usage (Oxford University Press, 4.ª ed., 2016): irregular verbs (lista)."
-    ]
+    ],
+    "ask": "Explícame la familia sing · sang · sung (la i cambia a a en el pasado y a u en la forma de «I have ___»). Tres verbos más de esta familia y tres ejemplos cortos con su traducción."
    },
    {
     "id": "en-fam-ought",
@@ -1789,7 +1800,8 @@
     "sources": [
      "Formas comprobadas con el Wiktionary en inglés (kaikki.org, CC BY-SA 4.0); traducciones con las tablas de verbos en español de Lector.",
      "Michael Swan, Practical English Usage (Oxford University Press, 4.ª ed., 2016): irregular verbs (lista)."
-    ]
+    ],
+    "ask": "Explícame la familia buy · bought (pasado en -ought o -aught, que suena como «ot»). Los verbos más comunes de esta familia y tres ejemplos cortos con su traducción."
    },
    {
     "id": "en-fam-ewown",
@@ -1812,7 +1824,8 @@
     "sources": [
      "Formas comprobadas con el Wiktionary en inglés (kaikki.org, CC BY-SA 4.0); traducciones con las tablas de verbos en español de Lector.",
      "Michael Swan, Practical English Usage (Oxford University Press, 4.ª ed., 2016): irregular verbs (lista)."
-    ]
+    ],
+    "ask": "Explícame la familia know · knew · known (pasado en -ew, forma de «I have ___» en -wn). Los verbos más comunes y tres ejemplos cortos con su traducción."
    },
    {
     "id": "en-fam-vowel",
@@ -1835,7 +1848,8 @@
     "sources": [
      "Formas comprobadas con el Wiktionary en inglés (kaikki.org, CC BY-SA 4.0); traducciones con las tablas de verbos en español de Lector.",
      "Michael Swan, Practical English Usage (Oxford University Press, 4.ª ed., 2016): irregular verbs (lista)."
-    ]
+    ],
+    "ask": "Explícame la familia sit · sat · sat (cambia una vocal, y el pasado y la forma de «I have ___» quedan iguales). Los verbos más comunes y tres ejemplos cortos con su traducción."
    },
    {
     "id": "en-fam-t",
@@ -1858,7 +1872,8 @@
     "sources": [
      "Formas comprobadas con el Wiktionary en inglés (kaikki.org, CC BY-SA 4.0); traducciones con las tablas de verbos en español de Lector.",
      "Michael Swan, Practical English Usage (Oxford University Press, 4.ª ed., 2016): irregular verbs (lista)."
-    ]
+    ],
+    "ask": "Explícame la familia feel · felt · felt (el pasado termina en -t). Los verbos más comunes y tres ejemplos cortos con su traducción."
    },
    {
     "id": "en-fam-en",
@@ -1881,7 +1896,8 @@
     "sources": [
      "Formas comprobadas con el Wiktionary en inglés (kaikki.org, CC BY-SA 4.0); traducciones con las tablas de verbos en español de Lector.",
      "Michael Swan, Practical English Usage (Oxford University Press, 4.ª ed., 2016): irregular verbs (lista)."
-    ]
+    ],
+    "ask": "Explícame la familia take · took · taken (la forma de «I have ___» termina en -en o -n). Los verbos más comunes y tres ejemplos cortos con su traducción."
    },
    {
     "id": "en-fam-true",
@@ -1904,7 +1920,8 @@
     "sources": [
      "Formas comprobadas con el Wiktionary en inglés (kaikki.org, CC BY-SA 4.0); traducciones con las tablas de verbos en español de Lector.",
      "Michael Swan, Practical English Usage (Oxford University Press, 4.ª ed., 2016): irregular verbs (lista)."
-    ]
+    ],
+    "ask": "Explícame los cuatro verbos más usados del inglés que no siguen ninguna familia: be, go, do, have. Sus formas en una tablita y un ejemplo corto de cada uno con su traducción."
    },
    {
     "id": "en-past",
@@ -1916,7 +1933,8 @@
      "Formas comprobadas con el Wiktionary en inglés (kaikki.org); orden por frecuencia de wordfreq (Robyn Speer)."
     ],
     "group": "irr",
-    "wide": true
+    "wide": true,
+    "ask": "¿Qué verbos irregulares del inglés debo aprender primero? Dame los diez más usados con su pasado en una tablita, y un ejemplo corto de tres de ellos con su traducción."
    },
    {
     "id": "en-prep",
@@ -2011,7 +2029,8 @@
      "Michael Swan, Practical English Usage (Oxford University Press, 4.ª ed., 2016): at, in and on (lugar y tiempo).",
      "Raymond Murphy, English Grammar in Use (Cambridge University Press, 5.ª ed., 2019): at, on, in."
     ],
-    "group": "little"
+    "group": "little",
+    "ask": "Explícame in, on y at para lugares y tiempos (in May, on Monday, at 5), cuando en español casi todo es «en». Una regla fácil para recordarlos y tres ejemplos cortos con su traducción. Al final ofréceme una práctica de tres preguntas."
    },
    {
     "id": "en-little",
@@ -2084,7 +2103,8 @@
     "sources": [
      "Michael Swan, Practical English Usage (Oxford University Press, 4.ª ed., 2016): since and for; from and to.",
      "Raymond Murphy, English Grammar in Use (Cambridge University Press, 5.ª ed., 2019): for, since and ago."
-    ]
+    ],
+    "ask": "Explícame to, from, since y for en inglés, que en español a veces son la misma palabra (a, de, desde, por). Un ejemplo corto de cada una con su traducción."
    },
    {
     "id": "en-phrasal",
@@ -2158,7 +2178,8 @@
     "sources": [
      "Michael Swan, Practical English Usage (Oxford University Press, 4.ª ed., 2016): phrasal verbs (word order with pronouns).",
      "Raymond Murphy, English Grammar in Use (Cambridge University Press, 5.ª ed., 2019): phrasal verbs."
-    ]
+    ],
+    "ask": "Explícame qué son los verbos como get up, look for y turn on: un verbo más una palabrita que cambia el significado. Cinco de los más útiles, cada uno con un ejemplo corto y su traducción."
    },
    {
     "id": "en-sounds",
@@ -2238,7 +2259,8 @@
      "Marianne Celce-Murcia, Donna M. Brinton y Janet M. Goodwin, con Barry Griner, Teaching Pronunciation (Cambridge University Press, 2.ª ed., 2010): vocales (ship, sheep) y consonantes (th, v), en inglés de Estados Unidos.",
      "Michael Swan, Practical English Usage (Oxford University Press, 4.ª ed., 2016): pronunciation; spelling and pronunciation."
     ],
-    "group": "sounds"
+    "group": "sounds",
+    "ask": "Ayúdame con los sonidos del inglés que más cuestan cuando hablas español: ship y sheep, la s al principio («Spain», no «Espain») y las consonantes del final. Una línea para cada uno y luego ofréceme diez palabras para practicar en voz alta."
    },
    {
     "id": "en-ed",
@@ -2300,7 +2322,8 @@
     "sources": [
      "Marianne Celce-Murcia, Donna M. Brinton y Janet M. Goodwin, con Barry Griner, Teaching Pronunciation (Cambridge University Press, 2.ª ed., 2010): las terminaciones -ed y -s.",
      "Michael Swan, Practical English Usage (Oxford University Press, 4.ª ed., 2016): pronunciation of -ed."
-    ]
+    ],
+    "ask": "Explícame los tres sonidos de la -ed del pasado (worked con «t», played con «d», wanted con «id») y cómo saber cuál va. Tres ejemplos con su traducción."
    }
   ]
  }

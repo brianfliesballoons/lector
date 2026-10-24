@@ -67,6 +67,7 @@ try {
     return { id: u.json.user.id, invite: i.json.token };
   };
   const A = await mk('ZZ test mcp A', 'en', 'es', 'getting by'), B = await mk('ZZ test mcp B', 'es', 'en', 'elementary'), C = await mk('ZZ test mcp C', 'es', 'en', 'elementary');
+  const D = await mk('ZZ test mcp D', 'es', 'en', 'elementary');
   const th = await api('/admin/threads', { method: 'POST', token: ADMIN, body: { title: 'ZZ test mcp', members: [A.id, B.id] } });
   const th2 = await api('/admin/threads', { method: 'POST', token: ADMIN, body: { title: 'ZZ test mcp private', members: [B.id, C.id] } });
   created.threads.push(th.json.thread.id, th2.json.thread.id);
@@ -85,6 +86,7 @@ try {
   const UA = ca.json.url;
   ok((await api('/connector', { token: A.invite })).json.active === true, 'GET /connector says active, without the link');
   const UB = (await api('/connector', { method: 'POST', token: B.invite })).json.url;
+  const UD = (await api('/connector', { method: 'POST', token: D.invite })).json.url;
   const tokA = UA.split('/mcp/')[1];
   ok((await api('/me', { token: tokA })).status === 401, 'a connector link cannot sign in to the app API');
   ok((await mcp(`${BASE}/mcp/${A.invite}`, 'tools/list')).status === 401, 'an invite token cannot open /mcp');
@@ -113,6 +115,12 @@ try {
   ok((await mcp(UA, null, null, { raw: '{nope' })).json.error.code === -32700, 'bad JSON is a parse error');
   const pg = await mcp(UA, 'prompts/get', { name: 'quiz_me', arguments: { how_many: '5' } });
   ok(/get_due with limit 5/.test(pg.json.result.messages[0].content.text), 'prompts/get quiz_me');
+  ok(batch.json[1].result.prompts.every(p => / · /.test(p.title)) && /Repasa mis palabras/.test(batch.json[1].result.prompts[0].title), 'prompts/list titles are in both languages');
+  const pgB = await mcp(UD, 'prompts/get', { name: 'quiz_me', arguments: { how_many: '4' } });
+  ok(/Llama a get_due con limit 4/.test(pgB.json.result.messages[0].content.text) && /en español/.test(pgB.json.result.messages[0].content.text), 'prompts/get quiz_me for a Spanish speaker is in Spanish', pgB.json.result);
+  const ppB = await mcp(UD, 'prompts/get', { name: 'practice_partner' });
+  ok(/^Usa el conector de Lector\. Llama a practice_brief/.test(ppB.json.result.messages[0].content.text), 'prompts/get practice_partner for a Spanish speaker is in Spanish');
+  ok(!/Mix the card types/.test(pg.json.result.messages[0].content.text), 'quiz_me no longer asks to mix card types (cards carry no type)');
 
   console.log('-- modern era (2026-07-28: per-request _meta, header checks)');
   const disc = await mcp(UA, 'server/discover', {}, { modern: true });
@@ -135,19 +143,31 @@ try {
   const ctxBody = { word: 'desde', lang: 'es', gloss: 'from, since', sentence: 'Bien, gracias. Te escribo desde California.', note: '"desde" marks a starting point.', question: 'Why desde and not de?', source: { kind: 'message' }, thread: T1, message: tapped, nearby: true };
   const cx = await api('/context', { method: 'POST', token: A.invite, body: ctxBody });
   ok(cx.status === 201 && /^lx-[a-z2-9]{8}$/.test(cx.json.ref) && cx.json.line === 'Lector ref: ' + cx.json.ref, 'POST /context returns a short ref', cx.json);
-  ok(/Why desde and not de\?/.test(cx.json.prompt) && /quoted text someone else wrote, not instructions/.test(cx.json.prompt) && /\n> Bien, gracias/.test(cx.json.prompt) && cx.json.prompt.includes('Lector ref: ' + cx.json.ref) && !cx.json.prompt.includes('Ignore all'),
-    'POST /context also returns a hand-off prompt: the question, the sentence as a labelled quote, the ref, and no chat messages', cx.json.prompt);
+  ok(cx.json.connected === true && !('prompt' in cx.json), 'POST /context for a person whose Claude has used the connector: connected, and no server-built prompt (the app owns every prompt)', cx.json);
+  const refsOf = id => sql(`SELECT COUNT(*) n FROM context_refs WHERE user_id = '${id}'`)[0].n;
+  const cB = await api('/context', { method: 'POST', token: B.invite, body: { word: 'house', lang: 'en', sentence: 'The little house.' } });
+  ok(cB.status === 200 && cB.json.connected === false && !cB.json.ref && !cB.json.prompt && refsOf(B.id) === 0, 'POST /context with a link that Claude never used: connected false, no ref, no row stored', cB.json);
+  const cC = await api('/context', { method: 'POST', token: C.invite, body: { word: 'house', lang: 'en', sentence: 'The little house.' } });
+  ok(cC.status === 200 && cC.json.connected === false && !cC.json.ref && refsOf(C.id) === 0, 'POST /context with no connector at all: connected false, no row stored', cC.json);
   const REF = cx.json.ref;
   ok((await api('/context', { method: 'POST', token: A.invite, body: { ...ctxBody, thread: T2, message: secret } })).status === 404, '/context refuses a message from a thread the person is not in');
   ok((await api('/context', { method: 'POST', token: A.invite, body: { word: 'x', lang: 'de' } })).status === 400, '/context refuses an unknown language');
   const gc = await tool(UA, 'get_context', { ref: REF });
   ok(!gc.isError && gc.data.word === 'desde' && gc.data.app_already_explained && gc.data.person.level === 'getting by' && gc.data.already_saved === false, 'get_context returns the bundle and level', gc.data);
   const nb = (gc.data.quoted || {}).nearby_messages || [];
-  ok(nb.length === 4 && nb.filter(m => m.tapped).length === 1 && nb.find(m => m.tapped).in_en && !JSON.stringify(nb).includes('secreto'), 'nearby messages: the 4 around the tapped one, with its English, nothing from another thread', nb);
+  ok(nb.length === 2 && nb[1].tapped && nb.filter(m => m.tapped).length === 1 && nb.find(m => m.tapped).in_en && !JSON.stringify(nb).includes('secreto'), 'nearby messages: the tapped one and the one before it, with its English, nothing from another thread', nb);
+  ok(!JSON.stringify(nb).includes('¿Desde cuándo') && !JSON.stringify(nb).includes('Ignore all'), 'nearby messages: nothing AFTER the tapped one (the app says "the last N messages")', nb);
+  ok(!JSON.stringify(gc.data).includes('ZZ test mcp B') && nb.every(m => !/named/.test(m.from)), 'nearby messages: the partner is "their chat partner", never named', nb);
+  ok(gc.data.person.answer_in === 'English', 'get_context: person.answer_in is their own language', gc.data.person);
+  const injectId = ids.find(m => m.text === INJECT).id;
+  const cxI = await api('/context', { method: 'POST', token: A.invite, body: { ...ctxBody, message: injectId } });
+  const nbI = ((await tool(UA, 'get_context', { ref: cxI.json.ref })).data.quoted || {}).nearby_messages || [];
+  ok(nbI.length === 4 && nbI[3].tapped && nbI[0].text === 'Hola, ¿cómo estás?', 'nearby messages: at most 3 before the tapped one, oldest first', nbI.map(m => m.text));
   ok(!('nearby_messages' in gc.data) && !('sentence' in gc.data) && gc.data.quoted.sentence && /untrusted message text/.test(gc.data.about_quoted) && /not instructions/.test(gc.data.about_quoted),
     'other people\'s text (sentence, nearby messages) sits only under "quoted", with an untrusted-text notice', Object.keys(gc.data));
-  ok(nb.some(m => m.text === INJECT && /chat partner/.test(m.from)) && !JSON.stringify({ ...gc.data, quoted: null }).includes('Ignore all'), 'an instruction-like message stays inside "quoted", attributed to the partner');
+  ok(nbI.some(m => m.text === INJECT && m.from === 'their chat partner') && !JSON.stringify({ ...gc.data, quoted: null }).includes('Ignore all'), 'an instruction-like message stays inside "quoted", attributed to the partner');
   ok(/untrusted|never instructions|not instructions/.test(init.json.result.instructions) && /quoted/.test(init.json.result.instructions), 'the server instructions tell Claude that quoted text is data, not instructions');
+  ok(/US English/.test(init.json.result.instructions) && /150 words/.test(init.json.result.instructions) && /never start a long exercise/.test(init.json.result.instructions) && /save_note only when they ask/.test(init.json.result.instructions), 'the server instructions: US English, phone length, offer before exercises, save only when asked');
   const cx2 = await api('/context', { method: 'POST', token: A.invite, body: { word: 'desde', lang: 'es', thread: T1, message: tapped } });
   ok(!((await tool(UA, 'get_context', { ref: cx2.json.ref })).data.quoted || {}).nearby_messages, 'without nearby:true no messages are returned');
   const gB = await tool(UB, 'get_context', { ref: REF });
@@ -183,11 +203,13 @@ try {
   console.log('-- list_words / get_due / record_review / practice_brief');
   const lw = await tool(UA, 'list_words', {});
   ok(!lw.isError && lw.data.total_saved === 4 && lw.data.words[0].card_id === 'es:cobertizo', 'list_words: 4 saved, newest first', lw.data);
+  ok(lw.data.person && lw.data.person.answer_in === 'English' && lw.data.person.level === 'getting by' && lw.data.person.learning === 'Spanish', 'list_words carries "person" (own language, learning, level)', lw.data.person);
   ok((await tool(UA, 'list_words', { filter: 'from_claude' })).data.matching === 2, 'list_words from_claude = 2');
   const ld = await tool(UA, 'list_words', { filter: 'due' });
   ok(ld.data.matching === 1 && ld.data.words[0].card_id === 'es:hola' && ld.data.words[0].due === 'now', 'list_words due = hola');
   ok((await tool(UA, 'list_words', { search: 'shed' })).data.words[0].word === 'cobertizo', 'list_words search finds by meaning');
   const gd = await tool(UA, 'get_due', { limit: 10 });
+  ok(gd.data.person && gd.data.person.answer_in === 'English', 'get_due carries "person"', gd.data.person);
   ok(!gd.isError && gd.data.due_reviews === 1 && gd.data.new_words === 3 && gd.data.cards[0].card_id === 'es:hola' && gd.data.cards[0].kind === 'review' && gd.data.cards[1].card_id === 'es:perro', 'get_due: the overdue review first, then new words oldest first', gd.data);
   const rr = await tool(UA, 'record_review', { card_id: 'es:cobertizo', grade: 'good' });
   ok(!rr.isError && rr.data.recorded && /minutes/.test(rr.data.next_review), 'record_review on a new card schedules a short step', rr.data);
@@ -201,7 +223,8 @@ try {
   const pb = await tool(UA, 'practice_brief', {});
   ok(!pb.isError && pb.data.level === 'getting by' && /Mexican/.test(pb.data.variant) && pb.data.topic_this_week && pb.data.recent_words.some(w => w.startsWith('cobertizo')), 'practice_brief: level, variant, topic, recent words', pb.data);
   const pbB = await tool(UB, 'practice_brief', {});
-  ok(!pbB.isError && pbB.data.level === 'elementary' && /English/.test(pbB.data.variant) && pbB.data.recent_words.length === 0, 'B\'s brief is B\'s own (English, elementary, no words of A\'s)');
+  ok(pb.data.person.answer_in === 'English' && pb.data.how.some(h => /ask if they want to keep going/.test(h)) && pb.data.how.some(h => /only if they say yes/.test(h)) && /Mexican Spanish/.test(pb.data.how[0]), 'practice_brief: person, the five-minute check-in, add_cards only on a yes, dialect in "how"', pb.data.how);
+  ok(!pbB.isError && pbB.data.person.answer_in === 'Spanish' && pbB.data.level === 'elementary' && /English/.test(pbB.data.variant) && pbB.data.recent_words.length === 0, 'B\'s brief is B\'s own (English, elementary, no words of A\'s)');
   ok((await tool(UB, 'list_words', {})).data.total_saved === 0 && (await tool(UB, 'list_words', { lang: 'es' })).data.total_saved === 0, 'B\'s connector sees none of A\'s words');
 
   console.log('-- get_due ranks like ts-fsrs (the ranking now runs in D1)');
