@@ -581,6 +581,17 @@ a.primary{text-decoration:none}
 .hwait{display:flex;flex-direction:column;gap:10px}
 .hwait .bar{height:6px;border-radius:3px}
 .hwait .bar i{transition:width .5s linear}
+/* swipe to browse: the ‹ position › row on a verb chart or a Reference card, and the one-time hint */
+.bnav{display:flex;align-items:center;gap:4px;margin:-10px -10px -4px}
+.bnav .bstep{width:44px;height:44px;flex:none;border-radius:22px;border:none;background:transparent;color:var(--accent);display:grid;place-items:center;padding:0}
+.bnav .bstep:disabled{color:var(--mute);opacity:.45}
+.bnav .bpos{flex:1;min-width:0;margin:0;text-align:center;font-size:14px;line-height:1.3;color:var(--mute)}
+.bnav .bpos .link{font-size:14px;min-height:44px;padding:0 4px;text-decoration:underline}
+#refNav{margin:-6px -8px -10px}
+#v-grammar{overflow-x:clip}   /* a card following the finger never widens the page */
+.bhint{margin:4px 0 -6px;text-align:center;font-size:14px;color:var(--ink2);transition:opacity .4s}
+.bhint.fade{opacity:0}
+.swz{touch-action:pan-y}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 /* account, sync and the Claude connector */
 .item.two{padding:8px 14px}
@@ -1386,6 +1397,7 @@ const UI = {en: {
     searchL: 'Find a rule', searchPh: 'Find a rule: desde, gender, -ar verbs…', none: q => `Nothing on the shelf matches “${q}”. Try one word, like desde or gender.`,
     print: 'Print this card', deeper: 'Go deeper in Claude', back: 'Reference', sources: 'Sources', drill: 'Drill this family', famDrill: n => `Drill: ${n}`,
     loading: 'Loading…', cantLoad: 'The reference couldn’t load. Check your connection and try again.', tryAgain: 'Try again',
+    browse: {navL: 'Browse cards', prevL: v => v ? `Previous card: ${v}` : 'Previous card', nextL: v => v ? `Next card: ${v}` : 'Next card', pos: (i, n) => `${i} of ${n}`, end: 'End of list', toStart: 'Back to start'},
     bootT: 'The boot', bootOf: v => `${v}, present`, bootL: (v, forms) => `The present of ${v}: ${forms}. The changed forms make a boot shape; nosotros sits outside it.`,
     vos: 'vosotros · Spain only', bootLine: 'Shade the changed forms and you get a boot. Only nosotros (and vosotros, used in Spain) stay outside it.',
     smaller: 'Two smaller families', smallerLine: '**-zco**: c becomes zc in yo ({es|conocer → conozco, parecer → parezco}). **-uir**: a y comes in ({es|construir → construyo}). Both are on the Yo-go card.',
@@ -1496,6 +1508,8 @@ const UI = {en: {
     famRules: {boot: 'e→ie · o→ue · e→i', yogo: 'yo adds a g', zco: 'c → zc in yo', uir: 'a y comes in', strong: 'new stem, no accent', short: 'tener → tendr-', spell: 'same sound, new letters', true: 'learn them whole'},
     cover: 'Quiz me: cover the forms', uncover: 'Show all', tapSee: 'tap to see', checkSelf: 'tap the row to check yourself', sayFirst: 'Say it out loud first, then tap.',
     wordCard: 'Open its word card', drillVerb: v => `Drill ${v}`, printChart: 'Print this chart',
+    browse: {navL: 'Browse verbs', prevL: v => v ? `Previous verb: ${v}` : 'Previous verb', nextL: v => v ? `Next verb: ${v}` : 'Next verb', pos: (i, n) => `${i} of ${n}`,
+      top: 'Most used', saved: 'Your verbs', filt: {irr: 'Irregular', boot: 'Boot', reg: 'Regular'}, end: 'End of list', toStart: 'Back to start', hint: 'Swipe to browse verbs'},
     askRef: (t, sub) => `Explain “${t}”${sub ? ` (${sub})` : ''} in Spanish: the main rule in plain words and three short everyday examples with their English. Then offer me a 3-question practice.`,
     deeperVerb: (v, fams) => `${house()}\n\nWalk me through the verb "${v}"${fams ? ` (my app files it under: ${fams})` : ''}: which forms break the pattern and why, in plain words, with one short everyday example each in the present, preterite, imperfect and future, with their English.`,
     notes: {
@@ -1669,7 +1683,8 @@ UI.es = {
   ref: {title: 'Referencia', kick: 'Aprender', sub: 'Lo básico del inglés, explicado en español.', open: 'Referencia', openLine: 'Lo básico del inglés en un solo lugar. Cada tarjeta se puede imprimir.',
     searchL: 'Buscar una regla', searchPh: 'Buscar: to be, do, sonidos…', none: q => `Nada coincide con “${q}”. Prueba con una palabra, como “do” o “sonidos”.`,
     print: 'Imprimir', deeper: 'Preguntar a Claude', back: 'Referencia', sources: 'Fuentes', drill: 'Practicar esta familia', famDrill: n => `Practicar: ${n}`,
-    loading: 'Cargando…', cantLoad: 'No se pudo cargar la referencia. Revisa tu conexión e inténtalo otra vez.', tryAgain: 'Intentar otra vez'},
+    loading: 'Cargando…', cantLoad: 'No se pudo cargar la referencia. Revisa tu conexión e inténtalo otra vez.', tryAgain: 'Intentar otra vez',
+    browse: {navL: 'Ver más tarjetas', prevL: v => v ? `Tarjeta anterior: ${v}` : 'Tarjeta anterior', nextL: v => v ? `Tarjeta siguiente: ${v}` : 'Tarjeta siguiente', pos: (i, n) => `${i} de ${n}`, end: 'Fin de la lista', toStart: 'Volver al inicio'}},
   wv: {tabsL: 'Tus palabras y verbos guardados', words: n => `Palabras · ${n}`, verbs: n => `Verbos · ${n}`, filterL: 'Mostrar verbos', fAll: 'Todos', fIrr: n => `Irregulares · ${n}`, fBoot: n => `Bota · ${n}`, fReg: n => `Regulares · ${n}`,
     due: n => `${n} forma${n === 1 ? '' : 's'} para repasar`, tensesOf: n => `${n} de 4 tiempos`, fresh: 'nuevo', learnedL: n => `${n} de 4 tiempos aprendidos`, dotNames: ['ahora', 'pasó', 'solía', 'futuro'],
     practice: n => n ? `Practicar mis irregulares · ${n} para repasar` : 'Practicar mis irregulares', practiceL: 'Practicar mis irregulares',
@@ -4054,10 +4069,10 @@ function rowHtml(t, tense, ask){
 
 /* the grammar screens */
 // from: where the back button goes ('' Learn, 'ref' the Reference shelf, 'words' Words › Verbs).
-let GR = {page: 'charts', verb: 'tener', all: false, glance: 'pres', tl: 'impf', table: null, msg: '', from: '', q: '', print: false,
+let GR = {page: 'charts', verb: 'tener', list: null, all: false, glance: 'pres', tl: 'impf', table: null, msg: '', from: '', q: '', print: false,
   tense: TENSE_IDS.includes(LS.get('conj.tab', 'pres')) ? LS.get('conj.tab', 'pres') : 'pres', row: 0, cover: false, shown: new Set(), more: false};
 const LESSON_PAGE = {'por or para': 'porpara', 'ser or estar': 'serestar', 'Tense timeline': 'timeline', 'Irregulars at a glance': 'glance'};
-function openGrammar(page, verb, from = ''){ GR.page = page; GR.msg = ''; GR.from = from; if (verb){ GR.verb = verb; GR.table = null; GR.row = 0; GR.shown = new Set() } go('grammar') }
+function openGrammar(page, verb, from = '', list = null){ GR.page = page; GR.msg = ''; GR.from = from; GR.list = list; if (verb){ GR.verb = verb; GR.table = null; GR.row = 0; GR.shown = new Set() } go('grammar') }
 function grBack(){
   if (GR.page !== 'ref' && GR.from === 'ref'){ GR.page = 'ref'; GR.from = ''; renderGrammar(); window.scrollTo(0, 0); return }
   go(GR.from === 'words' ? 'words' : 'learn');
@@ -4095,6 +4110,152 @@ function renderGrammar(){
   if (GR.page !== 'charts') pageActions(v, GR.page);
 }
 
+/* ---------- swipe to browse: the verb charts and the Reference cards ----------
+   Swipe left or right across a verb chart (or a Reference card), tap ‹ ›, or press ← → on a keyboard to move
+   along the list the person came from: Words › Verbs (their saved verbs, in the filter they had on), else the
+   Most used verbs; a card moves within its shelf group. The ends stop with a small bounce, and the last item
+   says End of list with a Back to start link. Nothing is spoken on a move. */
+const reduceMotion = () => { try { return matchMedia('(prefers-reduced-motion: reduce)').matches } catch(e){ return false } };
+const typingNow = () => { const a = document.activeElement; return !!a && (/^(INPUT|TEXTAREA|SELECT)$/.test(a.tagName) || a.isContentEditable) };
+// The ‹ position › row. o: {id, S (strings), i (0-based, -1 = not in this list), n, label, prev, next (names), end}
+function browseNavHtml(o){
+  const S = o.S, at = o.i >= 0, first = at && o.i === 0, last = at && o.i === o.n - 1;
+  const pos = at ? `${esc(S.pos(o.i + 1, o.n))}${o.label ? ` · ${esc(o.label)}` : ''}` : esc(o.label || '');
+  return `<div class="bnav noprint" id="${o.id}" role="group" aria-label="${esc(S.navL)}">
+    <button class="bstep" id="${o.id}Prev" aria-label="${esc(S.prevL(first ? '' : o.prev))}"${first ? ' disabled' : ''}>${icon('back')}</button>
+    <p class="bpos" id="${o.id}Pos">${pos}${last ? `<span class="bend"> · ${esc(S.end)} · <button class="link" id="${o.id}Start">${esc(S.toStart)}</button></span>` : ''}</p>
+    <button class="bstep" id="${o.id}Next" aria-label="${esc(S.nextL(last ? '' : o.next))}"${last ? ' disabled' : ''}>${icon('next')}</button></div>`;
+}
+// One move: slide the old content out (~90 ms), draw the new, slide it in (~90 ms). Skipped under reduced motion.
+const BROWSE = {busy: false};
+async function slideSwap(getEl, dir, draw){
+  const el = getEl();
+  if (reduceMotion() || !el){ await draw(); return }
+  el.style.transition = 'transform 90ms ease-in, opacity 90ms ease-in'; el.style.transform = `translateX(${-dir * 32}px)`; el.style.opacity = '0';
+  await new Promise(r => setTimeout(r, 90));
+  await draw();
+  const n = getEl(); if (!n) return;
+  n.style.transition = 'none'; n.style.transform = `translateX(${dir * 32}px)`; n.style.opacity = '0'; void n.offsetWidth;
+  n.style.transition = 'transform 90ms ease-out, opacity 90ms ease-out'; n.style.transform = ''; n.style.opacity = '';
+  setTimeout(() => { n.style.transition = '' }, 110);
+}
+const snapBack = el => { if (!el) return; if (reduceMotion()){ el.style.transform = ''; el.style.opacity = ''; return }
+  el.style.transition = 'transform 160ms ease-out, opacity 160ms ease-out'; el.style.transform = ''; el.style.opacity = ''; setTimeout(() => { el.style.transition = '' }, 170) };
+// At an end: a small nudge the other way, and nothing moves.
+function bounce(el, dir){
+  if (!el || reduceMotion() || !el.animate){ if (el){ el.style.transform = ''; el.style.opacity = '' } return }
+  el.style.transform = ''; el.style.opacity = '';
+  el.animate([{transform: 'translateX(0)'}, {transform: `translateX(${-dir * 14}px)`}, {transform: 'translateX(0)'}], {duration: 240, easing: 'ease-out'});
+}
+// Moves along a list. list: {items, i}; show(item, dir) draws it and returns a promise; el() is what slides.
+async function browseMove(list, d, el, show, how){
+  if (BROWSE.busy) return false;
+  const n = list.items.length; if (n < 2 && list.i >= 0) return false;
+  const j = list.i < 0 ? (d > 0 ? 0 : n - 1) : list.i + d;
+  if (how === 'swipe') hintSeen();
+  if (j < 0 || j >= n){ bounce(el(), d); return false }
+  BROWSE.busy = true;
+  try { await slideSwap(el, d, () => show(list.items[j], d)) } finally { BROWSE.busy = false }
+  return true;
+}
+// The one-time "Swipe to browse verbs" hint: gone for good after the first swipe.
+function hintSeen(){
+  if (LS.get('swipeHint')) return; LS.set('swipeHint', 1);
+  document.querySelectorAll('.bhint:not(.hide)').forEach(h => { h.classList.add('fade'); setTimeout(() => { h.classList.add('hide'); h.classList.remove('fade') }, 420) });
+}
+function paintHint(h, on){ if (!h || h.classList.contains('fade')) return; h.classList.toggle('hide', !on || !!LS.get('swipeHint')) }
+// The gesture: a clearly sideways swipe (|dx| > 60 px, |dx| > 2|dy|, within ~600 ms). touch-action: pan-y keeps
+// vertical scrolling with the browser, so up-and-down never gets here as a move. A mouse uses ‹ › and the arrow keys.
+function wireSwipe(el, step, skip = 'input, textarea, select, form, .tablewrap'){
+  if (!el || el._swipe) return; el._swipe = true; el.classList.add('swz');
+  let s = null, swiped = 0;
+  el.addEventListener('pointerdown', e => {
+    s = null;
+    if (e.pointerType === 'mouse' || !e.isPrimary || BROWSE.busy || typingNow() || e.target.closest(skip)) return;
+    s = {x: e.clientX, y: e.clientY, t: Date.now(), id: e.pointerId, drag: false};
+  });
+  el.addEventListener('pointermove', e => {
+    if (!s || e.pointerId !== s.id) return;
+    const dx = e.clientX - s.x, dy = e.clientY - s.y;
+    if (!s.drag && Math.abs(dx) > 12 && Math.abs(dx) > 2 * Math.abs(dy)) s.drag = true;
+    if (s.drag && !reduceMotion()){ el.style.transition = 'none'; el.style.transform = `translateX(${dx * .35}px)`; el.style.opacity = String(1 - Math.min(.4, Math.abs(dx) / 500)) }
+  });
+  const end = e => {
+    if (!s || e.pointerId !== s.id) return;
+    const dx = e.clientX - s.x, dy = e.clientY - s.y, quick = Date.now() - s.t <= 600, drag = s.drag; s = null;
+    const hit = e.type === 'pointerup' && quick && Math.abs(dx) > 60 && Math.abs(dx) > 2 * Math.abs(dy) && !typingNow();
+    if (!hit){ if (drag) snapBack(el); return }
+    swiped = Date.now(); step(dx < 0 ? 1 : -1, 'swipe');
+  };
+  el.addEventListener('pointerup', end); el.addEventListener('pointercancel', end);
+  // a swipe that ends on a form row must not also tap it (the ‹ › row is always tappable)
+  el.addEventListener('click', e => { if (Date.now() - swiped < 350 && !e.target.closest('.bnav')){ e.stopPropagation(); e.preventDefault() } }, true);
+}
+// ← → on a keyboard, when nothing that takes the arrows (a text field, the tense tabs) has the focus.
+document.addEventListener('keydown', e => {
+  if ((e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') || e.altKey || e.ctrlKey || e.metaKey || e.shiftKey || e.defaultPrevented) return;
+  if (view !== 'grammar' || typingNow() || $('#sheet').classList.contains('open')) return;
+  const a = document.activeElement; if (a && a.closest && a.closest('[role=tablist], [role=slider], .tablewrap')) return;
+  const step = GR.page === 'charts' && $('#cvNav') ? cvStep : GR.page === 'en-charts' && $('#evNav') ? evStep : GR.page.startsWith('ref:') && $('#refNav') ? refStep : null;
+  if (!step) return;
+  e.preventDefault(); step(e.key === 'ArrowRight' ? 1 : -1, 'key');
+});
+// The list the chart was opened from (kept in GR.list when it opened); a verb picked from outside it falls back to Most used.
+function chartList(side){
+  const cur = side === 'en' ? EG2.verb : GR.verb, L = GR.list;
+  if (L && L.side === side && L.verbs.includes(cur)) return L;
+  if (L && L.side === side) GR.list = null;
+  return {side, src: 'top', verbs: side === 'en' ? (EV.d ? EV.d.verbs.map(v => v.b) : []) : topVerbs()};
+}
+function chartNav(side){
+  const L = chartList(side), S = side === 'en' ? EVU.browse : G().browse, cur = side === 'en' ? EG2.verb : GR.verb, i = L.verbs.indexOf(cur), n = L.verbs.length;
+  if (n < 2 && i >= 0) return '';
+  const label = L.src === 'saved' ? S.saved + (L.filt && S.filt[L.filt] ? ' · ' + S.filt[L.filt] : '') : S.top;
+  const nm = k => L.verbs[k] || '';
+  return browseNavHtml({id: side === 'en' ? 'evNav' : 'cvNav', S, i, n, label, prev: i < 0 ? nm(n - 1) : nm(i - 1), next: i < 0 ? nm(0) : nm(i + 1)});
+}
+// ‹ › redraw with the chart, so the keyboard focus goes back to the button pressed (or the other one at an end).
+function navButtons(id, step){
+  const keep = (want, other) => { const b = $('#' + id + want); if (b && !b.disabled) b.focus({preventScroll: true}); else { const o = $('#' + id + other); if (o) o.focus({preventScroll: true}) } };
+  $('#' + id + 'Prev').onclick = async () => { await step(-1, 'button'); keep('Prev', 'Next') };
+  $('#' + id + 'Next').onclick = async () => { await step(1, 'button'); keep('Next', 'Prev') };
+  const st = $('#' + id + 'Start'); if (st) st.onclick = async () => { await step(0, 'start'); keep('Next', 'Prev') };
+}
+function wireChartNav(side){
+  const id = side === 'en' ? 'evNav' : 'cvNav', step = side === 'en' ? evStep : cvStep;
+  const h = $(side === 'en' ? '#evHint' : '#cvHint'); paintHint(h, !!$('#' + id));
+  if ($('#' + id)) navButtons(id, step);
+}
+// d: +1 next, -1 previous, 0 back to the start. The tense tab and Quiz me stay; the forms are covered again.
+function cvStep(d, how){
+  const L = chartList('es'), i = d === 0 ? 1 : L.verbs.indexOf(GR.verb);
+  return browseMove({items: L.verbs, i}, d === 0 ? -1 : d, () => $('#cvChart'), verb => { GR.verb = verb; GR.table = null; GR.msg = ''; GR.row = 0; GR.shown = new Set(); return drawChart() }, how);
+}
+function evStep(d, how){
+  const L = chartList('en'), i = d === 0 ? 1 : L.verbs.indexOf(EG2.verb);
+  return browseMove({items: L.verbs, i}, d === 0 ? -1 : d, () => $('#evChart'), b => { EG2.verb = b; EG2.msg = ''; EG2.row = 0; EG2.shown = new Set(); drawEnChart() }, how);
+}
+// Reference cards: the content cards of the card's own shelf group, in shelf order (a group's screens, like the charts, are left out).
+function refGroupOf(id){
+  const c = refCard(id); if (!c || !REF.d) return null;
+  const D = REF.d[refSideOf(id)], cards = D.cards.filter(x => x.group === c.group && !x.page), g = D.groups.find(x => x.id === c.group);
+  return {cards, i: cards.findIndex(x => x.id === id), label: g ? g.title : ''};
+}
+function refNavHtml(id){
+  const G2 = refGroupOf(id); if (!G2 || G2.i < 0 || G2.cards.length < 2) return '';
+  const k = G2.i, n = G2.cards.length;
+  return browseNavHtml({id: 'refNav', S: R_().browse, i: k, n, label: G2.label, prev: k > 0 ? G2.cards[k - 1].title : '', next: k < n - 1 ? G2.cards[k + 1].title : ''});
+}
+function refStep(d, how){
+  const id = GR.page.slice(4), G2 = refGroupOf(id); if (!G2) return Promise.resolve(false);
+  return browseMove({items: G2.cards, i: d === 0 ? 1 : G2.i}, d === 0 ? -1 : d, () => $('#v-grammar .refcard'), c => { GR.page = 'ref:' + c.id; renderGrammar(); window.scrollTo(0, 0) }, how);
+}
+function wireRefNav(){
+  if (!$('#refNav')) return;
+  wireSwipe($('#v-grammar .refcard'), refStep);   // (a card still loading its verb tables has the buttons only)
+  navButtons('refNav', refStep);
+}
+
 /* verb charts: tap a form to hear it, see its English and why it looks that way; tabs for the tenses */
 function chipHtml(verb, mine){ const t = tableOf(verb), k = t ? t.k : 'reg';
   return `<button class="vchip" data-v="${esc(verb)}" lang="es" aria-pressed="${GR.verb === verb}" aria-label="${esc(verb)}, ${esc(G().kinds[k] || k)}${mine ? ', ' + esc(G().savedVerb) : ''}"><i class="kd ${k}" aria-hidden="true"></i>${esc(verb)}${mine ? '<span class="star" aria-hidden="true">★</span>' : ''}</button>` }
@@ -4109,6 +4270,7 @@ function renderCharts(v, head){
       <button class="pill" type="submit">${esc(g.show)}</button></form>
     <div class="vchips noprint" id="cvSug"></div>
     <div class="vchips quick noprint" id="cvQuick" role="group" aria-label="${esc(g.quickL)}">${quickHtml()}</div>
+    <p class="bhint noprint hide" id="cvHint" role="note">${esc(g.browse.hint)}</p>
     <div id="cvChart" class="sec" aria-live="polite"></div>
     <section class="sec noprint"><h2>${esc(g.mostUsed)}</h2><div class="vchips" id="cvTop">${shown.map(x => chipHtml(x)).join('')}</div>
       <button class="link" id="cvAll">${GR.all ? esc(g.showFewer) : esc(g.showAll(verbs.length))}</button></section>
@@ -4132,16 +4294,18 @@ function renderCharts(v, head){
     else { GR.verb = vname(t); GR.table = t; GR.msg = ''; GR.row = 0; GR.shown = new Set() }
     drawChart();
   };
+  wireSwipe($('#cvChart'), cvStep, CHART_SKIP);
   drawChart();
 }
+const CHART_SKIP = 'input, textarea, select, form, .tablewrap, .vfoot, .ract2';
 const TAB_SUB_ES = new Set(['pret', 'impf']);
 async function drawChart(){
   const box = $('#cvChart'); if (!box) return;
   const g = G();
-  if (GR.msg){ box.innerHTML = `<p class="calm">${esc(GR.msg)}</p>`; return }
+  if (GR.msg){ box.innerHTML = `<p class="calm">${esc(GR.msg)}</p>`; paintHint($('#cvHint'), false); return }
   const t = GR.table && vname(GR.table) === GR.verb ? GR.table : await conjOf(GR.verb);
   if (!$('#cvChart')) return;
-  if (!t){ box.innerHTML = `<p class="calm">${esc(t === undefined ? g.offline : g.notFound(GR.verb))}</p>`; return }
+  if (!t){ paintHint($('#cvHint'), false); box.innerHTML = `<p class="calm">${esc(t === undefined ? g.offline : g.notFound(GR.verb))}</p>`; return }
   GR.table = t;
   const name = vname(t); CJ.loaded.set(t.inf, t); CJ.loaded.set(name, t);
   document.querySelectorAll('#cvTop [data-v], #cvSug [data-v], #cvQuick [data-v]').forEach(b => b.setAttribute('aria-pressed', b.dataset.v === name));
@@ -4150,7 +4314,7 @@ async function drawChart(){
   const nf = (key, label) => t[key] ? `<span>${esc(label)} <span class="fm" lang="es">${sliceHtml(t[key], t.x && t.x[key])}</span></span>` : '';
   const tab = id => `<button role="tab" id="cvTab-${id}" data-tt="${id}" aria-selected="${GR.tense === id}" aria-controls="cvPanel" tabindex="${GR.tense === id ? 0 : -1}"><b>${esc(g.tabs[id][0])}</b><small${TAB_SUB_ES.has(id) ? ' lang="es"' : ''}>${esc(g.tabs[id][1])}</small></button>`;
   const pdf = !t.se && topVerbs().slice(0, 24).includes(t.inf) ? 'verb-' + t.inf : '';
-  box.innerHTML = `<div class="card vcard">
+  box.innerHTML = `<div class="card vcard">${chartNav('es')}
       <div class="vhead"><div class="vt"><h2 lang="es">${esc(name)}</h2><div class="gl" data-gloss="${esc(name)}"></div></div>
         <button class="say noprint" id="cvSay" aria-label="${esc(g.hearInf(name))}">${icon('sound')}</button><button class="vsave noprint" id="cvSave"></button></div>
       <div class="kbs"><span class="kb vtype ${type}">${esc(g.types[type])}</span>${famBadges(t)}</div>
@@ -4187,7 +4351,7 @@ async function drawChart(){
   };
   $('#cvCover').onclick = () => { GR.cover = !GR.cover; GR.shown = new Set(); const c = $('#cvCover'); c.textContent = GR.cover ? g.uncover : g.cover; c.setAttribute('aria-pressed', GR.cover); paintPanel() };
   $('#cvDrill').onclick = () => startListDrill({verbs: [t.inf], tenses: MAIN_T.filter(x => t[x]), irr: false, label: g.drillVerb(name)}, 'grammar');
-  wirePrint(box); wireAskBox(box);
+  wirePrint(box); wireAskBox(box); wireChartNav('es');
   paintPanel();
 }
 // Switch the tense shown (also used by the tests): synchronous, so the rows are there on return.
@@ -4790,7 +4954,7 @@ function refMatches(c, q){
 }
 function openShelf(){ GR.page = 'ref'; GR.from = ''; GR.msg = ''; go('grammar') }
 function openRefCard(c){
-  if (c.page){ GR.page = c.page; GR.from = 'ref'; GR.msg = ''; if (c.page === 'charts') GR.table = null }
+  if (c.page){ GR.page = c.page; GR.from = 'ref'; GR.msg = ''; GR.list = null; if (c.page === 'charts') GR.table = null }
   else { GR.page = 'ref:' + c.id; GR.from = 'ref' }
   if (view !== 'grammar') return go('grammar');
   renderGrammar(); window.scrollTo(0, 0);
@@ -4960,13 +5124,13 @@ function renderRefCard(v, id){
     return;
   }
   if ((c.blocks || []).some(b => /^en/.test(b.t)) && !EV.d){
-    v.innerHTML = `${back}<h1>${esc(c.title)}</h1><p class="calm" id="refWait">${esc(R.loading)}</p>`; bindBack();
+    v.innerHTML = `${back}${refNavHtml(id)}<h1>${esc(c.title)}</h1><p class="calm" id="refWait">${esc(R.loading)}</p>`; bindBack(); wireRefNav();
     loadEnVerbs().then(() => { if (view === 'grammar' && GR.page === 'ref:' + id) renderGrammar() }, () => { const w = $('#refWait'); if (w) w.textContent = R.cantLoad });
     return;
   }
   const need = refVerbsOf(c).filter(x => !tableOf(x));
   if (need.length){
-    v.innerHTML = `${back}<h1>${esc(c.title)}</h1><p class="calm" id="refWait">${esc(R.loading)}</p>`; bindBack();
+    v.innerHTML = `${back}${refNavHtml(id)}<h1>${esc(c.title)}</h1><p class="calm" id="refWait">${esc(R.loading)}</p>`; bindBack(); wireRefNav();
     Promise.all([loadTop().catch(() => null), ...need.map(x => conjOf(x).catch(() => null))]).then(() => {
       if (view !== 'grammar' || GR.page !== 'ref:' + id) return;
       if (refVerbsOf(c).some(x => !tableOf(x)) && !navigator.onLine){ const w = $('#refWait'); if (w) w.textContent = G().cantLoad; return }
@@ -4975,13 +5139,13 @@ function renderRefCard(v, id){
     return;
   }
   const side = refSideOf(id), drill = c.fam || c.efam ? `<button class="primary" id="refDrill">${esc(c.efam ? EVU.drill : R.drill)}</button>` : '';
-  v.innerHTML = `${back}<article class="refcard" data-cid="${esc(id)}" lang="${side === 'en' ? 'es' : 'en'}">
+  v.innerHTML = `${back}${refNavHtml(id)}<article class="refcard" data-cid="${esc(id)}" lang="${side === 'en' ? 'es' : 'en'}">
     <h1${c.titleLang ? ` lang="${c.titleLang}"` : ''}>${esc(c.title)}</h1>${c.lead ? `<p class="sub2">${refFmt(c.lead)}</p>` : ''}
     ${(c.blocks || []).map(b => refBlockHtml(b, c)).join('')}
     ${c.call ? `<div class="trick rcall"><b>${refFmt(c.call.h)}</b> ${refFmt(c.call.x)}</div>` : ''}
     ${c.sources && c.sources.length ? `<section class="rsrc"><h2>${esc(R.sources)}</h2><ul>${c.sources.map(s => `<li>${esc(s)}</li>`).join('')}</ul></section>` : ''}</article>
     ${refActionsHtml(id, refAsk(c), drill)}`;
-  bindBack(); bindRefCommon(v); wireAskBox(v);
+  bindBack(); bindRefCommon(v); wireAskBox(v); wireRefNav();
   const d = $('#refDrill'); if (d) d.onclick = () => c.efam ? drillEnFamily(c.efam) : drillFamily(c.fam);
 }
 // Print + Go deeper under one of the app's own screens when it sits on the shelf (ser or estar, the timeline…).
@@ -5041,7 +5205,7 @@ function renderVerbsTab(v, tabsHtml){
     ${vs.length ? (irrVerbs.length ? `<button class="primary" id="wPractice">${esc(W.practice(due))}</button>` : `<p class="note" id="wPracticeNone">${esc(W.practiceNone)}</p>`) : ''}`;
   v.querySelectorAll('[data-wt]').forEach(b => b.onclick = () => { wordsTab = b.dataset.wt; renderWords() });
   v.querySelectorAll('[data-vf]').forEach(b => b.onclick = () => { verbsFilter = b.dataset.vf; renderWords() });
-  v.querySelectorAll('[data-vv]').forEach(b => b.onclick = () => openGrammar('charts', b.dataset.vv, 'words'));
+  v.querySelectorAll('[data-vv]').forEach(b => b.onclick = () => openGrammar('charts', b.dataset.vv, 'words', {side: 'es', src: 'saved', filt: verbsFilter, verbs: shown.map(r => r.x.w)}));
   const vc = $('#vCharts'); if (vc) vc.onclick = () => openGrammar('charts', null, 'words');
   const pr = $('#wPractice'); if (pr) pr.onclick = () => startListDrill({verbs: irrVerbs.map(r => r.x.w), tenses: MAIN_T, irr: true, label: W.practiceL}, 'words');
 }
@@ -5088,6 +5252,8 @@ const EVU = {
   q: 'Escribe la forma', qForms: {s: 'con he / she / it', p: 'pasado', pp: 'participio', ing: 'con -ing'}, frame: {s: 'She ___ .', p: 'Yesterday I ___ .', pp: 'I have ___ .', ing: 'I am ___ .'},
   typeIt: 'Escríbela', check: 'Revisar', showChoices: 'Ver opciones', showAnswer: 'Ver la respuesta', youTyped: 'Escribiste', youChose: 'Elegiste', right: '¡Bien!', notQuite: 'Casi.', itIs: f => `Es ${f}.`, shown: 'Es esta:',
   row: 'Todas sus formas', seeChart: 'Ver la tabla', hearIt: 'Escuchar', none: 'No hay formas para practicar aquí.',
+  browse: {navL: 'Ver más verbos', prevL: v => v ? `Verbo anterior: ${v}` : 'Verbo anterior', nextL: v => v ? `Verbo siguiente: ${v}` : 'Verbo siguiente', pos: (i, n) => `${i} de ${n}`,
+    top: 'Los más usados', saved: 'Tus verbos', filt: {irr: 'Irregulares', reg: 'Regulares'}, end: 'Fin de la lista', toStart: 'Volver al inicio', hint: 'Desliza para ver más verbos'},
   why: {
     beNow: 'to be es irregular: I am, you are, he is. Se aprende de memoria.', haveNow: 'Con he, she e it, have cambia a has.',
     base: 'Con I, you, we y they, el verbo va tal cual.', s: 'Con he, she e it se agrega -s.', es: 'Termina en s, sh, ch, x u o: se agrega -es.',
@@ -5189,6 +5355,7 @@ function renderEnCharts(v){
       <input type="search" id="evQ" lang="en" placeholder="${esc(EVU.searchPh)}" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="search"></label>
       <button class="pill" type="submit">${esc(EVU.show)}</button></form>
     <div class="vchips quick noprint" id="evQuick" role="group" aria-label="${esc(EVU.quickL)}">${enQuickHtml()}</div>
+    <p class="bhint noprint hide" id="evHint" role="note">${esc(EVU.browse.hint)}</p>
     <div id="evChart" class="sec" aria-live="polite"></div>
     <section class="sec noprint"><h2>${esc(EVU.mostUsed)}</h2><div class="vchips" id="evTop">${shown.map(b => enChipHtml(b)).join('')}</div>
       <button class="link" id="evAll">${esc(EG2.all ? EVU.showFewer : EVU.showAll(all.length))}</button></section>
@@ -5201,18 +5368,19 @@ function renderEnCharts(v){
   $('#evAll').onclick = () => { EG2.all = !EG2.all; renderGrammar() };
   $('#evF').onsubmit = e => { e.preventDefault(); const q = $('#evQ').value.trim().toLowerCase().replace(/^to\s+/, ''); if (!q) return; $('#evQ').blur();
     const b = EV.form.get(q); if (b){ EG2.verb = b; EG2.msg = ''; EG2.row = 0; EG2.shown = new Set() } else EG2.msg = EVU.notFound(q); drawEnChart() };
+  wireSwipe($('#evChart'), evStep, CHART_SKIP);
   drawEnChart();
 }
 function drawEnChart(){
   const box = $('#evChart'); if (!box) return;
-  if (EG2.msg){ box.innerHTML = `<p class="calm">${esc(EG2.msg)}</p>`; return }
+  if (EG2.msg){ box.innerHTML = `<p class="calm">${esc(EG2.msg)}</p>`; paintHint($('#evHint'), false); return }
   const v = enVerb(EG2.verb) || EV.d.verbs[0]; EG2.verb = v.b;
   document.querySelectorAll('#evQuick [data-ev], #evTop [data-ev]').forEach(b => b.setAttribute('aria-pressed', b.dataset.ev === v.b));
   if (!EN_T.includes(EG2.tense)) EG2.tense = 'now';
   const tab = id => `<button role="tab" id="evTab-${id}" data-et="${id}" aria-selected="${EG2.tense === id}" aria-controls="evPanel" tabindex="${EG2.tense === id ? 0 : -1}"><b>${esc(EVU.tabs[id][0])}</b><small>${esc(EVU.tabs[id][1])}</small></button>`;
   const forms = EN_FORMS.map(k => `<span>${esc(EVU.forms[k])} <span class="fm" lang="en">${enSlice(v[k], enMark(v, k))}</span></span>`).join('');
   const pdf = EV.d.verbs.slice(0, 24).some(x => x.b === v.b) ? 'everb-' + v.b : '';
-  box.innerHTML = `<div class="card vcard">
+  box.innerHTML = `<div class="card vcard">${chartNav('en')}
       <div class="vhead"><div class="vt"><h2 lang="en">${esc(v.b)}</h2><div class="gl" lang="es">${esc(v.es)}</div></div>
         <button class="say noprint" id="evSay" aria-label="${esc(EVU.hear(v.b))}">${icon('sound')}</button><button class="vsave noprint" id="evSave"></button></div>
       <div class="kbs"><span class="kb vtype ${enIrr(v) ? 'irr' : 'reg'}">${esc(EVU.types[enIrr(v) ? 'irr' : 'reg'])}</span>${v.f ? `<span class="kb fam rust">${esc(EVU.famNames[v.f])}</span>` : ''}</div>
@@ -5238,7 +5406,7 @@ function drawEnChart(){
     const j = e.key === 'ArrowRight' ? (i + 1) % bs.length : e.key === 'ArrowLeft' ? (i - 1 + bs.length) % bs.length : -1; if (j >= 0){ e.preventDefault(); evTense(bs[j].dataset.et); bs[j].focus() } };
   $('#evCover').onclick = () => { EG2.cover = !EG2.cover; EG2.shown = new Set(); const c = $('#evCover'); c.textContent = EG2.cover ? EVU.uncover : EVU.cover; c.setAttribute('aria-pressed', EG2.cover); paintEnPanel() };
   $('#evDrill').onclick = () => startEnDrill({verbs: [v.b], forms: EN_FORMS, label: EVU.drillVerb(v.b)}, 'grammar');
-  wirePrint(box); wireAskBox(box);
+  wirePrint(box); wireAskBox(box); wireChartNav('en');
   paintEnPanel();
 }
 function evTense(id){ if (!EN_T.includes(id)) return; EG2.tense = id; LS.set('conj.entab', id); paintEnPanel() }
@@ -5401,7 +5569,7 @@ function renderEnVerbsTab(v, tabsHtml){
     ${rows.length ? (irr.length ? `<button class="primary" id="wPractice">${esc(W.practice(due))}</button>` : `<p class="note" id="wPracticeNone">${esc(W.practiceNone)}</p>`) : ''}`;
   v.querySelectorAll('[data-wt]').forEach(b => b.onclick = () => { wordsTab = b.dataset.wt; renderWords() });
   v.querySelectorAll('[data-vf]').forEach(b => b.onclick = () => { enVerbsFilter = b.dataset.vf; renderWords() });
-  v.querySelectorAll('[data-vv]').forEach(b => b.onclick = () => { EG2.verb = b.dataset.vv; EG2.row = 0; EG2.shown = new Set(); openGrammar('en-charts', null, 'words') });
+  v.querySelectorAll('[data-vv]').forEach(b => b.onclick = () => { EG2.verb = b.dataset.vv; EG2.row = 0; EG2.shown = new Set(); openGrammar('en-charts', null, 'words', {side: 'en', src: 'saved', filt: enVerbsFilter, verbs: shown.map(r => r.v.b)}) });
   const vc = $('#vCharts'); if (vc) vc.onclick = () => openGrammar('en-charts', null, 'words');
   const pr = $('#wPractice'); if (pr) pr.onclick = () => startEnDrill({verbs: irr.map(r => r.v.b), forms: ['p', 'pp'], label: EVU.practiceL}, 'words');
 }
