@@ -1,0 +1,10 @@
+{
+  "name": "lector-chat",
+  "private": true,
+  "type": "module",
+  "description": "Lector's backend Worker (messages, accounts, profile sync). Deploy with npx wrangler@3 deploy.",
+  "dependencies": {
+    "@simplewebauthn/server": "13.3.3",
+    "ts-fsrs": "5.4.2"
+  }
+}

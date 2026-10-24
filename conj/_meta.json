@@ -1,0 +1,32 @@
+{
+ "tenses": {
+  "pres": "indicative present",
+  "pret": "preterite",
+  "impf": "imperfect",
+  "fut": "future",
+  "cond": "conditional",
+  "sub": "present subjunctive",
+  "subi": "imperfect subjunctive (-ra)",
+  "imp": "affirmative imperative",
+  "neg": "negative imperative (shown after 'no')"
+ },
+ "persons": [
+  "yo",
+  "tú",
+  "él/ella/usted",
+  "nosotros",
+  "ellos/ellas/ustedes"
+ ],
+ "imperative": [
+  "tú",
+  "usted",
+  "ustedes"
+ ],
+ "marks": {
+  "spell": "predictable spelling change",
+  "stem": "stem vowel change",
+  "irr": "irregular"
+ },
+ "vosotros": false,
+ "source": "English Wiktionary via kaikki.org (CC BY-SA 4.0)"
+}

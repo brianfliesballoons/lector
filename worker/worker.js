@@ -5,10 +5,12 @@ const ALLOWED_ORIGINS = [
   'https://brianfliesballoons.github.io',
   'http://localhost:8000',
   'http://127.0.0.1:8000',
+  'https://lector-preview.pages.dev',
 ];
 
 function cors(origin) {
-  const allow = ALLOWED_ORIGINS.includes(origin) ? origin : ALLOWED_ORIGINS[0];
+  const preview = /^https:\/\/[0-9a-f]{8}\.lector-preview\.pages\.dev$/.test(origin);
+  const allow = (ALLOWED_ORIGINS.includes(origin) || preview) ? origin : ALLOWED_ORIGINS[0];
   return { 'Access-Control-Allow-Origin': allow, 'Vary': 'Origin' };
 }
 

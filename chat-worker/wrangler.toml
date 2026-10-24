@@ -1,0 +1,28 @@
+name = "lector-chat"
+main = "src/worker.js"
+compatibility_date = "2026-09-01"
+account_id = "3053d192fbbbc176b3016b015244d07b"  # Brian's own account; this login also sees a client's account. Never remove.
+workers_dev = true
+
+# Workers AI on the Free plan: 10,000 neurons per UTC day, refused (never billed) past that.
+# The Worker also keeps its own ledger and stops at 9,000 (src/ai.js BUDGET).
+[ai]
+binding = "AI"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "lector-chat"
+database_id = "6e706b72-d6b7-4201-aaaf-ae447125c6e6"   # region WNAM, on account 3053d192…
+migrations_dir = "migrations"
+
+# Secret (wrangler secret put ADMIN_KEY): the admin key. Local copy: ~/.config/lector-chat/admin-key
+
+# Plain settings (not secrets). A deploy sets exactly these, so change them HERE, never in the dashboard.
+[vars]
+# Google sign-in: the OAuth Web client id from Brian's Google Cloud console (public, not a secret).
+# Empty = Google sign-in answers "not set up yet" (503, notConfigured:true). Authorised JavaScript origins on that
+# client must list https://brianfliesballoons.github.io and https://lector-preview.pages.dev.
+GOOGLE_CLIENT_ID = ""
+# "open" = anyone can make an account with a passkey or Google (capped: 5 per address, 50 in all, per day).
+# "closed" = only people who already exist (by invite) can add a way to sign in.
+SIGNUP = "closed"  # invite-only until Brian opens it (2026-10-23: strangers would spend his free AI allowance)

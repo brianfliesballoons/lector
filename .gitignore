@@ -1,2 +1,13 @@
 .DS_Store
 offline books/*.epub
+.wrangler/
+node_modules/
+.dev.vars
+*.secret
+__pycache__/
+node_modules.nosync/
+node_modules 2/
+
+# Project notes live in iCloud (BCL/CODING/lector), not in this public repo
+CLAUDE.md
+**/CLAUDE.md
