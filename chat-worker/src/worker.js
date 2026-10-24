@@ -5,6 +5,7 @@ import { translate, guessLang, correct, explain, helpers, aiState, allowed, AiUn
 import { edits as findEdits } from './diff.js';
 import { accountRoutes, SESSION_MS } from './accounts.js';
 import { connectorRoutes, handleMcp } from './mcp.js';
+import { pushRoutes, pushKey, pushResubscribe, notifyNew } from './push.js';
 
 // ---------- CORS ----------
 const ALLOWED_ORIGINS = [
@@ -24,7 +25,7 @@ function cors(req) {
 
 // ---------- limits ----------
 const LIM = { text: 2000, check: 600, note: 1000, ref: 80, name: 60, title: 80 };
-const PER_DAY = { message: 1000, check: 150, helpers: 100, report: 50, retranslate: 30 };   // per user per UTC day
+const PER_DAY = { message: 1000, check: 150, helpers: 100, report: 50, retranslate: 30, pushsub: 60, pushtest: 20 };   // per user per UTC day
 const INVITE_DAYS = 14, INVITE_MAX_DAYS = 90;   // an invite link works this long unless it is used to make a session first
 const LANGS = ['es', 'en'];
 const LEVELS = ['beginner', 'elementary', 'getting by', 'intermediate', 'advanced', 'native'];
@@ -257,6 +258,10 @@ export default {
       const acc = await accountRoutes(req, env, ctx, path, { json, rawJson, err, sha, rand, clean, body, bearer, publicUser, LANGS, LEVELS, originOk, authenticate });
       if (acc) return acc;
 
+      // ---------- web push: the public key needs no sign-in (src/push.js) ----------
+      if (path === '/push/key' && M === 'GET') return pushKey(env, { json });
+      if (path === '/push/resubscribe' && M === 'POST') return pushResubscribe(req, env, { json, err, body, use });
+
       // ---------- everything below needs a person ----------
       const me = await authenticate(req, env);
       if (!me) return req.authWhy === 'invite-expired'
@@ -266,6 +271,10 @@ export default {
       // ---------- the app's side of the connector: /connector (make, check, turn off the link) and /context (Go deeper) ----------
       const con = await connectorRoutes(req, env, ctx, path, me, { json, err, sha, rand, body });
       if (con) return con;
+
+      // ---------- web push: subscribe, unsubscribe, preferences, test (src/push.js) ----------
+      const pr = await pushRoutes(req, env, ctx, path, me, { json, err, body, use });
+      if (pr) return pr;
 
       if (path === '/me' && M === 'GET') {
         return json({ user: publicUser(me), ai: { available: await allowed(env, 'core', me.id), extrasAvailable: await allowed(env, 'extra', me.id) } });
@@ -326,6 +335,8 @@ export default {
           await tryFailed(env, m, e);
           m = await env.DB.prepare('SELECT * FROM messages WHERE id = ?').bind(m.id).first();
         }
+        // tell the other person's phones (after the translation was tried, so it can ride along); never holds up the send
+        ctx.waitUntil(notifyNew(env, m));
         return json({ message: msgOut(m) }, 201);
       }
 

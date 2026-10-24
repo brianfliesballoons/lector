@@ -26,3 +26,9 @@ GOOGLE_CLIENT_ID = ""
 # "open" = anyone can make an account with a passkey or Google (capped: 5 per address, 50 in all, per day).
 # "closed" = only people who already exist (by invite) can add a way to sign in.
 SIGNUP = "closed"  # invite-only until Brian opens it (2026-10-23: strangers would spend his free AI allowance)
+# Web push (new-message notifications). VAPID_PUBLIC is the public half of the key pair in ~/.config/lector-chat/vapid.json
+# (public, not a secret: every browser that subscribes is given it). The private half is the Worker SECRET VAPID_PRIVATE,
+# set once with: node -e 'process.stdout.write(require(process.env.HOME+"/.config/lector-chat/vapid.json").privateKey)' | npx wrangler@3 secret put VAPID_PRIVATE
+# Changing the key pair silently ends every existing subscription (the app re-subscribes when it next opens).
+VAPID_PUBLIC = "BLeh8CLezA7Psd9j1TXLFr80y2W7RQ1en3GdPHb2iMuI7rbPF2yC-INgNgPl64Xz-zhG7MyxOkVddEjuwEGEkXU"
+VAPID_SUBJECT = "mailto:brianfliesballoons@gmail.com"

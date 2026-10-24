@@ -593,6 +593,9 @@ a.primary{text-decoration:none}
 .nudge{display:flex;align-items:center;gap:6px 10px;flex-wrap:wrap;background:var(--tip);border:1px solid var(--tipline);border-radius:14px;padding:8px 12px;font-size:15px;line-height:1.4}
 .nudge span{flex:1 1 180px}
 .nudge .link{padding:0 4px;min-height:44px}
+#pushBox{display:flex;flex-direction:column;gap:6px}
+.nudge .nb{display:flex;align-items:center;gap:6px 10px;flex:0 0 auto;margin-left:auto}
+#pushBox .item input:disabled{opacity:.5}
 .pend .s.pendl{color:var(--accent)}
 /* tu camino: English from zero for a Spanish speaker */
 .lh2{margin:6px 0 -8px;font-size:20px}
@@ -1277,6 +1280,25 @@ const UI = {en: {
   look: {title: 'Look', size: n => `Text size · ${n}`, theme: 'Theme', themes: {light: 'Paper', sepia: 'Sepia', dark: 'Dark', black: 'Black'},
     match: 'Match my phone (light by day, dark at night)', font: 'Font', more: 'More: spacing, margins, more fonts', moreFonts: 'More fonts', easyRead: 'Easy read',
     spacing: 'Line spacing', spacings: ['Tight', 'Normal', 'Airy'], margins: 'Margins', marginsL: ['Narrow', 'Normal', 'Wide'], align: 'Alignment', aligns: ['Ragged', 'Justified']},
+  // notifications (Settings › Notifications, and the one-time prompt in Messages)
+  push: {group: 'Notifications', newMsgs: 'New messages', preview: 'Show message text', test: 'Send a test notification',
+    offLine: 'Get a notification on this device when a new message arrives, even when Lector is closed.',
+    onPrev: 'On for this device. A notification shows who wrote and the start of the message.',
+    onNoPrev: 'On for this device. A notification shows who wrote, not what they wrote.',
+    ask: n => `Get notified when ${n} writes?`, turnOn: 'Turn on', notNow: 'Not now',
+    onToast: 'Notifications are on.', offToast: 'Notifications are off on this device.',
+    testSent: 'Sent. It should arrive in a few seconds.', testWait: 'A test was just sent. Try again in a minute.',
+    failed: 'Couldn’t turn on notifications. Please try again.', notConfigured: 'Notifications aren’t ready on Lector’s server yet.',
+    unsupported: 'This browser can’t show notifications from Lector.', signIn: 'Notifications are for Messages: open your invite link or sign in first.',
+    blocked: 'Notifications are blocked for Lector.', laterToast: 'No notifications for now. You can turn them on in Settings any time.',
+    denied: {android: 'Notifications are blocked for Lector. To allow them in Chrome: tap the icon left of the web address › Permissions › Notifications. If you installed Lector, press and hold its icon › App info › Notifications.',
+      ios: 'Notifications are blocked for Lector. To allow them: iPhone Settings › Notifications › Lector › Allow Notifications.',
+      other: 'Notifications are blocked for Lector. Allow them in your browser’s settings for this site, then turn this back on.'},
+    iosT: 'Notifications on iPhone', iosLine: 'iPhone shows Lector’s notifications only when you open Lector from your Home Screen.',
+    iosSteps: [['Tap Share', 'In Safari, the square with an arrow. On newer iPhones it is under the ••• button.'],
+      ['Add to Home Screen', 'Scroll down, tap Add to Home Screen, then Add.'],
+      ['Open Lector from there', 'Open Lector from its new icon, then come back here and turn on notifications.']],
+    gotIt: 'Got it'},
   set: {title: 'Settings', language: 'Language', learning: 'Learning', learningL: 'Language you are learning', appLang: 'App language', uiAuto: 'Automatic',
     learnNote: 'Free books, the dictionary and the voice follow this. Each book keeps its own language.',
     listening: 'Listening', speakTap: 'Speak each word I tap', accent: 'Accent', accents: {auto: 'Any', 'es-ES': 'Spain', 'es-MX': 'Mexico', 'es-US': 'US', 'fr-FR': 'France', 'fr-CA': 'Canada', 'en-US': 'US', 'en-GB': 'UK'},
@@ -1734,6 +1756,24 @@ UI.es = {
   look: {title: 'Vista', size: n => `Tamaño de letra · ${n}`, theme: 'Tema', themes: {light: 'Papel', sepia: 'Sepia', dark: 'Oscuro', black: 'Negro'},
     match: 'Igual que mi teléfono (claro de día, oscuro de noche)', font: 'Letra', more: 'Más: espacio, márgenes, más letras', moreFonts: 'Más letras', easyRead: 'Fácil de leer',
     spacing: 'Espacio entre líneas', spacings: ['Junto', 'Normal', 'Amplio'], margins: 'Márgenes', marginsL: ['Angostos', 'Normales', 'Anchos'], align: 'Alineación', aligns: ['A la izquierda', 'Justificado']},
+  push: {group: 'Notificaciones', newMsgs: 'Mensajes nuevos', preview: 'Mostrar el texto del mensaje', test: 'Enviar una notificación de prueba',
+    offLine: 'Recibe un aviso en este dispositivo cuando llegue un mensaje nuevo, aunque Lector esté cerrado.',
+    onPrev: 'Activadas en este dispositivo. El aviso muestra quién escribió y el principio del mensaje.',
+    onNoPrev: 'Activadas en este dispositivo. El aviso muestra quién escribió, pero no lo que escribió.',
+    ask: n => `¿Quieres que te avise cuando ${n} te escriba?`, turnOn: 'Activar', notNow: 'Ahora no',
+    onToast: 'Las notificaciones están activadas.', offToast: 'Las notificaciones están desactivadas en este dispositivo.',
+    testSent: 'Enviada. Debe llegar en unos segundos.', testWait: 'Se acaba de enviar una prueba. Inténtalo de nuevo en un minuto.',
+    failed: 'No se pudieron activar las notificaciones. Inténtalo de nuevo.', notConfigured: 'Las notificaciones todavía no están listas en el servidor de Lector.',
+    unsupported: 'Este navegador no puede mostrar notificaciones de Lector.', signIn: 'Las notificaciones son para Mensajes: primero abre tu enlace de invitación o inicia sesión.',
+    blocked: 'Las notificaciones de Lector están bloqueadas.', laterToast: 'Sin notificaciones por ahora. Puedes activarlas en Ajustes cuando quieras.',
+    denied: {android: 'Las notificaciones de Lector están bloqueadas. Para permitirlas en Chrome: toca el ícono a la izquierda de la dirección web › Permisos › Notificaciones. Si instalaste Lector, mantén presionado su ícono › Información de la app › Notificaciones.',
+      ios: 'Las notificaciones de Lector están bloqueadas. Para permitirlas: Ajustes del iPhone › Notificaciones › Lector › Permitir notificaciones.',
+      other: 'Las notificaciones de Lector están bloqueadas. Permítelas en los ajustes de tu navegador para este sitio y vuelve a activarlas aquí.'},
+    iosT: 'Notificaciones en iPhone', iosLine: 'El iPhone muestra las notificaciones de Lector solo cuando abres Lector desde tu pantalla de inicio.',
+    iosSteps: [['Toca Compartir', 'En Safari, el cuadrado con una flecha. En los iPhone más nuevos está dentro del botón •••.'],
+      ['Agregar a inicio', 'Baja en la lista, toca Agregar a inicio y luego Agregar.'],
+      ['Abre Lector desde ahí', 'Abre Lector desde su ícono nuevo, vuelve aquí y activa las notificaciones.']],
+    gotIt: 'Entendido'},
   set: {title: 'Ajustes', language: 'Idioma', learning: 'Libros en', learningL: 'Idioma de los libros', appLang: 'Idioma de la app', uiAuto: 'Automático',
     learnNote: 'Los libros gratis, el diccionario y la voz siguen este idioma. Cada libro conserva el suyo.',
     listening: 'Escuchar', speakTap: 'Decir en voz alta cada palabra que toco', accent: 'Acento', accents: {auto: 'Cualquiera', 'es-ES': 'España', 'es-MX': 'México', 'es-US': 'EE. UU.', 'fr-FR': 'Francia', 'fr-CA': 'Canadá', 'en-US': 'EE. UU.', 'en-GB': 'Reino Unido'},
@@ -1755,7 +1795,7 @@ UI.es = {
       retry: 'Intentar otra vez', save: 'Guardarlo ahora'}}
 };
 // Anything the Spanish tables leave out falls back to the English wording.
-Object.setPrototypeOf(UI.es.ref, UI.en.ref); Object.setPrototypeOf(UI.es.wv, UI.en.wv);
+Object.setPrototypeOf(UI.es.ref, UI.en.ref); Object.setPrototypeOf(UI.es.wv, UI.en.wv); Object.setPrototypeOf(UI.es.push, UI.en.push);
 let T = UI.en;
 
 /* ---------- storage (IndexedDB for book texts) ---------- */
@@ -5258,7 +5298,7 @@ const Auth = {
     try { history.replaceState(history.state, '', u.pathname + u.search + u.hash) } catch(e){}
     if (!/^[A-Za-z0-9_-]{20,200}$/.test(t)) return false;
     if (this.kind() === 'session') return true;   // already signed in properly: the session stays (the invite may be retired)
-    if (t !== this.token()){ this.set(t, 'invite'); chatForget(); acctForget(); Acct.joined = true }   // a different person on this phone: start clean
+    if (t !== this.token()){ if (this.token()) Push.forget(); this.set(t, 'invite'); chatForget(); acctForget(); Acct.joined = true }   // a different person on this phone: start clean
     return true;
   }
 };
@@ -5404,23 +5444,173 @@ async function signedIn(r){
   try { await Acct.refresh() } catch(e){}
   Sync.run();
   chatLoad();
+  Push.refresh();   // a new sign-in: the server ties this device's notifications to it (the invite they came from may be retired)
   return r;
 }
 // This device's session is gone (expired, or signed out from another device): forget it, keep every word.
 function acctLost(){
   if (Auth.kind() !== 'session') return;
-  Auth.clear(); acctForget(); chatForget(); clearTimeout(Chat.timer); Chat.state = 'noinvite';
+  Push.forget(); Auth.clear(); acctForget(); chatForget(); clearTimeout(Chat.timer); Chat.state = 'noinvite';
   toast(T.acct.gone);
   if (view === 'messages') paintChat(); else if (view === 'settings') renderSettings();
 }
 // remove: also take this person's words off the phone (pushed to the account first, so nothing is lost there).
 async function signOut(remove){
   if (remove && Sync.on()){ try { await Promise.race([Sync.run(), new Promise(r => setTimeout(r, 8000))]) } catch(e){} }
+  if (!navigator.onLine) return toast(T.acct.offline);
+  await Push.disable();   // this device stops getting this person's messages (the server copy first, while the session still works)
   try { await acctApi('POST', '/auth/signout', {}) } catch(e){ if (e.offline) return toast(T.acct.offline) }   // a 401 means it was already gone
   Auth.clear(); acctForget(); chatForget(); clearTimeout(Chat.timer); Chat.state = 'noinvite';
   if (remove){ await clearLearning(); LS.set('owner', null) }
   closeSheet(); toast(remove ? T.acct.signedOutRm : T.acct.signedOut);
   if (view === 'settings') renderSettings(); else if (view === 'messages') paintChat();
+}
+
+/* ---------- notifications: web push for new messages (lector-chat › /push/*, sw.js) ---------- */
+// This device asks lector-chat to send a push when the other person writes; sw.js shows it. Permission is asked
+// only from a tap (the Settings switch, or "Turn on" in the one-time prompt in Messages), never on load. On iPhone,
+// web push works only in Lector opened from the Home Screen (iOS 16.4+), so Safari in a tab gets the steps instead.
+// LS 'push': {on, endpoint, key, at, lang, tok, preview}. The server keeps the subscription tied to the sign-in it
+// came from, so it ends by itself when that sign-in does.
+const standalone = () => { try { return matchMedia('(display-mode: standalone)').matches || navigator.standalone === true } catch(e){ return false } };
+const tokTag = () => { const t = Auth.token(); let h = 5381; for (let i = 0; i < t.length; i++) h = (h * 33 ^ t.charCodeAt(i)) >>> 0; return t ? h.toString(36) : '' };
+const Push = {
+  st: LS.get('push', null) || {},
+  busy: false, k: '',
+  ok(){ return 'serviceWorker' in navigator && 'PushManager' in window && 'Notification' in window },
+  iosNeedsHome(){ return PLATFORM === 'ios' && !standalone() },
+  perm(){ try { return Notification.permission } catch(e){ return 'default' } },
+  on(){ return !!this.st.on && this.perm() === 'granted' },
+  preview(){ return this.st.preview !== false },
+  lang(){ return T === UI.es ? 'es' : 'en' },
+  save(p){ this.st = Object.assign({}, this.st, p); LS.set('push', this.st) },
+  reg(){ return Promise.race([navigator.serviceWorker.ready, new Promise((_, no) => setTimeout(() => no(new Error('sw')), 8000))]) },
+  async key(){
+    if (this.k) return this.k;
+    const d = await acctApi('GET', '/push/key', null, {anon: true});
+    if (!d.configured || !d.key){ const e = new Error('notConfigured'); e.notConfigured = true; throw e }
+    return (this.k = d.key);
+  },
+  // From a tap. The browser's question comes first, before any network wait, so Safari and Chrome count it as the tap's.
+  async enable(){
+    const p = await Notification.requestPermission();
+    if (p !== 'granted'){ this.save({on: false}); return p }
+    await this.subscribe();
+    return 'granted';
+  },
+  async subscribe(){
+    const r = await this.reg(), key = await this.key();
+    let sub = await r.pushManager.getSubscription();
+    if (sub && this.st.key && this.st.key !== key){ try { await sub.unsubscribe() } catch(e){} sub = null }   // the server's key changed
+    if (!sub) sub = await r.pushManager.subscribe({userVisibleOnly: true, applicationServerKey: new Uint8Array(b64u.dec(key))});
+    const d = await acctApi('POST', '/push/subscribe', {subscription: sub.toJSON(), lang: this.lang()});
+    this.save({on: true, endpoint: sub.endpoint, key, at: Date.now(), lang: this.lang(), tok: tokTag(), preview: d.preview !== false});
+    // sw.js cannot read localStorage: it finds the API address here when the push service replaces the subscription
+    try { (await caches.open('push-config')).put(new URL('push-config.json', location.href).href, new Response(JSON.stringify({api: CHAT_API}))) } catch(e){}
+    return d;
+  },
+  // Off on this device: lector-chat forgets it first (while this device is still signed in), then the browser does.
+  async disable(){
+    let sub = null; try { const r = this.ok() && await navigator.serviceWorker.getRegistration(); if (r) sub = await r.pushManager.getSubscription() } catch(e){}
+    const ep = (sub && sub.endpoint) || this.st.endpoint;
+    if (ep && Auth.token()) try { await acctApi('POST', '/push/unsubscribe', {endpoint: ep}) } catch(e){}
+    if (sub) try { await sub.unsubscribe() } catch(e){}
+    this.save({on: false, endpoint: null, at: 0, tok: ''});
+  },
+  // The sign-in is gone, or someone else's invite arrived: the browser drops it (the server's copy ends with the sign-in).
+  forget(){
+    this.save({on: false, endpoint: null, at: 0, tok: ''});
+    if (this.ok()) navigator.serviceWorker.getRegistration().then(r => r && r.pushManager.getSubscription()).then(s => s && s.unsubscribe()).catch(() => {});
+  },
+  async setPreview(v){ const d = await acctApi('PUT', '/push/prefs', {preview: !!v}); this.save({preview: d.preview !== false}); return d },
+  // On launch and after a new sign-in: keep lector-chat's copy current (new sign-in, new app language, a subscription
+  // the browser lost). Quiet, at most daily otherwise, and never asks for permission.
+  async refresh(){
+    if (!this.st.on || !this.ok() || this.perm() !== 'granted' || !Auth.token() || this.iosNeedsHome()) return;
+    try {
+      if (this.st.tok === tokTag() && this.st.lang === this.lang() && Date.now() - (this.st.at || 0) < 864e5){
+        const sub = await (await this.reg()).pushManager.getSubscription();
+        if (sub && sub.endpoint === this.st.endpoint) return;
+      }
+      await this.subscribe();
+    } catch(e){ if (e.status === 401 || e.notConfigured) this.save({on: false}) }
+  }
+};
+// Turning notifications on from a tap; true when they are on afterwards. Says what happened.
+async function pushTurnOn(){
+  const P = T.push;
+  if (Push.perm() === 'denied'){ toast(P.blocked); return false }
+  Push.busy = true;
+  let on = false;
+  try {
+    const p = await Push.enable();
+    on = p === 'granted';
+    toast(on ? P.onToast : p === 'denied' ? P.blocked : P.laterToast);
+  } catch(e){ Push.save({on: false}); toast(e.notConfigured ? P.notConfigured : e.offline ? T.acct.offline : P.failed) }
+  Push.busy = false; LS.set('push.asked', Date.now());
+  return on;
+}
+// iPhone in a Safari tab: how to get Lector onto the Home Screen, where notifications work.
+const iosStepsHtml = () => `<ol class="steps">${T.push.iosSteps.map(([t, s], i) => `<li><span class="num" aria-hidden="true">${i + 1}</span><div><strong>${esc(t)}</strong><span>${esc(s)}</span></div></li>`).join('')}</ol>`;
+function openIosSteps(){
+  openSheet(`${head(`<h2>${esc(T.push.iosT)}</h2>`, T.close)}<div class="acbody"><p class="lede">${esc(T.push.iosLine)}</p>${iosStepsHtml()}
+    <button class="primary" data-close>${esc(T.push.gotIt)}</button></div>`, 'tall', T.push.iosT);
+}
+// Settings › Notifications
+function paintPush(){
+  const box = $('#pushBox'); if (!box) return;
+  const P = T.push;
+  if (Push.iosNeedsHome()){
+    box.innerHTML = `<div class="offcard" id="pushIos"><div class="st"><span>${esc(P.iosT)}</span></div><p>${esc(P.iosLine)}</p>${iosStepsHtml()}</div>`;
+    return;
+  }
+  if (!Push.ok()){ box.innerHTML = `<p class="small" style="margin:0">${esc(P.unsupported)}</p>`; return }
+  if (!Auth.token()){ box.innerHTML = `<p class="small" style="margin:0" id="pushNote">${esc(P.signIn)}</p>`; return }
+  const on = Push.on(), denied = Push.perm() === 'denied';
+  const note = denied ? P.denied[PLATFORM] || P.denied.other : on ? (Push.preview() ? P.onPrev : P.onNoPrev) : P.offLine;
+  box.innerHTML = `<div class="list">
+      <label class="item"><span>${esc(P.newMsgs)}</span><input type="checkbox" id="pushOn" ${on ? 'checked' : ''} ${Push.busy ? 'disabled' : ''}></label>
+      ${on ? `<label class="item"><span>${esc(P.preview)}</span><input type="checkbox" id="pushPrev" ${Push.preview() ? 'checked' : ''}></label>
+        <button class="item" id="pushTest"><span>${esc(P.test)}</span>${icon('next', 'sm')}</button>` : ''}
+    </div><p class="small" id="pushNote" role="status" style="margin:2px 0 0">${esc(note)}</p>`;
+  $('#pushOn').onchange = async e => {
+    e.target.disabled = true;
+    if (e.target.checked) await pushTurnOn();
+    else { Push.busy = true; await Push.disable(); Push.busy = false; toast(P.offToast) }
+    paintPush(); paintPushAsk();
+  };
+  const pv = $('#pushPrev'); if (pv) pv.onchange = async e => {
+    try { await Push.setPreview(e.target.checked) } catch(err){ toast(err.offline ? T.acct.offline : P.failed) }
+    paintPush();
+  };
+  const tb = $('#pushTest'); if (tb) tb.onclick = async () => {
+    tb.disabled = true;
+    try { const r = await acctApi('POST', '/push/test', {endpoint: Push.st.endpoint}); toast(r.ok ? P.testSent : P.failed) }
+    catch(err){ toast(err.status === 429 ? P.testWait : err.status === 404 ? P.failed : err.offline ? T.acct.offline : P.failed); if (err.status === 404){ Push.save({on: false}); paintPush() } }
+    if (tb.isConnected) tb.disabled = false;
+  };
+  // the "show message text" choice lives on the server (it is per person, for all their devices)
+  if (on && !paintPush.got){ paintPush.got = true; acctApi('GET', '/push/prefs').then(d => { if (Push.preview() !== (d.preview !== false)){ Push.save({preview: d.preview !== false}); paintPush() } }).catch(() => { paintPush.got = false }) }
+}
+// Messages: one gentle question, once, after the first message is sent or received. Never asks the browser by itself.
+function pushAskDue(){
+  return !!Chat.thread && Chat.msgs.length > 0 && !LS.get('push.asked') && !Push.on() && Push.perm() !== 'denied' && !Push.busy &&
+    (Push.ok() || Push.iosNeedsHome()) && !!Auth.token();
+}
+function paintPushAsk(){
+  const v = $('#v-messages'), cur = $('#cPush');
+  if (view !== 'messages' || !v || !$('#msgs')){ return }
+  if (!pushAskDue()){ if (cur) cur.remove(); return }
+  if (cur || $('#cNudge')) return;   // one question at a time: the passkey one (when it shows) goes first
+  const el = document.createElement('div'); el.className = 'nudge'; el.id = 'cPush'; el.setAttribute('role', 'region'); el.setAttribute('aria-label', T.push.group);
+  el.innerHTML = `<span>${esc(T.push.ask(partner().name || ''))}</span><span class="nb"><button class="pill" id="pOn">${esc(T.push.turnOn)}</button><button class="link" id="pNo">${esc(T.push.notNow)}</button></span>`;
+  $('#cOff').before(el);
+  $('#pOn').onclick = async () => {
+    if (Push.iosNeedsHome()){ LS.set('push.asked', Date.now()); el.remove(); return openIosSteps() }
+    $('#pOn').disabled = true;
+    await pushTurnOn(); el.remove();
+  };
+  $('#pNo').onclick = () => { LS.set('push.asked', Date.now()); el.remove(); toast(T.push.laterToast) };
 }
 
 /* Google Identity Services, loaded only when the Worker says Google sign-in is set up. One-time nonce per button. */
@@ -6174,7 +6364,7 @@ function paintChat(){
       <button class="csend" id="cSend" aria-label="${T.checkSend}">${icon('send')}</button>
     </div>`;
   paintBanner(); paintMsgs(true);
-  if ($('#cNudge')){ $('#nAdd').onclick = openAccount; $('#nNo').onclick = () => { LS.set('nudge.pk', Date.now()); $('#cNudge').remove() } }
+  if ($('#cNudge')){ $('#nAdd').onclick = openAccount; $('#nNo').onclick = () => { LS.set('nudge.pk', Date.now()); $('#cNudge').remove(); paintPushAsk() } }
   $('#cDays').onclick = toggleDays;
   $('#cHelp').onclick = openHelpers;
   $('#cSend').onclick = sendFlow;
@@ -6246,6 +6436,7 @@ function paintMsgs(jump){
     prev = el;
   }
   for (const el of have.values()) el.remove();
+  paintPushAsk();
   if (near) requestAnimationFrame(() => window.scrollTo(0, document.documentElement.scrollHeight));
 }
 async function toggleDays(){
@@ -6841,6 +7032,7 @@ function renderSettings(){
       <button class="item two" id="sAcct"><span>${esc(T.acct.title)}<small class="sub" id="sAcctV"></small></span>${icon('next','sm')}</button>
       <button class="item two" id="sConn"><span>${esc(T.conn.item)}<small class="sub" id="sConnV"></small></span>${icon('next','sm')}</button>
     </div></section>
+    <section class="group" id="sPush"><h2>${esc(T.push.group)}</h2><div id="pushBox"></div></section>
     <section class="group"><h2>${esc(S.language)}</h2><div class="list">
       <label class="item"><span>${esc(S.learning)}</span><span class="v">${esc(name)}</span><select id="lng" aria-label="${esc(S.learningL)}">${opt(Object.keys(LANGS).filter(c => c !== 'en' || T === UI.es || settings.lang === 'en').map(c => [c, langName(c)]), settings.lang)}</select></label>
       <label class="item"><span>${esc(S.appLang)}</span><span class="v">${esc(lbl(uiOpts, settings.ui || 'auto'))}</span><select id="uiL" aria-label="${esc(S.appLang)}">${opt(uiOpts, settings.ui || 'auto')}</select></label>
@@ -6870,6 +7062,7 @@ function renderSettings(){
   $('#sFind').onclick = () => go('find');
   $('#sAcct').onclick = openAccount; $('#sConn').onclick = openConnector;
   paintAcctItems();
+  paintPush();
   paintOffline();
 }
 
@@ -6931,7 +7124,20 @@ function autoSaveDictionary(code = settings.lang){
   setTimeout(() => { if (document.visibilityState === 'visible') saveDictionary(code) }, 4000);
 }
 
-if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(() => {});
+if ('serviceWorker' in navigator){
+  navigator.serviceWorker.register('sw.js').catch(() => {});
+  // sw.js, on a push: fetch the new message now, and say whether this conversation is on screen (then the
+  // system notification is skipped). On a tap on a notification: show Messages (or Settings, for the test).
+  navigator.serviceWorker.addEventListener('message', e => {
+    const d = e.data || {};
+    if (d.type === 'lector-push'){
+      const showing = view === 'messages' && document.visibilityState === 'visible' && !!Chat.thread && Chat.thread.id === d.thread;
+      if (e.ports && e.ports[0]) e.ports[0].postMessage({showing});
+      if (Auth.token()){ if (Chat.thread && Chat.state === 'ready') schedule(0); else chatLoad() }
+    }
+    if (d.type === 'lector-open') go(d.tab === 'settings' ? 'settings' : 'messages');
+  });
+}
 // The page's fixed words (Library headings, reader buttons) follow the interface language too.
 function paintStatic(){
   const set = (sel, t) => { const e = $(sel); if (e) e.textContent = t };
@@ -6948,10 +7154,14 @@ Owner.boot();
 const joined = Auth.fromUrl();
 setUiLang(uiCode());
 paintTabs();
+// a notification opens ./#messages (or ./#settings for the test one); the address is tidied afterwards
+const bootTab = (/^#(messages|settings)$/.exec(location.hash) || [])[1];
+if (bootTab) try { history.replaceState(history.state, '', location.pathname + location.search) } catch(e){}
 if (printId()) printRoute(printId());
-else go(joined ? 'messages' : 'library');
+else go(joined ? 'messages' : bootTab || 'library');
 if (Auth.token() && !joined) chatLoad();
 if (Auth.token()) Sync.run();   // pull on launch; the very first time, upload this phone's words first, then merge
+if (Auth.token()) Push.refresh();   // notifications already on: keep the server's copy current (never asks)
 if (LS.get('last')) autoSaveDictionary(settings.lang);
 if (Owner.pending()) setTimeout(showOwnerAsk, 300);
 </script>
