@@ -3,7 +3,7 @@
 // library are cache-first (so reading, reviews and the verb charts work offline). Only the small app shell is precached: a language's dictionary
 // (dict/ for Spanish, dict/fr/ for French, dict/en/ for English: all cache-first by the /dict/ rule) is fetched only once a word in it is looked up,
 // or when that language's dictionary is saved for offline.
-const CACHE = 'lector-v11';
+const CACHE = 'lector-v12';
 const isFont = url => /fonts\.(googleapis|gstatic)\.com$/.test(url.hostname);
 // Immutable files: safe to carry from an older cache into a new one. The vendored libraries
 // carry their version in the name (ts-fsrs-5.4.2.js), so an upgrade is a new file, never a stale one.
