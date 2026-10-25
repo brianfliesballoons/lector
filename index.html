@@ -877,6 +877,82 @@ a.primary{text-decoration:none}
   .bootc p.small{font-size:11px}
   .legend{font-size:11px}.legend .sl{font-size:13px}
 }
+/* verb practice: today's practice, keep going, the sentence card, mistake patterns, the progress map */
+.pday{background:var(--card);border:2px solid var(--accent);border-radius:18px;padding:12px 14px;display:flex;flex-direction:column;gap:8px}
+.pday.calm{border:1px solid var(--line)}
+.pday .k3{display:flex;align-items:baseline;gap:8px}
+.pday .k3 .kicker{color:var(--accent)}
+.pday .k3 small{margin-left:auto;font-size:13px;color:var(--mute)}
+.pday .tt,.pkeep .tt{font-family:var(--serif);font-size:21px;font-weight:600}
+.prow{display:flex;align-items:center;gap:10px;min-height:44px;border-top:1px solid var(--line);padding:2px 0}
+.prow:first-child{border-top:none}
+.prow .ic{flex:none;width:30px;height:30px;border-radius:15px;background:var(--soft);color:var(--accent);display:grid;place-items:center}
+.prow .ic.fix{background:var(--tip);color:var(--med)}
+.prow .tx{flex:1;min-width:0}
+.prow b{display:block;font-size:15px}
+.prow small{display:block;font-size:13px;color:var(--mute);line-height:1.3;overflow-wrap:anywhere}
+.prow .n{font-weight:700;font-size:16px;min-width:22px;text-align:right}
+.pkeep .ic.dk{background:var(--ink);color:var(--bg)}
+.pchips{display:flex;gap:6px;flex-wrap:wrap}
+.pchips span{padding:5px 10px;border-radius:14px;font-size:13px;background:var(--bg);border:1px solid var(--line);white-space:nowrap;max-width:100%;overflow:hidden;text-overflow:ellipsis}
+.ptiles{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.ptiles button{min-height:56px;text-align:left;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:8px 12px;display:flex;flex-direction:column;justify-content:center;gap:2px;color:var(--ink)}
+.ptiles b{font-size:15px}.ptiles small{font-size:13px;color:var(--mute)}.ptiles small.fixn{color:var(--med);font-weight:700}
+.sqk{display:flex;align-items:center;gap:8px;font-size:14px;color:var(--mute);margin-bottom:-6px}
+.fcard.sq{gap:12px;padding:16px}
+.sqtop{display:flex;align-items:center;gap:8px}
+.sqtop .tag{margin-left:auto;font-weight:400;font-size:14px;max-width:70%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.fcard .sent .cue{text-decoration:underline dotted var(--accent);text-decoration-thickness:2px;text-underline-offset:5px}
+.fcard .sent .cue.on{background:var(--tip);font-weight:600;text-decoration-style:solid;border-radius:6px;padding:0 3px}
+.fcard .sent .fill{font-weight:700;color:var(--ok)}.fcard .sent .fill.alt{color:var(--med)}
+.gap.sg{background:var(--soft);border:1.5px dashed var(--grab);border-radius:6px;height:1.15em;vertical-align:-.15em}
+.call{background:var(--tip);border:1px solid var(--tipline);border-radius:12px;padding:10px 12px;font-size:15px;line-height:1.45}
+.call .ch{font-weight:700;margin-bottom:3px}
+.fcard .fb .alt,.fb .alt{color:var(--med);font-weight:700}
+.lnks .lk2{display:flex;gap:10px}
+.sqwhy{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 14px;font-size:14px;color:var(--mute);line-height:1.45;display:flex;flex-direction:column;gap:6px}
+.sqwhy b{color:var(--ink);font-size:15px}
+.sqrow{gap:8px;padding:12px 14px}
+.src{font-size:12px;color:var(--mute);margin:0;line-height:1.5;overflow-wrap:anywhere}
+.src a{color:var(--mute)}
+.patc{border:2px solid var(--accent)}
+.patc h2{font-family:var(--serif);font-size:21px;font-weight:600;line-height:1.3}
+.ptab{width:100%;border-collapse:collapse;font-size:15px}
+.ptab th{font-size:12px;color:var(--mute);text-align:left;padding:5px 4px;font-weight:700}
+.ptab td{padding:6px 4px;border-top:1px solid var(--line);overflow-wrap:anywhere}
+.ptab .was{color:var(--hard);text-decoration:line-through}
+.ptab .vw{font-size:13px;color:var(--mute)}
+.watch{display:flex;align-items:center;gap:10px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:4px 6px 4px 12px;min-height:52px}
+.watch .wt{flex:1;min-width:0}.watch b{display:block;font-size:15px}.watch small{display:block;font-size:13px;color:var(--mute)}
+.pmf{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:space-between}
+.pmf .filters button{min-height:40px;padding:0 12px;font-size:14px}
+.pmgrid{display:grid;grid-template-columns:76px repeat(4,minmax(0,1fr));gap:3px;align-items:center}
+.pmgrid .hd{font-size:12px;color:var(--mute);text-align:center;overflow-wrap:anywhere;line-height:1.2}
+.pmgrid .vb{font-family:var(--serif);font-size:16px;font-weight:600;overflow-wrap:anywhere;line-height:1.15}
+.pmgrid button{height:44px;border-radius:8px;padding:0;border:1px solid var(--line)}
+.pmgrid button[aria-pressed=true]{box-shadow:0 0 0 2px var(--bg),0 0 0 4px var(--ink)}
+.lv0{background:var(--card)}.pmgrid .lv0,.pmleg i.lv0{border:1px dashed var(--grab)}
+.lv1{background:color-mix(in srgb,var(--ok) 14%,var(--card))}
+.lv2{background:color-mix(in srgb,var(--hl) 82%,var(--med) 18%)}
+.lv3{background:color-mix(in srgb,var(--ok) 52%,var(--card))}
+.lv4{background:var(--ok)}
+.pmleg{display:flex;flex-wrap:wrap;gap:4px 12px;font-size:12px;color:var(--mute)}
+.pmleg i{display:inline-block;width:12px;height:12px;border-radius:3px;vertical-align:-1px;margin-right:4px}
+.pmsel{position:sticky;bottom:calc(env(safe-area-inset-bottom) + 10px);gap:10px;padding:12px;box-shadow:0 4px 18px var(--shadow)}
+.pmh{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+.pmh .serif{font-family:var(--serif);font-size:20px;font-weight:600}
+.pmh .pmt{font-size:14px;color:var(--mute)}
+.pmh .pml{margin-left:auto;font-size:13px;font-weight:700}
+.pml.ok{color:var(--ok)}.pml.med{color:var(--med)}.pml.mute{color:var(--mute)}
+.pmp{display:grid;gap:4px;text-align:center}
+.pmp.five{grid-template-columns:repeat(5,minmax(0,1fr))}.pmp.three{grid-template-columns:repeat(3,minmax(0,1fr))}
+.pmp div{border-radius:8px;padding:4px 2px;display:flex;flex-direction:column;min-width:0}
+.pmp small{font-size:11px;color:var(--mute);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pmp b{font-family:var(--serif);font-size:13px;font-weight:400;overflow-wrap:break-word;letter-spacing:-.1px}
+.pmp .slip{background:var(--tip)}.pmp .slip b{color:var(--med);font-weight:700}
+.pmp .on{background:var(--soft)}.pmp .on b{font-weight:700}.pmp .new b{color:var(--mute)}
+.pmb{display:flex;gap:8px}.pmb .primary{flex:1;min-height:48px;font-size:15px}.pmb .outline{width:auto;padding:0 16px;min-height:48px;font-size:15px}
+#v-prac h1{font-size:28px}
 </style>
 </head>
 <body>
@@ -909,6 +985,10 @@ a.primary{text-decoration:none}
   <symbol id="i-spark" viewBox="0 0 24 24"><path d="M12 3v5M12 16v5M3 12h5M16 12h5M5.6 5.6l3.2 3.2M15.2 15.2l3.2 3.2M5.6 18.4l3.2-3.2M15.2 8.8l3.2-3.2"/></symbol>
   <symbol id="i-conj" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9.5h18M9 9.5V20M9 14.5h12"/></symbol>
   <symbol id="i-finger" viewBox="0 0 24 24"><path d="M7.5 18.5c1-1.6 1.5-3.6 1.5-6.5a3 3 0 0 1 6 0c0 2-.2 3.6-.7 5M12 12c0 3.5-.8 6.3-2.5 8.5M18 9.5c.3.8.5 1.6.5 2.5 0 2.6-.4 4.9-1.2 6.9M5.6 15.5c.3-1.1.4-2.3.4-3.5a6 6 0 0 1 9.3-5"/></symbol>
+  <symbol id="i-repeat" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></symbol>
+  <symbol id="i-wrench" viewBox="0 0 24 24"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18v3h3l6.3-6.3a4 4 0 0 0 5.4-5.4l-2.5 2.5-2.4-.6-.6-2.4z"/></symbol>
+  <symbol id="i-lines" viewBox="0 0 24 24"><path d="M4 7h16M4 12h10M4 17h7"/></symbol>
+  <symbol id="i-loop" viewBox="0 0 24 24"><path d="M18.2 8.4a4 4 0 1 1 0 7.2c-2.2-1-4-3.6-6.2-3.6s-4 2.6-6.2 3.6a4 4 0 1 1 0-7.2c2.2 1 4 3.6 6.2 3.6s4-2.6 6.2-3.6z"/></symbol>
   <symbol id="i-hand"viewBox="0 0 24 24"><path d="M9 11V5a2 2 0 0 1 4 0v6M13 10a2 2 0 0 1 4 0v3a7 7 0 0 1-7 7h-.5A5.5 5.5 0 0 1 4 14.5V13a2 2 0 0 1 4 0"/></symbol>
 </svg>
 
@@ -934,6 +1014,7 @@ a.primary{text-decoration:none}
 <section id="v-grammar" class="view hide" aria-label="Grammar"></section>
 <section id="v-conj" class="stage hide" aria-label="Conjugate it"></section>
 <section id="v-story" class="stage hide" aria-label="Story"></section>
+<section id="v-prac" class="view hide" aria-label="Practice"></section>
 
 <section id="reader" class="hide" aria-label="Reader">
   <div id="rhead">
@@ -1922,6 +2003,157 @@ UI.es = {
 };
 // Anything the Spanish tables leave out falls back to the English wording.
 Object.setPrototypeOf(UI.es.ref, UI.en.ref); Object.setPrototypeOf(UI.es.wv, UI.en.wv); Object.setPrototypeOf(UI.es.push, UI.en.push);
+// Verb practice (today's practice, keep going, real sentences, mistake patterns, the progress map). UI.en.pr is the
+// Spanish side (Brian, in English); UI.es.pr is the English side (María Antonieta, in Spanish), whatever the interface
+// language, like the drill (G()) and the English chart (EVU). The prompts follow PQ(): the learner's own language.
+UI.en.pr = {
+  todayK: 'Today', mins: n => `about ${n} min`, todayT: 'Your practice for today', todayL: 'Today’s practice',
+  rows: {rev: ['Reviews that are due', 'Forms and words you’re about to forget'], newv: 'New verbs', newSub: vs => `${vs} · saved verbs, irregular first`,
+    fix: 'Fix a pattern', sent: ['Real sentences', 'When to use Happened or Used to']},
+  start: n => `Start today’s practice · ${plural(n, 'card', 'cards')}`, startL: 'Start today’s practice',
+  steady: 'Missed a day? Today’s set stays this size. The rest wait their turn, most-forgotten first.',
+  doneT: 'Done for today', doneLine: 'Every answer is saved. Come back tomorrow, or keep going below.', again: 'Practice again',
+  loading: 'Getting today’s practice ready…', offline: 'Today’s practice needs the verb tables once. Connect, then come back.',
+  keepT: 'Keep going', keepLine: 'Due cards, weak spots, sentences, then new verbs. No wall: stop any time, every answer is saved.',
+  keepBtn: 'Start the endless mix', upNext: 'Coming up next', chip: {sent: 'sentence', rev: 'review', fix: 'fix', new: 'new'},
+  mapT: 'Progress map', mapSub: (a, n) => `${a} of ${n} solid`, patT: 'Mistake patterns', patN: n => n ? `${n} to fix` : 'Nothing to fix', patW: n => `watching ${n}`,
+  answered: n => plural(n, 'answer', 'answers'), stop: 'Stop practicing',
+  endT: n => n ? `${plural(n, 'answer', 'answers')}, all saved` : 'Nothing answered yet', endLine: 'Every answer went into your reviews. Pick up any time.',
+  dailyDone: 'Today’s practice is done', back: 'Back to Learn', backMap: 'Progress map', backPats: 'Mistake patterns',
+  // the sentence card
+  kick: 'Real sentences · the tense is yours to work out', fill: 'Fill the gap', hint: 'Hint', hideHint: 'Hide hint',
+  hintLine: 'The dotted words tell you when. Then pick the tense that fits.', typeIt: 'Type it', pickIt: 'Show choices',
+  whyH: 'Why sentences?', whyA: 'A bare form tests whether you know tuve. A sentence tests whether you know when to use it. Every sentence here is a real one from Tatoeba.',
+  whyB: 'After you answer, the word that gave the tense away lights up, with one line on why. Misses come back later in the round.',
+  right: 'Right.', alt: 'Also right, with a different meaning.', notQuite: f => `Not quite. It’s ${f}.`, youPicked: f => `You picked ${f}.`, youTyped: f => `You typed ${f}.`,
+  shown: f => `Here it is: ${f}.`, accent: f => `Right. Watch the accents: ${f}.`,
+  cueHead: (cue, tab, tense) => `${cue} → ${tab} · ${tense.toLowerCase()}`,
+  rowT: (tab, v) => `${tab} · ${v}`, en: 'In English', src: 'Source', lic: {0: 'CC BY 2.0 FR', 3: 'CC0'}, licMix: 'CC BY 2.0 FR and CC0',
+  srcLine: (a, ea, lic) => `Tatoeba #${a.id} · ${a.by} · translation #${ea.id} · ${ea.by} · ${lic}`,
+  // one line on why, by the cue's class and the answer's tense
+  why: {
+    past: {pret: c => `${c} is one finished time, so this is a finished fact: preterite.`, impf: c => `${c} sets the time, and the sentence says how things were or what was going on: imperfect.`},
+    then: {impf: c => `${c} puts us back then, describing how things were: imperfect.`, pret: c => `${c} puts us back then, and this happened once: preterite.`},
+    habitThen: {impf: c => `A habit back then: ${c} make it a habit in the past, so imperfect.`},
+    habit: {pres: c => `${c} makes it a habit in your life now: present.`},
+    now: {pres: c => `${c} means right now: present.`},
+    fut: {fut: c => `${c} points ahead: future.`, pres: c => `${c} points ahead, and Spanish often uses the present for a plan like this: present.`}
+  },
+  tenseIs: {pres: 'is now', pret: 'is one finished time', impf: 'is how things were, or used to be', fut: 'is will'},
+  cuePoints: {past: 'points back to a finished time', then: 'puts this back then', habitThen: 'makes it a habit back then', habit: 'is how things are now', now: 'means right now', fut: 'points ahead'},
+  wrongNote: (f, tn, c, cls) => `${cap(f)} ${UI.en.pr.tenseIs[tn]}, but ${c} ${UI.en.pr.cuePoints[cls]}.`,
+  altNote: {
+    impf: (f, a) => `${cap(f)} would say how things stood or what was going on. The original tells it as a finished fact: ${a}.`,
+    pret: (f, a) => `${cap(f)} would tell it as one finished event. The original describes how things were: ${a}.`,
+    habitImpf: (f, a) => `${cap(f)} would mean “used to”. Nothing here points back, so the original says it about now: ${a}.`,
+    habitPret: (f, a) => `${cap(f)} would sum up a finished stretch of time. The original says it about now: ${a}.`,
+    futPres: f => `${cap(f)} works too: Spanish often uses the present for plans.`,
+    futFut: f => `${cap(f)} works too: the future says the same plan a little more firmly.`,
+    nowFut: f => `${cap(f)} works too: ahora can also mean in a moment.`
+  },
+  // the drill's own label for a sentence round
+  mixSent: 'Mix in real sentences', roundL: 'Real sentences', fixL: n => `Fix: ${n}`, newL: 'New verbs', mixL: 'Keep going',
+  // mistake patterns
+  patsT: 'Your mistake patterns', patsLine: 'When the same kind of slip shows up 3 times, in 2 or more verbs, it gets its own short fix. Worked out on your phone from your own answers.',
+  found: (n, v) => `Found · ${plural(n, 'miss', 'misses')}, ${plural(v, 'verb', 'verbs')}`, wrote: 'You wrote', itsH: 'It’s', verbH: 'Verb',
+  ruleL: 'The rule:', fixIt: 'Fix it · 8 cards, about 3 minutes', openCard: t => `Open the card: ${t}`, watching: 'Also watching',
+  watchLine: (n, v) => v > 1 ? `${plural(n, 'miss', 'misses')} in ${v} verbs · a fix at 3` : `${plural(n, 'miss', 'misses')}${n >= 3 ? ', all in one verb' : ''} · a fix at 3 misses in 2 verbs`,
+  fixB: 'Fix', nonePats: 'No patterns yet. When the same kind of slip shows up 3 times, in 2 or more verbs, it shows up here with a short fix.',
+  fixedT: 'Fixed for now', fixedLine: 'This pattern starts counting again from zero. If it comes back, it shows up here again.',
+  pats: {
+    pretIr: ['-ir boot verbs change in the past, too', 'only -ir boot verbs, and only in the __él / ella / usted__ and __ellos / ustedes__ forms: **e → i**, **o → u** (__{es|pidió, pidieron · durmió, durmieron}__). The rest stay plain: __{es|pedí, pediste, pedimos}__.'],
+    yogo: ['yo-go forms', 'in the present these verbs add a **g** in the __yo__ form only: __{es|tengo, salgo, pongo, hago, digo}__. Their cousins add zc (__{es|conozco}__) or y (__{es|construyo}__). The other persons follow their own pattern: __{es|tienes, sales}__.'],
+    boot: ['Boot verbs in the present', 'the stem vowel changes in every present form except __nosotros__: **e → ie** (__{es|quiero}__), **o → ue** (__{es|puedo}__), **e → i** (__{es|pido}__). Nosotros stays plain: __{es|queremos, podemos, pedimos}__.'],
+    spell: ['Spelling changes: -car, -gar, -zar', 'before an **e** the spelling changes to keep the sound: **c → qu** (__{es|busqué}__), **g → gu** (__{es|llegué}__), **z → c** (__{es|empecé}__). It happens in the __yo__ preterite and all through the present subjunctive.'],
+    strong: ['Strong pasts', 'these preterites take a new stem and endings with **no accent**: __{es|tuve, tuvo · pude, pudo · hice, hizo}__. Never __{es|tení}__ or __{es|tuvó}__.'],
+    short: ['Short futures', 'a few verbs shorten their stem in the future and the conditional, with the usual endings: __{es|tendré, saldré, haré, diré, podré}__. Never __{es|teneré}__.'],
+    accent: ['Accent marks', 'the written accent is part of the spelling and can change the meaning: __{es|hablo}__ (I speak), __{es|habló}__ (he spoke). Preterites like __{es|comí, comió}__ and every -er and -ir imperfect (__{es|comía}__) carry one.'],
+    aspect: ['Happened or Used to?', '**Happened** (preterite) is one finished event, often with a clear time like __{es|ayer}__. **Used to** (imperfect) is how things were, what was going on, or a habit back then: __{es|siempre, de niño, mientras}__.'],
+    when: ['Reading the time word', 'the time word decides the tense: __{es|ayer, la semana pasada}__ point back; __{es|mañana, la próxima semana}__ point ahead; __{es|todos los días, siempre}__ make it a habit; __{es|ahora}__ means right now.'],
+    person: ['The right person', 'each person has its own ending: __{es|-o}__ for yo, __{es|-s}__ for tú, __{es|-mos}__ for nosotros, __{es|-n}__ for ellos. In the preterite, __{es|-é / -í}__ for yo and __{es|-ó / -ió}__ for él.'],
+    serestar: ['ser or estar', '**ser** says what something is: who, what, where from, what it’s like. **estar** says how or where it is right now.']
+  },
+  // the progress map
+  mapLine: (s, n, sl) => `${s} of ${n} solid · ${sl} slipping · tap a square`, mine: n => `My verbs · ${n}`, top: 'Top 100', irr: 'Irregular',
+  more: 'More tenses', fewer: 'Main tenses', filtL: 'Which verbs', cols: {pres: 'Now', pret: 'Happened', impf: 'Used to', fut: 'Will', cond: 'Would', sub: 'Subj.', subi: 'Past subj.', imp: 'Do it!'},
+  lv: ['not started', 'learning', 'slipping', 'solid', 'yours for good'], legendL: 'What the colours mean',
+  cellL: (v, t, l) => `${v}, ${t}: ${l}`, drillN: (n, s) => s ? `Drill these ${n} · ${s} slipping` : `Drill these ${n}`, learnN: n => `Learn these ${n}`, chart: 'Chart',
+  mapEmpty: 'Loading the verbs…',
+  // Claude: say them out loud
+  say: 'Practice saying these with Claude', sayLine: 'Opens your Claude with these forms. Tap the voice button there and answer out loud.',
+  // Voice practice, like the practice partner: no house sentence and no model tip (a tip read aloud would derail it).
+  sayPrompt: (lang, list) => { const l = learner();
+    return `Quiz me out loud on the ${UI.en.brief.variety[l.learning] || lang} verb forms I just practiced in the Lector app. My level: ${UI.en.levels[l.level] || l.level}. I’ll answer in voice mode, so keep every turn short. The forms: ${list}. Each turn, give me an English cue (like “I had” or “yesterday we went”) and I say it in ${lang}: the form, or a short sentence with it. Then tell me in English, in one short line, whether I got it, and say the right form once. Mix the order, bring back the ones I miss, and after about ten, ask if I want more. Start now with the first one.` },
+  sayHint: ' You have my Lector tools: first call practice_brief for my level and how to correct me.',
+  sayList: items => items.map(x => `${x.v}, ${x.t.toLowerCase()}: ${x.forms.join(', ')}`).join('; '),
+  deeperSent: (q, tense, alts) => `${house()}\n\nWhy is it "${q.answer.toLowerCase()}" (${tense.toLowerCase()} of "${q.v}") in this sentence${alts ? `, and not ${alts}` : ''}? Explain the clue in plain words and give two more short everyday examples with their English.\n\n${UI.en.quoteLabel}\n${quoted(cutText(q.x.s, 600))}`
+};
+UI.es.pr = {
+  todayK: 'Hoy', mins: n => `unos ${n} min`, todayT: 'Tu práctica de hoy', todayL: 'La práctica de hoy',
+  rows: {rev: ['Repasos pendientes', 'Formas y palabras que estás por olvidar'], newv: 'Verbos nuevos', newSub: vs => `${vs} · tus verbos guardados, los irregulares primero`,
+    fix: 'Corrige un patrón', sent: ['Frases reales', 'Cuándo va el pasado, la -s o el -ing']},
+  start: n => `Empezar la práctica de hoy · ${plural(n, 'tarjeta', 'tarjetas')}`, startL: 'Empezar la práctica de hoy',
+  steady: '¿Faltaste un día? La práctica de hoy no crece. Lo demás espera su turno, primero lo que más se te olvida.',
+  doneT: 'Listo por hoy', doneLine: 'Todo lo que contestaste quedó guardado. Vuelve mañana, o sigue abajo.', again: 'Practicar otra vez',
+  loading: 'Preparando la práctica de hoy…', offline: 'La práctica de hoy necesita la tabla de verbos una vez. Conéctate y vuelve.',
+  keepT: 'Sigue practicando', keepLine: 'Repasos, puntos débiles, frases y luego verbos nuevos. No tiene fin: para cuando quieras, todo queda guardado.',
+  keepBtn: 'Empezar la mezcla sin fin', upNext: 'Lo que sigue', chip: {sent: 'frase', rev: 'repaso', fix: 'corregir', new: 'nuevo'},
+  mapT: 'Mapa de progreso', mapSub: (a, n) => `${a} de ${n} firmes`, patT: 'Patrones de errores', patN: n => n ? `${n} por corregir` : 'Nada por corregir', patW: n => `vigilando ${n}`,
+  answered: n => plural(n, 'respuesta', 'respuestas'), stop: 'Dejar de practicar',
+  endT: n => n ? `${plural(n, 'respuesta', 'respuestas')}, todas guardadas` : 'Todavía no contestaste nada', endLine: 'Cada respuesta quedó en tus repasos. Sigue cuando quieras.',
+  dailyDone: 'La práctica de hoy está lista', back: 'Volver a Aprender', backMap: 'Mapa de progreso', backPats: 'Patrones de errores',
+  kick: 'Frases reales · tú decides la forma', fill: 'Completa la frase', hint: 'Pista', hideHint: 'Ocultar la pista',
+  hintLine: 'Las palabras subrayadas te dicen cuándo, o qué forma pide el verbo. Luego elige la que va.', typeIt: 'Escribirla', pickIt: 'Ver opciones',
+  whyH: '¿Por qué frases?', whyA: 'Una forma sola te pregunta si sabes went. Una frase te pregunta si sabes cuándo se usa. Todas las frases son reales, de Tatoeba.',
+  whyB: 'Cuando contestas, se ilumina la palabra que te daba la pista, con una línea que explica por qué. Las que fallas regresan más adelante.',
+  right: '¡Bien!', alt: 'También está bien, con otro sentido.', notQuite: f => `Casi. Es ${f}.`, youPicked: f => `Elegiste ${f}.`, youTyped: f => `Escribiste ${f}.`,
+  shown: f => `Es esta: ${f}.`, accent: f => `¡Bien! Ojo con los acentos: ${f}.`,
+  cueHead: (cue, label) => `${cue} → ${label}`, formLabel: {s: 'presente con -s', p: 'pasado', pp: 'have + participio', ing: 'be + -ing'},
+  rowT: (_, v) => `Las formas de ${v}`, en: 'En español', src: 'Fuente', lic: {0: 'CC BY 2.0 FR', 3: 'CC0'}, licMix: 'CC BY 2.0 FR y CC0',
+  srcLine: (a, ea, lic) => `Tatoeba #${a.id} · ${a.by} y #${ea.id} · ${ea.by} · ${lic}`,
+  rowsL: {b: 'verbo', s: 'con he / she', p: 'pasado', pp: 'participio', ing: '-ing'},
+  why: {
+    past: c => `«${c}» habla de algo que ya terminó, así que el verbo va en pasado.`,
+    third: (subj, c) => `Con ${subj} (he, she, it) el presente lleva -s.` + (c ? ` «${c}» dice que pasa seguido o es verdad ahora.` : ''),
+    perf: (aux, c) => `Después de ${aux} va el participio.` + (c ? ` «${c}» es típico de have + participio.` : ''),
+    prog: (aux, c) => `Después de ${aux} va la forma con -ing: algo que está pasando.` + (c ? ` «${c}» dice que es en este momento.` : '')
+  },
+  wrong: {
+    noS: (subj, a) => `Con ${subj} el verbo lleva -s: ${a}.`, present: (f, c) => `${f} es presente, pero «${c}» habla del pasado.`,
+    overEd: (b, a) => `${b} es irregular: no lleva -ed. Es ${a}.`, ppAlone: (f, p) => `${f} es el participio: va después de have (I have ${f}). Solo, el pasado es ${p}.`,
+    pAfterHave: (f, pp) => `${f} es el pasado. Después de have va el participio: ${pp}.`, needBe: f => `${f} necesita am, is o are antes.`,
+    afterHave: (aux, a) => `Después de ${aux} va el participio: ${a}.`, afterBe: (aux, a) => `Después de ${aux} va la forma con -ing: ${a}.`,
+    spell: a => `Se escribe ${a}.`, be: (f, a) => `${f} no va con ese sujeto: es ${a}. was con I, he, she, it; were con you, we, they.`, other: a => `Aquí va ${a}.`
+  },
+  mixSent: 'Mezclar frases reales', roundL: 'Frases reales', fixL: n => `Corregir: ${n}`, newL: 'Verbos nuevos', mixL: 'Sigue practicando',
+  patsT: 'Tus patrones de errores', patsLine: 'Cuando el mismo tipo de error aparece 3 veces, en 2 verbos o más, tiene su propia práctica corta. Se calcula en tu teléfono, con tus propias respuestas.',
+  found: (n, v) => `Encontrado · ${plural(n, 'error', 'errores')}, ${plural(v, 'verbo', 'verbos')}`, wrote: 'Escribiste', itsH: 'Es', verbH: 'Verbo',
+  ruleL: 'La regla:', fixIt: 'Corregirlo · 8 tarjetas, unos 3 minutos', openCard: t => `Abrir la tarjeta: ${t}`, watching: 'También vigilando',
+  watchLine: (n, v) => v > 1 ? `${plural(n, 'error', 'errores')} en ${v} verbos · se corrige a los 3` : `${plural(n, 'error', 'errores')}${n >= 3 ? ', todos en un verbo' : ''} · se corrige con 3 errores en 2 verbos`,
+  fixB: 'Corregir', nonePats: 'Todavía no hay patrones. Cuando el mismo tipo de error aparezca 3 veces, en 2 verbos o más, sale aquí con una práctica corta.',
+  fixedT: 'Corregido por ahora', fixedLine: 'Este patrón vuelve a contar desde cero. Si regresa, aparece aquí otra vez.',
+  pats: {
+    edOver: ['Irregulares con -ed', 'los verbos irregulares no llevan -ed: __{en|go → went}__, no __{en|goed}__; __{en|eat → ate}__, no __{en|eated}__. Los regulares sí: __{en|work → worked}__.'],
+    ppVsP: ['Pasado o participio', 'el **pasado** va solo: __{en|I went}__. El **participio** va después de have: __{en|I have gone}__. En muchos irregulares son distintos: __{en|went / gone, ate / eaten, saw / seen}__.'],
+    thirdS: ['La -s con he, she, it', 'en presente, con __{en|he, she, it}__ (o un nombre como __{en|Tom}__) el verbo lleva **-s**: __{en|she drinks, Tom works}__. Con I, you, we y they va sin -s.'],
+    sSpell: ['Cómo se escribe la -s', 'después de s, sh, ch, x u o se agrega **-es**: __{en|watches, goes}__. Consonante + y cambia a **-ies**: __{en|studies}__. have cambia a __{en|has}__.'],
+    ingSpell: ['Cómo se escribe el -ing', 'una e final se va: __{en|make → making}__. Vocal + consonante al final de una sílaba fuerte: la consonante se dobla: __{en|run → running}__. ie cambia a y: __{en|lie → lying}__.'],
+    beAgree: ['was o were', '__{en|was}__ va con I, he, she, it; __{en|were}__ va con you, we, they.'],
+    when: ['Las palabras de tiempo', '__{en|yesterday, last week, ago}__ piden el pasado. __{en|every day, always, usually}__ piden el presente. __{en|now}__ pide be + -ing. __{en|already, since, yet}__ piden have + participio.'],
+    helper: ['Después de have y be', 'después de __{en|have / has}__ va el **participio**: __{en|has eaten}__. Después de __{en|am / is / are}__ va la forma con **-ing**: __{en|is eating}__.']
+  },
+  mapLine: (s, n, sl) => `${s} de ${n} firmes · ${sl} se te olvida${sl === 1 ? '' : 'n'} · toca un cuadro`, mine: n => `Mis verbos · ${n}`, top: 'Los 100 más usados', irr: 'Irregulares',
+  more: 'Más tiempos', fewer: 'Los principales', filtL: 'Qué verbos', cols: {s: '-s', p: 'pasado', pp: 'participio', ing: '-ing'},
+  lv: ['sin empezar', 'aprendiendo', 'se te olvida', 'firme', 'ya es tuyo'], legendL: 'Qué significan los colores',
+  cellL: (v, t, l) => `${v}, ${t}: ${l}`, drillN: (n, s) => s ? `Practicar · ${s} se te olvida${s === 1 ? '' : 'n'}` : 'Practicar', learnN: () => 'Aprenderla', chart: 'Tabla',
+  mapEmpty: 'Cargando los verbos…',
+  say: 'Practica decirlas con Claude', sayLine: 'Abre tu Claude con estas formas. Toca el botón de voz y contesta en voz alta.',
+  sayPrompt: (lang, list) => { const l = learner();
+    return `Hazme un examen oral de las formas de verbos en ${UI.es.brief.variety[l.learning] || lang} que acabo de practicar en la app Lector. Mi nivel: ${UI.es.levels[l.level] || l.level}. Voy a contestar en modo de voz, así que cada turno corto. Las formas: ${list}. En cada turno dame una pista en español (como «ayer fui» o «ella toma») y yo la digo en ${lang}: la forma, o una frase corta con ella. Luego dime en español, en una línea corta, si está bien, y di la forma correcta una vez. Mezcla el orden, repite las que falle y después de unas diez pregúntame si quiero más. Empieza ya con la primera.` },
+  sayHint: ' Tienes mis herramientas de Lector: primero llama a practice_brief para ver mi nivel y cómo corregirme.',
+  sayList: items => items.map(x => `${x.v} (${x.t}): ${x.forms.join(', ')}`).join('; '),
+  deeperSent: (q, label, alts) => `${house()}\n\n¿Por qué va “${q.answer.toLowerCase()}” (${label} de “${q.v}”) en esta frase${alts ? ` y no ${alts}` : ''}? Explícame la pista con palabras sencillas y dame dos ejemplos cortos de todos los días con su traducción.\n\n${UI.es.quoteLabel}\n${quoted(cutText(q.x.s, 600))}`
+};
 let T = UI.en;
 
 /* ---------- storage (IndexedDB for book texts) ---------- */
@@ -2510,7 +2742,7 @@ let view = 'library';
 const TABS = ['library','messages','learn','words','settings'];
 function go(v){
   view = v;
-  for (const id of [...TABS, 'find', 'review', 'quiz', 'grammar', 'conj', 'story']) $('#v-' + id).classList.toggle('hide', id !== v);
+  for (const id of [...TABS, 'find', 'review', 'quiz', 'grammar', 'conj', 'story', 'prac']) $('#v-' + id).classList.toggle('hide', id !== v);
   $('#reader').classList.toggle('hide', v !== 'reader');
   $('#tabs').classList.toggle('hide', !TABS.includes(v));
   if (v === 'reader') lastTick = Date.now();   // reading time starts counting from here
@@ -2528,6 +2760,7 @@ function go(v){
   if (v === 'grammar') renderGrammar();
   if (v === 'conj') renderConj();
   if (v === 'story') renderStory();
+  if (v === 'prac') renderPrac();
   if (v !== 'reader') window.scrollTo(0, 0);
 }
 // Labels follow the interface language; a dot on Messages means something new arrived elsewhere.
@@ -3344,20 +3577,21 @@ const srcIcon = x => { const s = srcOf(x); return `<svg class="icon sm" aria-hid
 
 /* ---------- review session ---------- */
 let rv = null;
-function startReview(){
+function startReview(o){
+  o = o && !(o instanceof Event) ? o : {};
   if (!F) return toast(T.noFsrs);
   trCache.clear();
-  const pool = reviewPool(studyLang()), n = Math.min(settings.reviewCap || 15, pool.length);
+  const pool = reviewPool(studyLang()), n = Math.min(o.cap || settings.reviewCap || 15, pool.length);
   if (!n) return renderLearn();
   let keys = pool.slice(0, n).map(p => p.k);
   // a conjugation card needs the verb tables: fetch them once, or leave those cards for later if offline
   const cjVerbs = [...new Set(keys.filter(k => k.startsWith('es:cj:')).map(k => k.split(':')[2]))], enCj = keys.some(k => k.startsWith('en:cj:'));
   if (((cjVerbs.length && (!CJ.top || cjVerbs.some(x => !tableOf(x)))) || (enCj && !EV.d)) && !startReview.tried){ startReview.tried = true;
-    return Promise.all([loadTop().catch(() => {}), ...cjVerbs.map(x => conjOf(x).catch(() => {})), enCj ? loadEnVerbs().catch(() => {}) : null]).then(startReview) }
+    return Promise.all([loadTop().catch(() => {}), ...cjVerbs.map(x => conjOf(x).catch(() => {})), enCj ? loadEnVerbs().catch(() => {}) : null]).then(() => startReview(o)) }
   startReview.tried = false;
   keys = keys.filter(k => !isCj(k) || (k.startsWith('en:') ? enVerb(k.split(':')[2]) : tableOf(k.split(':')[2])));
-  if (!keys.length) return renderLearn();
-  rv = {keys, i: 0, done: 0, lang: studyLang(), cur: null, n: new Set(keys).size, seen: new Set()};
+  if (!keys.length) return o.after ? o.after() : renderLearn();
+  rv = {keys, i: 0, done: 0, lang: studyLang(), cur: null, n: new Set(keys).size, seen: new Set(), after: o.after || null};
   go('review');
 }
 function renderReview(){
@@ -3370,6 +3604,7 @@ function renderReview(){
     return `<div class="rtop"><button class="x" id="rvX" aria-label="${T.stopReview}">${icon('x')}</button>
       <div class="prog" role="img" aria-label="${T.cardOf(pos, n)}"><i style="width:${Math.round(100 * fill / Math.max(1, n))}%"></i></div><span class="cnt">${T.nOf(pos, n)}</span></div>` };
   if (rv.i >= total){
+    if (rv.after){ const a = rv.after; rv = null; return a() }
     const more = reviewPool(rv.lang).length;
     v.innerHTML = `${top(total)}<div class="done"><h2>${T.doneTitle}</h2><p>${T.doneLine(rv.done)}</p>
       ${more ? `<p>${T.doneMore(more)}</p><button class="primary" id="rvMore">${T.anotherRound}</button>` : `<p>${T.doneNone}</p>`}
@@ -3552,6 +3787,7 @@ function renderLearn(){
   // A Spanish speaker learning English starts with Tu camino; the reviews, quiz and partner follow it.
   const lead = pathOn() ? pathHtml() + `<h2 class="lh2">${esc(T.path.moreH)}</h2>` : `<h1>${T.learn}</h1><p class="sub">${T.learnSub}</p>`;
   v.innerHTML = `${lead}
+    ${practiceOn() ? practiceHtml(L) : ''}
     ${rev}
     ${others.map(([c, n]) => `<p class="small" style="margin:-12px 0 0">${T.otherDue(n, langName(c))}</p>`).join('')}
     <div class="lcard"><div class="top"><span class="ic">${icon('quiz')}</span><span style="flex:1"><span class="tt" style="display:block">${T.quiz}</span><span class="ds">${T.quizLine}</span></span></div>
@@ -3570,6 +3806,7 @@ function renderLearn(){
     acctApi('GET', '/connector').then(r => { Acct.conn = r; LS.set('connector', r); const a = $('#lnPartner'); if (a && view === 'learn') a.href = partnerHref() }).catch(() => {});
   }
   $('#lnGuide').onclick = openGuide;
+  bindPractice();
   const b = $('#lnRev'); if (b) b.onclick = startReview;
   const lb = $('#lnLib'); if (lb) lb.onclick = () => go('library');
   const qb = $('#lnQuiz'); if (qb) qb.onclick = startQuiz;
@@ -4074,10 +4311,11 @@ let GR = {page: 'charts', verb: 'tener', list: null, all: false, glance: 'pres',
 const LESSON_PAGE = {'por or para': 'porpara', 'ser or estar': 'serestar', 'Tense timeline': 'timeline', 'Irregulars at a glance': 'glance'};
 function openGrammar(page, verb, from = '', list = null){ GR.page = page; GR.msg = ''; GR.from = from; GR.list = list; if (verb){ GR.verb = verb; GR.table = null; GR.row = 0; GR.shown = new Set() } go('grammar') }
 function grBack(){
+  if (GR.from === 'prac'){ GR.from = ''; return go('prac') }
   if (GR.page !== 'ref' && GR.from === 'ref'){ GR.page = 'ref'; GR.from = ''; renderGrammar(); window.scrollTo(0, 0); return }
   go(GR.from === 'words' ? 'words' : 'learn');
 }
-const grBackLabel = fallback => GR.from === 'ref' ? R_().back : GR.from === 'words' ? T.tabs.words : fallback;
+const grBackLabel = fallback => GR.from === 'ref' ? R_().back : GR.from === 'words' ? T.tabs.words : GR.from === 'prac' ? PX().patT : fallback;
 function renderGrammar(){
   const v = $('#v-grammar'), g = G(), L = studyLang();
   if (GR.page === 'ref') return renderShelf(v);
@@ -4604,7 +4842,7 @@ function cjCardHtml(q, t){
 }
 // Wires a question card; done(q) runs once it is answered.
 function bindCj(root, q, t, done){
-  const answer = (typed, how) => { q.typed = typed; q.how = how; q.verdict = how === 'show' ? 'wrong' : (judge(bareAns(typed), q.answer) || 'wrong'); done(q) };
+  const answer = (typed, how) => { q.typed = typed; q.how = how; q.verdict = how === 'show' ? 'wrong' : (judge(bareAns(typed), q.answer) || 'wrong'); noteSlip(q); done(q) };
   const inp = root.querySelector('#cjIn'), chk = root.querySelector('#cjCheck');
   if (inp){ inp.value = q.typed || ''; inp.oninput = () => { q.typed = inp.value }; inp.onkeydown = e => { if (e.key === 'Enter'){ e.preventDefault(); if (inp.value.trim()) answer(inp.value, 'type') } } }
   if (chk) chk.onclick = () => { if (inp.value.trim()) answer(inp.value, 'type'); else inp.focus() };
@@ -4642,13 +4880,14 @@ function renderConj(){
     return;
   }
   const f = Object.assign({tenses: ['pres', 'pret', 'impf'], irr: false}, LS.get('conj.drill', {}));
-  const leave = () => { const b = cz && cz.back; cz = null; go(b || 'learn') }, backL = cz.back === 'words' ? T.tabs.words : cz.back === 'grammar' ? T.back2 : T.backToLearn;
+  const leave = () => { const b = cz && cz.back; cz = null; go(b || 'learn') }, backL = cz.back === 'words' ? T.tabs.words : cz.back === 'grammar' || cz.back === 'prac' ? T.back2 : T.backToLearn;
   if (cz.phase === 'setup'){
     const due = cjDue().filter(k => f.tenses.includes(k.split(':')[3])).length;
     v.innerHTML = `<div class="rtop"><button class="x" id="czX" aria-label="${esc(T.backToLearn)}">${icon('x')}</button></div>
       <div class="rmain setup"><h1>${esc(g.drill)}</h1><p class="calm">${esc(g.drillSub)}</p>
         <div class="lk"><div class="lt">${esc(g.tensesL)}</div><div class="filters" role="group" aria-label="${esc(g.tensesL)}">${TENSE_IDS.map(x => `<button data-ct="${x}" aria-pressed="${f.tenses.includes(x)}">${esc(g.short[x])}</button>`).join('')}</div></div>
         <label class="check"><input type="checkbox" id="czIrr" ${f.irr ? 'checked' : ''}>${esc(g.onlyIrr)}</label>
+        <label class="check"><input type="checkbox" id="czSent" ${f.sent !== false ? 'checked' : ''}>${esc(PX('es').mixSent)}</label>
         ${legendHtml()}
         ${due ? `<p class="note" style="margin:0">${esc(g.waitingN(due))}</p>` : ''}
         <p class="note hide" id="czNeed" role="alert" style="margin:0;color:var(--hard)"></p></div>
@@ -4656,21 +4895,34 @@ function renderConj(){
     $('#czX').onclick = () => { cz = null; go('learn') };
     v.querySelectorAll('[data-ct]').forEach(b => b.onclick = () => { const s = new Set(f.tenses); s.has(b.dataset.ct) ? s.delete(b.dataset.ct) : s.add(b.dataset.ct); f.tenses = TENSE_IDS.filter(x => s.has(x)); LS.set('conj.drill', f); renderConj() });
     $('#czIrr').onchange = e => { f.irr = e.target.checked; LS.set('conj.drill', f) };
-    $('#czGo').onclick = () => {
+    $('#czSent').onchange = e => { f.sent = e.target.checked; LS.set('conj.drill', f) };
+    $('#czGo').onclick = async () => {
       const need = $('#czNeed');
       if (!f.tenses.length){ need.textContent = g.needTense; return need.classList.remove('hide') }
       const qs = drillQs(f);
       if (!qs.length){ need.textContent = g.none; return need.classList.remove('hide') }
+      // real sentences for the chosen tenses: three of the ten, when there are some
+      if (f.sent !== false && f.tenses.some(t => MAIN_T.includes(t))){
+        $('#czGo').disabled = true;
+        const xs = await pickSents('es', sentVerbs('es').slice(0, 14), 3, x => f.tenses.includes(x.t) && (!f.irr || !!markOf(tableOf(x.v), x.t, x.p)));
+        await Promise.all(xs.map(x => conjOf(x.v).catch(() => null)));
+        xs.map(sentQ).filter(Boolean).forEach((q, j) => { const at = 2 + j * 3; if (qs.length > at && !qs.some(x => x.k === q.k)){ qs[at] = q; markSeen(q.x) } });
+        if (view !== 'conj' || !cz || cz.phase !== 'setup') return;
+      }
       cz = {phase: 'q', qs, i: 0, right: 0, f, requeued: new Set(), missed: []}; renderConj(); window.scrollTo(0, 0);
     };
     return;
   }
   const n = cz.qs.length;
-  const top = i => `<div class="rtop"><button class="x" id="czX" aria-label="${esc(g.stop)}">${icon('x')}</button>
+  const top = i => cz.endless ? `<div class="rtop"><button class="x" id="czX" aria-label="${esc(PX('es').stop)}">${icon('x')}</button><span style="flex:1"></span><span class="cnt" id="czCnt">${esc(PX('es').answered(cz.answered))}</span></div>`
+    : `<div class="rtop"><button class="x" id="czX" aria-label="${esc(g.stop)}">${icon('x')}</button>
     <div class="prog" role="img" aria-label="${T.questionOf(Math.min(i + 1, n), n)}"><i style="width:${Math.round(100 * i / n)}%"></i></div><span class="cnt">${T.nOf(Math.min(i + 1, n), n)}</span></div>`;
+  if (cz.endless && !cz.ended && cz.i >= n){ v.innerHTML = `${top(n)}<p class="calm" style="padding-top:24px">${esc(g.loading)}</p>`; $('#czX').onclick = () => { cz.ended = true; renderConj() }; return topUp() }
+  if ((cz.i >= n || cz.ended) && (cz.daily || cz.endless || cz.fix || cz.back === 'prac')) return practiceEnd(v, 'es');
   if (cz.i >= n){
     const missed = [...new Map(cz.missed.map(q => [q.v + q.tense, q])).values()];
     v.innerHTML = `${top(n)}<div class="done"><h2>${T.quizScore(cz.right, cz.qs.filter(q => !q.again).length)}</h2><p>${T.quizNoTimer}</p>
+      ${sayHtml('es', cz.qs)}
       ${missed.length ? `<p>${esc(g.missed)}</p><ul>${missed.map(q => `<li><button class="link" data-mv="${esc(q.v)}" lang="es">${esc(q.v)}</button> · ${esc(g.tenses[q.tense][0])}</li>`).join('')}</ul>` : ''}
       <button class="primary" id="czAgain">${esc(g.again)}</button>${cz.f.verbs ? '' : `<button class="outline" id="czSet">${esc(g.change)}</button>`}<button class="outline" id="czBack">${esc(backL)}</button></div>`;
     $('#czX').onclick = $('#czBack').onclick = leave;
@@ -4679,26 +4931,29 @@ function renderConj(){
     v.querySelectorAll('[data-mv]').forEach(b => b.onclick = () => { cz = null; openGrammar('charts', b.dataset.mv) });
     return;
   }
-  const q = cz.qs[cz.i], t = tableOf(q.v);
-  v.innerHTML = `${top(cz.i)}<div class="rmain"><div class="from"><svg class="icon sm" aria-hidden="true"><use href="#t-learn"/></svg><span>${esc(cz.f.label || g.drill)}</span></div>${cjCardHtml(q, t)}</div>
-    <div class="rfoot">${q.verdict ? `<button class="primary" id="czNext">${cz.i + 1 < cz.qs.length ? T.next : T.seeHow}</button>` : ''}
-      <div class="lnks"><a id="czDeep" target="_blank" rel="noopener" href="${esc(askClaude(fitQ(g.deeper(q.v, g.tenses[q.tense][0], personsOf(q.tense)[q.i], q.pre + q.answer))))}">${T.goDeeper}</a><span></span></div></div>`;
-  $('#czX').onclick = leave;
+  const q = cz.qs[cz.i], t = tableOf(q.v), dq = line => withRef(q.sent ? sentDeeper(q) : g.deeper(q.v, g.tenses[q.tense][0], personsOf(q.tense)[q.i], q.pre + q.answer), line);
+  v.innerHTML = `${top(cz.i)}<div class="rmain">${q.sent ? '' : `<div class="from"><svg class="icon sm" aria-hidden="true"><use href="#t-learn"/></svg><span>${esc(cz.f.label || g.drill)}</span></div>`}${q.sent ? sentCardHtml(q) : cjCardHtml(q, t)}</div>
+    <div class="rfoot">${q.verdict ? `<button class="primary" id="czNext">${cz.endless || cz.i + 1 < cz.qs.length ? T.next : T.seeHow}</button>` : ''}
+      <div class="lnks"><a id="czDeep" target="_blank" rel="noopener" href="${esc(askClaude(fitQ(dq(null))))}">${T.goDeeper}</a><span></span></div></div>`;
+  $('#czX').onclick = cz.endless ? () => { cz.ended = true; renderConj() } : leave;
   // the ref is about the verb (q.v), never the conjugated form: a save attaches to "tener", not to "tuve" (BUG-2)
-  wireDeep($('#czDeep'), line => withRef(g.deeper(q.v, g.tenses[q.tense][0], personsOf(q.tense)[q.i], q.pre + q.answer), line),
+  wireDeep($('#czDeep'), dq,
     {word: q.v, lang: 'es', note: `${q.pre + q.answer} · ${g.tenses[q.tense][0]} · ${personsOf(q.tense)[q.i]}`, source: {kind: 'lesson', title: g.drill},
-      question: cutText(g.deeperAsk(q.v, g.tenses[q.tense][0], personsOf(q.tense)[q.i], q.pre + q.answer), 400)});
-  bindCj(v, q, t, done => {
+      question: cutText(q.sent ? sentDeeper(q).split('\n\n')[1] : g.deeperAsk(q.v, g.tenses[q.tense][0], personsOf(q.tense)[q.i], q.pre + q.answer), 400)});
+  const onDone = done => {
     if (!done) return renderConj();
-    const card = cardFor(q.k); feedConj(q.k, cjGrade(q, card));
-    if (q.verdict === 'right' || q.verdict === 'accent'){ if (!q.again) cz.right++ }
+    const card = cardFor(q.k); feedConj(q.k, q.sent ? sentGrade(q, card) : cjGrade(q, card));
+    if (cz.endless) cz.answered++;
+    if (['right', 'accent', 'alt'].includes(q.verdict)){ if (!q.again) cz.right++ }
     else {
       cz.missed.push(q);
-      // a miss comes back once more before the round ends, as another person of the same tense
-      if (!cz.requeued.has(q.k)){ cz.requeued.add(q.k); const r = makeQ(q.v, q.tense, cz.f.irr, q.i, q.person ? {person: true, persons: cz.f.persons} : {}); if (r){ r.again = true; cz.qs.push(r) } }
+      // a miss comes back once more before the round ends: another sentence for the same form, else another person of the same tense
+      if (!cz.requeued.has(q.k)){ cz.requeued.add(q.k); const r = q.sent ? sentRequeue(q) : makeQ(q.v, q.tense, cz.f.irr, q.i, q.person ? {person: true, persons: cz.f.persons} : {}); if (r){ r.again = true; cz.qs.splice(cz.endless ? Math.min(cz.qs.length, cz.i + 4) : cz.qs.length, 0, r) } }
     }
+    if (cz.endless) topUp();
     renderConj();
-  });
+  };
+  if (q.sent) bindSent(v, q, onDone); else bindCj(v, q, t, onDone);
   const nx = $('#czNext'); if (nx) nx.onclick = () => { cz.i++; renderConj(); window.scrollTo(0, 0) };
   const inp = $('#cjIn'); if (inp && !q.verdict && matchMedia('(pointer:fine)').matches) inp.focus();
 }
@@ -5116,8 +5371,9 @@ function bindRefCommon(v){
   wirePrint(v);
 }
 function renderRefCard(v, id){
-  const R = R_(), c = refCard(id), back = `<div class="backbar noprint"><button class="back" id="grBack">${icon('back')}${esc(R.back)}</button></div>`;
-  const bindBack = () => { $('#grBack').onclick = () => { GR.page = 'ref'; GR.from = ''; renderGrammar(); window.scrollTo(0, 0) } };
+  // opened from Mistake patterns, Back goes there; otherwise to the shelf
+  const R = R_(), c = refCard(id), back = `<div class="backbar noprint"><button class="back" id="grBack">${icon('back')}${esc(GR.from === 'prac' ? PX().patT : R.back)}</button></div>`;
+  const bindBack = () => { $('#grBack').onclick = GR.from === 'prac' ? grBack : () => { GR.page = 'ref'; GR.from = ''; renderGrammar(); window.scrollTo(0, 0) } };
   if (!REF.d || !c){
     v.innerHTML = `${back}<p class="calm" id="refWait">${esc(R.loading)}</p>`; bindBack();
     if (!REF.d) loadRefs().then(() => { if (view === 'grammar' && GR.page === 'ref:' + id) renderGrammar() }, () => { const w = $('#refWait'); if (w) w.textContent = R.cantLoad });
@@ -5493,7 +5749,7 @@ function enCardHtml(q){
   return h + '</div>';
 }
 function bindEnCard(root, q, done){
-  const answer = (typed, how) => { q.typed = typed; q.how = how; q.verdict = how === 'show' ? 'wrong' : enJudge(typed, q.answer); done(q) };
+  const answer = (typed, how) => { q.typed = typed; q.how = how; q.verdict = how === 'show' ? 'wrong' : enJudge(typed, q.answer); noteSlip(q); done(q) };
   const inp = root.querySelector('#cjIn'), chk = root.querySelector('#cjCheck');
   if (inp){ inp.value = q.typed || ''; inp.oninput = () => { q.typed = inp.value }; inp.onkeydown = e => { if (e.key === 'Enter'){ e.preventDefault(); if (inp.value.trim()) answer(inp.value, 'type') } } }
   if (chk) chk.onclick = () => { if (inp.value.trim()) answer(inp.value, 'type'); else inp.focus() };
@@ -5505,27 +5761,34 @@ function bindEnCard(root, q, done){
 }
 function renderEnConj(v){
   const n = cz.qs.length, leave = () => { const b = cz && cz.back; cz = null; go(b || 'learn') };
-  const top = i => `<div class="rtop"><button class="x" id="czX" aria-label="${esc(T.back2)}">${icon('x')}</button>
+  const top = i => cz.endless ? `<div class="rtop"><button class="x" id="czX" aria-label="${esc(PX('en').stop)}">${icon('x')}</button><span style="flex:1"></span><span class="cnt" id="czCnt">${esc(PX('en').answered(cz.answered))}</span></div>`
+    : `<div class="rtop"><button class="x" id="czX" aria-label="${esc(T.back2)}">${icon('x')}</button>
     <div class="prog" role="img" aria-label="${T.questionOf(Math.min(i + 1, n), n)}"><i style="width:${Math.round(100 * i / n)}%"></i></div><span class="cnt">${T.nOf(Math.min(i + 1, n), n)}</span></div>`;
+  if (cz.endless && !cz.ended && cz.i >= n){ v.innerHTML = `${top(n)}<p class="calm" style="padding-top:24px">${esc(EVU.loading)}</p>`; $('#czX').onclick = () => { cz.ended = true; renderConj() }; return topUp() }
+  if ((cz.i >= n || cz.ended) && (cz.daily || cz.endless || cz.fix || cz.back === 'prac')) return practiceEnd(v, 'en');
   if (cz.i >= n){
     v.innerHTML = `${top(n)}<div class="done"><h2>${T.quizScore(cz.right, cz.qs.filter(q => !q.again).length)}</h2><p>${T.quizNoTimer}</p>
+      ${sayHtml('en', cz.qs)}
       <button class="primary" id="czAgain">${esc(G().again)}</button><button class="outline" id="czBack">${esc(T.back2)}</button></div>`;
     $('#czX').onclick = $('#czBack').onclick = leave;
     $('#czAgain').onclick = () => { cz = {en: true, phase: 'q', qs: enQs(cz.f), i: 0, right: 0, f: cz.f, requeued: new Set(), missed: [], back: cz.back}; renderConj(); window.scrollTo(0, 0) };
     return;
   }
   const q = cz.qs[cz.i];
-  v.innerHTML = `${top(cz.i)}<div class="rmain"><div class="from"><svg class="icon sm" aria-hidden="true"><use href="#t-learn"/></svg><span>${esc(cz.f.label || EVU.title)}</span></div>${enCardHtml(q)}</div>
-    <div class="rfoot">${q.verdict ? `<button class="primary" id="czNext">${cz.i + 1 < n ? T.next : T.seeHow}</button>` : ''}
-      <div class="lnks"><a id="czDeep" target="_blank" rel="noopener" href="${esc(askClaude(fitQ(house() + '\n\n' + EVU.deeperAsk(q))))}">${T.goDeeper}</a><span></span></div></div>`;
-  $('#czX').onclick = leave;
-  bindEnCard(v, q, done => {
+  v.innerHTML = `${top(cz.i)}<div class="rmain">${q.sent ? sentCardHtml(q) : `<div class="from"><svg class="icon sm" aria-hidden="true"><use href="#t-learn"/></svg><span>${esc(cz.f.label || EVU.title)}</span></div>${enCardHtml(q)}`}</div>
+    <div class="rfoot">${q.verdict ? `<button class="primary" id="czNext">${cz.endless || cz.i + 1 < n ? T.next : T.seeHow}</button>` : ''}
+      <div class="lnks"><a id="czDeep" target="_blank" rel="noopener" href="${esc(askClaude(fitQ(q.sent ? sentDeeper(q) : house() + '\n\n' + EVU.deeperAsk(q))))}">${T.goDeeper}</a><span></span></div></div>`;
+  $('#czX').onclick = cz.endless ? () => { cz.ended = true; renderConj() } : leave;
+  const onDone = done => {
     if (!done) return renderConj();
-    feedConj(q.k, cjGrade(q, cardFor(q.k)));
-    if (q.verdict === 'right'){ if (!q.again) cz.right++ }
-    else if (!cz.requeued.has(q.k)){ cz.requeued.add(q.k); const r = enQ(q.v, q.form); if (r){ r.again = true; cz.qs.push(r) } }
+    const card = cardFor(q.k); feedConj(q.k, q.sent ? sentGrade(q, card) : cjGrade(q, card));
+    if (cz.endless) cz.answered++;
+    if (q.verdict === 'right' || q.verdict === 'alt'){ if (!q.again) cz.right++ }
+    else { cz.missed.push(q); if (!cz.requeued.has(q.k)){ cz.requeued.add(q.k); const r = q.sent ? sentRequeue(q) : enQ(q.v, q.form); if (r){ r.again = true; cz.qs.splice(cz.endless ? Math.min(cz.qs.length, cz.i + 4) : cz.qs.length, 0, r) } } }
+    if (cz.endless) topUp();
     renderConj();
-  });
+  };
+  if (q.sent) bindSent(v, q, onDone); else bindEnCard(v, q, onDone);
   const nx = $('#czNext'); if (nx) nx.onclick = () => { cz.i++; renderConj(); window.scrollTo(0, 0) };
 }
 function renderEnCjReview(v, k, topHtml){
@@ -5541,6 +5804,671 @@ function renderEnCjReview(v, k, topHtml){
   $('#rvX').onclick = () => { rv = null; go('learn') };
   bindEnCard(v, q, () => renderReview());
   v.querySelectorAll('[data-g]').forEach(b => b.onclick = () => gradeCard(+b.dataset.g));
+}
+
+/* ---------- verb practice: real sentences, mistake patterns, the progress map, today's practice ----------
+   side 'es': an English speaker learning Spanish (cards es:cj:verb:tense:person); side 'en': a Spanish speaker learning
+   English (en:cj:verb:form). A sentence question feeds the same FSRS card as the bare form, so progress is shared. */
+const PX = (side = pSide()) => side === 'en' ? UI.es.pr : UI.en.pr;
+const pSide = () => studyLang() === 'en' ? 'en' : 'es';
+const practiceOn = () => !!F && (studyLang() === 'es' || studyLang() === 'en');
+// sent/es and sent/en: Tatoeba sentences sharded like conj/ (sent/es/te.json → {"tener": [rows]}); _index.json lists the verbs.
+const SENT = {es: {idx: null, p: null, sh: new Map(), rows: new Map()}, en: {idx: null, p: null, sh: new Map(), rows: new Map()}};
+const loadSentIdx = side => { const S = SENT[side]; return S.p || (S.p = fetch(`sent/${side}/_index.json`).then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json() })
+  .then(d => (S.idx = d)).catch(e => { S.p = null; throw e })) };
+// A verb's sentences as objects ({i, s, g, t, p | f, k, c, e, ei, a, ea, l}); [] when it has none, null when offline.
+async function sentsOf(side, verb){
+  const S = SENT[side];
+  if (S.rows.has(verb)) return S.rows.get(verb);
+  try { await loadSentIdx(side) } catch(e){ return null }
+  if (!S.idx.verbs[verb]) return [];
+  const k = shardOf(verb);
+  if (!S.sh.has(k)) S.sh.set(k, fetch(`sent/${side}/${k}.json`).then(r => r.ok ? r.json() : {}).catch(() => { S.sh.delete(k); return null }));
+  const d = await S.sh.get(k); if (!d) return null;
+  const rows = (d[verb] || []).map(r => { const o = {side, v: verb}; S.idx.fields.forEach((f, j) => o[f] = r[j]); return o });
+  S.rows.set(verb, rows); return rows;
+}
+// Once, on Wi-Fi: every sentence shard of this side, so practice works on a plane (~0.5 MB, cache-first in sw.js).
+function prefetchSents(side){
+  if (LS.get('sent.saved.' + side) || !navigator.onLine) return;
+  const cn = navigator.connection; if (cn && (cn.saveData || cn.type === 'cellular')) return;
+  loadSentIdx(side).then(d => Promise.all(d.shards.map(k => fetch(`sent/${side}/${k}.json`).then(r => { if (!r.ok) throw 0 }))))
+    .then(() => LS.set('sent.saved.' + side, Date.now()), () => {});
+}
+const capAt = x => /^[¿¡]?$/.test(x.s.slice(0, x.g[0]));
+const nbh = h => String(h).replace(/(^|[\s(«“])-(?=[a-záéíóú])/g, '$1-\u2060');   // "-s", "-ed", "-ing" never split across a line
+const cueSpans = x => x.c.filter(c => c[2] !== 'g' || x.side === 'en');
+const timeCue = x => { const c = x.c.find(c => c[2] !== 'g'); return c ? x.s.slice(c[0], c[1]) : '' };
+const cueText = x => { const cs = x.c.filter(c => c[2] !== 'g'), w = cs.map(c => x.s.slice(c[0], c[1])); return w.length ? w.join(' + ') : '' };
+function sentQ(x){
+  if (!x) return null;
+  const answer = x.s.slice(x.g[0], x.g[1]);
+  if (x.side === 'es'){ const t = tableOf(x.v); if (!t || !t[x.t]) return null;
+    return {sent: true, side: 'es', x, v: x.v, tense: x.t, i: x.p, k: cjKey(x.v, x.t) + ':' + x.p, answer, pre: '', mode: 'choose', typed: '', how: '', verdict: '', person: true} }
+  if (!enVerb(x.v)) return null;
+  return {sent: true, side: 'en', en: true, x, v: x.v, form: x.f, k: enKey(x.v, x.f), answer, mode: 'choose', typed: '', how: '', verdict: ''};
+}
+// What each other tense is, next to the answer, for a cue class: 'alt' = also right with another meaning (amber).
+// Where a tense is not reliably right or wrong for a class, it is not offered at all.
+const VERD = {
+  past: {pret: {impf: 'alt', pres: 'wrong', fut: 'wrong'}, impf: {pret: 'alt', pres: 'wrong', fut: 'wrong'}},
+  then: {impf: {pret: 'alt', pres: 'wrong', fut: 'wrong'}, pret: {impf: 'alt', pres: 'wrong', fut: 'wrong'}},
+  habitThen: {impf: {pret: 'wrong', pres: 'wrong', fut: 'wrong'}},
+  habit: {pres: {impf: 'alt', pret: 'wrong', fut: 'wrong'}},
+  now: {pres: {impf: 'wrong', pret: 'wrong', fut: 'wrong'}},
+  fut: {fut: {pres: 'alt', pret: 'wrong', impf: 'wrong'}, pres: {fut: 'alt', pret: 'wrong', impf: 'wrong'}}
+};
+const VERD_CUE = {siempre: {pret: 'alt'}, ahora: {fut: 'alt'}};   // siempre fue, ahora iré: both fine
+const overEd = b => /e$/.test(b) ? b + 'd' : b + 'ed';            // goed, eated, taked
+const enPast1 = v => v.p.split(' / ')[0];
+function enDistract(v, k, q){
+  switch (k){
+    case 'b': return v.b; case 's': return v.s; case 'ing': return v.ing; case 'pp': return v.pp; case 'p': return enPast1(v);
+    case 'ed': return v.f ? overEd(v.b) : null;
+    case 'sS': return v.s !== v.b + 's' ? v.b + 's' : null;                      // gos, watchs, studys
+    case 'ingX': return v.ing !== v.b + 'ing' ? v.b + 'ing' : null;              // makeing, runing
+    case 'p2': return normAns(q.answer) === 'was' ? 'were' : 'was';              // be: the other one
+    case 'is': return normAns(q.answer) === 'was' ? 'is' : 'are';
+  }
+  return null;
+}
+const EN_D = {s: ['b', 'ing', 'pp', 'sS'], p: ['ed', 'pp', 'b', 's', 'ing'], pp: ['p', 'ed', 'b', 'ing'], ing: ['ingX', 'b', 's', 'p']};
+function sentOpts(q){
+  if (q.opts) return q.opts;
+  const x = q.x, up = capAt(x), out = [{f: q.answer, tn: q.tense || q.form, v: 'right'}], seen = new Set([normAns(q.answer)]);
+  const add = (f, tn, v) => { if (!f || seen.has(normAns(f)) || out.length >= 4) return; seen.add(normAns(f)); out.push({f: up ? cap(f) : f, tn, v}) };
+  if (q.side === 'es'){
+    const t = tableOf(q.v), vd = Object.assign({}, (VERD[x.k] || {})[x.t] || {}, VERD_CUE[foldText(timeCue(x))] || {});
+    for (const tn of MAIN_T) if (tn !== x.t && vd[tn] && t[tn]) add(t[tn][x.p], tn, vd[tn]);
+  } else {
+    const v = enVerb(q.v);
+    const ks = q.v === 'be' && q.form === 'p' ? ['p2', 'is', 'pp', 'ing'] : EN_D[q.form].filter(k => !((k === 'pp' && q.form === 's' && v.pp === v.p) || (k === 'p' && q.form === 'ing' && v.pp === v.p) || (k === 'p' && q.form === 'pp' && v.pp === v.p) || (k === 'pp' && q.form === 'p' && v.pp === v.p)));
+    for (const k of ks) add(enDistract(v, k, q), k, 'wrong');
+  }
+  return q.opts = shuffle(out);
+}
+// typed: right, an accent slip, the amber "also right", or wrong
+function sentVerdict(q, typed){
+  const j = judge(typed, q.answer); if (j === 'right' || j === 'accent') return j;
+  const o = sentOpts(q).find(o => normAns(o.f) === normAns(typed));
+  return o && o.v === 'alt' ? 'alt' : 'wrong';
+}
+// Right picked from four is Good (it is the sentence drill's normal way); typed right on a new card Easy; amber or accents Hard.
+const sentGrade = (q, card) => q.verdict === 'right' ? (q.how === 'type' && card.state === 0 ? 4 : 3) : q.verdict === 'wrong' ? 1 : 2;
+const pickedOpt = q => (q.opts || []).find(o => normAns(o.f) === normAns(q.typed));
+// The feedback line under a sentence: why the picked form is right, amber or wrong.
+function sentNote(q){
+  const P = PX(q.side), x = q.x, o = pickedOpt(q), a = `<b lang="${q.side}">${esc(q.answer.toLowerCase())}</b>`, f = q.typed ? esc(q.typed.trim()) : '';
+  if (q.how === 'show') return `<span class="no">${esc(P.shown('§')).replace('§', a)}</span>`;
+  if (q.verdict === 'right') return `<span class="ok">${esc(P.right)}</span>`;
+  if (q.verdict === 'accent') return `<span class="ok">${esc(P.accent('§')).replace('§', a)}</span>`;
+  const lead = q.how === 'choose' ? P.youPicked(f) : P.youTyped(f);
+  if (q.side === 'es'){
+    const c = timeCue(x), cc = `<i lang="es">${esc(c)}</i>`;
+    if (q.verdict === 'alt'){
+      const tn = o ? o.tn : '', A = P.altNote, k = x.k;
+      const line = k === 'habit' ? (tn === 'pret' ? A.habitPret : A.habitImpf)(f, '§') : k === 'fut' ? (tn === 'fut' ? A.futFut : A.futPres)(f) : k === 'now' ? A.nowFut(f) : (tn === 'impf' ? A.impf : A.pret)(f, '§');
+      return `<span class="alt">${esc(P.alt)}</span> ${esc(line).replace('§', a)}`;
+    }
+    const tn = o ? o.tn : MAIN_T.find(t => { const tb = tableOf(q.v); return tb && tb[t] && normAns(tb[t][x.p]) === normAns(q.typed) });
+    return `<span class="no">${esc(P.notQuite('§')).replace('§', a)}</span> ${esc(lead)}` + (tn && tn !== x.t && c ? ' ' + esc(P.wrongNote(q.typed.trim(), tn, '§', x.k)).replace('§', cc) : '');
+  }
+  // English, for María Antonieta (in Spanish)
+  const v = enVerb(q.v), W = P.wrong, k = o ? o.tn : '', A = q.answer, subj = (x.c.find(c => c[2] === 'g') || [0, 0]), sj = x.s.slice(subj[0], subj[1]), c = timeCue(x);
+  let why = '';
+  if (q.v === 'be' && q.form === 'p' && /^(was|were)$/i.test(q.typed.trim())) why = W.be(f, A);
+  else if (k === 'ed' || (/(ed|d)$/.test(normAns(q.typed)) && v.f && normAns(q.typed) === overEd(v.b))) why = W.overEd(v.b, A);
+  else if (q.form === 's') why = k === 'sS' ? W.spell(A) : k === 'ing' ? W.needBe(f) : W.noS(sj || 'he / she / it', A);
+  else if (q.form === 'p') why = k === 'pp' ? W.ppAlone(f, A) : k === 'ing' ? W.needBe(f) : c ? W.present(f, c) : W.other(A);
+  else if (q.form === 'pp') why = k === 'p' ? W.pAfterHave(f, A) : W.afterHave(sj || 'have', A);
+  else why = k === 'ingX' ? W.spell(A) : W.afterBe(sj || 'be', A);
+  return `<span class="no">${esc(P.notQuite('§')).replace('§', `<b lang="en">${esc(A)}</b>`)}</span> ${esc(lead)} <span lang="es">${esc(why)}</span>`;
+}
+// The sentence, with its cue words (dotted before, lit after) and the gap (filled after).
+function sentLineHtml(q){
+  const x = q.x, back = !!q.verdict, marks = [...cueSpans(x).map(c => [c[0], c[1], 'c']), [x.g[0], x.g[1], 'g']].sort((a, b) => a[0] - b[0]);
+  let h = '', at = 0;
+  for (const [s, e, k] of marks){
+    if (s < at) continue;
+    h += esc(x.s.slice(at, s));
+    if (k === 'c') h += `<span class="cue${back ? ' on' : ''}">${esc(x.s.slice(s, e))}</span>`;
+    else if (!back) h += `<span class="gap sg" style="width:${Math.max(3, Math.min(8, (e - s) * .62))}em" aria-hidden="true"></span><span class="sr">${esc(PX(q.side).fill)}</span>`;
+    else { const alt = q.verdict === 'alt', o = alt ? pickedOpt(q) : null; h += `<span class="fill${alt ? ' alt' : ''}">${esc(alt && o ? o.f : x.s.slice(s, e))}</span>` }
+    at = e;
+  }
+  return h + esc(x.s.slice(at));
+}
+function sentWhyHtml(q){
+  const P = PX(q.side), x = q.x;
+  if (q.side === 'es'){
+    const t = tableOf(q.v), g = G(), c = cueText(x), fn = (P.why[x.k] || {})[x.t];
+    const head = P.cueHead(c, g.tabs[x.t][0], g.tenses[x.t][0]), line = fn ? fn(cap(c)) : '', note = t ? whyOf(t, x.t, x.p) : '';
+    return `<div class="call" aria-live="polite"><div class="ch" lang="es">${esc(head)}</div><div>${esc(line)}${note ? ' ' + esc(note) : ''}</div></div>`;
+  }
+  const v = enVerb(q.v), aux = x.c.find(c => c[2] === 'g'), auxT = aux ? x.s.slice(aux[0], aux[1]) : '', c = timeCue(x);
+  const line = x.k === 'past' ? P.why.past(c) : x.k === 'third' ? P.why.third(auxT, c) : x.k === 'perf' ? P.why.perf(auxT, c) : P.why.prog(auxT, c);
+  const tn = {s: ['now', 2], p: ['past', 0], pp: ['perf', 0], ing: ['prog', 0]}[x.f], note = enWhy(v, tn[0], tn[1]);
+  const head = P.cueHead(c || auxT, P.formLabel[x.f]);
+  return nbh(`<div class="call" aria-live="polite"><div class="ch">${esc(head)}</div><div>${esc(line)}${note ? ' ' + esc(note) : ''}</div></div>`);
+}
+const tatoebaLink = (id, by) => `<a href="https://tatoeba.org/en/sentences/show/${+id}" target="_blank" rel="noopener">#${+id}</a> · ${esc(by)}`;
+function srcHtml(x){
+  const P = PX(x.side), lic = x.l === 3 ? P.lic[3] : x.l ? P.licMix : P.lic[0];
+  return `<p class="src">Tatoeba ${tatoebaLink(x.i, x.a)} · ${x.side === 'en' ? 'y ' : ''}${tatoebaLink(x.ei, x.ea)} · ${esc(lic)}</p>`;
+}
+const sentWhyFirst = () => (LS.get('sent.n', 0) || 0) < 5;   // "Why sentences?" for the first five sentences someone sees
+function sentCardHtml(q){
+  const P = PX(q.side), x = q.x, back = !!q.verdict, L = q.side, g = G();
+  const chip = L === 'es' ? `<span lang="es"><b>${esc(q.v)}</b> · ${esc(personsOf(x.t)[x.p].split(',')[0])}</span>` : `<span><b lang="en">${esc(q.v)}</b> · <span lang="es">${esc(enVerb(q.v).es.split(/[,(]/)[0].trim())}</span></span>`;
+  let h = `<div class="sqk">${icon('lines', 'sm')}<span>${esc(P.kick)}</span></div>
+    <div class="fcard sq"><div class="sqtop"><div class="q">${esc(P.fill)}</div><span class="tag">${chip}</span></div>
+    <div class="sent" lang="${L}">${sentLineHtml(q)}</div>`;
+  if (!back){
+    h += `<div class="hint ${q.hint ? '' : 'hide'}" id="sqHintL">${esc(P.hintLine)}</div></div>`;
+    if (q.mode === 'choose') h += `<div class="opts" role="group" aria-label="${esc(T.choices)}">${sentOpts(q).map(o => `<button lang="${L}" data-o="${esc(o.f)}">${esc(o.f)}</button>`).join('')}</div>`;
+    else h += `<div class="ans"><input id="sqIn" lang="${L}" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="done" aria-label="${esc(P.fill)}" placeholder="${esc(T.typeIt)}"><button class="pill" id="sqCheck">${esc(T.check)}</button></div>`;
+    h += `<div class="lnks"><button class="link" id="sqHint">${esc(q.hint ? P.hideHint : P.hint)}</button><span class="lk2"><button class="link" id="sqMode">${esc(q.mode === 'choose' ? P.typeIt : P.pickIt)}</button><button class="link" id="sqShow">${esc(T.showAnswer)}</button></span></div>`;
+    if (sentWhyFirst()) h += `<div class="sqwhy"><b>${esc(P.whyH)}</b><span>${esc(P.whyA)}</span><span>${esc(P.whyB)}</span></div>`;
+    return h;
+  }
+  const t = L === 'es' ? tableOf(q.v) : null, v = L === 'en' ? enVerb(q.v) : null;
+  h += `<div class="fb">${nbh(sentNote(q))}</div>${sentWhyHtml(q)}
+    <div class="ensent" lang="${L === 'es' ? 'en' : 'es'}">${esc(x.e)}</div></div>
+    <section class="card sqrow"><div class="kicker">${esc(L === 'es' ? P.rowT(g.tabs[x.t][0], q.v) : P.rowT('', q.v))}</div>
+    ${L === 'es' ? rowHtml(t, x.t, x.p) : `<div class="crow">${['b', ...EN_FORMS].map(k => `<div class="cr ${k === x.f ? 'ask' : ''}" role="row"><span class="pp" role="cell">${esc(P.rowsL[k])}</span><span class="fm" role="cell" lang="en">${enSlice(v[k], k === 'b' ? 0 : enMark(v, k))}</span></div>`).join('')}</div>`}
+    ${srcHtml(x)}
+    <div class="lnks"><button class="hear" id="cjHear">${icon('sound1', 'sm')}${esc(T.hearIt)}</button><button class="link" id="cjChart">${esc(L === 'es' ? g.seeChart : EVU.seeChart)}</button></div></section>`;
+  return h;
+}
+function bindSent(root, q, done){
+  const answer = (typed, how) => { q.typed = typed; q.how = how; q.verdict = how === 'show' ? 'wrong' : sentVerdict(q, typed); LS.set('sent.n', (LS.get('sent.n', 0) || 0) + 1); noteSlip(q); done(q) };
+  const $$ = s => root.querySelector(s);
+  root.querySelectorAll('[data-o]').forEach(b => b.onclick = () => answer(b.dataset.o, 'choose'));
+  const inp = $$('#sqIn'), chk = $$('#sqCheck');
+  if (inp){ inp.value = q.typed || ''; inp.oninput = () => { q.typed = inp.value }; inp.onkeydown = e => { if (e.key === 'Enter'){ e.preventDefault(); if (inp.value.trim()) answer(inp.value.trim(), 'type') } } }
+  if (chk) chk.onclick = () => { if (inp.value.trim()) answer(inp.value.trim(), 'type'); else inp.focus() };
+  const hb = $$('#sqHint'); if (hb) hb.onclick = () => { q.hint = !q.hint; done(null) };
+  const mb = $$('#sqMode'); if (mb) mb.onclick = () => { q.mode = q.mode === 'choose' ? 'type' : 'choose'; q.typed = ''; done(null) };
+  const sb = $$('#sqShow'); if (sb) sb.onclick = () => answer('', 'show');
+  const hr = $$('#cjHear'); if (hr) hr.onclick = () => speak(q.x.s, false, q.side);
+  const cc = $$('#cjChart'); if (cc) cc.onclick = () => { const s = q.side; cz = null; if (rv) rv = null; if (s === 'es') openGrammar('charts', q.v); else { EG2.verb = q.v; openGrammar('en-charts', null, 'ref') } };
+  fillGlosses(root);
+}
+
+// Go deeper on a sentence: why this form here, and not the others offered.
+function sentDeeper(q){
+  const P = PQ().pr, alts = sentOpts(q).filter(o => o.v !== 'right').map(o => o.f.toLowerCase()).join(', ');
+  return P.deeperSent(q, q.side === 'es' ? G().tenses[q.tense][0] : UI.es.pr.formLabel[q.form], alts);
+}
+// A missed sentence comes back as another sentence for the same card, else as the bare form.
+function sentRequeue(q){
+  const rows = SENT[q.side].rows.get(q.v) || [], used = new Set((cz ? cz.qs : []).filter(x => x.sent).map(x => x.x.i));
+  const x = shuffle(rows).find(x => !used.has(x.i) && (q.side === 'es' ? x.t === q.tense && x.p === q.i : x.f === q.form));
+  if (x) return sentQ(x);
+  return q.side === 'es' ? makeQ(q.v, q.tense, false, null, {i: q.i, person: true}) : enQ(q.v, q.form);
+}
+
+/* mistake patterns: each wrong answer is classified on the phone; 3 slips in 2+ verbs make a pattern with its own fix */
+const slipsAll = () => LS.get('slips', []);
+function slipKind(q){
+  const f = normAns(q.side === 'en' || q.en ? q.typed : bareAns(q.typed)); if (!f) return null;
+  if (q.side === 'en' || q.en){
+    const v = enVerb(q.v); if (!v) return null;
+    const form = q.form, a = normAns(q.answer);
+    if (f === a) return null;
+    if (v.b === 'be' && form === 'p' && /^(was|were)$/.test(f)) return 'beAgree';
+    if ((form === 'p' || form === 'pp') && v.f && (f === overEd(v.b) || f === v.b + 'ed')) return 'edOver';
+    if ((form === 'pp' && v.p !== v.pp && f === normAns(enPast1(v))) || (form === 'p' && v.p !== v.pp && f === normAns(v.pp))) return 'ppVsP';
+    if (form === 's' && f === v.b) return 'thirdS';
+    if (form === 's' && /s$/.test(f) && f !== a) return 'sSpell';
+    if (form === 'ing' && /ing$/.test(f)) return 'ingSpell';
+    if (q.sent && form === 'p' && (f === v.b || f === normAns(v.s))) return 'when';
+    if (q.sent && (form === 'pp' || form === 'ing')) return 'helper';
+    return null;
+  }
+  const t = tableOf(q.v); if (!t) return null;
+  const tense = q.tense, i = q.i, a = normAns(q.answer);
+  if (q.verdict === 'accent') return 'accent';
+  if (q.v === 'ser' || q.v === 'estar'){ const o = tableOf(q.v === 'ser' ? 'estar' : 'ser'); if (o && TENSE_IDS.some(tn => (o[tn] || []).some(x => x && normAns(x) === f))) return 'serestar' }
+  const reg = regularForm(t.inf, tense, i), mk = markOf(t, tense, i), fams = famsOf(t), isReg = !!reg && looseAns(reg) === looseAns(f);
+  if (tense === 'pret' && (i === 2 || i === 4) && mk && mk[0] === 'stem' && /ir$/.test(t.inf) && isReg) return 'pretIr';
+  if (tense === 'pres' && i === 0 && (fams.includes('yogo') || fams.includes('zco') || fams.includes('uir')) && /o$/.test(f)) return 'yogo';   // teno, tieno, salo, conoco
+  if ((tense === 'pres' || tense === 'sub') && mk && mk[0] === 'stem' && isReg) return 'boot';
+  if (tense === 'pres' && i === 3 && fams.includes('boot') && t.pres[0] && f.startsWith(normAns(t.pres[0].slice(0, -1)))) return 'boot';   // quieremos
+  if (mk && mk[0] === 'spell' && isReg) return 'spell';
+  if (tense === 'pret' && fams.includes('strong') && isReg) return 'strong';
+  if ((tense === 'fut' || tense === 'cond') && fams.includes('short') && isReg) return 'short';
+  const other = MAIN_T.find(tn => tn !== tense && t[tn] && t[tn][i] && normAns(t[tn][i]) === f);
+  if (q.sent && other) return (other === 'pret' && tense === 'impf') || (other === 'impf' && tense === 'pret') ? 'aspect' : 'when';
+  if ((t[tense] || []).some((x, j) => j !== i && x && normAns(x) === f)) return 'person';
+  return null;
+}
+// Every wrong (or accent-slipped) answer that fits a pattern is kept on the phone: lector.slips, the last 400.
+function noteSlip(q){
+  if (!q || q.how === 'show' || !(q.verdict === 'wrong' || q.verdict === 'accent')) return;
+  const p = slipKind(q); if (!p) return;
+  const s = slipsAll(); s.push({p, side: q.side || (q.en ? 'en' : 'es'), v: q.v, f: String(q.typed).trim().slice(0, 40), a: q.answer.toLowerCase(), tn: q.tense || q.form, i: q.i == null ? null : q.i, t: Date.now(), s: q.sent ? 1 : 0});
+  LS.set('slips', s.slice(-400));
+}
+const PAT_WINDOW = 30 * 864e5;
+function patternsOf(side = pSide(), now = Date.now()){
+  const fixed = LS.get('patfix', {}), by = {};
+  for (const s of slipsAll()) if (s.side === side && s.t > now - PAT_WINDOW && s.t > (fixed[side + ':' + s.p] || 0)) (by[s.p] = by[s.p] || []).push(s);
+  return Object.entries(by).filter(([id]) => PX(side).pats[id]).map(([id, ss]) => { const verbs = [...new Set(ss.map(s => s.v))];
+    return {id, side, slips: ss, verbs, active: ss.length >= 3 && verbs.length >= 2} })
+    .sort((a, b) => b.active - a.active || b.slips.length - a.slips.length || (b.slips.at(-1).t - a.slips.at(-1).t));
+}
+const activePatterns = side => patternsOf(side).filter(p => p.active);
+// What each pattern's fix drills, and the Reference card it opens. verbs: the slipped verbs come first.
+const PAT_FIX = {
+  es: {pretIr: {card: 'boot', tenses: ['pret'], persons: [2, 4], verbs: ['pedir', 'dormir', 'sentir', 'servir', 'seguir', 'repetir', 'preferir', 'mentir', 'vestir', 'divertir', 'sugerir', 'conseguir', 'elegir', 'medir', 'reír']},
+    yogo: {card: 'yogo', tenses: ['pres'], persons: [0], fam: ['yogo', 'zco']}, boot: {card: 'boot', tenses: ['pres'], fam: ['boot']},
+    spell: {card: 'spell', tenses: ['pret'], persons: [0], verbs: ['buscar', 'llegar', 'empezar', 'tocar', 'pagar', 'jugar', 'almorzar', 'sacar', 'explicar', 'comenzar', 'practicar', 'cruzar']},
+    strong: {card: 'strong', tenses: ['pret'], fam: ['strong']}, short: {card: 'short', tenses: ['fut', 'cond'], fam: ['short']},
+    accent: {card: 'accents', tenses: ['pret', 'impf'], verbs: ['hablar', 'comer', 'vivir', 'llegar', 'tomar', 'salir', 'llamar', 'volver']},
+    person: {card: 'endings', tenses: ['pres', 'pret']}, serestar: {card: 'serestar', tenses: ['pres', 'impf', 'pret'], verbs: ['ser', 'estar'], only: true},
+    aspect: {card: 'timeline', sent: ['past', 'then', 'habitThen']}, when: {card: 'timeline', sent: ['past', 'then', 'habitThen', 'habit', 'now', 'fut']}},
+  en: {edOver: {card: 'en-past', forms: ['p', 'pp'], irr: true}, ppVsP: {card: 'en-irregular', forms: ['pp', 'p'], irr: true, split: true},
+    thirdS: {card: 'en-endings', forms: ['s'], sent: ['third']}, sSpell: {card: 'en-endings', forms: ['s'], spell: 's'},
+    ingSpell: {card: 'en-endings', forms: ['ing'], spell: 'ing'}, beAgree: {card: 'en-tobe', sent: ['past'], verbs: ['be'], only: true},
+    when: {card: 'en-tenses', sent: ['past']}, helper: {card: 'en-tenses', sent: ['perf', 'prog']}}
+};
+// Sentences for a fix, a map square or a round: rows from these verbs, filtered, not seen this session, spread out.
+async function pickSents(side, verbs, n, keep = () => true, used = new Set()){
+  const out = [], seenRecent = new Set(LS.get('sent.seen', []));
+  for (const v of verbs){
+    if (out.length >= n * 3) break;
+    const rows = await sentsOf(side, v); if (!rows) continue;
+    for (const x of shuffle(rows)) if (keep(x) && !used.has(x.i)) out.push(x);
+  }
+  // not seen lately first, one per verb + tense first
+  const fresh = out.filter(x => !seenRecent.has(x.i)), stale = out.filter(x => seenRecent.has(x.i)), pick = [], keys = new Set();
+  for (const x of [...fresh, ...stale]){ const k = x.v + (x.t || x.f); if (pick.length < n && !keys.has(k)){ keys.add(k); pick.push(x) } }
+  for (const x of [...fresh, ...stale]) if (pick.length < n && !pick.includes(x)) pick.push(x);
+  return pick;
+}
+const markSeen = x => { const s = LS.get('sent.seen', []); s.push(x.i); LS.set('sent.seen', s.slice(-300)) };
+async function fixQs(pid, side, n, slips = []){
+  const S = PAT_FIX[side][pid]; if (!S) return [];
+  const mine = [...new Set(slips.map(s => s.v))];
+  if (side === 'es'){
+    try { await loadTop() } catch(e){}
+    if (S.sent){
+      const verbs = [...mine, ...topVerbs().slice(0, 60)];
+      const xs = await pickSents('es', [...new Set(verbs)], n, x => S.sent.includes(x.k));
+      await Promise.all(xs.map(x => conjOf(x.v).catch(() => null)));
+      return xs.map(sentQ).filter(Boolean);
+    }
+    const base = S.verbs || (S.fam ? S.fam.flatMap(f => FAM_EX[f]) : []);
+    const verbs = S.only ? S.verbs : [...new Set([...mine, ...base])];
+    await Promise.all(verbs.map(v => conjOf(v).catch(() => null)));
+    const tenses = pid === 'person' ? [...new Set([...slips.map(s => s.tn), ...S.tenses])].filter(t => MAIN_T.includes(t)) : S.tenses;
+    const fam = S.fam ? verbs.filter(v => { const t = tableOf(v); return t && S.fam.some(f => famsOf(t).includes(f)) || mine.includes(v) }) : verbs;
+    // the verbs you slipped on first (up to half the round), then the family
+    const spec = {tenses, persons: S.persons, irr: pid !== 'person' && pid !== 'accent' && pid !== 'serestar'}, mineIn = fam.filter(v => mine.includes(v));
+    const q1 = mineIn.length ? listQs(Object.assign({verbs: mineIn, n: Math.ceil(n / 2)}, spec)) : [];
+    return q1.concat(listQs(Object.assign({verbs: fam.filter(v => !mineIn.includes(v)), n: n - q1.length}, spec)));
+  }
+  try { await loadEnVerbs() } catch(e){}
+  if (S.sent){
+    const vs = S.only ? S.verbs : [...new Set([...mine, ...EV.d.verbs.map(v => v.b)])];
+    const xs = await pickSents('en', vs, n, x => S.sent.includes(x.k) && (!S.verbs || S.verbs.includes(x.v)));
+    return xs.map(sentQ).filter(Boolean);
+  }
+  let vs = EV.d.verbs.filter(v => (!S.irr || v.f) && (!S.split || v.p !== v.pp) && (!S.spell || enMark(v, S.spell))).map(v => v.b);
+  vs = [...new Set([...mine.filter(enVerb), ...vs])];
+  return enQs({verbs: vs.slice(0, 16), forms: S.forms, n});
+}
+async function startFix(pid, side = pSide(), back = 'prac'){
+  const p = patternsOf(side).find(x => x.id === pid), qs = await fixQs(pid, side, 8, p ? p.slips : []);
+  if (!qs.length) return toast(side === 'en' ? EVU.none : G().none);
+  qs.forEach(q => q.sent && markSeen(q.x));
+  cz = {phase: 'q', qs, i: 0, right: 0, f: {label: PX(side).fixL(PX(side).pats[pid][0])}, requeued: new Set(), missed: [], back, fix: pid, side, en: side === 'en'};
+  go('conj'); window.scrollTo(0, 0);
+}
+
+/* the progress map: verbs × tenses (or English forms), shaded from FSRS */
+// One card's level: 0 not started · 1 learning · 2 slipping (relearning, or a review that is due) · 3 solid · 4 yours for good
+function cardLevel(o, now = Date.now()){
+  if (!o) return 0;
+  if (o.st === 3 || (o.st === 2 && o.due <= now)) return 2;
+  if (o.st === 2 && o.s >= KNOWN_DAYS) return 4;
+  if (o.st === 2 && o.s >= 5) return 3;
+  return 1;
+}
+// A square: its persons' levels (a person with no card of its own takes the tense-wide card, from the older drill).
+function cellLevels(side, v, col, all = srsAll(), now = Date.now()){
+  if (side === 'en') { const l = cardLevel(all[enKey(v, col)], now); return {lv: l, per: [l]} }
+  const n = isImpT(col) ? 3 : 5, whole = all[cjKey(v, col)], per = [];
+  for (let i = 0; i < n; i++) per.push(cardLevel(all[cjKey(v, col) + ':' + i] || whole, now));
+  const seen = per.filter(l => l > 0);
+  const lv = !seen.length ? 0 : per.includes(2) ? 2 : per.every(l => l >= 4) ? 4 : seen.length >= Math.min(3, n) && Math.min(...seen) >= 3 ? 3 : 1;
+  return {lv, per};
+}
+const PV = {page: 'map', filt: 'mine', more: false, sel: null, side: 'es'};
+// My verbs: saved ones, then the ones already being practised, then the most used (at least 10 rows).
+const practisedVerbs = side => [...new Set(Object.keys(srsAll()).filter(k => k.startsWith(side + ':cj:')).map(k => k.split(':')[2]))];
+function mapVerbs(side, filt){
+  if (side === 'en'){
+    const all = EV.d ? EV.d.verbs.map(v => v.b) : [], mine = [...new Set([...savedVerbsOf('en').map(x => x.w), ...practisedVerbs('en')])].filter(enVerb).slice(0, 30);
+    if (filt === 'top') return all.slice(0, 100);
+    if (filt === 'irr') return all.filter(b => enIrr(enVerb(b))).slice(0, 40);
+    return [...new Set([...mine, ...all])].slice(0, Math.max(10, mine.length));
+  }
+  const top = topVerbs(), mine = [...new Set([...savedVerbs().map(x => x.w), ...practisedVerbs('es')])].filter(v => tableOf(v)).slice(0, 30);
+  if (filt === 'top') return top.slice(0, 100);
+  if (filt === 'irr') return top.filter(v => isIrrVerb(tableOf(v))).slice(0, 40);
+  return [...new Set([...mine, ...top])].slice(0, Math.max(10, mine.length));
+}
+const mapCols = side => side === 'en' ? EN_FORMS : PV.more ? ['cond', 'sub', 'subi', 'imp'] : MAIN_T;
+function mapStats(side, verbs, cols){
+  const all = srsAll(), now = Date.now(); let solid = 0, slip = 0;
+  for (const v of verbs) for (const c of cols){ const l = cellLevels(side, v, c, all, now).lv; if (l >= 3) solid++; if (l === 2) slip++ }
+  return {solid, slip, n: verbs.length * cols.length};
+}
+function openPrac(page){ PV.page = page; PV.side = pSide(); PV.sel = null; go('prac') }
+function renderPrac(){
+  const v = $('#v-prac'), side = PV.side = pSide();
+  const ready = side === 'es' ? !!CJ.top : !!EV.d;
+  if (!ready){
+    v.innerHTML = `<div class="backbar"><button class="back" id="pvBack">${icon('back')}${esc(PX(side).back)}</button></div><p class="calm" id="pvWait">${esc(PX(side).mapEmpty)}</p>`;
+    $('#pvBack').onclick = () => go('learn');
+    (side === 'es' ? loadTop() : loadEnVerbs()).then(() => { if (view === 'prac') renderPrac() }, () => { const w = $('#pvWait'); if (w) w.textContent = PX(side).offline });
+    return;
+  }
+  if (PV.page === 'pats') return renderPats(v, side);
+  renderMap(v, side);
+}
+function renderMap(v, side){
+  const P = PX(side), verbs = mapVerbs(side, PV.filt), cols = mapCols(side), all = srsAll(), now = Date.now();
+  const mineN = side === 'en' ? savedVerbsOf('en').length : savedVerbs().length, st = mapStats(side, verbs, cols);
+  const colName = c => side === 'en' ? P.cols[c] : P.cols[c] || G().short[c];
+  if (!PV.sel || !verbs.includes(PV.sel.v) || !cols.includes(PV.sel.c)){
+    let first = null; for (const vb of verbs) for (const c of cols) if (!first && cellLevels(side, vb, c, all, now).lv === 2) first = {v: vb, c};
+    PV.sel = first || {v: verbs[0], c: cols[0]};
+  }
+  const grid = `<div class="pmgrid" role="grid" aria-label="${esc(P.mapT)}"><span></span>${cols.map(c => `<span class="hd" role="columnheader" ${side === 'en' ? 'lang="es"' : ''}>${esc(colName(c))}</span>`).join('')}
+    ${verbs.map(vb => `<span class="vb" role="rowheader" lang="${side}">${esc(vb)}</span>${cols.map(c => { const l = cellLevels(side, vb, c, all, now).lv, on = PV.sel.v === vb && PV.sel.c === c;
+      return `<button class="lv${l}" data-mv="${esc(vb)}" data-mc="${c}" aria-pressed="${on}" aria-label="${esc(P.cellL(vb, colName(c), P.lv[l]))}"></button>` }).join('')}`).join('')}</div>`;
+  const leg = `<div class="pmleg" role="note" aria-label="${esc(P.legendL)}">${P.lv.map((n, i) => `<span><i class="lv${i}"></i>${esc(n)}</span>`).join('')}</div>`;
+  v.innerHTML = `<div class="backbar"><button class="back" id="pvBack">${icon('back')}${esc(PX(side).back)}</button></div>
+    <div><h1>${esc(P.mapT)}</h1><p class="small" id="pmSum" style="padding:0;margin:4px 0 0">${esc(P.mapLine(st.solid, st.n, st.slip))}</p></div>
+    <div class="pmf"><div class="filters" role="group" aria-label="${esc(P.filtL)}">${[['mine', P.mine(mineN)], ['top', P.top], ['irr', P.irr]].map(([k, l]) => `<button data-pf="${k}" aria-pressed="${PV.filt === k}">${esc(l)}</button>`).join('')}</div>
+    ${side === 'es' ? `<button class="link" id="pmMore">${esc(PV.more ? P.fewer : P.more)}</button>` : ''}</div>
+    ${grid}${leg}<section class="pmsel card" id="pmSel" aria-live="polite"></section>`;
+  paintMapSel(side);
+  $('#pvBack').onclick = () => go('learn');
+  v.querySelectorAll('[data-pf]').forEach(b => b.onclick = () => { PV.filt = b.dataset.pf; PV.sel = null; renderMap(v, side) });
+  const mm = $('#pmMore'); if (mm) mm.onclick = () => { PV.more = !PV.more; PV.sel = null; renderMap(v, side) };
+  v.querySelectorAll('[data-mv]').forEach(b => b.onclick = () => {
+    PV.sel = {v: b.dataset.mv, c: b.dataset.mc};
+    v.querySelectorAll('[data-mv]').forEach(x => x.setAttribute('aria-pressed', String(x === b)));
+    paintMapSel(side);
+  });
+}
+function paintMapSel(side){
+  const el = $('#pmSel'); if (!el || !PV.sel) return;
+  const P = PX(side), {v, c} = PV.sel, {lv, per} = cellLevels(side, v, c), colName = side === 'en' ? P.cols[c] : P.cols[c] || G().short[c];
+  const lvCls = ['mute', 'ok', 'med', 'ok', 'ok'][lv];
+  let forms;
+  if (side === 'en'){
+    const e = enVerb(v);
+    forms = `<div class="pmp five">${['b', ...EN_FORMS].map(k => `<div class="${k === c ? (lv === 2 ? 'slip' : 'on') : ''}"><small lang="es">${esc(P.rowsL[k])}</small><b lang="en">${esc(e[k])}</b></div>`).join('')}</div>`;
+  } else {
+    const t = tableOf(v), ps = personsOf(c);
+    forms = `<div class="pmp ${ps.length === 3 ? 'three' : 'five'}">${ps.map((p, i) => { const cl = cellOf(t, c, i);
+      return `<div class="${per[i] === 2 ? 'slip' : per[i] === 0 ? 'new' : ''}"><small lang="es">${esc(p.split(',')[0])}</small><b lang="es">${esc(cl ? cl.text : '—')}</b></div>` }).join('')}</div>`;
+  }
+  const slips = side === 'en' ? (lv === 2 ? 1 : 0) : per.filter(l => l === 2).length, n = side === 'en' ? 1 : per.length;
+  const label = lv === 0 ? P.learnN(n) : P.drillN(n, slips);
+  el.innerHTML = `<div class="pmh"><span class="serif" lang="${side}">${esc(v)}</span><span class="pmt">· ${esc(colName)}</span><span class="pml ${lvCls}">${esc(P.lv[lv])}</span></div>
+    ${forms}<div class="pmb"><button class="primary" id="pmDrill">${esc(label)}</button><button class="outline" id="pmChart">${esc(P.chart)}</button></div>`;
+  $('#pmDrill').onclick = () => startMapDrill(side, v, c);
+  $('#pmChart').onclick = () => { if (side === 'es') openGrammar('charts', v, ''); else { EG2.verb = v; openGrammar('en-charts', null, '') } };
+}
+// A square's drill: its five persons (or the one English form), then real sentences for it when there are some.
+async function startMapDrill(side, v, c){
+  let qs;
+  if (side === 'es'){
+    await conjOf(v).catch(() => null);
+    qs = listQs({verbs: [v], tenses: [c], n: isImpT(c) ? 3 : 5});
+    if (MAIN_T.includes(c)) (await pickSents('es', [v], 3, x => x.t === c)).forEach(x => { const q = sentQ(x); if (q){ qs.push(q); markSeen(x) } });
+  } else {
+    qs = [enQ(v, c)].filter(Boolean);
+    (await pickSents('en', [v], 4, x => x.f === c)).forEach(x => { const q = sentQ(x); if (q){ qs.push(q); markSeen(x) } });
+  }
+  if (!qs.length) return toast(side === 'en' ? EVU.none : G().none);
+  cz = {phase: 'q', qs, i: 0, right: 0, f: {label: `${v} · ${side === 'en' ? PX(side).cols[c] : PX(side).cols[c] || G().short[c]}`}, requeued: new Set(), missed: [], back: 'prac', side, en: side === 'en'};
+  go('conj'); window.scrollTo(0, 0);
+}
+function renderPats(v, side){
+  const P = PX(side), ps = patternsOf(side), act = ps.filter(p => p.active), watch = ps.filter(p => !p.active);
+  const refT = id => { const c = REF.d && refCard(id); return c ? c.title : id };
+  if (!REF.d) loadRefs().then(() => { if (view === 'prac' && PV.page === 'pats') renderPats(v, side) }, () => {});
+  const formHtml = s => { if (side === 'en') return `<span lang="en">${esc(s.a)}</span>`;
+    const t = tableOf(s.v), i = s.i == null ? 0 : s.i, mk = t && markOf(t, s.tn, i); return `<span lang="es">${mk && t[s.tn] && normAns(t[s.tn][i]) === normAns(s.a) ? sliceHtml(s.a, mk) : esc(s.a)}</span>` };
+  const who = s => side === 'en' ? `${s.v} · ${P.cols[s.tn] || s.tn}` : `${s.v}${s.i != null && TENSE_IDS.includes(s.tn) ? ' · ' + personsOf(s.tn)[s.i].split(',')[0] : ''}`;
+  const card = p => { const rows = [...new Map(p.slips.slice().reverse().map(s => [s.v + s.f, s])).values()].slice(0, 4), pr = P.pats[p.id], fx = PAT_FIX[side][p.id];
+    return `<section class="patc card" data-pat="${p.id}"><div class="kicker" style="color:var(--accent)">${esc(P.found(p.slips.length, p.verbs.length))}</div>
+      <h2 class="serif">${esc(pr[0])}</h2>
+      <table class="ptab"><thead><tr><th>${esc(P.wrote)}</th><th>${esc(P.itsH)}</th><th>${esc(P.verbH)}</th></tr></thead><tbody>
+        ${rows.map(s => `<tr><td class="was" lang="${side}">${esc(s.f)}</td><td class="serif">${formHtml(s)}</td><td class="vw" lang="${side}">${esc(who(s))}</td></tr>`).join('')}</tbody></table>
+      <div class="call"><b>${esc(P.ruleL)}</b> ${nbh(refFmt(pr[1]))}</div>
+      <button class="primary" data-fix="${p.id}">${esc(P.fixIt)}</button><button class="outline" data-card="${esc(fx.card)}">${esc(P.openCard(refT(fx.card)))}</button></section>` };
+  v.innerHTML = `<div class="backbar"><button class="back" id="pvBack">${icon('back')}${esc(P.back)}</button></div>
+    <h1>${esc(P.patsT)}</h1><p class="calm" style="font-size:15px">${esc(P.patsLine)}</p>
+    ${act.map(card).join('')}
+    ${!act.length && !watch.length ? `<div class="card"><p class="calm" id="patNone">${esc(P.nonePats)}</p></div>` : ''}
+    ${watch.length ? `<section class="sec"><div class="kicker">${esc(P.watching)}</div>${watch.map(p => `<div class="watch" data-watch="${p.id}"><span class="wt"><b>${esc(P.pats[p.id][0])}</b><small>${esc(P.watchLine(p.slips.length, p.verbs.length))}</small></span>${p.slips.length >= 2 ? `<button class="pill" data-fix="${p.id}">${esc(P.fixB)}</button>` : ''}</div>`).join('')}</section>` : ''}`;
+  $('#pvBack').onclick = () => go('learn');
+  v.querySelectorAll('[data-fix]').forEach(b => b.onclick = () => startFix(b.dataset.fix, side));
+  v.querySelectorAll('[data-card]').forEach(b => b.onclick = () => openRefFromPrac(b.dataset.card));
+}
+async function openRefFromPrac(id){
+  try { await loadRefs() } catch(e){}
+  const c = refCard(id); if (!c) return;
+  if (c.page){ GR.page = c.page; GR.msg = ''; GR.list = null; if (c.page === 'charts') GR.table = null } else GR.page = 'ref:' + id;
+  GR.from = 'prac'; go('grammar');
+}
+
+/* today's practice: due reviews (capped, so a missed day never grows it), 2 new verbs, a pattern fix, real sentences */
+const DAILY = {rev: 12, newV: 2, fix: 4, sent: 6};
+const dayKey = (d = new Date()) => d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+const startedVerb = (side, v, all = srsAll()) => Object.keys(all).some(k => k.startsWith(`${side}:cj:${v}:`));
+// New verbs: saved verbs not started yet (irregular first), then the most used.
+function pickNewVerbs(side, n){
+  const all = srsAll();
+  if (side === 'en'){
+    const saved = savedVerbsOf('en').map(x => x.w).filter(enVerb), top = EV.d ? EV.d.verbs.map(v => v.b) : [];
+    const irrFirst = a => a.filter(b => enIrr(enVerb(b))).concat(a.filter(b => !enIrr(enVerb(b))));
+    return [...new Set([...irrFirst(saved), ...top])].filter(b => !startedVerb('en', b, all)).slice(0, n);
+  }
+  const saved = savedVerbs().map(x => x.w).filter(v => tableOf(v)), top = topVerbs();
+  const irrFirst = a => a.filter(v => isIrrVerb(tableOf(v))).concat(a.filter(v => !isIrrVerb(tableOf(v))));
+  return [...new Set([...irrFirst(saved), ...top])].filter(v => v !== 'haber' && !startedVerb('es', v, all)).slice(0, n);   // haber: a helper, met in its own forms
+}
+function dailyPlan(side = pSide()){
+  const p = LS.get('daily.' + side);
+  if (p && p.day === dayKey()) return p;
+  const a = activePatterns(side)[0];
+  const q = {day: dayKey(), newV: pickNewVerbs(side, DAILY.newV), fix: a ? a.id : null, revDone: false, done: false};
+  LS.set('daily.' + side, q); return q;
+}
+const saveDaily = (side, p) => LS.set('daily.' + side, p);
+function dailyCounts(side, p){
+  const rev = p.revDone || p.done ? 0 : Math.min(DAILY.rev, reviewPool(side).length);
+  const sentOk = !!SENT[side].idx;
+  const c = {rev, newv: p.newV.length * 2, fix: p.fix ? DAILY.fix : 0, sent: sentOk ? DAILY.sent : 0};
+  c.total = c.rev + c.newv + c.fix + c.sent; return c;
+}
+const dataReady = side => (side === 'es' ? !!CJ.top : !!EV.d) && !!SENT[side].idx;
+function newVerbQs(side, verbs){
+  const qs = [];
+  for (const v of verbs){
+    if (side === 'es'){ for (const i of [0, 2]){ const q = makeQ(v, 'pres', false, null, {i, person: true}); if (q) qs.push(q) } }
+    else { const e = enVerb(v); if (e) for (const f of e.f ? ['p', 'pp'] : ['s', 'p']){ const q = enQ(v, f); if (q) qs.push(q) } }
+  }
+  return qs;
+}
+// Verbs for real sentences: the ones being practised (due or slipping first), saved ones, today's new ones, then the most used.
+function sentVerbs(side, extra = []){
+  const all = srsAll(), now = Date.now(), score = {};
+  for (const k in all){ if (!k.startsWith(side + ':cj:')) continue; const v = k.split(':')[2], l = cardLevel(all[k], now); score[v] = Math.max(score[v] || 0, l === 2 ? 3 : 1) }
+  const prac = Object.keys(score).sort((a, b) => score[b] - score[a]);
+  const saved = side === 'en' ? savedVerbsOf('en').map(x => x.w) : savedVerbs().map(x => x.w);
+  const top = side === 'en' ? (EV.d ? EV.d.verbs.map(v => v.b) : []) : topVerbs();
+  const idx = SENT[side].idx ? SENT[side].idx.verbs : {};
+  return [...new Set([...prac, ...saved, ...extra, ...shuffle(top.slice(0, 40)), ...top])].filter(v => idx[v]);
+}
+async function dailyQs(side, p){
+  const qs = newVerbQs(side, p.newV);
+  if (p.fix){ const pat = patternsOf(side).find(x => x.id === p.fix); (await fixQs(p.fix, side, DAILY.fix, pat ? pat.slips : [])).forEach(q => qs.push(q)) }
+  const xs = await pickSents(side, sentVerbs(side, p.newV).slice(0, 14), DAILY.sent);
+  if (side === 'es') await Promise.all(xs.map(x => conjOf(x.v).catch(() => null)));
+  xs.forEach(x => { const q = sentQ(x); if (q){ qs.push(q); markSeen(x) } });
+  return qs;
+}
+async function startDaily(){
+  const side = pSide(), p = dailyPlan(side), c = dailyCounts(side, p);
+  if (c.rev) return startReview({cap: c.rev, after: () => { const q = dailyPlan(side); q.revDone = true; saveDaily(side, q); dailyDrill(side) }});
+  dailyDrill(side);
+}
+async function dailyDrill(side){
+  const p = dailyPlan(side);
+  try { await (side === 'es' ? loadTop() : loadEnVerbs()) } catch(e){}
+  if (side === 'es') await Promise.all(p.newV.map(v => conjOf(v).catch(() => null)));
+  const qs = await dailyQs(side, p);
+  if (!qs.length){ p.done = true; saveDaily(side, p); return go('learn') }
+  cz = {phase: 'q', qs, i: 0, right: 0, f: {label: PX(side).todayL}, requeued: new Set(), missed: [], back: 'learn', daily: side, side, en: side === 'en'};
+  go('conj'); window.scrollTo(0, 0);
+}
+
+/* keep going: an endless mix that never runs dry; every answer goes into FSRS as it is given */
+async function nextBatch(side, used){
+  const all = srsAll(), now = Date.now(), out = [];
+  const due = Object.keys(all).filter(k => k.startsWith(side + ':cj:') && all[k].due <= now && !used.has(k))
+    .map(k => ({k, r: F.get_retrievability(fromStore(all[k]), new Date(now), false)})).sort((a, b) => a.r - b.r).slice(0, 2);
+  for (const d of due){
+    const [, , v, t, i] = d.k.split(':');
+    if (side === 'es'){ await conjOf(v).catch(() => null); const q = makeQ(v, t, false, null, i != null ? {i: +i, person: true} : {}); if (q) out.push(q) }
+    else { const q = enQ(v, t); if (q) out.push(q) }
+  }
+  const act = activePatterns(side)[0], fix = [];
+  if (act){ const fq = (await fixQs(act.id, side, 2, act.slips)).filter(q => !used.has(q.k)); if (fq[0]) fix.push(fq[0]) }
+  const xs = await pickSents(side, sentVerbs(side).slice(0, 10), 2, () => true, used), sq = [];
+  if (side === 'es') await Promise.all(xs.map(x => conjOf(x.v).catch(() => null)));
+  xs.forEach(x => { const q = sentQ(x); if (q){ sq.push(q); used.add(x.i); markSeen(x) } });
+  // due, sentence, weak spot, due, sentence: then a new verb
+  const d = out.splice(0); out.push(...[d[0], sq[0], fix[0], d[1], sq[1]].filter(Boolean));
+  const nv = pickNewVerbs(side, 3).filter(v => !used.has('new:' + v))[0];
+  if (nv){ used.add('new:' + nv); if (side === 'es') await conjOf(nv).catch(() => null); out.push(...newVerbQs(side, [nv]).slice(0, 1)) }
+  if (!out.length){   // nothing due and no sentences: any most-used verb form
+    if (side === 'es'){ const v = topVerbs()[Math.floor(Math.random() * Math.min(60, topVerbs().length))], q = v && makeQ(v, MAIN_T[Math.floor(Math.random() * 4)], false, null, {person: true, i: Math.floor(Math.random() * 5)}); if (q) out.push(q) }
+    else { const v = EV.d.verbs[Math.floor(Math.random() * 60)], q = v && enQ(v.b, EN_FORMS[Math.floor(Math.random() * 4)]); if (q) out.push(q) }
+  }
+  out.forEach(q => used.add(q.k));
+  return out;
+}
+async function startEndless(){
+  const side = pSide();
+  try { await Promise.all([side === 'es' ? loadTop() : loadEnVerbs(), loadSentIdx(side).catch(() => null)]) } catch(e){ return toast(PX(side).offline) }
+  const used = new Set(), qs = await nextBatch(side, used);
+  qs.push(...await nextBatch(side, used));
+  cz = {phase: 'q', qs, i: 0, right: 0, f: {label: PX(side).mixL}, requeued: new Set(), missed: [], back: 'learn', endless: true, side, en: side === 'en', used, answered: 0};
+  go('conj'); window.scrollTo(0, 0);
+}
+// Called as the endless mix nears the end of what it has: more is fetched while the person answers.
+function topUp(){
+  if (!cz || !cz.endless || cz.filling || cz.qs.length - cz.i > 3) return;
+  cz.filling = true; const me = cz;
+  nextBatch(me.side, me.used).then(qs => { me.qs.push(...qs); me.filling = false; if (cz === me && view === 'conj' && !me.ended && !document.querySelector('#v-conj .fcard')) renderConj() }, () => { me.filling = false });   // only the waiting screen is redrawn
+}
+// "Coming up next" on the Keep going card: what the mix would start with now.
+function upNext(side){
+  const P = PX(side), all = srsAll(), now = Date.now(), out = [];
+  const due = Object.keys(all).filter(k => k.startsWith(side + ':cj:') && all[k].due <= now)[0];
+  const sv = sentVerbs(side)[0], nv = pickNewVerbs(side, 1)[0];
+  if (sv) out.push([P.chip.sent, sv]);
+  if (due){ const [, , v, t, i] = due.split(':'), tb = side === 'es' && tableOf(v), f = side === 'es' ? (tb && tb[t] && i != null ? tb[t][+i] : v) : (enVerb(v) || {})[t] || v; out.push([P.chip.rev, f]) }
+  if (nv) out.push([P.chip.new, nv]);
+  return out.slice(0, 3);
+}
+
+/* the end of any round: the Claude button that turns what was just practised into a spoken quiz */
+function sayItems(qs, side){
+  const by = new Map(), g = G();
+  for (const q of qs){
+    if (!q.verdict) continue;
+    const t = side === 'es' ? g.tenses[q.tense] ? g.tenses[q.tense][0] : q.tense : (PX('en').cols[q.form] || q.form);
+    const key = q.v + '|' + t, f = side === 'es' ? (q.sent ? q.answer.toLowerCase() : (q.pre || '') + q.answer) : q.answer.toLowerCase();
+    if (!by.has(key)) by.set(key, {v: q.v, t, forms: []});
+    const it = by.get(key); if (!it.forms.includes(f)) it.forms.push(f);
+  }
+  return [...by.values()].slice(0, 10);
+}
+function sayPromptFor(side, qs){
+  const P = PQ(), items = sayItems(qs, side); if (!items.length) return '';
+  const conn = Auth.token() && Acct.conn && Acct.conn.active && Acct.conn.lastUsed;
+  return P.pr.sayPrompt(prLang(side), P.pr.sayList(items)) + (conn ? P.pr.sayHint : '');
+}
+function sayHtml(side, qs){
+  const p = sayPromptFor(side, qs); if (!p) return '';
+  const P = PX(side);
+  return `<a class="dark" id="czSay" target="_blank" rel="noopener" href="${esc(askClaude(fitQ(p)))}">${icon('mic', 'sm')}${esc(P.say)}</a><p class="small" style="margin:-6px 0 0;padding:0">${esc(P.sayLine)}</p>`;
+}
+// The end screen for today's practice, a fix, the endless mix, a map square or a sentence round.
+function practiceEnd(v, side){
+  const P = PX(side), done = cz.qs.filter(q => q.verdict), right = cz.right, n = cz.qs.filter(q => !q.again).length;
+  if (cz.daily){ const p = dailyPlan(side); p.done = true; saveDaily(side, p) }
+  if (cz.fix && !cz.fixSaved){ const f = LS.get('patfix', {}); f[side + ':' + cz.fix] = Date.now(); LS.set('patfix', f); cz.fixSaved = true }
+  const title = cz.daily ? P.dailyDone : cz.endless ? P.endT(cz.answered) : cz.fix ? P.fixedT : T.quizScore(right, n);
+  const line = cz.endless ? P.endLine : cz.fix ? P.fixedLine : cz.daily ? `${T.quizScore(right, n)}. ${P.doneLine}` : T.quizNoTimer;
+  v.innerHTML = `<div class="rtop"><button class="x" id="czX" aria-label="${esc(P.back)}">${icon('x')}</button></div>
+    <div class="done" id="pxDone"><h2>${esc(title)}</h2><p>${esc(line)}</p>
+    ${sayHtml(side, done)}
+    ${cz.daily || cz.fix ? `<button class="primary" id="pxKeep">${esc(P.keepBtn)}</button>` : ''}
+    <button class="outline" id="pxBack">${esc(cz.back === 'prac' ? (PV.page === 'pats' ? P.backPats : P.backMap) : P.back)}</button></div>`;
+  const leave = () => { const b = cz && cz.back; cz = null; go(b || 'learn') };
+  $('#czX').onclick = $('#pxBack').onclick = leave;
+  const k = $('#pxKeep'); if (k) k.onclick = () => { cz = null; startEndless() };
+}
+
+/* Learn: the practice block (today's practice, keep going, the map and pattern tiles) */
+function practiceHtml(L){
+  const side = L === 'en' ? 'en' : 'es', P = PX(side);
+  if (!dataReady(side)){
+    if (!practiceHtml.loading){ practiceHtml.loading = true;
+      Promise.all([side === 'es' ? loadTop() : loadEnVerbs(), loadSentIdx(side)]).then(() => { practiceHtml.loading = false; if (view === 'learn') renderLearn() },
+        () => { practiceHtml.loading = false; practiceHtml.failed = true; if (view === 'learn') renderLearn() }) }
+    return `<section class="pday calm" id="pxDay" aria-label="${esc(P.todayL)}"><div class="k3"><span class="kicker">${esc(P.todayK)}</span></div><p class="calm" style="font-size:15px">${esc(practiceHtml.failed ? P.offline : P.loading)}</p></section>`;
+  }
+  prefetchSents(side);
+  const p = dailyPlan(side), c = dailyCounts(side, p), pats = patternsOf(side), act = pats.filter(x => x.active);
+  const row = (ic, cls, b, small, n, id) => `<div class="prow" id="${id}"><span class="ic ${cls}" aria-hidden="true">${icon(ic, 'sm')}</span><span class="tx"><b>${esc(b)}</b>${small ? `<small>${small}</small>` : ''}</span><span class="n">${n}</span></div>`;
+  const nv = p.newV.map(v => `<i lang="${side}">${esc(v)}</i>`).join(', ');
+  const day = p.done ? `<section class="pday" id="pxDay" aria-label="${esc(P.todayL)}"><div class="k3"><span class="kicker">${esc(P.todayK)}</span></div>
+      <div class="tt">${esc(P.doneT)}</div><p class="calm" style="font-size:15px">${esc(P.doneLine)}</p></section>`
+    : `<section class="pday" id="pxDay" aria-label="${esc(P.todayL)}"><div class="k3"><span class="kicker">${esc(P.todayK)}</span><small>${esc(P.mins(Math.max(2, Math.round(c.total * 0.45))))}</small></div>
+      <div class="tt">${esc(P.todayT)}</div><div class="prows">
+      ${c.rev ? row('repeat', '', P.rows.rev[0], esc(P.rows.rev[1]), c.rev, 'pxRev') : ''}
+      ${p.newV.length ? row('plus', '', P.rows.newv, P.rows.newSub(nv), p.newV.length, 'pxNew') : ''}
+      ${p.fix ? row('wrench', 'fix', P.rows.fix, esc(P.pats[p.fix][0]), c.fix, 'pxFix') : ''}
+      ${c.sent ? row('lines', '', P.rows.sent[0], esc(P.rows.sent[1]), c.sent, 'pxSent') : ''}</div>
+      ${c.total ? `<button class="primary" id="pxStart" aria-label="${esc(P.startL)}">${esc(P.start(c.total))}</button>` : ''}
+      <p class="note" style="margin:0;font-size:13px">${esc(P.steady)}</p></section>`;
+  const nx = upNext(side), st = mapStats(side, mapVerbs(side, 'mine'), side === 'en' ? EN_FORMS : MAIN_T);
+  return `${day}
+    <section class="lcard pkeep" id="pxKeepC" aria-label="${esc(P.keepT)}"><div class="top"><span class="ic dk" aria-hidden="true">${icon('loop')}</span><span style="flex:1"><span class="tt" style="display:block">${esc(P.keepT)}</span><span class="ds">${esc(P.keepLine)}</span></span></div>
+      ${nx.length ? `<div class="pchips" aria-label="${esc(P.upNext)}">${nx.map(([k, w]) => `<span>${esc(k)} · <i lang="${side}">${esc(w)}</i></span>`).join('')}</div>` : ''}
+      <button class="outline" id="pxEndless">${esc(P.keepBtn)}</button></section>
+    <div class="ptiles"><button id="pxMap"><b>${esc(P.mapT)}</b><small>${esc(P.mapSub(st.solid, st.n))}</small></button>
+      <button id="pxPats"><b>${esc(P.patT)}</b><small class="${act.length ? 'fixn' : ''}">${esc(act.length ? P.patN(act.length) : pats.length ? P.patW(pats.length) : P.patN(0))}</small></button></div>`;
+}
+function bindPractice(){
+  const s = $('#pxStart'); if (s) s.onclick = () => { s.disabled = true; startDaily() };
+  const e = $('#pxEndless'); if (e) e.onclick = () => { e.disabled = true; startEndless().finally(() => { e.disabled = false }) };
+  const m = $('#pxMap'); if (m) m.onclick = () => openPrac('map');
+  const p = $('#pxPats'); if (p) p.onclick = () => openPrac('pats');
 }
 
 /* Palabras › Verbos for a Spanish speaker learning English */
