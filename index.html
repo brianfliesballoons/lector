@@ -810,7 +810,7 @@ a.primary{text-decoration:none}
 .vfoot{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
 .vfoot .outline,.vfoot .primary{min-height:48px;font-size:15px;border-radius:24px;text-decoration:none;padding:0 8px;text-align:center}
 .vprint{display:none}
-.ttabs.en5{grid-template-columns:repeat(5,minmax(0,1fr))}.ttabs.en5 button{font-size:12.5px}.ttabs.en5 small{font-size:10px;text-align:center}
+.ttabs.en5,.ttabs.t5{grid-template-columns:repeat(5,minmax(0,1fr))}.ttabs.en5 button,.ttabs.t5 button{font-size:12.5px}.ttabs.en5 small,.ttabs.t5 small{font-size:10px;text-align:center}
 .kd.reg{background:var(--grab)}
 .enshape{gap:8px}
 .eshape{display:flex;align-items:stretch;gap:4px}
@@ -928,6 +928,7 @@ a.primary{text-decoration:none}
 .pmf .filters button{min-height:40px;padding:0 12px;font-size:14px}
 .pmgrid{display:grid;grid-template-columns:76px repeat(4,minmax(0,1fr));gap:3px;align-items:center}
 .pmgrid .hd{font-size:12px;color:var(--mute);text-align:center;overflow-wrap:anywhere;line-height:1.2}
+.pmgrid.c5 .hd{font-size:11px;overflow-wrap:normal;letter-spacing:-.1px}
 .pmgrid .vb{font-family:var(--serif);font-size:16px;font-weight:600;overflow-wrap:anywhere;line-height:1.15}
 .pmgrid button{height:44px;border-radius:8px;padding:0;border:1px solid var(--line)}
 .pmgrid button[aria-pressed=true]{box-shadow:0 0 0 2px var(--bg),0 0 0 4px var(--ink)}
@@ -1510,11 +1511,12 @@ const UI = {en: {
     saveVerb: '☆ Save verb', savedVerb: '★ Saved', saveVerbL: v => `Save the verb ${v}`, savedVerbL: v => `${v} is saved. Tap to remove it.`, hearInf: v => `Hear ${v}`,
     gerund: '-ing form', participle: 'past participle',
     pronominal: 'This verb comes with me, te, se, nos or se.',
-    groups: {ind: ['Indicative', 'things as they are'], subj: ['Subjunctive', 'wishes, doubts, maybes'], cmd: ['Commands', 'telling someone to do it']},
+    groups: {ind: ['Indicative', 'things as they are'], comp: ['Has done', 'he, has, ha… + the -ado / -ido form'], subj: ['Subjunctive', 'wishes, doubts, maybes'], cmd: ['Commands', 'telling someone to do it']},
     tenses: {pres: ['Present', 'it happens, or it’s true now'], pret: ['Preterite', 'it happened, done'], impf: ['Imperfect', 'it used to happen, or was going on'],
+      perf: ['Present perfect', 'it has happened: he + hablado, I have spoken'],
       fut: ['Future', 'it will happen'], cond: ['Conditional', 'it would happen'], sub: ['Present subjunctive', 'that it happen: wishes, doubts, feelings'],
       subi: ['Past subjunctive', 'if it happened; I wish it did'], imp: ['Commands', 'do it!'], neg: ['Don’t commands', 'don’t do it! (always after no)']},
-    short: {pres: 'Present', pret: 'Preterite', impf: 'Imperfect', fut: 'Future', cond: 'Conditional', sub: 'Subjunctive', subi: 'Past subj.', imp: 'Commands', neg: 'Don’t'},
+    short: {pres: 'Present', pret: 'Preterite', impf: 'Imperfect', perf: 'Has done', fut: 'Future', cond: 'Conditional', sub: 'Subjunctive', subi: 'Past subj.', imp: 'Commands', neg: 'Don’t'},
     persons: ['yo', 'tú', 'él, ella, usted', 'nosotros', 'ellos, ellas, ustedes'], impPersons: ['tú', 'usted', 'ustedes'],
     attribution: 'Verb tables from Wiktionary (en.wiktionary.org), by its contributors, extracted by kaikki.org (Wiktextract), licensed <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a>. Irregular-form marks added by Lector. Verb ranking uses word frequencies from wordfreq by Robyn Speer (data CC BY-SA 4.0).',
     frOnly: 'Spanish only for now',
@@ -1580,7 +1582,7 @@ const UI = {en: {
     deeperAsk: (verb, tense, who, form) => `Why is it "${form}" for ${who} in the ${tense.toLowerCase()} of "${verb}"? Explain the pattern in plain words, show the whole row for that tense, and give two short everyday examples with their English.`,
     deeper: (verb, tense, who, form) => `${house()}\n\n${UI.en.gr.deeperAsk(verb, tense, who, form)}`,
     // the interactive verb chart
-    tabs: {pres: ['Now', 'present'], pret: ['Happened', 'fue'], impf: ['Was / used to', 'era'], fut: ['Will', 'future'], cond: ['Would', 'conditional'],
+    tabs: {pres: ['Now', 'present'], pret: ['Happened', 'fue'], impf: ['Was / used to', 'era'], perf: ['Has done', 'ha sido'], fut: ['Will', 'future'], cond: ['Would', 'conditional'],
       sub: ['Subjunctive', 'that it…'], subi: ['Past subj.', 'if it…'], imp: ['Do it!', 'commands'], neg: ['Don’t!', 'commands']},
     tenseTabsL: 'Tense', moreTenses: 'More tenses', fewerTenses: 'Fewer tenses', quickL: 'Your verbs, then the most used',
     types: {reg: 'Regular', irr: 'Irregular', true: 'Truly irregular', spell: 'Spelling change'},
@@ -1609,6 +1611,9 @@ const UI = {en: {
       fue: 'ser and ir share this tense: fue can mean “was” or “went”. The sentence tells you which.',
       oy: 'One of the -oy verbs: soy, estoy, voy, doy.',
       haber: 'haber is the helper in “have done”: he comido, I have eaten. Its form hay means “there is, there are”.',
+      perf: 'he, has, ha, hemos, han (“have, has”), then the -ado / -ido form, which never changes. For what has happened up to now: ya, todavía no, alguna vez, nunca, hoy, esta semana. In Mexico the plain past is often used instead: ¿ya comiste?',
+      ppIrr: (pp, reg) => `${pp} is an irregular participle, never ${reg}. Learn these whole: hecho, dicho, visto, puesto, escrito, vuelto, abierto, roto, muerto.`,
+      ppAcc: 'The participle carries an accent so the í is said on its own: leído, creído, oído, traído.',
       se: 'sé (I know) carries a written accent to tell it from se.',
       yogo: 'A “yo-go” verb: the yo form adds a g. Same family: tengo, hago, pongo, salgo, digo, vengo.',
       zco: 'The yo form adds a z: c becomes zc before o (conozco, parezco, ofrezco).',
@@ -2009,7 +2014,8 @@ Object.setPrototypeOf(UI.es.ref, UI.en.ref); Object.setPrototypeOf(UI.es.wv, UI.
 UI.en.pr = {
   todayK: 'Today', mins: n => `about ${n} min`, todayT: 'Your practice for today', todayL: 'Today’s practice',
   rows: {rev: ['Reviews that are due', 'Forms and words you’re about to forget'], newv: 'New verbs', newSub: vs => `${vs} · saved verbs, irregular first`,
-    fix: 'Fix a pattern', sent: ['Real sentences', 'When to use Happened or Used to']},
+    fix: 'Fix a pattern', sent: ['Real sentences', 'When to use Happened or Used to'],
+    perf: 'New tense: Has done', perfSub: vs => `he + -ado / -ido · ${vs}, a verb you already know`},
   start: n => `Start today’s practice · ${plural(n, 'card', 'cards')}`, startL: 'Start today’s practice',
   steady: 'Missed a day? Today’s set stays this size. The rest wait their turn, most-forgotten first.',
   doneT: 'Done for today', doneLine: 'Every answer is saved. Come back tomorrow, or keep going below.', again: 'Practice again',
@@ -2071,11 +2077,13 @@ UI.en.pr = {
     aspect: ['Happened or Used to?', '**Happened** (preterite) is one finished event, often with a clear time like __{es|ayer}__. **Used to** (imperfect) is how things were, what was going on, or a habit back then: __{es|siempre, de niño, mientras}__.'],
     when: ['Reading the time word', 'the time word decides the tense: __{es|ayer, la semana pasada}__ point back; __{es|mañana, la próxima semana}__ point ahead; __{es|todos los días, siempre}__ make it a habit; __{es|ahora}__ means right now.'],
     person: ['The right person', 'each person has its own ending: __{es|-o}__ for yo, __{es|-s}__ for tú, __{es|-mos}__ for nosotros, __{es|-n}__ for ellos. In the preterite, __{es|-é / -í}__ for yo and __{es|-ó / -ió}__ for él.'],
-    serestar: ['ser or estar', '**ser** says what something is: who, what, where from, what it’s like. **estar** says how or where it is right now.']
+    serestar: ['ser or estar', '**ser** says what something is: who, what, where from, what it’s like. **estar** says how or where it is right now.'],
+    haPp: ['After ha comes -ado / -ido', 'after __{es|he, has, ha, hemos, han}__ the verb takes its **-ado / -ido** form, and it never changes: __{es|ha tenido}__ (has had), __{es|ha costado}__ (has cost). Never __{es|ha tenía}__ or __{es|ha tiene}__.'],
+    ppIrr: ['Irregular participles', 'a few everyday verbs don’t end in -ado / -ido after ha: __{es|hecho, dicho, visto, puesto, escrito, vuelto, abierto, roto, muerto}__. Never __{es|hacido}__ or __{es|decido}__.']
   },
   // the progress map
   mapLine: (s, n, sl) => `${s} of ${n} solid · ${sl} slipping · tap a square`, mine: n => `My verbs · ${n}`, top: 'Top 100', irr: 'Irregular',
-  more: 'More tenses', fewer: 'Main tenses', filtL: 'Which verbs', cols: {pres: 'Now', pret: 'Happened', impf: 'Used to', fut: 'Will', cond: 'Would', sub: 'Subj.', subi: 'Past subj.', imp: 'Do it!'},
+  more: 'More tenses', fewer: 'Main tenses', filtL: 'Which verbs', cols: {pres: 'Now', pret: 'Happened', impf: 'Used to', perf: 'Has done', fut: 'Will', cond: 'Would', sub: 'Subj.', subi: 'Past subj.', imp: 'Do it!'},
   lv: ['not started', 'learning', 'slipping', 'solid', 'yours for good'], legendL: 'What the colours mean',
   cellL: (v, t, l) => `${v}, ${t}: ${l}`, drillN: (n, s) => s ? `Drill these ${n} · ${s} slipping` : `Drill these ${n}`, learnN: n => `Learn these ${n}`, chart: 'Chart',
   mapEmpty: 'Loading the verbs…',
@@ -4224,14 +4232,24 @@ const CONJ_DIR = 'conj/';
 // Mexican Spanish (top.json ranks by frequency, which brings some of them into the top 300). A search for
 // one still shows its chart, like a dictionary would.
 const CONJ_SKIP = new Set(['cagar', 'coger', 'joder', 'chingar', 'follar', 'culear', 'mamar', 'mear', 'putear', 'pajear', 'encabronar', 'emputar']);
-const TENSE_IDS = ['pres', 'pret', 'impf', 'fut', 'cond', 'sub', 'subi', 'imp', 'neg'];
-const TGROUPS = [['ind', ['pres', 'pret', 'impf', 'fut', 'cond']], ['subj', ['sub', 'subi']], ['cmd', ['imp', 'neg']]];
+const TENSE_IDS = ['pres', 'pret', 'impf', 'perf', 'fut', 'cond', 'sub', 'subi', 'imp', 'neg'];
+const TGROUPS = [['ind', ['pres', 'pret', 'impf', 'fut', 'cond']], ['comp', ['perf']], ['subj', ['sub', 'subi']], ['cmd', ['imp', 'neg']]];
 const isImpT = t => t === 'imp' || t === 'neg';
 const REFL = ['me', 'te', 'se', 'nos', 'se'], IMP_REFL = ['te', 'se', 'se'];
 const SUBJ = ['yo', 'tú', 'él', 'nosotros', 'ellos'];
 const CJ = {top: null, topP: null, shards: new Map(), gloss: new Map(), tidx: null, loaded: new Map(), glossV: new Map()};
+// "Has done" (he hablado) isn't in the files: it's the present of haber and the participle, so it is built
+// here, on every table as it arrives. The participle keeps its own mark (he hecho: hecho in red).
+const HE = ['he', 'has', 'ha', 'hemos', 'han'], HE6 = ['he', 'has', 'ha', 'hemos', 'habéis', 'han'];
+function withPerf(t){
+  if (!t || !t.pp || t.perf) return t;
+  const he = t.pres && t.pres.length === 6 ? HE6 : HE, m = t.x && t.x.pp;
+  t.perf = he.map(h => h + ' ' + t.pp);
+  if (m) t.x.perf = he.map(h => [m[0], m[1] + h.length + 1, m[2] + h.length + 1]);
+  return t;
+}
 const loadTop = () => CJ.topP || (CJ.topP = fetch(CONJ_DIR + 'top.json').then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json() })
-  .then(d => (CJ.top = d)).catch(e => { CJ.topP = null; throw e }));
+  .then(d => { for (const v in d.tables) withPerf(d.tables[v]); return (CJ.top = d) }).catch(e => { CJ.topP = null; throw e }));
 // The everyday verbs: top.json in frequency order, minus the vulgar and the archaic.
 const topVerbs = () => CJ.top ? CJ.top.verbs.filter(v => !CONJ_SKIP.has(v) && CJ.top.tables[v] && !CJ.top.tables[v].old) : [];
 const cjKey = (verb, tense) => `es:cj:${verb}:${tense}`;
@@ -4244,7 +4262,7 @@ async function conjOf(verb){
   if (!CJ.shards.has(k)) CJ.shards.set(k, fetch(CONJ_DIR + k + '.json').then(r => r.ok ? r.json() : {}).catch(() => { CJ.shards.delete(k); return null }));
   const s = await CJ.shards.get(k);
   if (s === null) return undefined;
-  let t = s[verb] || null;
+  let t = withPerf(s[verb] || null);
   if (!t && /.se$/.test(verb)){ const b = await conjOf(verb.slice(0, -2)); if (b && b.se) t = b }   // levantarse → levantar's table
   if (t) CJ.loaded.set(verb, t);
   return t;
@@ -4536,7 +4554,7 @@ function renderCharts(v, head){
   drawChart();
 }
 const CHART_SKIP = 'input, textarea, select, form, .tablewrap, .vfoot, .ract2';
-const TAB_SUB_ES = new Set(['pret', 'impf']);
+const TAB_SUB_ES = new Set(['pret', 'impf', 'perf']);
 async function drawChart(){
   const box = $('#cvChart'); if (!box) return;
   const g = G();
@@ -4558,7 +4576,7 @@ async function drawChart(){
       <div class="kbs"><span class="kb vtype ${type}">${esc(g.types[type])}</span>${famBadges(t)}</div>
       <div class="nonfin">${nf('ger', g.gerund)}${nf('pp', g.participle)}</div>
       ${t.se ? `<p class="small" style="margin:0;padding:0">${esc(g.pronominal)}</p>` : ''}</div>
-    <div class="ttabs noprint" role="tablist" aria-label="${esc(g.tenseTabsL)}">${MAIN_T.map(tab).join('')}</div>
+    <div class="ttabs t5 noprint" role="tablist" aria-label="${esc(g.tenseTabsL)}">${CHART_T.map(tab).join('')}</div>
     <button class="link morebtn noprint" id="cvMore" aria-expanded="${more}" aria-controls="cvMoreT">${esc(more ? g.fewerTenses : g.moreTenses)}</button>
     <div class="ttabs more noprint${more ? '' : ' hide'}" id="cvMoreT" role="tablist" aria-label="${esc(g.moreTenses)}">${MORE_T.map(tab).join('')}</div>
     <section class="card vrows noprint" id="cvPanel" role="tabpanel"></section>
@@ -4588,7 +4606,7 @@ async function drawChart(){
     $('#cvMore').setAttribute('aria-expanded', GR.more); $('#cvMore').textContent = GR.more ? g.fewerTenses : g.moreTenses;
   };
   $('#cvCover').onclick = () => { GR.cover = !GR.cover; GR.shown = new Set(); const c = $('#cvCover'); c.textContent = GR.cover ? g.uncover : g.cover; c.setAttribute('aria-pressed', GR.cover); paintPanel() };
-  $('#cvDrill').onclick = () => startListDrill({verbs: [t.inf], tenses: MAIN_T.filter(x => t[x]), irr: false, label: g.drillVerb(name)}, 'grammar');
+  $('#cvDrill').onclick = () => startListDrill({verbs: [t.inf], tenses: CHART_T.filter(x => t[x]), irr: false, label: g.drillVerb(name)}, 'grammar');
   wirePrint(box); wireAskBox(box); wireChartNav('es');
   paintPanel();
 }
@@ -4626,7 +4644,7 @@ function paintNote(){
     <button class="link" id="cvCard">${esc(g.wordCard)}</button>`;
   $('#cvCard').onclick = () => {
     const sentence = isImpT(id) ? `¡${cap(c.text)}!` : `${SUBJ[i]} ${c.text}`;
-    showWord(c.form, sentence, $('#cvPanel .cf.on') || $('#cvCard'), {lang: 'es', src: 'lesson', srcInfo: {lesson: `${name} · ${g.tenses[id][0]}`, verb: name}, tr: {}});
+    showWord(id === 'perf' ? t.pp : c.form, sentence, $('#cvPanel .cf.on') || $('#cvCard'), {lang: 'es', src: 'lesson', srcInfo: {lesson: `${name} · ${g.tenses[id][0]}`, verb: name}, tr: {}});
   };
 }
 
@@ -4762,9 +4780,9 @@ function renderGlance(v, head){
   v.innerHTML = `${head}<p class="sub2">${esc(g.glanceLine(list.length))}</p>
     <div class="filters" role="group" aria-label="${esc(g.tensesL)}">${ids.map(x => `<button data-gt2="${x}" aria-pressed="${x === id}">${esc(g.short[x])}</button>`).join('')}</div>
     ${legendHtml()}
-    <p class="note" id="glN" style="margin:0">${esc(g.glanceCount(changes.length, list.length, g.tenses[id][0].toLowerCase()))} <span class="order">(${esc(isImpT(id) ? g.orderImp : g.order)})</span></p>
+    <p class="note" id="glN" style="margin:0">${esc(g.glanceCount(changes.length, list.length, g.tenses[id][0].toLowerCase()))} ${id === 'perf' ? '' : `<span class="order">(${esc(isImpT(id) ? g.orderImp : g.order)})</span>`}</p>
     <ul class="glance" id="glList">${changes.map(x => { const t = CJ.top.tables[x];
-      return `<li><button data-v="${esc(x)}"><span class="gi" lang="es">${esc(x)}</span><span class="gf" lang="es">${personsOf(id).map((p, i) => `<span class="nw">${cellHtml(cellOf(t, id, i))}</span>`).join('<span class="dot" aria-hidden="true"> · </span>')}</span></button></li>` }).join('')}</ul>`;
+      return `<li><button data-v="${esc(x)}"><span class="gi" lang="es">${esc(x)}</span><span class="gf" lang="es">${id === 'perf' ? `<span class="nw">${cellHtml(cellOf(t, id, 2))}</span>` : personsOf(id).map((p, i) => `<span class="nw">${cellHtml(cellOf(t, id, i))}</span>`).join('<span class="dot" aria-hidden="true"> · </span>')}</span></button></li>` }).join('')}</ul>`;
   v.querySelectorAll('[data-gt2]').forEach(b => b.onclick = () => { GR.glance = b.dataset.gt2; renderGrammar() });
   v.querySelectorAll('#glList [data-v]').forEach(b => b.onclick = () => openGrammar('charts', b.dataset.v));
 }
@@ -4776,8 +4794,11 @@ const REG_END = {
   er: {pres: ['o', 'es', 'e', 'emos', 'en'], pret: ['í', 'iste', 'ió', 'imos', 'ieron'], impf: ['ía', 'ías', 'ía', 'íamos', 'ían'], sub: ['a', 'as', 'a', 'amos', 'an'], subi: ['iera', 'ieras', 'iera', 'iéramos', 'ieran'], imp: ['e', 'a', 'an'], neg: ['as', 'a', 'an']},
   ir: {pres: ['o', 'es', 'e', 'imos', 'en'], pret: ['í', 'iste', 'ió', 'imos', 'ieron'], impf: ['ía', 'ías', 'ía', 'íamos', 'ían'], sub: ['a', 'as', 'a', 'amos', 'an'], subi: ['iera', 'ieras', 'iera', 'iéramos', 'ieran'], imp: ['e', 'a', 'an'], neg: ['as', 'a', 'an']}
 };
+// The participle by the rule (hacer → hacido): what a learner reaches for when the real one is irregular (hecho).
+const regularPp = inf => { const b = inf.replace(/ír$/, 'ir'); return /ar$/.test(b) ? b.slice(0, -2) + 'ado' : /[ei]r$/.test(b) ? b.slice(0, -2) + 'ido' : null };
 function regularForm(inf, tense, i){
   const base = inf.replace(/ír$/, 'ir'), cls = base.slice(-2); if (!REG_END[cls]) return null;
+  if (tense === 'perf') return HE[i] + ' ' + regularPp(inf);
   if (tense === 'fut') return base + ['é', 'ás', 'á', 'emos', 'án'][i];
   if (tense === 'cond') return base + ['ía', 'ías', 'ía', 'íamos', 'ían'][i];
   const e = REG_END[cls][tense]; return e ? base.slice(0, -2) + e[i] : null;
@@ -4799,7 +4820,8 @@ function choicesFor(q){
   const t = tableOf(q.v), seen = new Set([normAns(q.answer)]), out = [q.answer];
   const add = f => { if (f && !seen.has(normAns(f)) && out.length < 4){ seen.add(normAns(f)); out.push(f) } };
   add(regularForm(t.inf, q.tense, q.i));
-  const other = {pres: 'pret', pret: 'impf', impf: 'pret', fut: 'cond', cond: 'fut', sub: 'pres', subi: 'pret', imp: 'pres', neg: 'sub'}[q.tense];
+  const other = {pres: 'pret', pret: 'impf', impf: 'pret', perf: 'pret', fut: 'cond', cond: 'fut', sub: 'pres', subi: 'pret', imp: 'pres', neg: 'sub'}[q.tense];
+  if (q.tense === 'perf' && t.impf) add(HE[q.i] + ' ' + t.impf[q.i]);   // ha tenía: the helper with a conjugated form
   if (other && t[other]) add(t[other][isImpT(q.tense) && !isImpT(other) ? [1, 2, 4][q.i] : q.i]);
   for (const i of shuffle([...t[q.tense].keys()])) add(t[q.tense][i]);
   return shuffle(out);
@@ -5008,6 +5030,8 @@ const FAM_DRILL = {boot: {tenses: ['pres']}, yogo: {tenses: ['pres'], persons: [
 const FAM_CARD = {boot: 'boot', yogo: 'yogo', zco: 'yogo', uir: 'yogo', strong: 'strong', short: 'short', spell: 'spell', true: 'true'};
 const FAM_COLOR = {boot: 'orange', yogo: 'rust', zco: 'rust', uir: 'rust', strong: 'rust', short: 'rust', spell: 'blue', true: 'red'};
 const MAIN_T = ['pres', 'pret', 'impf', 'fut'], MORE_T = ['cond', 'sub', 'subi', 'imp', 'neg'];
+// The chart's first row and the map's columns: the main four plus "Has done" (he hablado).
+const CHART_T = ['pres', 'pret', 'impf', 'perf', 'fut'];
 // Any table loaded so far: the top 300 or a shard (conjOf keeps them), so drills and reviews can use any verb.
 const tableOf = v => (CJ.top && CJ.top.tables[v]) || CJ.loaded.get(v) || null;
 const markOf = (t, tense, i) => (t && t.x && t.x[tense] && t.x[tense][i]) || 0;
@@ -5067,6 +5091,7 @@ function formEn(inf, gloss, tense, i){
     case 'cond': return `${who} would ${v}${rest}`;
     case 'sub': return `(that) ${who} ${v}${rest}`;
     case 'subi': return `(if) ${who} ${be ? 'were' : pastOf(v)}${rest}`;
+    case 'perf': return `${who} ${i === 2 ? 'has' : 'have'} ${be ? 'been' : ppOf(v)}${rest}`;
   }
   return '';
 }
@@ -5081,6 +5106,7 @@ function whyOf(t, tense, i){
     if (s === 'g' && /guir$/.test(inf)) return N.spG; if (/y/.test(s)) return N.spY; if (/[íú]/.test(s)) return N.accentShift;
     return N.spell;
   }
+  if (tense === 'perf'){ if (mk && mk[0] === 'irr') return N.ppIrr(t.pp, regularPp(inf)); return mk ? N.ppAcc : N.perf }
   if (TRUE_IRR.has(inf)){
     if (tense === 'impf' && mk) return N.impfThree;
     if (tense === 'pret' && (inf === 'ser' || inf === 'ir')) return N.fue;
@@ -6043,6 +6069,10 @@ function slipKind(q){
   const tense = q.tense, i = q.i, a = normAns(q.answer);
   if (q.verdict === 'accent') return 'accent';
   if (q.v === 'ser' || q.v === 'estar'){ const o = tableOf(q.v === 'ser' ? 'estar' : 'ser'); if (o && TENSE_IDS.some(tn => (o[tn] || []).some(x => x && normAns(x) === f))) return 'serestar' }
+  if (tense === 'perf' && t.pp){   // the helper is there, the verb after it isn't the participle: ha tenía, ha tiene, ha hacido
+    const m = /^(he|has|ha|hemos|hab[eé]is|han) (\S+)$/.exec(f), w = m ? looseAns(m[2]) : '';
+    if (m && w !== looseAns(t.pp)){ const mk = markOf(t, 'perf', i); return mk && mk[0] === 'irr' && w === looseAns(regularPp(t.inf) || '') ? 'ppIrr' : 'haPp' }
+  }
   const reg = regularForm(t.inf, tense, i), mk = markOf(t, tense, i), fams = famsOf(t), isReg = !!reg && looseAns(reg) === looseAns(f);
   if (tense === 'pret' && (i === 2 || i === 4) && mk && mk[0] === 'stem' && /ir$/.test(t.inf) && isReg) return 'pretIr';
   if (tense === 'pres' && i === 0 && (fams.includes('yogo') || fams.includes('zco') || fams.includes('uir')) && /o$/.test(f)) return 'yogo';   // teno, tieno, salo, conoco
@@ -6080,7 +6110,9 @@ const PAT_FIX = {
     strong: {card: 'strong', tenses: ['pret'], fam: ['strong']}, short: {card: 'short', tenses: ['fut', 'cond'], fam: ['short']},
     accent: {card: 'accents', tenses: ['pret', 'impf'], verbs: ['hablar', 'comer', 'vivir', 'llegar', 'tomar', 'salir', 'llamar', 'volver']},
     person: {card: 'endings', tenses: ['pres', 'pret']}, serestar: {card: 'serestar', tenses: ['pres', 'impf', 'pret'], verbs: ['ser', 'estar'], only: true},
-    aspect: {card: 'timeline', sent: ['past', 'then', 'habitThen']}, when: {card: 'timeline', sent: ['past', 'then', 'habitThen', 'habit', 'now', 'fut']}},
+    aspect: {card: 'timeline', sent: ['past', 'then', 'habitThen']}, when: {card: 'timeline', sent: ['past', 'then', 'habitThen', 'habit', 'now', 'fut']},
+    haPp: {card: 'haber', tenses: ['perf'], all: true, verbs: ['tener', 'costar', 'hacer', 'ser', 'estar', 'poder', 'decir', 'ir', 'ver', 'dar', 'llegar', 'trabajar', 'comer', 'vivir', 'querer', 'pasar']},
+    ppIrr: {card: 'haber', tenses: ['perf'], verbs: ['hacer', 'decir', 'ver', 'poner', 'escribir', 'volver', 'abrir', 'romper', 'morir', 'cubrir', 'descubrir', 'devolver', 'resolver', 'suponer']}},
   en: {edOver: {card: 'en-past', forms: ['p', 'pp'], irr: true}, ppVsP: {card: 'en-irregular', forms: ['pp', 'p'], irr: true, split: true},
     thirdS: {card: 'en-endings', forms: ['s'], sent: ['third']}, sSpell: {card: 'en-endings', forms: ['s'], spell: 's'},
     ingSpell: {card: 'en-endings', forms: ['ing'], spell: 'ing'}, beAgree: {card: 'en-tobe', sent: ['past'], verbs: ['be'], only: true},
@@ -6118,7 +6150,7 @@ async function fixQs(pid, side, n, slips = []){
     const tenses = pid === 'person' ? [...new Set([...slips.map(s => s.tn), ...S.tenses])].filter(t => MAIN_T.includes(t)) : S.tenses;
     const fam = S.fam ? verbs.filter(v => { const t = tableOf(v); return t && S.fam.some(f => famsOf(t).includes(f)) || mine.includes(v) }) : verbs;
     // the verbs you slipped on first (up to half the round), then the family
-    const spec = {tenses, persons: S.persons, irr: pid !== 'person' && pid !== 'accent' && pid !== 'serestar'}, mineIn = fam.filter(v => mine.includes(v));
+    const spec = {tenses, persons: S.persons, irr: !S.all && pid !== 'person' && pid !== 'accent' && pid !== 'serestar'}, mineIn = fam.filter(v => mine.includes(v));
     const q1 = mineIn.length ? listQs(Object.assign({verbs: mineIn, n: Math.ceil(n / 2)}, spec)) : [];
     return q1.concat(listQs(Object.assign({verbs: fam.filter(v => !mineIn.includes(v)), n: n - q1.length}, spec)));
   }
@@ -6173,7 +6205,7 @@ function mapVerbs(side, filt){
   if (filt === 'irr') return top.filter(v => isIrrVerb(tableOf(v))).slice(0, 40);
   return [...new Set([...mine, ...top])].slice(0, Math.max(10, mine.length));
 }
-const mapCols = side => side === 'en' ? EN_FORMS : PV.more ? ['cond', 'sub', 'subi', 'imp'] : MAIN_T;
+const mapCols = side => side === 'en' ? EN_FORMS : PV.more ? ['cond', 'sub', 'subi', 'imp'] : CHART_T;
 function mapStats(side, verbs, cols){
   const all = srsAll(), now = Date.now(); let solid = 0, slip = 0;
   for (const v of verbs) for (const c of cols){ const l = cellLevels(side, v, c, all, now).lv; if (l >= 3) solid++; if (l === 2) slip++ }
@@ -6200,7 +6232,7 @@ function renderMap(v, side){
     let first = null; for (const vb of verbs) for (const c of cols) if (!first && cellLevels(side, vb, c, all, now).lv === 2) first = {v: vb, c};
     PV.sel = first || {v: verbs[0], c: cols[0]};
   }
-  const grid = `<div class="pmgrid" role="grid" aria-label="${esc(P.mapT)}"><span></span>${cols.map(c => `<span class="hd" role="columnheader" ${side === 'en' ? 'lang="es"' : ''}>${esc(colName(c))}</span>`).join('')}
+  const grid = `<div class="pmgrid${cols.length > 4 ? ' c5' : ''}" role="grid" aria-label="${esc(P.mapT)}" style="grid-template-columns:76px repeat(${cols.length},minmax(0,1fr))"><span></span>${cols.map(c => `<span class="hd" role="columnheader" ${side === 'en' ? 'lang="es"' : ''}>${esc(colName(c))}</span>`).join('')}
     ${verbs.map(vb => `<span class="vb" role="rowheader" lang="${side}">${esc(vb)}</span>${cols.map(c => { const l = cellLevels(side, vb, c, all, now).lv, on = PV.sel.v === vb && PV.sel.c === c;
       return `<button class="lv${l}" data-mv="${esc(vb)}" data-mc="${c}" aria-pressed="${on}" aria-label="${esc(P.cellL(vb, colName(c), P.lv[l]))}"></button>` }).join('')}`).join('')}</div>`;
   const leg = `<div class="pmleg" role="note" aria-label="${esc(P.legendL)}">${P.lv.map((n, i) => `<span><i class="lv${i}"></i>${esc(n)}</span>`).join('')}</div>`;
@@ -6285,7 +6317,7 @@ async function openRefFromPrac(id){
 }
 
 /* today's practice: due reviews (capped, so a missed day never grows it), 2 new verbs, a pattern fix, real sentences */
-const DAILY = {rev: 12, newV: 2, fix: 4, sent: 6};
+const DAILY = {rev: 12, newV: 2, perfV: 1, fix: 4, sent: 6};
 const dayKey = (d = new Date()) => d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
 const startedVerb = (side, v, all = srsAll()) => Object.keys(all).some(k => k.startsWith(`${side}:cj:${v}:`));
 // New verbs: saved verbs not started yet (irregular first), then the most used.
@@ -6300,19 +6332,30 @@ function pickNewVerbs(side, n){
   const irrFirst = a => a.filter(v => isIrrVerb(tableOf(v))).concat(a.filter(v => !isIrrVerb(tableOf(v))));
   return [...new Set([...irrFirst(saved), ...top])].filter(v => v !== 'haber' && !startedVerb('es', v, all)).slice(0, n);   // haber: a helper, met in its own forms
 }
+// Has done comes in one known verb at a time: verbs already being practised (the most used first) with no
+// Has done card yet. Not before three verbs are under way, so a beginner meets the main tenses first.
+function pickPerfVerbs(side, n){
+  if (side !== 'es') return [];
+  const all = srsAll(), started = topVerbs().filter(v => v !== 'haber' && startedVerb('es', v, all));
+  if (started.length < 3) return [];
+  return started.filter(v => tableOf(v) && tableOf(v).perf && !Object.keys(all).some(k => k.startsWith(`es:cj:${v}:perf`))).slice(0, n);
+}
 function dailyPlan(side = pSide()){
   const p = LS.get('daily.' + side);
-  if (p && p.day === dayKey()) return p;
+  if (p && p.day === dayKey()){
+    if (!('perfV' in p) && !p.done){ p.perfV = pickPerfVerbs(side, DAILY.perfV); LS.set('daily.' + side, p) }   // a plan made before Has done existed
+    return p;
+  }
   const a = activePatterns(side)[0];
-  const q = {day: dayKey(), newV: pickNewVerbs(side, DAILY.newV), fix: a ? a.id : null, revDone: false, done: false};
+  const q = {day: dayKey(), newV: pickNewVerbs(side, DAILY.newV), perfV: pickPerfVerbs(side, DAILY.perfV), fix: a ? a.id : null, revDone: false, done: false};
   LS.set('daily.' + side, q); return q;
 }
 const saveDaily = (side, p) => LS.set('daily.' + side, p);
 function dailyCounts(side, p){
   const rev = p.revDone || p.done ? 0 : Math.min(DAILY.rev, reviewPool(side).length);
   const sentOk = !!SENT[side].idx;
-  const c = {rev, newv: p.newV.length * 2, fix: p.fix ? DAILY.fix : 0, sent: sentOk ? DAILY.sent : 0};
-  c.total = c.rev + c.newv + c.fix + c.sent; return c;
+  const c = {rev, newv: p.newV.length * 2, perf: (p.perfV || []).length * 2, fix: p.fix ? DAILY.fix : 0, sent: sentOk ? DAILY.sent : 0};
+  c.total = c.rev + c.newv + c.perf + c.fix + c.sent; return c;
 }
 const dataReady = side => (side === 'es' ? !!CJ.top : !!EV.d) && !!SENT[side].idx;
 function newVerbQs(side, verbs){
@@ -6323,6 +6366,8 @@ function newVerbQs(side, verbs){
   }
   return qs;
 }
+// Has done for a verb already known: yo and él, the two forms heard most (he ido, ha sido).
+const perfQs = verbs => verbs.flatMap(v => [0, 2].map(i => makeQ(v, 'perf', false, null, {i, person: true}))).filter(Boolean);
 // Verbs for real sentences: the ones being practised (due or slipping first), saved ones, today's new ones, then the most used.
 function sentVerbs(side, extra = []){
   const all = srsAll(), now = Date.now(), score = {};
@@ -6334,7 +6379,7 @@ function sentVerbs(side, extra = []){
   return [...new Set([...prac, ...saved, ...extra, ...shuffle(top.slice(0, 40)), ...top])].filter(v => idx[v]);
 }
 async function dailyQs(side, p){
-  const qs = newVerbQs(side, p.newV);
+  const qs = newVerbQs(side, p.newV).concat(perfQs(p.perfV || []));
   if (p.fix){ const pat = patternsOf(side).find(x => x.id === p.fix); (await fixQs(p.fix, side, DAILY.fix, pat ? pat.slips : [])).forEach(q => qs.push(q)) }
   const xs = await pickSents(side, sentVerbs(side, p.newV).slice(0, 14), DAILY.sent);
   if (side === 'es') await Promise.all(xs.map(x => conjOf(x.v).catch(() => null)));
@@ -6349,7 +6394,7 @@ async function startDaily(){
 async function dailyDrill(side){
   const p = dailyPlan(side);
   try { await (side === 'es' ? loadTop() : loadEnVerbs()) } catch(e){}
-  if (side === 'es') await Promise.all(p.newV.map(v => conjOf(v).catch(() => null)));
+  if (side === 'es') await Promise.all([...p.newV, ...(p.perfV || [])].map(v => conjOf(v).catch(() => null)));
   const qs = await dailyQs(side, p);
   if (!qs.length){ p.done = true; saveDaily(side, p); return go('learn') }
   cz = {phase: 'q', qs, i: 0, right: 0, f: {label: PX(side).todayL}, requeued: new Set(), missed: [], back: 'learn', daily: side, side, en: side === 'en'};
@@ -6375,6 +6420,10 @@ async function nextBatch(side, used){
   const d = out.splice(0); out.push(...[d[0], sq[0], fix[0], d[1], sq[1]].filter(Boolean));
   const nv = pickNewVerbs(side, 3).filter(v => !used.has('new:' + v))[0];
   if (nv){ used.add('new:' + nv); if (side === 'es') await conjOf(nv).catch(() => null); out.push(...newVerbQs(side, [nv]).slice(0, 1)) }
+  // every other batch, Has done for a verb already known (one card, so it never floods the mix)
+  const pturn = used.has('perf:turn'); if (pturn) used.delete('perf:turn'); else used.add('perf:turn');
+  const pv = pturn && pickPerfVerbs(side, 4).filter(v => !used.has('perf:' + v))[0];
+  if (pv){ used.add('perf:' + pv); const q = makeQ(pv, 'perf', false, null, {i: 2, person: true}); if (q) out.push(q) }
   if (!out.length){   // nothing due and no sentences: any most-used verb form
     if (side === 'es'){ const v = topVerbs()[Math.floor(Math.random() * Math.min(60, topVerbs().length))], q = v && makeQ(v, MAIN_T[Math.floor(Math.random() * 4)], false, null, {person: true, i: Math.floor(Math.random() * 5)}); if (q) out.push(q) }
     else { const v = EV.d.verbs[Math.floor(Math.random() * 60)], q = v && enQ(v.b, EN_FORMS[Math.floor(Math.random() * 4)]); if (q) out.push(q) }
@@ -6465,11 +6514,12 @@ function practiceHtml(L){
       <div class="tt">${esc(P.todayT)}</div><div class="prows">
       ${c.rev ? row('repeat', '', P.rows.rev[0], esc(P.rows.rev[1]), c.rev, 'pxRev') : ''}
       ${p.newV.length ? row('plus', '', P.rows.newv, P.rows.newSub(nv), p.newV.length, 'pxNew') : ''}
+      ${c.perf ? row('plus', '', P.rows.perf, P.rows.perfSub(p.perfV.map(v => `<i lang="es">${esc(v)}</i>`).join(', ')), c.perf, 'pxPerf') : ''}
       ${p.fix ? row('wrench', 'fix', P.rows.fix, esc(P.pats[p.fix][0]), c.fix, 'pxFix') : ''}
       ${c.sent ? row('lines', '', P.rows.sent[0], esc(P.rows.sent[1]), c.sent, 'pxSent') : ''}</div>
       ${c.total ? `<button class="primary" id="pxStart" aria-label="${esc(P.startL)}">${esc(P.start(c.total))}</button>` : ''}
       <p class="note" style="margin:0;font-size:13px">${esc(P.steady)}</p></section>`;
-  const nx = upNext(side), st = mapStats(side, mapVerbs(side, 'mine'), side === 'en' ? EN_FORMS : MAIN_T);
+  const nx = upNext(side), st = mapStats(side, mapVerbs(side, 'mine'), side === 'en' ? EN_FORMS : CHART_T);
   return `${day}
     <section class="lcard pkeep" id="pxKeepC" aria-label="${esc(P.keepT)}"><div class="top"><span class="ic dk" aria-hidden="true">${icon('loop')}</span><span style="flex:1"><span class="tt" style="display:block">${esc(P.keepT)}</span><span class="ds">${esc(P.keepLine)}</span></span></div>
       ${nx.length ? `<div class="pchips" aria-label="${esc(P.upNext)}">${nx.map(([k, w]) => `<span>${esc(k)} · <i lang="${side}">${esc(w)}</i></span>`).join('')}</div>` : ''}

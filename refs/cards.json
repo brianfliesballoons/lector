@@ -583,6 +583,162 @@
     "ask": "Show me the regular present-tense endings for -ar, -er and -ir verbs as a small table (hablar, comer, vivir), with one short example each. Then offer to do the preterite, imperfect and future, one at a time."
    },
    {
+    "id": "haber",
+    "group": "verbs",
+    "title": "Has done",
+    "sub": "ha tenido, ha costado, he hecho",
+    "words": "has done have done present perfect pretérito perfecto compuesto haber he has ha hemos han participle participio ado ido ha tenido ha costado le ha costado hecho dicho visto puesto escrito vuelto abierto roto muerto ya todavía nunca alguna vez hoy esta semana ha tenía",
+    "lead": "ha means “has”. Put he, has, ha, hemos or han in front of the verb’s -ado / -ido form and you have “have done”: ha tenido, has had.",
+    "blocks": [
+     {
+      "t": "h",
+      "x": "Only the helper changes"
+     },
+     {
+      "t": "table",
+      "lang": "es",
+      "cls": "end",
+      "head": [
+       "",
+       "[r|hablar] {en|speak}",
+       "[b|comer] {en|eat}",
+       "[g|vivir] {en|live}"
+      ],
+      "rows": [
+       [
+        "yo",
+        "[o|he] habl[r|ado]",
+        "[o|he] com[b|ido]",
+        "[o|he] viv[g|ido]"
+       ],
+       [
+        "tú",
+        "[o|has] habl[r|ado]",
+        "[o|has] com[b|ido]",
+        "[o|has] viv[g|ido]"
+       ],
+       [
+        "él, ella, usted",
+        "[o|ha] habl[r|ado]",
+        "[o|ha] com[b|ido]",
+        "[o|ha] viv[g|ido]"
+       ],
+       [
+        "nosotros",
+        "[o|hemos] habl[r|ado]",
+        "[o|hemos] com[b|ido]",
+        "[o|hemos] viv[g|ido]"
+       ],
+       [
+        "ellos, ustedes",
+        "[o|han] habl[r|ado]",
+        "[o|han] com[b|ido]",
+        "[o|han] viv[g|ido]"
+       ]
+      ]
+     },
+     {
+      "t": "h",
+      "x": "Read it word by word"
+     },
+     {
+      "t": "ex",
+      "lang": "es",
+      "items": [
+       [
+        "Le **ha costado** más.",
+        "It’s been harder for her. Word by word: to her, it has cost more."
+       ],
+       [
+        "**Ha tenido** que trabajar mucho.",
+        "She has had to work a lot."
+       ]
+      ]
+     },
+     {
+      "t": "note",
+      "x": "[d|Not] {es|ha tenía} or {es|ha tiene}. After {es|ha} comes only the -ado / -ido form: {es|ha tenido}. Without {es|ha}, {es|tenía que trabajar} (she had to work) is right on its own."
+     },
+     {
+      "t": "h",
+      "x": "The irregular ones: learn them whole"
+     },
+     {
+      "t": "table",
+      "lang": "es",
+      "head": [
+       "",
+       "{en|after ha}",
+       "{en|English}"
+      ],
+      "rows": [
+       [
+        "hacer",
+        "ha [d|hecho]",
+        "{en|has done, made}"
+       ],
+       [
+        "decir",
+        "ha [d|dicho]",
+        "{en|has said}"
+       ],
+       [
+        "ver",
+        "ha [d|visto]",
+        "{en|has seen}"
+       ],
+       [
+        "poner",
+        "ha [d|puesto]",
+        "{en|has put}"
+       ],
+       [
+        "escribir",
+        "ha [d|escrito]",
+        "{en|has written}"
+       ],
+       [
+        "volver",
+        "ha [d|vuelto]",
+        "{en|has come back}"
+       ],
+       [
+        "abrir, romper, morir",
+        "ha [d|abierto], [d|roto], [d|muerto]",
+        "{en|has opened, broken, died}"
+       ]
+      ]
+     },
+     {
+      "t": "h",
+      "x": "When to use it: up to now"
+     },
+     {
+      "t": "ex",
+      "lang": "es",
+      "items": [
+       [
+        "¿Ya **has comido**?",
+        "Have you eaten yet?"
+       ],
+       [
+        "Nunca **he ido** a Japón.",
+        "I’ve never been to Japan."
+       ]
+      ]
+     }
+    ],
+    "call": {
+     "h": "In Mexico:",
+     "x": "for something that just happened, people often use the plain past where Spain uses this one: {es|¿Ya comiste?} more than {es|¿Ya has comido?} Both are right. You’ll still hear {es|he, has, ha} every day, above all with {es|alguna vez}, {es|nunca} and {es|todavía no}."
+    },
+    "sources": [
+     "RAE–ASALE, Nueva gramática básica de la lengua española (2011): the present perfect (pretérito perfecto compuesto), haber with the participle, the irregular participles, and how much of the Americas, Mexico included, uses the simple past for recent events.",
+     "Every form is checked against Lector's verb tables (Wiktionary via kaikki.org, CC BY-SA 4.0)."
+    ],
+    "ask": "Explain the Spanish present perfect (he hablado, ha tenido, le ha costado): haber plus the participle, the irregular participles (hecho, dicho, visto, puesto, escrito, vuelto), and when Mexicans use it versus the plain past (¿ya comiste? or ¿ya has comido?). Three short everyday examples with their English."
+   },
+   {
     "id": "timeline",
     "group": "verbs",
     "title": "The pasts",
